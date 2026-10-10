@@ -1,0 +1,384 @@
+<title>Lesson 5 Media Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<style>
+/* Layout: one column, a locked card per activity, each opens into its own task panel. */
+:root{
+  --bg:#F4F7FA; --panel:#FFFFFF; --ink:#1F2D3D; --muted:#566574; --line:#CBD5DD;
+  --navy:#1F3557; --teal:#2E8C83; --teal-t:#E1F0EE; --blue:#4C79A6; --blue-t:#E4ECF4;
+  --bronze:#B87333; --bronze-t:#F6E8DA; --silver:#7C8895; --silver-t:#E8ECEF; --gold:#C79A33; --gold-t:#FAF0DA;
+  --good:#1F7A4D; --good-t:#DFF1E7; --bad:#A33B3B; --bad-t:#F6E1E1; --on:#FFFFFF;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif; --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-inline:max(16px,4vw);padding-block:20px 48px}
+.wrap{max-width:900px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);color:var(--navy);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);font-weight:800}
+h2{font-size:1.5rem;font-weight:800}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.kicker{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.lead{color:var(--muted);margin-top:8px;max-width:60ch}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.lv{display:inline-block;align-self:flex-start;width:fit-content;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;color:var(--on)}
+.lv.b{background:var(--bronze)}.lv.s{background:var(--silver)}.lv.g{background:var(--gold)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.menu .card{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center}
+.menu .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lock{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=text]{font:inherit;font-size:1.05rem;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:11.5rem;max-width:100%;text-transform:uppercase;letter-spacing:.06em}
+input[type=text]:focus-visible,button:focus-visible,select:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:10px 16px;background:var(--navy);color:var(--on);cursor:pointer}
+button.alt{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.msg{font-size:.95rem;min-height:1.3em;width:100%}
+.msg.bad{color:var(--bad)}.msg.good{color:var(--good)}
+.tag-open{color:var(--good);font-weight:700}
+.back{margin-bottom:14px}
+.panelhead{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.step{border-top:2px solid var(--line);padding-top:18px;margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.step:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.steplab{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.record{background:var(--gold-t);border:1px dashed var(--gold);border-radius:8px;padding:10px 14px;font-size:.95rem}
+.record b{color:var(--navy)}
+.big{font-family:var(--display);font-weight:800;font-size:2rem;font-variant-numeric:tabular-nums;color:var(--navy)}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-weight:700;font-size:.9rem}
+.pill.ok{background:var(--good-t);color:var(--good)}.pill.no{background:var(--bad-t);color:var(--bad)}
+input[type=range]{width:100%;accent-color:var(--teal);height:2rem}
+.ticks{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.two,.menu .card{grid-template-columns:1fr}}
+canvas{width:100%;max-width:340px;aspect-ratio:1;border:2px solid var(--line);border-radius:8px;background:#fff;image-rendering:pixelated;display:block}
+.stat{display:flex;flex-direction:column;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px}
+.stat span{color:var(--muted);font-size:.9rem}
+.seg{display:inline-flex;align-self:flex-start;width:fit-content;max-width:100%;border:2px solid var(--navy);border-radius:8px;overflow:hidden}
+.seg button{border-radius:0;background:transparent;color:var(--navy)}
+.seg button[aria-pressed=true]{background:var(--navy);color:var(--on)}
+.tog{display:flex;flex-direction:column;gap:10px}
+.tog label{display:flex;gap:12px;align-items:flex-start;background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.tog label:has(input:checked){border-color:var(--teal);background:var(--teal-t)}
+.tog input{width:22px;height:22px;margin-top:2px;accent-color:var(--teal);flex:none}
+.tog small{display:block;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar{display:grid;grid-template-columns:7.2rem minmax(0,1fr) 5.6rem;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.bar .track{background:var(--bg);border:1px solid var(--line);border-radius:6px;height:30px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--bad)}
+.bar.corr .fill{background:var(--teal)}
+.bar b{text-align:right}
+@media(max-width:520px){.bar{grid-template-columns:5.2rem minmax(0,1fr) 4.6rem}}
+.log{font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+.log table{border-collapse:collapse;width:100%;min-width:420px}
+.log th,.log td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.log th{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.post{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.post .ph{height:150px;display:block;width:100%}
+.post .tx{padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.post small{color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.checks button{background:var(--panel);color:var(--navy);border:2px solid var(--navy);text-align:left}
+.checks button[aria-pressed=true]{background:var(--teal-t);border-color:var(--teal)}
+.found{display:flex;flex-direction:column;gap:10px}
+.found .f{background:var(--teal-t);border-left:5px solid var(--teal);padding:10px 14px;border-radius:6px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts button{background:var(--panel);color:var(--ink);border:2px solid var(--line);text-align:left;font-weight:400}
+.opts button.right{border-color:var(--good);background:var(--good-t)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.fb{padding:10px 14px;border-radius:8px;background:var(--blue-t);min-height:2.6em}
+.cc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.cc{grid-template-columns:1fr}}
+.cc .item{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.cc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95rem}
+.cc dt{color:var(--muted)}.cc dd{margin:0;font-weight:700}
+.finish{background:var(--good-t);border:2px solid var(--good);border-radius:10px;padding:16px;color:var(--ink)}
+footer{margin-top:28px;color:var(--muted);font-size:.9rem}
+.themebtn{padding:6px 12px;font-size:.85rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Year 8 Computer Science · Lesson 5</div>
+      <h1>Media Lab</h1>
+      <p class="lead">Can you still believe what you see? Your teacher shows a code on the board when it is time for each website task. Do the website task first, then the next activity on your worksheet.</p>
+    </div>
+    <button class="alt themebtn" id="themeBtn" type="button">Switch light or dark</button>
+  </div>
+
+  <div id="menu" class="stack menu">
+    <div class="card" id="c1">
+      <div class="meta"><span class="lv b">Bronze · Activity 1</span><h2>Train the model</h2><p>Watch what changes when a model sees more examples. Then try voice cloning and the cost shift.</p></div>
+      <div class="lock"><label for="code1" class="steplab">Teacher code</label><input type="text" id="code1" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m1"><button type="button" data-open="1">Open</button><div class="msg" id="m1" role="status"></div></div>
+    </div>
+    <div class="card" id="c2">
+      <div class="meta"><span class="lv s">Silver · Activity 2</span><h2>Spread simulator</h2><p>Switch the four drivers on and off. Compare how far a fake and its correction travel.</p></div>
+      <div class="lock"><label for="code2" class="steplab">Teacher code</label><input type="text" id="code2" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m2"><button type="button" data-open="2">Open</button><div class="msg" id="m2" role="status"></div></div>
+    </div>
+    <div class="card" id="c3">
+      <div class="meta"><span class="lv g">Gold · Activity 3</span><h2>Verification detective</h2><p>Run the five checks on a viral post, read the content credentials, then decide.</p></div>
+      <div class="lock"><label for="code3" class="steplab">Teacher code</label><input type="text" id="code3" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m3"><button type="button" data-open="3">Open</button><div class="msg" id="m3" role="status"></div></div>
+    </div>
+  </div>
+
+  <!-- TASK 1 -->
+  <section id="t1" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="lv b">Bronze · Activity 1</span><h2>Train the model</h2><p>Do all three steps in order. Write your results on your worksheet as you go.</p></div>
+
+    <div class="step">
+      <div class="steplab">Step 1 · Training data</div>
+      <p>A generative model learns patterns from examples. Move the slider to change how many examples it has seen. Press Generate to ask it for a new face.</p>
+      <div class="two">
+        <canvas id="face" width="24" height="24" aria-label="A generated face, clearer when the model has seen more examples"></canvas>
+        <div class="stack">
+          <div><label for="trainSlider" class="steplab">Examples seen</label><div class="big" id="trainN">10</div></div>
+          <input type="range" id="trainSlider" min="0" max="3" step="1" value="0" aria-valuetext="10 examples">
+          <div class="ticks"><span>10</span><span>1,000</span><span>100,000</span><span>10,000,000</span></div>
+          <div class="stat"><span>Clarity score</span><div class="big" id="clarity">12%</div></div>
+          <button type="button" id="gen">Generate a new face</button>
+        </div>
+      </div>
+      <div class="record"><b>Write on your worksheet:</b> the clarity score and what the picture looked like at each of the four levels.</div>
+    </div>
+
+    <div class="step">
+      <div class="steplab">Step 2 · Voice cloning</div>
+      <p>A voice clone copies a voice from a short recording. Choose how many seconds of audio the model hears. These figures are an illustration, not a real tool.</p>
+      <div class="seg" role="group" aria-label="Seconds of audio" id="voiceSeg">
+        <button type="button" data-s="1" aria-pressed="true">1 sec</button><button type="button" data-s="3" aria-pressed="false">3 sec</button><button type="button" data-s="10" aria-pressed="false">10 sec</button><button type="button" data-s="30" aria-pressed="false">30 sec</button>
+      </div>
+      <div class="two">
+        <div class="stat"><span>Likeness to the real voice</span><div class="big" id="likeness">35%</div></div>
+        <div class="stat"><span>Would it fool a friend?</span><div id="fool"><span class="pill no">Not convincing yet</span></div></div>
+      </div>
+      <div class="record"><b>Write on your worksheet:</b> the likeness score and Yes or No for each time. Find the shortest recording that is convincing.</div>
+    </div>
+
+    <div class="step">
+      <div class="steplab">Step 3 · The accessibility shift</div>
+      <p>The big change is not that fakes are possible. It is who can make them.</p>
+      <div class="seg" role="group" aria-label="Then or now" id="eraSeg"><button type="button" data-e="then" aria-pressed="true">Then</button><button type="button" data-e="now" aria-pressed="false">Now</button></div>
+      <div class="two" id="era"></div>
+      <div class="record"><b>Write on your worksheet:</b> what the Now column says for cost and time, and who can make a fake now.</div>
+    </div>
+    <div class="finish" id="done1" hidden><b>Task 1 complete.</b> Check your worksheet record. Your teacher will check the answers, then you do Activity 1B on your worksheet.</div>
+  </section>
+
+  <!-- TASK 2 -->
+  <section id="t2" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="lv s">Silver · Activity 2</span><h2>Spread simulator</h2><p>A fake clip and its correction are posted. Turn drivers on, press Run, and watch the first 24 hours. The numbers come from a simple model made for this lesson.</p></div>
+    <div class="two">
+      <div class="stack">
+        <div class="steplab">Drivers</div>
+        <div class="tog" id="drivers">
+          <label for="d1"><input type="checkbox" id="d1" data-k="emotion"><span><b>Emotion</b><small>The post is shocking, so people share without thinking.</small></span></label>
+          <label for="d2"><input type="checkbox" id="d2" data-k="speed"><span><b>Speed</b><small>The fake travels while the correction is still being checked.</small></span></label>
+          <label for="d3"><input type="checkbox" id="d3" data-k="amp"><span><b>Algorithmic amplification</b><small>The platform shows posts with many reactions to more people.</small></span></label>
+          <label for="d4"><input type="checkbox" id="d4" data-k="bias"><span><b>Confirmation bias</b><small>People share what matches what they already believe.</small></span></label>
+        </div>
+        <div class="row"><button type="button" id="run">Run for 24 hours</button><button type="button" class="alt" id="clr">Clear the log</button></div>
+      </div>
+      <div class="stack">
+        <div class="steplab">People reached after <span id="hr">0</span> hours</div>
+        <div class="bars">
+          <div class="bar"><span>Fake</span><div class="track"><div class="fill" id="bf"></div></div><b id="nf">0</b></div>
+          <div class="bar corr"><span>Correction</span><div class="track"><div class="fill" id="bc"></div></div><b id="nc">0</b></div>
+        </div>
+        <div class="stat"><span>Fake reached this many times more people</span><div class="big" id="ratio">...</div></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="steplab">Your test log</div>
+      <div class="log"><table><thead><tr><th>Drivers on</th><th>Fake reach</th><th>Correction reach</th></tr></thead><tbody id="logbody"><tr><td colspan="3" style="color:var(--muted)">Run a test and it appears here.</td></tr></tbody></table></div>
+      <div class="record"><b>Write on your worksheet:</b> run these six tests and copy the numbers: none, Emotion only, Speed only, Amplification only, Confirmation bias only, then all four.</div>
+    </div>
+    <div class="finish" id="done2" hidden><b>All six tests done.</b> Answer the questions on worksheet page 2A. Your teacher will check the answers, then you do Activity 2B on your worksheet.</div>
+  </section>
+
+  <!-- TASK 3 -->
+  <section id="t3" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="lv g">Gold · Activity 3</span><h2>Verification detective</h2><p>This post is spreading fast. Run the verification routine before you decide what to do.</p></div>
+
+    <div class="step">
+      <div class="steplab">Step 1 · The post</div>
+      <div class="post">
+        <svg class="ph" viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Picture of a stadium with a collapsed roof">
+          <rect width="400" height="150" fill="#9DB2C7"/><rect y="105" width="400" height="45" fill="#6E7F6A"/>
+          <polygon points="40,105 90,50 310,50 360,105" fill="#D9DEE3" stroke="#5B6770" stroke-width="3"/>
+          <polygon points="130,50 210,50 190,92 120,70" fill="#8A949C"/><polygon points="215,52 300,56 255,100" fill="#7B858D"/>
+          <rect x="40" y="105" width="320" height="8" fill="#5B6770"/>
+        </svg>
+        <div class="tx"><b>BREAKING: Roof of the city stadium has collapsed this morning. Share to warn everyone!</b><small>Posted by CityNewsLive2 · account created 2 days ago · 14,000 shares in 1 hour</small></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="steplab">Step 2 · Run the five checks (<span id="cnt">0</span> of 5 done)</div>
+      <div class="checks" id="checks"></div>
+      <div class="found" id="found" aria-live="polite"></div>
+      <div class="record"><b>Write on your worksheet:</b> what each check showed, in a few words.</div>
+    </div>
+
+    <div class="step">
+      <div class="steplab">Step 3 · Your verdict</div>
+      <p id="vlock" class="lead">Finish all five checks to unlock your verdict.</p>
+      <div class="opts" id="verdict" hidden></div>
+      <div class="fb" id="vfb" aria-live="polite" hidden></div>
+    </div>
+
+    <div class="step">
+      <div class="steplab">Step 4 · Content credentials</div>
+      <p>Content credentials are signed information attached to a file when it is made. Press each photo to inspect it.</p>
+      <div class="cc">
+        <div class="item"><b>Photo A</b><button type="button" class="alt" data-cc="a">Inspect Photo A</button><dl id="ccA" hidden><dt>Made with</dt><dd>A phone camera</dd><dt>Taken</dt><dd>14 March, 10:42</dd><dt>Edits</dt><dd>Crop and brightness</dd><dt>AI used</dt><dd>No</dd><dt>Signed by</dt><dd>A news organisation</dd></dl></div>
+        <div class="item"><b>Photo B</b><button type="button" class="alt" data-cc="b">Inspect Photo B</button><dl id="ccB" hidden><dt>Made with</dt><dd>No information</dd><dt>Taken</dt><dd>No information</dd><dt>Edits</dt><dd>No information</dd><dt>AI used</dt><dd>No information</dd><dt>Signed by</dt><dd>No one</dd></dl></div>
+      </div>
+      <h3>Photo B has no label. Is it real?</h3>
+      <div class="opts" id="q2"></div>
+      <div class="fb" id="q2fb" aria-live="polite" hidden></div>
+      <div class="record"><b>Write on your worksheet:</b> what Photo A tells you, what Photo B tells you, and your answer to the question.</div>
+    </div>
+    <div class="finish" id="done3" hidden><b>Task 3 complete.</b> Finish worksheet page 3A. Your teacher will check the answers, then you do Activity 3B on your worksheet.</div>
+  </section>
+
+  <footer>Year 8 Computer Science · Cyber Security and Threats · Lesson 5 · AI-Generated Media. All posts and figures on this page are made up for teaching.</footer>
+</div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  function hash(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)^s.charCodeAt(i))>>>0}return x}
+  var CODES={1:2085710796,2:2085773096,3:2085805633};
+  var unlocked={};
+  try{var sv=sessionStorage.getItem('l5unlocked');if(sv)unlocked=JSON.parse(sv)||{}}catch(e){}
+  function save(){try{sessionStorage.setItem('l5unlocked',JSON.stringify(unlocked))}catch(e){}}
+
+  /* theme toggle */
+  $('#themeBtn').onclick=function(){var r=document.documentElement,cur=r.getAttribute('data-theme');
+    var dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;
+    r.setAttribute('data-theme',dark?'light':'dark')};
+
+  /* menu and gating */
+  function show(n){$('#menu').hidden=true;[1,2,3].forEach(function(i){$('#t'+i).hidden=(i!==n)});window.scrollTo(0,0);if(n===1)drawFace()}
+  function menu(){[1,2,3].forEach(function(i){$('#t'+i).hidden=true});$('#menu').hidden=false;window.scrollTo(0,0);refreshMenu()}
+  function refreshMenu(){[1,2,3].forEach(function(i){var m=$('#m'+i);if(unlocked[i]){m.className='msg tag-open';m.textContent='Unlocked. Press Open to continue.'}})}
+  $$('[data-open]').forEach(function(b){b.onclick=function(){
+    var n=+b.getAttribute('data-open'),inp=$('#code'+n),m=$('#m'+n);
+    var v=inp.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(unlocked[n]){show(n);return}
+    if(!v){m.className='msg bad';m.textContent='Type the code from your teacher first.';return}
+    if(hash(v)===CODES[n]){unlocked[n]=1;save();m.className='msg good';m.textContent='Code accepted.';show(n)}
+    else{m.className='msg bad';m.textContent='That code is not right. Check the board and try again.'}}});
+  $$('input[type=text]').forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter'){var b=i.parentNode.querySelector('[data-open]');b.click()}})});
+  $$('[data-back]').forEach(function(b){b.onclick=menu});
+  refreshMenu();
+
+  /* TASK 1: face */
+  var LEVELS=[{n:'10',c:12},{n:'1,000',c:45},{n:'100,000',c:78},{n:'10,000,000',c:96}];
+  var cv=$('#face'),cx=cv.getContext('2d'),SZ=24;
+  function faceTarget(){
+    var t=[],i,j;for(i=0;i<SZ;i++){t.push(new Array(SZ).fill(0))}
+    var sh=Math.floor(Math.random()*3),mouth=Math.floor(Math.random()*3);
+    for(i=0;i<SZ;i++)for(j=0;j<SZ;j++){var dx=j-11.5,dy=i-11.5,r=Math.sqrt(dx*dx+dy*dy);if(r>9.2&&r<10.6)t[i][j]=1}
+    function dot(y,x){for(var a=0;a<2;a++)for(var b=0;b<2;b++)t[y+a][x+b]=1}
+    dot(8,6+sh);dot(8,16-sh);
+    for(j=7;j<=16;j++){var k=Math.round(Math.pow((j-11.5)/4.5,2)*2),y=17;
+      if(mouth===1)y=18-k;if(mouth===2)y=16+k;t[y][j]=1}
+    return t}
+  var target=faceTarget();
+  function drawFace(){
+    var lvl=LEVELS[+$('#trainSlider').value],c=lvl.c/100,img=cx.createImageData(SZ,SZ);
+    for(var i=0;i<SZ;i++)for(var j=0;j<SZ;j++){
+      var noise=Math.random(),v=c*(target[i][j]?0:1)+(1-c)*noise; var g=Math.round(255*v);
+      var p=(i*SZ+j)*4;img.data[p]=g;img.data[p+1]=g;img.data[p+2]=g;img.data[p+3]=255}
+    cx.putImageData(img,0,0);
+    $('#trainN').textContent=lvl.n;$('#clarity').textContent=lvl.c+'%';$('#trainSlider').setAttribute('aria-valuetext',lvl.n+' examples')}
+  $('#trainSlider').oninput=drawFace;
+  $('#gen').onclick=function(){target=faceTarget();drawFace()};
+  var VOICE={1:[35,0],3:[72,1],10:[88,1],30:[96,1]};
+  $$('#voiceSeg button').forEach(function(b){b.onclick=function(){
+    $$('#voiceSeg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    var v=VOICE[b.getAttribute('data-s')];$('#likeness').textContent=v[0]+'%';
+    $('#fool').innerHTML=v[1]?'<span class="pill ok">Yes, convincing</span>':'<span class="pill no">Not convincing yet</span>'}});
+  var ERA={then:[['Who made it','A trained team in a studio'],['Cost','Thousands of pounds of equipment and software'],['Time','Days or weeks of work'],['Skill needed','Years of training']],
+           now:[['Who made it','Anyone with a phone'],['Cost','Free or very cheap apps'],['Time','Seconds or minutes'],['Skill needed','Type one sentence']]};
+  function era(e){$('#era').innerHTML=ERA[e].map(function(r){return '<div class="stat"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('');
+    if(e==='now')$('#done1').hidden=false}
+  $$('#eraSeg button').forEach(function(b){b.onclick=function(){$$('#eraSeg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});era(b.getAttribute('data-e'))}});
+  era('then');
+
+  /* TASK 2: simulator */
+  var MUL={emotion:[3,1],speed:[2,.5],amp:[4,1],bias:[1.5,.5]},NAMES={emotion:'Emotion',speed:'Speed',amp:'Amplification',bias:'Confirmation bias'};
+  var raf=null,tests={};
+  function fmt(n){return Math.round(n).toLocaleString('en-GB')}
+  function targets(){var f=1000,c=1000,on=[];$$('#drivers input').forEach(function(i){if(i.checked){var k=i.getAttribute('data-k');f*=MUL[k][0];c*=MUL[k][1];on.push(NAMES[k])}});return{f:f,c:c,on:on}}
+  function frame(t,T,cs){ // growth curves over 24 hours
+    var e=function(x){return 1-Math.pow(1-x,3)};var p=t/24;
+    return{f:T.f*e(Math.min(1,p)),c:T.c*e(Math.max(0,Math.min(1,(p-cs)/(1-cs))))}}
+  $('#run').onclick=function(){
+    var T=targets(),hasSpeed=$('#d2').checked,cs=hasSpeed?.25:.04,start=null,max=Math.max(T.f,T.c);
+    $('#run').disabled=true;if(raf)cancelAnimationFrame(raf);
+    var dur=window.matchMedia('(prefers-reduced-motion: reduce)').matches?1:3200;
+    function step(ts){if(!start)start=ts;var k=Math.min(1,(ts-start)/dur),t=24*k,v=frame(t,T,cs);
+      $('#hr').textContent=Math.round(t);$('#bf').style.width=(v.f/max*100)+'%';$('#bc').style.width=(v.c/max*100)+'%';
+      $('#nf').textContent=fmt(v.f);$('#nc').textContent=fmt(v.c);
+      if(k<1)raf=requestAnimationFrame(step);else{finish(T)}}
+    raf=requestAnimationFrame(step)};
+  function finish(T){
+    $('#run').disabled=false;$('#ratio').textContent=Math.round(T.f/T.c*10)/10+' times';
+    var label=T.on.length?T.on.join(' + '):'None';var body=$('#logbody');
+    if(body.querySelector('td[colspan]'))body.innerHTML='';
+    var tr=document.createElement('tr');tr.innerHTML='<td>'+label+'</td><td>'+fmt(T.f)+'</td><td>'+fmt(T.c)+'</td>';body.appendChild(tr);
+    var key=T.on.length===4?'all':(T.on.length===1?T.on[0]:(T.on.length?'x':'none'));tests[key]=1;
+    if(['none','all','Emotion','Speed','Amplification','Confirmation bias'].every(function(k){return tests[k]}))$('#done2').hidden=false}
+  $('#clr').onclick=function(){$('#logbody').innerHTML='<tr><td colspan="3" style="color:var(--muted)">Run a test and it appears here.</td></tr>';tests={};$('#done2').hidden=true;
+    ['bf','bc'].forEach(function(i){$('#'+i).style.width='0'});$('#nf').textContent='0';$('#nc').textContent='0';$('#hr').textContent='0';$('#ratio').textContent='...'};
+
+  /* TASK 3: detective */
+  var CHECKS=[
+    ['Reverse image search','The same picture appears in a news story from 2019 about a stadium in another country.'],
+    ['Find the original','The first post of this picture was a 2019 report. CityNewsLive2 copied it and added a new caption.'],
+    ['Check a second independent source','The city council and two local news sites say no stadium roof has collapsed.'],
+    ['Check the date','The picture first appeared online five years ago, so it cannot show this morning.'],
+    ['Ask who benefits','The account is two days old and earns followers and advert money when posts go viral.']];
+  var seen={};
+  $('#checks').innerHTML=CHECKS.map(function(c,i){return '<button type="button" aria-pressed="false" data-c="'+i+'">'+(i+1)+'. '+c[0]+'</button>'}).join('');
+  $$('#checks button').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-c');
+    if(seen[i])return;seen[i]=1;b.setAttribute('aria-pressed','true');
+    var d=document.createElement('div');d.className='f';d.innerHTML='<b>'+CHECKS[i][0]+':</b> '+CHECKS[i][1];$('#found').appendChild(d);
+    var n=Object.keys(seen).length;$('#cnt').textContent=n;
+    if(n===5){$('#vlock').hidden=true;var v=$('#verdict');v.hidden=false}}});
+  var VERD=[['Real. It happened this morning.',0,'Not quite. Three checks show the picture is old and no source reports a collapse.'],
+            ['Made by AI.',0,'Not quite. The picture is real but old. It comes from a 2019 news story, so the problem is the false caption.'],
+            ['An old picture with a false caption.',1,'Correct. A real image from 2019 was used to make a false claim. Do not share it. Report it.']];
+  $('#verdict').innerHTML=VERD.map(function(v,i){return '<button type="button" data-v="'+i+'">'+v[0]+'</button>'}).join('');
+  $$('#verdict button').forEach(function(b){b.onclick=function(){var v=VERD[+b.getAttribute('data-v')];
+    $$('#verdict button').forEach(function(x){x.classList.remove('right','wrong')});b.classList.add(v[1]?'right':'wrong');
+    var f=$('#vfb');f.hidden=false;f.textContent=v[2]}});
+  $$('[data-cc]').forEach(function(b){b.onclick=function(){$('#cc'+b.getAttribute('data-cc').toUpperCase()).hidden=false;ccSeen[b.getAttribute('data-cc')]=1}});
+  var ccSeen={},Q2=[['Yes. No label means no one added a warning.',0,'Not quite. A missing label tells you nothing. Marks can be removed and many tools never add one.'],
+                     ['No. It must be fake.',0,'Not quite. It might be real. No label does not prove it is fake either.'],
+                     ['You cannot tell from the missing label. You need the other checks.',1,'Correct. No label does not mean real. Use the verification routine instead.']];
+  $('#q2').innerHTML=Q2.map(function(q,i){return '<button type="button" data-q="'+i+'">'+q[0]+'</button>'}).join('');
+  $$('#q2 button').forEach(function(b){b.onclick=function(){var q=Q2[+b.getAttribute('data-q')];
+    $$('#q2 button').forEach(function(x){x.classList.remove('right','wrong')});b.classList.add(q[1]?'right':'wrong');
+    var f=$('#q2fb');f.hidden=false;f.textContent=q[2];if(q[1])$('#done3').hidden=false}});
+})();
+</script>
