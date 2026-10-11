@@ -115,7 +115,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
     <div>
       <div class="kicker">Year 8 Computer Science · Lesson 5</div>
       <h1>Media Lab</h1>
-      <p class="lead">Can you still believe what you see? Your teacher shows a code on the board when it is time for each website task. Do the website task first, then the next activity on your worksheet.</p>
+      <p class="lead">Can you still believe what you see? Your teacher shows a code on the board when it is time for each website task. Do the website task first, then the next activity on your worksheet. Everyone does all three activities: Bronze, Silver and Gold show how hard each one is, not where to stop.</p>
     </div>
     <button class="alt themebtn" id="themeBtn" type="button">Switch light or dark</button>
   </div>
@@ -138,7 +138,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
   <!-- TASK 1 -->
   <section id="t1" hidden class="card">
     <button class="alt back" type="button" data-back>Back to the menu</button>
-    <div class="panelhead"><span class="lv b">Bronze · Activity 1</span><h2>Train the model</h2><p>Do all three steps in order. Write your results on your worksheet as you go.</p></div>
+    <div class="panelhead"><span class="lv b">Bronze · Activity 1</span><h2>Train the model</h2><p>Do all three steps in order. Type your results on your worksheet as you go.</p></div>
 
     <div class="step">
       <div class="steplab">Step 1 · Training data</div>
@@ -153,7 +153,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
           <button type="button" id="gen">Generate a new face</button>
         </div>
       </div>
-      <div class="record"><b>Write on your worksheet:</b> the clarity score and what the picture looked like at each of the four levels.</div>
+      <div class="record"><b>Type on your worksheet:</b> the clarity score and what the picture looked like at each of the four levels.</div>
     </div>
 
     <div class="step">
@@ -166,7 +166,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
         <div class="stat"><span>Likeness to the real voice</span><div class="big" id="likeness">35%</div></div>
         <div class="stat"><span>Would it fool a friend?</span><div id="fool"><span class="pill no">Not convincing yet</span></div></div>
       </div>
-      <div class="record"><b>Write on your worksheet:</b> the likeness score and Yes or No for each time. Find the shortest recording that is convincing.</div>
+      <div class="record"><b>Type on your worksheet:</b> the likeness score and Yes or No for each time. Find the shortest recording that is convincing.</div>
     </div>
 
     <div class="step">
@@ -174,7 +174,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
       <p>The big change is not that fakes are possible. It is who can make them.</p>
       <div class="seg" role="group" aria-label="Then or now" id="eraSeg"><button type="button" data-e="then" aria-pressed="true">Then</button><button type="button" data-e="now" aria-pressed="false">Now</button></div>
       <div class="two" id="era"></div>
-      <div class="record"><b>Write on your worksheet:</b> what the Now column says for cost and time, and who can make a fake now.</div>
+      <div class="record"><b>Type on your worksheet:</b> what the Now column says for cost and time, and who can make a fake now.</div>
     </div>
     <div class="finish" id="done1" hidden><b>Task 1 complete.</b> Check your worksheet record. Your teacher will check the answers, then you do Activity 1B on your worksheet.</div>
   </section>
@@ -206,7 +206,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
     <div class="step">
       <div class="steplab">Your test log</div>
       <div class="log"><table><thead><tr><th>Drivers on</th><th>Fake reach</th><th>Correction reach</th></tr></thead><tbody id="logbody"><tr><td colspan="3" style="color:var(--muted)">Run a test and it appears here.</td></tr></tbody></table></div>
-      <div class="record"><b>Write on your worksheet:</b> run these six tests and copy the numbers: none, Emotion only, Speed only, Amplification only, Confirmation bias only, then all four.</div>
+      <div class="record"><b>Type on your worksheet:</b> run these six tests and copy the numbers: none, Emotion only, Speed only, Amplification only, Confirmation bias only, then all four.</div>
     </div>
     <div class="finish" id="done2" hidden><b>All six tests done.</b> Answer the questions on worksheet page 2A. Your teacher will check the answers, then you do Activity 2B on your worksheet.</div>
   </section>
@@ -233,7 +233,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
       <div class="steplab">Step 2 · Run the five checks (<span id="cnt">0</span> of 5 done)</div>
       <div class="checks" id="checks"></div>
       <div class="found" id="found" aria-live="polite"></div>
-      <div class="record"><b>Write on your worksheet:</b> what each check showed, in a few words.</div>
+      <div class="record"><b>Type on your worksheet:</b> what each check showed, in a few words.</div>
     </div>
 
     <div class="step">
@@ -253,7 +253,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
       <h3>Photo B has no label. Is it real?</h3>
       <div class="opts" id="q2"></div>
       <div class="fb" id="q2fb" aria-live="polite" hidden></div>
-      <div class="record"><b>Write on your worksheet:</b> what Photo A tells you, what Photo B tells you, and your answer to the question.</div>
+      <div class="record"><b>Type on your worksheet:</b> what Photo A tells you, what Photo B tells you, and your answer to the question.</div>
     </div>
     <div class="finish" id="done3" hidden><b>Task 3 complete.</b> Finish worksheet page 3A. Your teacher will check the answers, then you do Activity 3B on your worksheet.</div>
   </section>
@@ -317,7 +317,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
     $$('#voiceSeg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
     var v=VOICE[b.getAttribute('data-s')];$('#likeness').textContent=v[0]+'%';
     $('#fool').innerHTML=v[1]?'<span class="pill ok">Yes, convincing</span>':'<span class="pill no">Not convincing yet</span>'}});
-  var ERA={then:[['Who made it','A trained team in a studio'],['Cost','Thousands of pounds of equipment and software'],['Time','Days or weeks of work'],['Skill needed','Years of training']],
+  var ERA={then:[['Who made it','A trained team in a studio'],['Cost','Thousands of QAR of equipment and software'],['Time','Days or weeks of work'],['Skill needed','Years of training']],
            now:[['Who made it','Anyone with a phone'],['Cost','Free or very cheap apps'],['Time','Seconds or minutes'],['Skill needed','Type one sentence']]};
   function era(e){$('#era').innerHTML=ERA[e].map(function(r){return '<div class="stat"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('');
     if(e==='now')$('#done1').hidden=false}
@@ -356,7 +356,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
     ['Reverse image search','The same picture appears in a news story from 2019 about a stadium in another country.'],
     ['Find the original','The first post of this picture was a 2019 report. CityNewsLive2 copied it and added a new caption.'],
     ['Check a second independent source','The city council and two local news sites say no stadium roof has collapsed.'],
-    ['Check the date','The picture first appeared online five years ago, so it cannot show this morning.'],
+    ['Check the date','The picture first appeared online in 2019, seven years ago, so it cannot show this morning.'],
     ['Ask who benefits','The account is two days old and earns followers and advert money when posts go viral.']];
   var seen={};
   $('#checks').innerHTML=CHECKS.map(function(c,i){return '<button type="button" aria-pressed="false" data-c="'+i+'">'+(i+1)+'. '+c[0]+'</button>'}).join('');
