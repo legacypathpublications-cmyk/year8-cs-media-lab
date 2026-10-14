@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 6 Scam Shield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<style>
+/* Layout: one column, a locked card per activity, each opens into its own task panel. */
+:root{
+  --bg:#F4F7FA; --panel:#FFFFFF; --ink:#1F2D3D; --muted:#566574; --line:#CBD5DD;
+  --navy:#1F3557; --teal:#2E8C83; --teal-t:#E1F0EE; --blue:#4C79A6; --blue-t:#E4ECF4;
+  --bronze:#B87333; --bronze-t:#F6E8DA; --silver:#7C8895; --silver-t:#E8ECEF; --gold:#C79A33; --gold-t:#FAF0DA;
+  --good:#1F7A4D; --good-t:#DFF1E7; --bad:#A33B3B; --bad-t:#F6E1E1; --on:#FFFFFF;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif; --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-inline:max(16px,4vw);padding-block:20px 48px}
+.wrap{max-width:900px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);color:var(--navy);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);font-weight:800}
+h2{font-size:1.5rem;font-weight:800}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.kicker{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.lead{color:var(--muted);margin-top:8px;max-width:60ch}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.lv{display:inline-block;align-self:flex-start;width:fit-content;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;color:var(--on)}
+.lv.b{background:var(--bronze)}.lv.s{background:var(--silver)}.lv.g{background:var(--gold)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.menu .card{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center}
+.menu .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lock{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=text]{font:inherit;font-size:1.05rem;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:11.5rem;max-width:100%;text-transform:uppercase;letter-spacing:.06em}
+input[type=text]:focus-visible,button:focus-visible,select:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:10px 16px;background:var(--navy);color:var(--on);cursor:pointer}
+button.alt{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.msg{font-size:.95rem;min-height:1.3em;width:100%}
+.msg.bad{color:var(--bad)}.msg.good{color:var(--good)}
+.tag-open{color:var(--good);font-weight:700}
+.back{margin-bottom:14px}
+.panelhead{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.step{border-top:2px solid var(--line);padding-top:18px;margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.step:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.steplab{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.record{background:var(--gold-t);border:1px dashed var(--gold);border-radius:8px;padding:10px 14px;font-size:.95rem}
+.record b{color:var(--navy)}
+.big{font-family:var(--display);font-weight:800;font-size:2rem;font-variant-numeric:tabular-nums;color:var(--navy)}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-weight:700;font-size:.9rem}
+.pill.ok{background:var(--good-t);color:var(--good)}.pill.no{background:var(--bad-t);color:var(--bad)}
+input[type=range]{width:100%;accent-color:var(--teal);height:2rem}
+.ticks{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.two,.menu .card{grid-template-columns:1fr}}
+canvas{width:100%;max-width:340px;aspect-ratio:1;border:2px solid var(--line);border-radius:8px;background:#fff;image-rendering:pixelated;display:block}
+.stat{display:flex;flex-direction:column;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px}
+.stat span{color:var(--muted);font-size:.9rem}
+.seg{display:inline-flex;align-self:flex-start;width:fit-content;max-width:100%;border:2px solid var(--navy);border-radius:8px;overflow:hidden}
+.seg button{border-radius:0;background:transparent;color:var(--navy)}
+.seg button[aria-pressed=true]{background:var(--navy);color:var(--on)}
+.tog{display:flex;flex-direction:column;gap:10px}
+.tog label{display:flex;gap:12px;align-items:flex-start;background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.tog label:has(input:checked){border-color:var(--teal);background:var(--teal-t)}
+.tog input{width:22px;height:22px;margin-top:2px;accent-color:var(--teal);flex:none}
+.tog small{display:block;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar{display:grid;grid-template-columns:7.2rem minmax(0,1fr) 5.6rem;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.bar .track{background:var(--bg);border:1px solid var(--line);border-radius:6px;height:30px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--bad)}
+.bar.corr .fill{background:var(--teal)}
+.bar b{text-align:right}
+@media(max-width:520px){.bar{grid-template-columns:5.2rem minmax(0,1fr) 4.6rem}}
+.log{font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+.log table{border-collapse:collapse;width:100%;min-width:420px}
+.log th,.log td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.log th{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+
+.board{margin-top:14px;width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.board text{font-family:var(--body)}
+.board .t{fill:var(--ink)}.board .m{fill:var(--muted)}.board .al{fill:var(--bronze)}
+.board .nt{fill:var(--navy);font-family:var(--display);font-weight:800}
+.board .nb{fill:var(--silver-t);stroke:var(--line);stroke-width:2}.board .nn{fill:var(--navy);font-weight:800;font-size:15px}
+.board .cdr{fill:var(--panel);stroke:var(--line);stroke-width:2}.board .chip{fill:var(--panel);stroke:var(--line);stroke-width:2}.board .frm{stroke:var(--line)}
+.board .lyr{opacity:0;transition:opacity .5s}.board .lyr.on{opacity:1}
+.board .cd{opacity:.55;transition:opacity .5s}.board .cd.on{opacity:1}.board .cd.on .cdr{stroke:var(--teal);stroke-width:3}
+.board .res{opacity:0;transition:opacity .5s}.board .cd.on .res{opacity:1}.board .cd.on .pre{opacity:0}
+.board .arr{stroke:#E0820F;stroke-width:4;fill:none;stroke-dasharray:150;stroke-dashoffset:150;opacity:0;transition:stroke-dashoffset .7s,opacity .2s}
+.board .arr.on{stroke-dashoffset:0;opacity:1}
+.board .struck{text-decoration:line-through;text-decoration-thickness:3px;fill:var(--bad)}
+.post{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.post .ph{height:150px;display:block;width:100%}
+.post .tx{padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.post small{color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.checks button{background:var(--panel);color:var(--navy);border:2px solid var(--navy);text-align:left}
+.checks button[aria-pressed=true]{background:var(--teal-t);border-color:var(--teal)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.found{display:flex;flex-direction:column;gap:10px}
+.found .f{background:var(--teal-t);border-left:5px solid var(--teal);padding:10px 14px;border-radius:6px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts button{background:var(--panel);color:var(--ink);border:2px solid var(--line);text-align:left;font-weight:400}
+.opts button.right{border-color:var(--good);background:var(--good-t)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.fb{padding:10px 14px;border-radius:8px;background:var(--blue-t);min-height:2.6em}
+.cc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.cc{grid-template-columns:1fr}}
+.cc .item{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.cc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95rem}
+.cc dt{color:var(--muted)}.cc dd{margin:0;font-weight:700}
+.finish{background:var(--good-t);border:2px solid var(--good);border-radius:10px;padding:16px;color:var(--ink)}
+footer{margin-top:28px;color:var(--muted);font-size:.9rem}
+.themebtn{padding:6px 12px;font-size:.85rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style><style>
+.pairs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.pairs{grid-template-columns:1fr}}
+.msgbox{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:6px}
+.msgbox h3{font-size:.95rem}
+.msgbox .body{font-size:1rem}
+.msgbox[dir=rtl]{text-align:right}
+.hl{background:var(--gold-t);box-shadow:0 0 0 2px var(--gold);border-radius:3px;padding:0 2px}
+.lines{display:flex;flex-direction:column;gap:10px}
+.lines .ln{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:8px 12px}
+.lines .ln.on{border-color:var(--bad);background:var(--bad-t)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tile{border:2px solid var(--line);border-radius:10px;background:var(--bg);padding:14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.tile .av{font-size:2.2rem;line-height:1}
+.tile.real{border-color:var(--good);background:var(--good-t)}
+.tile.fake{border-color:var(--bad);background:var(--bad-t)}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.facts dt{color:var(--muted)}.facts dd{margin:0;font-weight:700}
+.sit{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.sit .opts button{padding:8px 12px}
+.sit.done{border-color:var(--good)}
+.rowlist{display:flex;flex-direction:column;gap:10px}
+.rl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:8px 12px}
+.rl .why{grid-column:1/-1;color:var(--muted);font-size:.95rem}
+.profile{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg)}
+.profile .av{font-size:3rem}
+.note{color:var(--muted);font-size:.92rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Year 8 Computer Science · Lesson 6</div>
+      <h1>Scam Shield</h1>
+      <p class="lead">Can you trust who you are talking to? Your teacher shows a code on the board when it is time for each website task. Do the website task first, then the next part of your worksheet. Everyone does all three activities, and every Silver and Gold column.</p>
+    </div>
+    <button class="alt themebtn" id="themeBtn" type="button">Switch light or dark</button>
+  </div>
+  <div id="menu" class="stack menu">
+    <div class="card" id="c1">
+      <div class="meta"><span class="lv b">Bronze · Activity 1</span><h2>Spot the clone</h2><p>Find the red flags in a family emergency call, then check who was real on the Arup video call.</p></div>
+      <div class="lock"><label for="code1" class="steplab">Teacher code</label><input type="text" id="code1" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m1"><button type="button" data-open="1">Open</button><div class="msg" id="m1" role="status"></div></div>
+    </div>
+    <div class="card" id="c2">
+      <div class="meta"><span class="lv b">Bronze · Activity 2</span><h2>Scam message lab</h2><p>See which warning signs AI removes, how many messages one scammer can send, and how to read a fake profile.</p></div>
+      <div class="lock"><label for="code2" class="steplab">Teacher code</label><input type="text" id="code2" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m2"><button type="button" data-open="2">Open</button><div class="msg" id="m2" role="status"></div></div>
+    </div>
+    <div class="card" id="c3">
+      <div class="meta"><span class="lv b">Bronze · Activity 3</span><h2>Defence workshop</h2><p>Choose the best defence, test safe words, and find out what two-factor authentication does not stop.</p></div>
+      <div class="lock"><label for="code3" class="steplab">Teacher code</label><input type="text" id="code3" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m3"><button type="button" data-open="3">Open</button><div class="msg" id="m3" role="status"></div></div>
+    </div>
+  </div>
+
+  <!-- TASK 1 -->
+  <section id="t1" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="lv b">Bronze · Activity 1</span><h2>Spot the clone</h2><p>Do both steps in order. Type your results on your worksheet as you go.</p></div>
+    <div class="step">
+      <div class="steplab">Step 1 · The family emergency call (<span id="n1a">0</span> of 5 inspected)</div>
+      <p>A voice that sounds like your brother rings. Press Inspect on each line to see the red flag.</p>
+      <div class="lines" id="calllines"></div>
+    </div>
+    <div class="step">
+      <div class="steplab">Step 2 · The video call, Arup 2024 (<span id="n1b">0</span> of 3 checked)</div>
+      <p>An employee in Hong Kong joined a video call with the finance director and other colleagues. Press Check on each person.</p>
+      <div class="tiles" id="tiles"></div>
+      <div id="loss" hidden class="record"><b>What happened.</b>
+        <dl class="facts"><dt>Number of transfers</dt><dd>15</dd><dt>Bank accounts</dt><dd>5</dd><dt>Total sent</dt><dd>HK$200 million, about QAR 93 million</dd><dt>How it was found</dt><dd>The employee checked with head office</dd></dl></div>
+    </div>
+    <div class="finish" id="done1" hidden><b>Task 1 complete.</b> Check your worksheet record. Your teacher will check the answers, then you do Activity 1B on your worksheet.</div>
+  </section>
+
+  <!-- TASK 2 -->
+  <section id="t2" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="lv b">Bronze · Activity 2</span><h2>Scam message lab</h2><p>Do all three steps in order. Type your results on your worksheet as you go.</p></div>
+    <div class="step">
+      <div class="steplab">Step 1 · Which warning signs still work? (<span id="n2a">0</span> of 4 tested)</div>
+      <div class="pairs">
+        <div class="msgbox"><h3>Old phishing message</h3><div class="body">Dear custommer, your acount has been <span data-w="spell">suspendd</span>. You <span data-w="gram">has to</span> <span data-w="urg">click within one hour</span> and <span data-w="code">send us you password</span>.</div></div>
+        <div class="msgbox"><h3>AI-written message (English)</h3><div class="body">Dear Sara, we noticed a sign-in to your account from a new device. To keep your account safe, please <span data-w="urg">confirm your details within one hour</span> and <span data-w="code">reply with the code we just sent you</span>.</div></div>
+      </div>
+      <div class="msgbox" dir="rtl" lang="ar"><h3>AI-written message (Arabic)</h3><div class="body">عزيزي أحمد، تم تعليق حسابك المصرفي. يرجى <span data-w="urg">تأكيد بياناتك خلال ساعة</span> و<span data-w="code">إرسال رمز التحقق</span> عبر الرابط التالي.</div></div>
+      <p class="note">Arabic message, in English: "Dear Ahmed, your bank account has been suspended. Please confirm your details within one hour and send the verification code using the link below."</p>
+      <div class="steplab">Test each warning sign on the AI-written messages</div>
+      <div class="rowlist" id="signs"></div>
+    </div>
+    <div class="step">
+      <div class="steplab">Step 2 · Sending at scale in 24 hours (<span id="n2b">0</span> of 2 runs)</div>
+      <p class="note">These numbers are made up for teaching.</p>
+      <div class="row"><button type="button" id="runH">Run: one scammer by hand</button><button type="button" id="runA">Run: one scammer with AI</button></div>
+      <div class="bars">
+        <div class="bar"><span>By hand</span><div class="track"><div class="fill" id="fh"></div></div><b id="vh">0</b></div>
+        <div class="bar corr"><span>With AI</span><div class="track"><div class="fill" id="fa"></div></div><b id="va">0</b></div>
+      </div>
+      <div class="two"><div class="stat"><span>Replies at 1 in 1,000, by hand</span><div class="big" id="rh">...</div></div><div class="stat"><span>Replies at 1 in 1,000, with AI</span><div class="big" id="ra">...</div></div></div>
+    </div>
+    <div class="step">
+      <div class="steplab">Step 3 · The AI-generated profile (<span id="n2c">0</span> of 4 checked)</div>
+      <div class="profile"><div class="av" aria-hidden="true">&#129489;&#8205;&#128188;</div><div><b>Layla, 29</b><br>"Investor and traveller. I can help you make money fast. Message me privately."<br><small class="note">Account made 3 weeks ago. 48,000 followers.</small></div></div>
+      <div class="rowlist" id="feats"></div>
+    </div>
+    <div class="finish" id="done2" hidden><b>Task 2 complete.</b> Answer the questions on worksheet page 2A. Your teacher will check the answers, then you do Activity 2B on your worksheet.</div>
+  </section>
+
+  <!-- TASK 3 -->
+  <section id="t3" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="lv b">Bronze · Activity 3</span><h2>Defence workshop</h2><p>Do all three steps in order. Type your results on your worksheet as you go.</p></div>
+    <div class="step">
+      <div class="steplab">Step 1 · Pick the best defence (<span id="n3a">0</span> of 4 correct)</div>
+      <div class="stack" id="sits"></div>
+    </div>
+    <div class="step">
+      <div class="steplab">Step 2 · The safe word lab (<span id="n3b">0</span> of 3 tested)</div>
+      <p>A safe word is agreed in person and never posted online. Test each one.</p>
+      <div class="rowlist" id="words"></div>
+    </div>
+    <div class="step">
+      <div class="steplab">Step 3 · Does two-factor authentication stop it? (<span id="n3c">0</span> of 4 tried)</div>
+      <p>Two-factor authentication (2FA) asks for a second proof when someone logs in. Try each attack.</p>
+      <div class="rowlist" id="atk"></div>
+    </div>
+    <div class="finish" id="done3" hidden><b>Task 3 complete.</b> Finish worksheet page 3A. Your teacher will check the answers, then you do Activity 3B on your worksheet.</div>
+  </section>
+
+  <footer>Year 8 Computer Science · Cyber Security and Threats · Lesson 6 · AI Scams and Fraud. All messages, profiles and figures on this page are made up for teaching, except the facts about the Arup case.</footer>
+</div>
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  function hash(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)^s.charCodeAt(i))>>>0}return x}
+  var CODES={1:2085739141,2:2086135309,3:2085951273};
+  var unlocked={};
+  try{var sv=sessionStorage.getItem('l6unlocked');if(sv)unlocked=JSON.parse(sv)||{}}catch(e){}
+  function save(){try{sessionStorage.setItem('l6unlocked',JSON.stringify(unlocked))}catch(e){}}
+  $('#themeBtn').onclick=function(){var r=document.documentElement,cur=r.getAttribute('data-theme');
+    var dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;
+    r.setAttribute('data-theme',dark?'light':'dark')};
+  function show(n){$('#menu').hidden=true;[1,2,3].forEach(function(i){$('#t'+i).hidden=(i!==n)});window.scrollTo(0,0)}
+  function menu(){[1,2,3].forEach(function(i){$('#t'+i).hidden=true});$('#menu').hidden=false;window.scrollTo(0,0);refreshMenu()}
+  function refreshMenu(){[1,2,3].forEach(function(i){var m=$('#m'+i);if(unlocked[i]){m.className='msg tag-open';m.textContent='Unlocked. Press Open to continue.'}})}
+  $$('[data-open]').forEach(function(b){b.onclick=function(){
+    var n=+b.getAttribute('data-open'),inp=$('#code'+n),m=$('#m'+n);
+    var v=inp.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(unlocked[n]){show(n);return}
+    if(!v){m.className='msg bad';m.textContent='Type the code from your teacher first.';return}
+    if(hash(v)===CODES[n]){unlocked[n]=1;save();m.className='msg good';m.textContent='Code accepted.';show(n)}
+    else{m.className='msg bad';m.textContent='That code is not right. Check the board and try again.'}}});
+  $$('input[type=text]').forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter'){i.parentNode.querySelector('[data-open]').click()}})});
+  $$('[data-back]').forEach(function(b){b.onclick=menu});
+  refreshMenu();
+  function pill(ok,t){return '<span class="pill '+(ok?'ok':'no')+'">'+t+'</span>'}
+
+  /* TASK 1 */
+  var CALL=[['"This is a friend\'s number"','Unknown number'],['"I need QAR 4,000 in ten minutes"','Urgency'],['"Please don\'t tell Dad"','Secrecy'],['"Buy gift cards and read me the codes"','Unusual payment'],['"I can\'t video call, my camera is broken"','Avoids proof']];
+  var c1={},c2={};
+  $('#calllines').innerHTML=CALL.map(function(c,i){return '<div class="ln" id="ln'+i+'"><span>'+c[0]+'</span><button type="button" class="alt" data-ln="'+i+'">Inspect</button></div>'}).join('');
+  $$('[data-ln]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-ln');c1[i]=1;
+    var d=$('#ln'+i);d.classList.add('on');b.outerHTML='<b>Red flag: '+CALL[i][1]+'</b>';$('#n1a').textContent=Object.keys(c1).length;fin1()}});
+  var TILES=[['&#128100;','The finance employee in Hong Kong',1,'Real'],['&#127917;','The chief financial officer (UK)',0,'Deepfake'],['&#127917;','The other colleagues on the call',0,'Deepfake']];
+  $('#tiles').innerHTML=TILES.map(function(t,i){return '<div class="tile" id="tl'+i+'"><div class="av" aria-hidden="true">'+t[0]+'</div><b>'+t[1]+'</b><button type="button" class="alt" data-tl="'+i+'">Check</button></div>'}).join('');
+  $$('[data-tl]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-tl');c2[i]=1;var t=TILES[i];
+    $('#tl'+i).classList.add(t[2]?'real':'fake');b.outerHTML=pill(t[2],t[3]);$('#n1b').textContent=Object.keys(c2).length;
+    if(Object.keys(c2).length===3)$('#loss').hidden=false;fin1()}});
+  function fin1(){if(Object.keys(c1).length===5&&Object.keys(c2).length===3)$('#done1').hidden=false}
+
+  /* TASK 2 */
+  var SIGNS=[['spell','Spelling mistakes',0,'The AI-written messages have perfect spelling. This sign no longer works.'],
+             ['gram','Poor grammar',0,'The AI-written messages have fluent grammar in English and Arabic. This sign no longer works.'],
+             ['urg','Urgency ("within one hour")',1,'Both messages rush you. This sign still works.'],
+             ['code','Asks for a code or password',1,'Both messages ask for a code. This sign still works.']];
+  var s2={};
+  $('#signs').innerHTML=SIGNS.map(function(s,i){return '<div class="rl"><b>'+s[1]+'</b><button type="button" class="alt" data-sg="'+i+'">Test</button><div class="why" id="sw'+i+'"></div></div>'}).join('');
+  $$('[data-sg]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-sg'),s=SIGNS[i];s2[i]=1;
+    $$('[data-w="'+s[0]+'"]').forEach(function(e){e.classList.add('hl')});
+    b.outerHTML=pill(s[2],s[2]?'Still works':'No longer works');$('#sw'+i).textContent=s[3];$('#n2a').textContent=Object.keys(s2).length;fin2()}});
+  var run={};
+  function fmt(n){return n.toLocaleString('en-GB')}
+  function runScale(k,msgs,rep,fill,val,rid){run[k]=1;$('#'+val).textContent=fmt(msgs);$('#'+fill).style.width=(k==='h'?Math.max(1,msgs/240000*100):100)+'%';$('#'+rid).textContent=rep;$('#n2b').textContent=Object.keys(run).length;fin2()}
+  $('#runH').onclick=function(){runScale('h',240,'Less than 1','fh','vh','rh')};
+  $('#runA').onclick=function(){runScale('a',240000,'240','fa','va','ra')};
+  var FEATS=[['Account created 3 weeks ago',1,'A new account with 48,000 followers is a red flag.'],['Promises guaranteed profits',1,'No honest investment is guaranteed.'],['Wants a private chat quickly',1,'Scammers move you away from the public platform.'],['Lists football as a hobby',0,'This is normal. Real people have hobbies, and so do fake ones.']];
+  var s3={};
+  $('#feats').innerHTML=FEATS.map(function(f,i){return '<div class="rl"><b>'+f[0]+'</b><button type="button" class="alt" data-ft="'+i+'">Check</button><div class="why" id="fw'+i+'"></div></div>'}).join('');
+  $$('[data-ft]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-ft'),f=FEATS[i];s3[i]=1;
+    b.outerHTML=pill(!f[1],f[1]?'Red flag':'Normal');$('#fw'+i).textContent=f[2];$('#n2c').textContent=Object.keys(s3).length;fin2()}});
+  function fin2(){if(Object.keys(s2).length===4&&Object.keys(run).length===2&&Object.keys(s3).length===4)$('#done2').hidden=false}
+
+  /* TASK 3 */
+  var DEF=['Ask for the family safe word','Verify on a second channel you start','Call back on a number you already hold','Never act on urgency alone'];
+  var SIT=[['A "son" rings from a new number and asks for money',0],['A "manager" emails an urgent payment and invites you to a video call',1],['A "bank" gives you a number to ring',2],['An "investment coach" says the offer ends in one hour',3]];
+  var d1={};
+  $('#sits').innerHTML=SIT.map(function(s,i){return '<div class="sit" id="st'+i+'"><b>'+(i+1)+'. '+s[0]+'</b><div class="opts">'+DEF.map(function(d,j){return '<button type="button" data-st="'+i+'" data-o="'+j+'">'+d+'</button>'}).join('')+'</div><div class="fb" id="sf'+i+'" hidden></div></div>'}).join('');
+  $$('[data-st]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-st'),j=+b.getAttribute('data-o'),ok=SIT[i][1]===j,f=$('#sf'+i);
+    $$('[data-st="'+i+'"]').forEach(function(x){x.classList.remove('right','wrong')});b.classList.add(ok?'right':'wrong');f.hidden=false;
+    f.textContent=ok?'Correct. '+DEF[j]+' is the best defence here.':'Not the best fit. Think about what the scammer controls in this situation and try another.';
+    if(ok){d1[i]=1;$('#st'+i).classList.add('done');$('#n3a').textContent=Object.keys(d1).length;fin3()}}});
+  var WORDS=[['Biscuit (the family dog, in public photos)',0,'Weak. It can be found online.'],['Purple-lamp-seven (agreed in person)',1,'Good. It is random, agreed in person and never posted.'],['Your birthday',0,'Weak. It is easy to find or guess.']];
+  var d2={};
+  $('#words').innerHTML=WORDS.map(function(w,i){return '<div class="rl"><b>'+w[0]+'</b><button type="button" class="alt" data-wd="'+i+'">Test</button><div class="why" id="ww'+i+'"></div></div>'}).join('');
+  $$('[data-wd]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-wd'),w=WORDS[i];d2[i]=1;
+    b.outerHTML=pill(w[1],w[1]?'Good':'Weak');$('#ww'+i).textContent=w[2];$('#n3b').textContent=Object.keys(d2).length;fin3()}});
+  var ATK=[['A criminal logs in with a stolen password',1,'Stopped. The criminal does not have your phone, so the second proof fails.'],
+           ['A cloned voice asks you to send money',0,'Not stopped. No login happens. You are tricked into paying.'],
+           ['A fake video call tells you to pay',0,'Not stopped. The real person is tricked, so no account check is involved.'],
+           ['A scammer asks you to read out your 2FA code',0,'Not stopped. You pass the check yourself by giving the code away.']];
+  var d3={};
+  $('#atk').innerHTML=ATK.map(function(a,i){return '<div class="rl"><b>'+a[0]+'</b><button type="button" class="alt" data-ak="'+i+'">Try attack</button><div class="why" id="aw'+i+'"></div></div>'}).join('');
+  $$('[data-ak]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-ak'),a=ATK[i];d3[i]=1;
+    b.outerHTML=pill(a[1],a[1]?'Stopped by 2FA':'Not stopped');$('#aw'+i).textContent=a[2];$('#n3c').textContent=Object.keys(d3).length;fin3()}});
+  function fin3(){if(Object.keys(d1).length===4&&Object.keys(d2).length===3&&Object.keys(d3).length===4)$('#done3').hidden=false}
+})();
+</script>
+</body>
+</html>
