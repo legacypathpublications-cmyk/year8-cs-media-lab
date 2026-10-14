@@ -106,6 +106,14 @@ select.tsel{font:inherit;font-weight:800;padding:10px 12px;border-radius:12px;bo
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.good{background:var(--grn)}#toast.bad{background:var(--red)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+.lvl button.on[data-l=easy]{background:#16b981;color:#fff}
+.lvl button.on[data-l=medium]{background:#ffc83d;color:#1d1846}
+.lvl button.on[data-l=hard]{background:#ef4444;color:#fff}
+.lvlnote{margin-top:12px;background:#fff;border:2px dashed var(--line);border-radius:14px;padding:8px 14px;font-weight:800;font-size:15.5px;color:var(--muted)}
+.lvlnote b{color:var(--ink)}
+.qtimer{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin-top:14px}
+.qtimer i{display:block;height:100%;background:linear-gradient(90deg,var(--grn),var(--yel),var(--red));width:100%;animation:drain linear forwards}
+.lvtag{display:inline-block;margin-bottom:4px;padding:4px 12px;border-radius:99px;font-weight:900;font-size:14px;color:#fff}
 /* MAZE */
 .mazewrap{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
 .mazewrap canvas{width:100%;display:block;border-radius:18px;box-shadow:0 6px 0 rgba(29,24,70,.25);touch-action:none;background:#14123a}
@@ -174,7 +182,7 @@ select.tsel{font:inherit;font-weight:800;padding:10px 12px;border-radius:12px;bo
 .track.hit .srv{animation:shake .4s 3}
 .shields{position:absolute;right:80px;top:20px;font-size:28px;letter-spacing:2px}
 .slots{display:flex;flex-wrap:wrap;gap:clamp(4px,1.2vw,8px);justify-content:center;margin:18px 0}
-.slots span{width:clamp(22px,7.4vw,48px);height:clamp(40px,10vw,58px);border-bottom:5px solid var(--ink);display:grid;place-items:center;font-family:var(--hf);font-size:clamp(20px,6vw,34px);font-weight:700}
+.slots span{width:clamp(18px,6.2vw,48px);height:clamp(40px,10vw,58px);border-bottom:5px solid var(--ink);display:grid;place-items:center;font-family:var(--hf);font-size:clamp(20px,6vw,34px);font-weight:700}
 .slots span.gap{border:0;width:22px}
 .slots span.show{animation:popin .3s}
 .slots span.lost{color:var(--red)}
@@ -481,6 +489,9 @@ const fmtT=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
 const store={get(k,d){try{const v=localStorage.getItem('ict9_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem('ict9_'+k,JSON.stringify(v));}catch(e){}}};
 const S={topic:store.get('topic','all'),name:store.get('name',''),points:store.get('points',0),best:store.get('best',{}),muted:store.get('muted',false)};
 if(S.topic!=='all'&&!TOPICS[S.topic])S.topic='all';
+S.level=store.get('level',{});
+const LVN={easy:'Easy',medium:'Medium',hard:'Hard'},LVC={easy:'#16b981',medium:'#d79c00',hard:'#ef4444'};
+const curLevel=()=>S.level[location.hash.slice(1)]||'medium';
 const inTopic=x=>S.topic==='all'||x.t===S.topic;
 const pool=(arr,min)=>{const p=arr.filter(inTopic);return p.length>=(min||1)?p:arr;};
 const kwPool=min=>{const p=KW.filter(inTopic);if(p.length>=(min||1))return p;return [...p,...shuffle(KW.filter(k=>!inTopic(k)))].slice(0,Math.max(min,p.length));};
@@ -509,16 +520,16 @@ function cLoop(){cx.clearRect(0,0,cv.width,cv.height);parts.forEach(p=>{p.vy+=.4
 let modalKey=null;
 const modalOpen=()=>$('#modal').classList.contains('show');
 function closeModal(){const m=$('#modal');m.classList.remove('show');m.innerHTML='';if(modalKey){document.removeEventListener('keydown',modalKey);modalKey=null;}}
-function ask(q){q=q||nextQ();return new Promise(res=>{const m=$('#modal');const opts=shuffle([q.a,...q.w]);const ci=opts.indexOf(q.a);const T=TOPICS[q.t];const kc=['#6c3cff','#ff4d8d','#16b981','#ff8a3d'];
- m.innerHTML=`<div class="qcard"><span class="qtag" style="--c:${T.c}">${T.icon} ${T.name}</span><h3>${esc(q.q)}</h3><div class="opts">${opts.map((o,i)=>`<button class="opt" style="--k:${kc[i]}"><b>${'ABCD'[i]}</b><span>${esc(o)}</span></button>`).join('')}</div><div class="qfb"></div></div>`;
- m.classList.add('show');let done=false;const bs=$$('.opt',m);
- const choose=i=>{if(done)return;done=true;const fb=$('.qfb',m);
+function ask(q,lv){q=q||nextQ();lv=lv||'medium';return new Promise(res=>{const m=$('#modal');const wr=lv==='easy'?shuffle(q.w).slice(0,2):q.w;const opts=shuffle([q.a,...wr]);const ci=opts.indexOf(q.a);const T=TOPICS[q.t];const kc=['#6c3cff','#ff4d8d','#16b981','#ff8a3d'];
+ m.innerHTML=`<div class="qcard"><span class="qtag" style="--c:${T.c}">${T.icon} ${T.name}</span><h3>${esc(q.q)}</h3><div class="opts">${opts.map((o,i)=>`<button class="opt" style="--k:${kc[i]}"><b>${'ABCD'[i]}</b><span>${esc(o)}</span></button>`).join('')}</div>${lv==='hard'?'<div class="qtimer"><i style="animation-duration:20s"></i></div>':''}<div class="qfb"></div></div>`;
+ m.classList.add('show');let done=false;const bs=$$('.opt',m);let tm=lv==='hard'?setTimeout(()=>choose(-1),20000):null;
+ const choose=i=>{if(done)return;done=true;clearTimeout(tm);const qt=$('.qtimer i',m);if(qt)qt.style.animationPlayState='paused';const fb=$('.qfb',m);
   if(i===ci){bs[i].classList.add('right');beep('good');fb.innerHTML='<span class="g">✅ Correct! Well done.</span>';setTimeout(()=>{closeModal();res(true);},950);}
-  else{bs[i].classList.add('wrong');bs[ci].classList.add('right');beep('bad');fb.innerHTML=`<span class="r">❌ Not quite. The answer is: ${esc(q.a)}</span><button class="btn">Continue</button>`;const go=()=>{closeModal();res(false);};$('.btn',fb).onclick=go;$('.btn',fb).focus();}};
+  else{if(i>=0)bs[i].classList.add('wrong');bs[ci].classList.add('right');beep('bad');fb.innerHTML=`<span class="r">${i<0?'⏰ Time is up!':'❌ Not quite.'} The answer is: ${esc(q.a)}</span><button class="btn">Continue</button>`;const go=()=>{closeModal();res(false);};$('.btn',fb).onclick=go;$('.btn',fb).focus();}};
  bs.forEach((b,i)=>b.onclick=()=>choose(i));
- modalKey=e=>{if(done)return;const i='abcd'.indexOf(e.key.toLowerCase());const j='1234'.indexOf(e.key);if(i>-1)choose(i);else if(j>-1)choose(j);};document.addEventListener('keydown',modalKey);
+ modalKey=e=>{if(done)return;const i='abcd'.indexOf(e.key.toLowerCase());const j='1234'.indexOf(e.key);const k=i>-1?i:j;if(k>-1&&k<bs.length)choose(k);};document.addEventListener('keydown',modalKey);
 });}
-function result({emoji,title,lines,stars,list,again,listTitle}){const m=$('#modal');m.innerHTML=`<div class="qcard result"><div class="big">${emoji}</div><h3>${title}</h3>${stars!==undefined?`<div class="stars">${starStr(stars)}</div>`:''}${(lines||[]).map(l=>`<p style="font-weight:800;font-size:19px;margin:6px 0">${l}</p>`).join('')}${list&&list.length?`<h4 class="fred" style="text-align:left;margin:14px 0 4px;font-size:19px">${listTitle||''}</h4><ul>${list.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}<div class="row"><button class="btn g" data-a="again">Play again</button><a class="btn ghost" href="#" data-a="home" style="text-decoration:none">Back to the arcade</a></div></div>`;m.classList.add('show');$('[data-a=again]',m).onclick=()=>{closeModal();again&&again();};$('[data-a=home]',m).onclick=()=>closeModal();}
+function result({emoji,title,lines,stars,list,again,listTitle}){const m=$('#modal');const lv=curLevel();m.innerHTML=`<div class="qcard result"><div class="big">${emoji}</div><span class="lvtag" style="background:${LVC[lv]}">Level: ${LVN[lv]}</span><h3>${title}</h3>${stars!==undefined?`<div class="stars">${starStr(stars)}</div>`:''}${(lines||[]).map(l=>`<p style="font-weight:800;font-size:19px;margin:6px 0">${l}</p>`).join('')}${list&&list.length?`<h4 class="fred" style="text-align:left;margin:14px 0 4px;font-size:19px">${listTitle||''}</h4><ul>${list.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}<div class="row"><button class="btn g" data-a="again">Play again</button><a class="btn ghost" href="#" data-a="home" style="text-decoration:none">Back to the arcade</a></div></div>`;m.classList.add('show');$('[data-a=again]',m).onclick=()=>{closeModal();again&&again();};$('[data-a=home]',m).onclick=()=>closeModal();}
 
 /* ================= SHELL ================= */
 const GAMES=[
@@ -534,9 +545,11 @@ const GAMES=[
 ];
 function topicSelect(){return `<select class="tsel" title="Choose a topic"><option value="all">🌈 All topics</option>${Object.entries(TOPICS).map(([k,v])=>`<option value="${k}" ${S.topic===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select>`;}
 function setTopic(t){S.topic=t;store.set('topic',t);qBag=[];}
-function shell(el,id,how,{topic=true}={}){const g=GAMES.find(x=>x.id===id);
- el.innerHTML=`<a href="#" class="back">← Back to the arcade</a><div class="ghead"><div class="gtitle"><span class="gicon" style="--c:${g.c}">${g.icon}</span><div><h2>${g.title}</h2><p>${how}</p></div></div><div class="gctrl">${topic?topicSelect():''}<button class="btn y" data-act="new">New game</button></div></div><div class="stats"></div><div class="gbody"></div>`;
- const api={body:$('.gbody',el),statsEl:$('.stats',el),onNew:null,stats(arr){api.statsEl.innerHTML=arr.map(([l,v])=>`<div class="stat"><small>${l}</small>${v}</div>`).join('');}};
+function shell(el,id,how,{topic=true,levels={}}={}){const g=GAMES.find(x=>x.id===id);const lvNow=S.level[id]||'medium';
+ el.innerHTML=`<a href="#" class="back">← Back to the arcade</a><div class="ghead"><div class="gtitle"><span class="gicon" style="--c:${g.c}">${g.icon}</span><div><h2>${g.title}</h2><p>${how}</p></div></div><div class="gctrl"><div class="seg lvl">${['easy','medium','hard'].map(l=>`<button data-l="${l}" class="${lvNow===l?'on':''}">${{easy:'🟢 Easy',medium:'🟡 Medium',hard:'🔴 Hard'}[l]}</button>`).join('')}</div>${topic?topicSelect():''}<button class="btn y" data-act="new">New game</button></div></div><div class="lvlnote"></div><div class="stats"></div><div class="gbody"></div>`;
+ const api={body:$('.gbody',el),statsEl:$('.stats',el),onNew:null,get level(){return S.level[id]||'medium';},stats(arr){api.statsEl.innerHTML=arr.map(([l,v])=>`<div class="stat"><small>${l}</small>${v}</div>`).join('');}};
+ const note=()=>{const l=api.level;$('.lvlnote',el).innerHTML=`<b style="color:${LVC[l]}">${LVN[l]}:</b> ${levels[l]||''}`;};note();
+ $$('.lvl button',el).forEach(b=>b.onclick=()=>{S.level[id]=b.dataset.l;store.set('level',S.level);$$('.lvl button',el).forEach(x=>x.classList.toggle('on',x===b));note();toast('Level: '+LVN[b.dataset.l]);api.onNew&&api.onNew();});
  $('[data-act=new]',el).onclick=()=>api.onNew&&api.onNew();
  const ts=$('.tsel',el);if(ts)ts.onchange=()=>{setTopic(ts.value);toast('Topic: '+(TOPICS[ts.value]?TOPICS[ts.value].name:'All topics'));api.onNew&&api.onNew();};
  return api;}
@@ -544,7 +557,7 @@ function shell(el,id,how,{topic=true}={}){const g=GAMES.find(x=>x.id===id);
 /* ================= HOME ================= */
 function renderHome(el){const r=rankInfo(S.points);
  el.innerHTML=`<section class="hero"><span class="floaty" style="right:6%;top:14%">💾</span><span class="floaty" style="right:20%;top:56%;animation-delay:-2s">🖥️</span><span class="floaty" style="right:34%;top:10%;animation-delay:-4s">🔐</span>
- <h1>Year 9 ICT Games Arcade</h1><p>Play games, earn stars and master everything from Term 1: files, devices, storage, operating systems, updates and licences.</p>
+ <h1>Year 9 ICT Games Arcade</h1><p>Play games, earn stars and master everything from Term 1: files, devices, storage, operating systems, updates and licences. Every game has 🟢 Easy, 🟡 Medium and 🔴 Hard levels.</p>
  <div class="namebox"><input id="nm" placeholder="Type your name" maxlength="24" value="${esc(S.name)}"><span style="font-weight:900">${S.name?'👋 Hi '+esc(S.name)+'!':'Add your name to save your progress on this computer.'}</span></div>
  <div class="rank"><b>🏅 Rank: ${r.name}</b> &nbsp;•&nbsp; ⭐ ${S.points} points${r.next?` &nbsp;•&nbsp; ${r.next[0]-S.points} more for ${r.next[1]}`:''}<div class="bar"><i style="width:${r.pct}%"></i></div></div></section>
  <div class="sec"><h2>1. Pick a topic</h2><span>Every game uses the topic you choose.</span></div>
@@ -562,19 +575,22 @@ function renderWords(el){el.innerHTML=`<a href="#" class="back">← Back to the 
 
 /* ================= GAME 1: MAZE ================= */
 function gameMaze(el){
- const sh=shell(el,'maze','Use the arrow keys, WASD or the buttons. Answer a question to open each 🔒 door. Collect 💠 data chips for key word facts.');
+ const sh=shell(el,'maze','Use the arrow keys, WASD or the buttons. Answer a question to open each 🔒 door. Collect 💠 data chips for key word facts.',{levels:{easy:'Small maze with 6 locked doors and 10 data chips. Questions have 3 choices.',medium:'Bigger maze with 10 locked doors and 16 data chips.',hard:'Huge maze with 14 locked doors and 24 data chips. You have 20 seconds to answer each question.'}});
+ const CFG={easy:{C:11,R:8,D:6,F:10},medium:{C:15,R:11,D:10,F:16},hard:{C:21,R:15,D:14,F:24}};
  sh.body.innerHTML=`<div class="mazewrap"><div><canvas></canvas></div><div class="side"><div class="dpad"><span></span><button data-d="n">▲</button><span></span><button data-d="w">◀</button><span></span><button data-d="e">▶</button><span></span><button data-d="s">▼</button><span></span></div><div class="fact"><b>💠 Data chip facts</b><span id="factTxt">Collect a data chip to learn a key word.</span></div><div class="panel legend">🤖 You &nbsp; 🔒 Locked door<br>💠 Data chip (+5) &nbsp; 🖥️ Server (finish)</div></div></div>`;
  const canvas=$('canvas',sh.body),ctx=canvas.getContext('2d');
  const DIRS={n:[0,-1],e:[1,0],s:[0,1],w:[-1,0]};
- let C=15,R=11,cells,doors,chips,pl,an,cs,dpr,t0,wrong,score,done,busy,raf,tick,kwB=[];
+ let C=15,R=11,ND=10,NF=16,cells,doors,chips,pl,an,cs,dpr,t0,wrong,score,done,busy,raf,tick,kwB=[];
  function nextKw(){if(!kwB.length)kwB=shuffle(kwPool(6));return kwB.pop();}
  function gen(){cells=[...Array(R)].map(()=>[...Array(C)].map(()=>({n:1,e:1,s:1,w:1,v:0})));const st=[[0,0]];cells[0][0].v=1;const opp={n:'s',s:'n',e:'w',w:'e'};
   while(st.length){const [x,y]=st[st.length-1];const nb=Object.entries(DIRS).filter(([d,[dx,dy]])=>{const nx=x+dx,ny=y+dy;return nx>=0&&ny>=0&&nx<C&&ny<R&&!cells[ny][nx].v;});if(!nb.length){st.pop();continue;}const [d,[dx,dy]]=pick(nb);cells[y][x][d]=0;cells[y+dy][x+dx][opp[d]]=0;cells[y+dy][x+dx].v=1;st.push([x+dx,y+dy]);}
   const prev={},seen={'0,0':1},q=[[0,0]];while(q.length){const [x,y]=q.shift();if(x===C-1&&y===R-1)break;for(const [d,[dx,dy]] of Object.entries(DIRS)){if(cells[y][x][d])continue;const k=(x+dx)+','+(y+dy);if(seen[k])continue;seen[k]=1;prev[k]=[x,y];q.push([x+dx,y+dy]);}}
   const path=[];let cur=[C-1,R-1];while(cur){path.unshift(cur);cur=prev[cur[0]+','+cur[1]];}
-  doors=new Set();[.2,.4,.6,.8].forEach(f=>{const p=path[Math.max(1,Math.floor(path.length*f))];doors.add(p[0]+','+p[1]);});
-  const on=new Set(path.map(p=>p.join(',')));const dead=[];for(let y=0;y<R;y++)for(let x=0;x<C;x++){const c=cells[y][x];if(['n','e','s','w'].filter(d=>!c[d]).length===1&&!on.has(x+','+y))dead.push(x+','+y);}
-  chips=new Map();shuffle(dead).slice(0,6).forEach(k=>chips.set(k,nextKw()));}
+  doors=new Set();const nd=Math.min(ND,path.length-2);for(let i=1;i<=nd;i++){const p=path[Math.max(1,Math.min(path.length-2,Math.round(i*(path.length-1)/(nd+1))))];doors.add(p.join(','));}
+  const on=new Set(path.map(p=>p.join(',')));const ban=new Set([...doors,'0,0',(C-1)+','+(R-1)]);const dead=[],off=[],onp=[];
+  for(let y=0;y<R;y++)for(let x=0;x<C;x++){const k=x+','+y;if(ban.has(k))continue;const c=cells[y][x];if(on.has(k))onp.push(k);else if(['n','e','s','w'].filter(d=>!c[d]).length===1)dead.push(k);else off.push(k);}
+  const nOn=Math.round(NF*.3);const picks=[...shuffle(onp).slice(0,nOn)];for(const k of [...shuffle(dead),...shuffle(off)]){if(picks.length>=NF)break;picks.push(k);}
+  chips=new Map();picks.forEach(k=>chips.set(k,nextKw()));}
  function size(){const w=canvas.parentElement.clientWidth;cs=Math.floor(w/C);dpr=window.devicePixelRatio||1;canvas.width=cs*C*dpr;canvas.height=cs*R*dpr;canvas.style.height=(cs*R)+'px';}
  function emoji(e,x,y,s){ctx.font=`${s}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(e,x,y);}
  function draw(ts){ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#14123a';ctx.fillRect(0,0,C*cs,R*cs);
@@ -588,15 +604,15 @@ function gameMaze(el){
   ctx.stroke();ctx.shadowBlur=0;
   an.x+=(pl.x-an.x)*.3;an.y+=(pl.y-an.y)*.3;const bob=Math.sin(ts/180)*cs*.04;emoji('🤖',(an.x+.5)*cs,(an.y+.5)*cs+bob,cs*.7);
   raf=requestAnimationFrame(draw);}
- function stat(){sh.stats([['Time',fmtT(done?done:(Date.now()-t0)/1000)],['Doors left',doors.size],['Chips',`${6-chips.size} / 6`],['Wrong answers',wrong],['Score',score]]);}
+ function stat(){sh.stats([['Time',fmtT(done?done:(Date.now()-t0)/1000)],['Doors left',doors.size],['Chips',`${NF-chips.size} / ${NF}`],['Wrong answers',wrong],['Score',score]]);}
  async function move(d){if(done||busy||modalOpen())return;const [dx,dy]=DIRS[d];if(cells[pl.y][pl.x][d]){beep('tick');return;}const nx=pl.x+dx,ny=pl.y+dy,k=nx+','+ny;
-  if(doors.has(k)){busy=true;const ok=await ask();busy=false;if(!ok){wrong++;toast('The door stays locked. Try again!','bad');stat();return;}doors.delete(k);score+=10;addPoints(10);toast('🔓 Door unlocked! +10','good');}
+  if(doors.has(k)){busy=true;const ok=await ask(null,sh.level);busy=false;if(!ok){wrong++;toast('The door stays locked. Try again!','bad');stat();return;}doors.delete(k);score+=10;addPoints(10);toast('🔓 Door unlocked! +10','good');}
   pl.x=nx;pl.y=ny;
   if(chips.has(k)){const f=chips.get(k);chips.delete(k);score+=5;addPoints(5);beep('pop');$('#factTxt',sh.body).innerHTML=`<b style="font-size:22px">${f.s}</b>${esc(f.d)}`;}
   if(nx===C-1&&ny===R-1)win();stat();}
- function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const bonus=Math.max(0,60-Math.floor(done/5));score+=bonus;addPoints(bonus);const stars=wrong===0&&chips.size===0?3:wrong<=2?2:1;const nb=setBest('maze',score,stars);
-  setTimeout(()=>result({emoji:'🖥️',title:'Server reached!',stars,lines:[`Time: ${fmtT(done)} • Wrong answers: ${wrong}`,`Data chips: ${6-chips.size} of 6 • Speed bonus: +${bonus}`,`Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
- function start(){gen();pl={x:0,y:0};an={x:0,y:0};t0=Date.now();wrong=0;score=0;done=0;busy=false;$('#factTxt',sh.body).textContent='Collect a data chip to learn a key word.';size();stat();}
+ function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const bonus=Math.max(0,{easy:40,medium:60,hard:90}[sh.level]-Math.floor(done/5));score+=bonus;addPoints(bonus);const stars=wrong===0&&chips.size===0?3:wrong<=2?2:1;const nb=setBest('maze',score,stars);
+  setTimeout(()=>result({emoji:'🖥️',title:'Server reached!',stars,lines:[`Time: ${fmtT(done)} • Wrong answers: ${wrong}`,`Data chips: ${NF-chips.size} of ${NF} • Speed bonus: +${bonus}`,`Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
+ function start(){const cf=CFG[sh.level];C=cf.C;R=cf.R;ND=cf.D;NF=cf.F;kwB=[];gen();pl={x:0,y:0};an={x:0,y:0};t0=Date.now();wrong=0;score=0;done=0;busy=false;$('#factTxt',sh.body).textContent='Collect a data chip to learn a key word.';size();stat();}
  const key=e=>{const m={ArrowUp:'n',ArrowDown:'s',ArrowLeft:'w',ArrowRight:'e',w:'n',s:'s',a:'w',d:'e',W:'n',S:'s',A:'w',D:'e'}[e.key];if(m&&!modalOpen()){e.preventDefault();move(m);}};
  document.addEventListener('keydown',key);
  $$('.dpad button',sh.body).forEach(b=>b.onclick=()=>move(b.dataset.d));
@@ -608,17 +624,19 @@ function gameMaze(el){
 
 /* ================= GAME 2: WORD SEARCH ================= */
 function gameSearch(el){
- const sh=shell(el,'search','Read each meaning, then drag across the letters to find the key word. Words go across, down or diagonally.');
- const N=12;let grid,words,t0,done,hard=false,showW=false,tick,sel=null;
- const cols=['#6c3cff','#ff4d8d','#16b981','#ff8a3d','#2d9cff','#e11d48','#0ea5a4','#8b5cf6'];
- sh.body.innerHTML=`<div class="wswrap"><div class="wsgrid"></div><div class="panel"><div style="display:flex;gap:8px;flex-wrap:wrap"><div class="seg"><button data-m="0" class="on">Normal</button><button data-m="1">Hard (backwards too)</button></div><button class="btn ghost" id="showW" style="padding:8px 12px">👀 Show the words</button></div><ol class="clues"></ol></div></div>`;
+ const sh=shell(el,'search','Read each meaning, then drag across the letters to find the key word.',{levels:{easy:'10 × 10 grid with 6 words going across or down. The words are shown next to their meanings.',medium:'12 × 12 grid with 8 words going across, down or diagonally. Meanings only.',hard:'14 × 14 grid with 10 words hidden in any direction, even backwards. Meanings only.'}});
+ const ALL8=[[1,0],[0,1],[1,1],[1,-1],[-1,0],[0,-1],[-1,-1],[-1,1]];
+ const CFG={easy:{N:10,W:6,dirs:[[1,0],[0,1]],show:true},medium:{N:12,W:8,dirs:[[1,0],[0,1],[1,1]]},hard:{N:14,W:10,dirs:ALL8}};
+ let N=12,cf=CFG.medium,grid,words,t0,done,showW=false,usedShow=false,tick,sel=null;
+ const cols=['#6c3cff','#ff4d8d','#16b981','#ff8a3d','#2d9cff','#e11d48','#0ea5a4','#8b5cf6','#d97706','#db2777'];
+ sh.body.innerHTML=`<div class="wswrap"><div class="wsgrid"></div><div class="panel"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" id="showW" style="padding:8px 12px">👀 Show the words (fewer stars)</button></div><ol class="clues"></ol></div></div>`;
  const g=$('.wsgrid',sh.body),cl=$('.clues',sh.body);
- function fit(){const w=Math.min(sh.body.clientWidth-26,560);g.style.setProperty('--ws',Math.max(22,Math.floor((w-20-3*11)/12))+'px');}
- function build(){const dirs=hard?[[1,0],[0,1],[1,1],[1,-1],[-1,0],[0,-1],[-1,-1],[-1,1]]:[[1,0],[0,1],[1,1]];
+ function fit(){const w=Math.min(sh.body.clientWidth-26,N>12?620:560);g.style.gridTemplateColumns=`repeat(${N},var(--ws))`;g.style.setProperty('--ws',Math.max(20,Math.min(46,Math.floor((w-20-3*(N-1))/N)))+'px');}
+ function build(){const dirs=cf.dirs,W=cf.W;
   for(let attempt=0;attempt<20;attempt++){grid=[...Array(N)].map(()=>Array(N).fill(''));words=[];
-   for(const k of shuffle(kwPool(8).filter(k=>k.w.length<=N))){if(words.length>=8)break;const w=k.w;
-    for(let t=0;t<300;t++){const [dx,dy]=pick(dirs),x0=rand(N),y0=rand(N),x1=x0+dx*(w.length-1),y1=y0+dy*(w.length-1);if(x1<0||x1>=N||y1<0||y1>=N)continue;let ok=true;for(let i=0;i<w.length;i++){const c=grid[y0+dy*i][x0+dx*i];if(c&&c!==w[i]){ok=false;break;}}if(!ok)continue;for(let i=0;i<w.length;i++)grid[y0+dy*i][x0+dx*i]=w[i];words.push({...k,x0,y0,x1,y1,found:false,col:cols[words.length%8]});break;}}
-   if(words.length>=Math.min(8,kwPool(8).length))break;}
+   for(const k of shuffle(kwPool(W).filter(k=>k.w.length<=N))){if(words.length>=W)break;const w=k.w;
+    for(let t=0;t<300;t++){const [dx,dy]=pick(dirs),x0=rand(N),y0=rand(N),x1=x0+dx*(w.length-1),y1=y0+dy*(w.length-1);if(x1<0||x1>=N||y1<0||y1>=N)continue;let ok=true;for(let i=0;i<w.length;i++){const c=grid[y0+dy*i][x0+dx*i];if(c&&c!==w[i]){ok=false;break;}}if(!ok)continue;for(let i=0;i<w.length;i++)grid[y0+dy*i][x0+dx*i]=w[i];words.push({...k,x0,y0,x1,y1,found:false,col:cols[words.length%10]});break;}}
+   if(words.length>=Math.min(W,kwPool(W).filter(k=>k.w.length<=N).length))break;}
   const L='ABCDEFGHIJKLMNOPRSTUVWY';for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(!grid[y][x])grid[y][x]=pick(L);}
  function render(){g.innerHTML=grid.map((r,y)=>r.map((c,x)=>`<span data-x="${x}" data-y="${y}">${c}</span>`).join('')).join('');
   words.filter(w=>w.found).forEach(paint);clues();}
@@ -632,15 +650,15 @@ function gameSearch(el){
  const cellAt=e=>{const t=document.elementFromPoint(e.clientX,e.clientY);return t&&t.parentElement===g?t:null;};
  g.addEventListener('pointerdown',e=>{if(done)return;const c=cellAt(e);if(!c)return;g.setPointerCapture(e.pointerId);sel={x0:+c.dataset.x,y0:+c.dataset.y,x1:+c.dataset.x,y1:+c.dataset.y};hi();});
  g.addEventListener('pointermove',e=>{if(!sel)return;const c=cellAt(e);if(!c)return;[sel.x1,sel.y1]=snap(+c.dataset.x,+c.dataset.y);hi();});
- const up=()=>{if(!sel)return;const s=sel;sel=null;hi();const w=words.find(w=>!w.found&&((w.x0===s.x0&&w.y0===s.y0&&w.x1===s.x1&&w.y1===s.y1)||(w.x0===s.x1&&w.y0===s.y1&&w.x1===s.x0&&w.y1===s.y0)));
-  if(w){w.found=true;paint(w);clues();beep('good');addPoints(5);toast(`Found ${w.s}! +5`,'good');stat();if(words.every(w=>w.found))win();}else if(s.x0!==s.x1||s.y0!==s.y1)beep('tick');};
+ const up=()=>{if(!sel)return;const s=sel;sel=null;hi();const str=cellsOf(s.x0,s.y0,s.x1,s.y1).map(([x,y])=>grid[y][x]).join('');const rev=[...str].reverse().join('');
+  const w=str.length>1&&words.find(w=>!w.found&&(w.w===str||w.w===rev));
+  if(w){if(w.w===str){w.x0=s.x0;w.y0=s.y0;w.x1=s.x1;w.y1=s.y1;}else{w.x0=s.x1;w.y0=s.y1;w.x1=s.x0;w.y1=s.y0;}w.found=true;paint(w);clues();beep('good');addPoints(5);toast(`Found ${w.s}! +5`,'good');stat();if(words.every(w=>w.found))win();}else if(s.x0!==s.x1||s.y0!==s.y1)beep('tick');};
  g.addEventListener('pointerup',up);g.addEventListener('pointercancel',()=>{sel=null;hi();});
- function stat(){sh.stats([['Found',`${words.filter(w=>w.found).length} / ${words.length}`],['Time',fmtT(done||(Date.now()-t0)/1000)],['Mode',hard?'Hard':'Normal']]);}
- function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const bonus=(hard?30:15)+Math.max(0,40-Math.floor(done/6));const total=words.length*5+bonus;addPoints(bonus);const stars=showW?1:done<240?3:2;const nb=setBest('search',total,stars);
-  setTimeout(()=>result({emoji:'🔎',title:'All words found!',stars,lines:[`Time: ${fmtT(done)}${showW?' (with words shown)':''}`,`Score: ${total}${nb?' 🎉 New best!':''}`],again:start}),700);}
- function start(){done=0;t0=Date.now();showW=false;$('#showW',sh.body).textContent='👀 Show the words';fit();build();render();stat();}
- $$('.seg button',sh.body).forEach(b=>b.onclick=()=>{hard=b.dataset.m==='1';$$('.seg button',sh.body).forEach(x=>x.classList.toggle('on',x===b));start();});
- $('#showW',sh.body).onclick=e=>{showW=!showW;e.target.textContent=showW?'🙈 Hide the words':'👀 Show the words';clues();};
+ function stat(){sh.stats([['Found',`${words.filter(w=>w.found).length} / ${words.length}`],['Time',fmtT(done||(Date.now()-t0)/1000)],['Level',LVN[sh.level]]]);}
+ function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const bonus={easy:10,medium:20,hard:35}[sh.level]+Math.max(0,40-Math.floor(done/6));const total=words.length*5+bonus;addPoints(bonus);const stars=usedShow?1:done<240?3:2;const nb=setBest('search',total,stars);
+  setTimeout(()=>result({emoji:'🔎',title:'All words found!',stars,lines:[`Time: ${fmtT(done)}${usedShow?' (with words shown)':''}`,`Score: ${total}${nb?' 🎉 New best!':''}`],again:start}),700);}
+ function start(){cf=CFG[sh.level];N=cf.N;done=0;t0=Date.now();showW=!!cf.show;usedShow=false;const sb=$('#showW',sh.body);sb.style.display=cf.show?'none':'';sb.textContent='👀 Show the words (fewer stars)';fit();build();render();stat();}
+ $('#showW',sh.body).onclick=e=>{showW=!showW;if(showW)usedShow=true;e.target.textContent=showW?'🙈 Hide the words':'👀 Show the words (fewer stars)';clues();};
  const rs=()=>fit();window.addEventListener('resize',rs);
  sh.onNew=start;start();tick=setInterval(()=>{if(!done)stat();},1000);
  return ()=>{clearInterval(tick);window.removeEventListener('resize',rs);};
@@ -648,7 +666,7 @@ function gameSearch(el){
 
 /* ================= GAME 3: CONNECT 4 ================= */
 function gameConnect(el){
- const sh=shell(el,'connect','Click a column, then answer the question. Correct: your counter drops in. Wrong: you lose your turn. Four in a row wins!');
+ const sh=shell(el,'connect','Click a column, then answer the question. Correct: your counter drops in. Wrong: you lose your turn. Four in a row wins!',{levels:{easy:'A relaxed computer that makes mistakes. Questions have 3 choices.',medium:'The computer blocks your lines and takes its chances.',hard:'A clever computer that plans its lines. You have 20 seconds to answer each question.'}});
  let mode='cpu',b,turn,over,busy,tally=store.get('c4tally',{w:0,l:0,d:0});
  sh.body.innerHTML=`<div class="panel c4area"><div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:8px"><div class="seg"><button data-m="cpu" class="on">🤖 Play the computer</button><button data-m="2p">👥 Two players</button></div></div><div class="status"></div><div class="arrows">${'<span>⬇️</span>'.repeat(7)}</div><div class="c4">${Array.from({length:42},(_,i)=>`<div class="hole" data-c="${i%7}" data-r="${Math.floor(i/7)}"></div>`).join('')}</div></div>`;
  const board=$('.c4',sh.body),arrows=$('.arrows',sh.body),status=$('.status',sh.body);
@@ -662,9 +680,13 @@ function gameConnect(el){
  function drop(c,p){const r=lowest(c);b[r][c]=p;const d=document.createElement('div');d.className='disc p'+p;hole(r,c).appendChild(d);beep('drop');
   return d.animate([{transform:`translateY(${-(r+1)*115}%)`},{transform:'translateY(0)',offset:.75},{transform:'translateY(-12%)',offset:.87},{transform:'translateY(0)'}],{duration:380+r*70,easing:'ease-in'}).finished.catch(()=>{});}
  function cpuCol(){const valid=[0,1,2,3,4,5,6].filter(c=>lowest(c)>=0);const test=(c,p)=>{const r=lowest(c);b[r][c]=p;const w=!!winLine(b,p);b[r][c]=0;return w;};
+  const lv=sh.level;
+  if(lv==='easy'){if(Math.random()<.5)for(const c of valid)if(test(c,2))return c;if(Math.random()<.3)for(const c of valid)if(test(c,1))return c;return Math.random()<.6?pick(valid):[3,2,4,1,5,0,6].find(c=>valid.includes(c));}
   for(const c of valid)if(test(c,2))return c;for(const c of valid)if(test(c,1))return c;
   const safe=valid.filter(c=>{const r=lowest(c);b[r][c]=2;let bad=false;if(r>0){b[r-1][c]=1;bad=!!winLine(b,1);b[r-1][c]=0;}b[r][c]=0;return !bad;});const pool2=safe.length?safe:valid;
+  if(lv==='hard'){let best=-1e9,bc=pool2[0];for(const c of pool2){const r=lowest(c);b[r][c]=2;const sc=evalB(2)-evalB(1)*1.2+(3-Math.abs(3-c))*3+Math.random();b[r][c]=0;if(sc>best){best=sc;bc=c;}}return bc;}
   if(Math.random()<.65){for(const c of [3,2,4,1,5,0,6])if(pool2.includes(c))return c;}return pick(pool2);}
+ function evalB(p){let s=0;const D=[[0,1],[1,0],[1,1],[1,-1]];for(let r=0;r<6;r++)for(let c=0;c<7;c++)for(const [dr,dc] of D){let mine=0,emp=0,ok=true;for(let i=0;i<4;i++){const rr=r+dr*i,cc=c+dc*i;if(rr<0||rr>5||cc<0||cc>6){ok=false;break;}const v=b[rr][cc];if(v===p)mine++;else if(v===0)emp++;else{ok=false;break;}}if(ok){if(mine===3&&emp===1)s+=40;else if(mine===2&&emp===2)s+=6;}}return s;}
  function check(p){const L=winLine(b,p);const n=names();
   if(L){over=true;L.forEach(([r,c])=>hole(r,c).firstChild.classList.add('win'));
    if(mode==='cpu'){if(p===1){tally.w++;addPoints(30);beep('win');confetti();setBest('connect',tally.w,Math.min(3,tally.w));status.innerHTML='🎉 You win! +30';}else{tally.l++;beep('bad');status.innerHTML='🤖 The computer wins this time.';}store.set('c4tally',tally);}
@@ -673,7 +695,7 @@ function gameConnect(el){
   if(b.every(r=>r.every(x=>x))){over=true;if(mode==='cpu'){tally.d++;store.set('c4tally',tally);addPoints(10);}status.innerHTML='🤝 It is a draw!';stat();setTimeout(()=>result({emoji:'🤝',title:'A draw!',lines:['The board is full.'],again:start}),900);return true;}
   return false;}
  async function cpuTurn(){busy=true;setStatus();await new Promise(r=>setTimeout(r,450));if(over){busy=false;return;}await drop(cpuCol(),2);if(!check(2)){turn=1;setStatus();}busy=false;}
- async function choose(c){if(over||busy||lowest(c)<0)return;if(mode==='cpu'&&turn!==1)return;busy=true;const ok=await ask();const n=names();
+ async function choose(c){if(over||busy||lowest(c)<0)return;if(mode==='cpu'&&turn!==1)return;busy=true;const ok=await ask(null,sh.level);const n=names();
   if(ok){await drop(c,turn);if(check(turn)){busy=false;return;}}else toast(`${n[turn]} answered wrong and loses the turn!`,'bad');
   turn=3-turn;busy=false;if(mode==='cpu'&&turn===2)cpuTurn();else setStatus();}
  $$('.hole',board).forEach(h=>{h.onclick=()=>choose(+h.dataset.c);h.onmouseenter=()=>{$$('span',arrows).forEach((a,i)=>a.classList.toggle('on',i===+h.dataset.c));};});
@@ -686,7 +708,7 @@ function gameConnect(el){
 
 /* ================= GAME 4: NOUGHTS AND CROSSES ================= */
 function gameTTT(el){
- const sh=shell(el,'ttt','Pick a square and answer its question. Right: you claim it with an X. Wrong: the computer steals it with an O!');
+ const sh=shell(el,'ttt','Pick a square and answer its question. Right: you claim it with an X. Wrong: the computer steals it with an O!',{levels:{easy:'A relaxed computer that often picks random squares. Questions have 3 choices.',medium:'The computer blocks your lines.',hard:'A very smart computer that rarely slips up. You have 20 seconds to answer each question.'}});
  let b,over,busy,tally=store.get('ttttally',{w:0,l:0,d:0});
  sh.body.innerHTML=`<div class="panel"><div class="status"></div><div class="ttt">${Array.from({length:9},(_,i)=>`<button data-i="${i}">?</button>`).join('')}</div></div>`;
  const status=$('.status',sh.body),sq=$$('.ttt button',sh.body);
@@ -695,7 +717,11 @@ function gameTTT(el){
  const O='<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" stroke="#ff4d8d"/></svg>';
  function place(i,p){b[i]=p;sq[i].innerHTML=p==='X'?X:O;sq[i].classList.add('taken');beep(p==='X'?'pop':'drop');}
  const winOf=p=>LINES.find(L=>L.every(i=>b[i]===p));
+ function mm(p){if(winOf('O'))return {s:1};if(winOf('X'))return {s:-1};const free=b.map((v,i)=>v?null:i).filter(i=>i!==null);if(!free.length)return {s:0};let best={s:p==='O'?-2:2};for(const i of free){b[i]=p;const r=mm(p==='O'?'X':'O');b[i]=null;if(p==='O'?r.s>best.s:r.s<best.s)best={s:r.s,i};}return best;}
  function cpuMove(){const free=b.map((v,i)=>v?null:i).filter(i=>i!==null);const tryW=p=>free.find(i=>{b[i]=p;const w=!!winOf(p);b[i]=null;return w;});
+  const lv=sh.level;
+  if(lv==='easy'){const w=Math.random()<.5?tryW('O'):undefined;return w!==undefined?w:pick(free);}
+  if(lv==='hard'&&Math.random()<.85){const r=mm('O');if(r.i!==undefined)return r.i;}
   let m=tryW('O');if(m===undefined)m=tryW('X');if(m===undefined&&Math.random()<.25)m=pick(free);if(m===undefined&&!b[4])m=4;if(m===undefined){const cn=[0,2,6,8].filter(i=>!b[i]);m=cn.length?pick(cn):pick(free);}return m;}
  function stat(){sh.stats([['Wins',tally.w],['Losses',tally.l],['Draws',tally.d]]);}
  function end(){const wx=winOf('X'),wo=winOf('O');const full=b.every(v=>v);if(!wx&&!wo&&!full)return false;over=true;
@@ -703,7 +729,7 @@ function gameTTT(el){
   else if(wo){wo.forEach(i=>sq[i].classList.add('win'));tally.l++;beep('bad');status.textContent='🤖 The computer got three in a row.';}
   else{tally.d++;addPoints(5);status.textContent='🤝 It is a draw! +5';}
   store.set('ttttally',tally);stat();setTimeout(()=>result({emoji:wx?'🏆':wo?'🤖':'🤝',title:wx?'You win!':wo?'The computer wins!':'A draw!',lines:[`Wins ${tally.w} • Losses ${tally.l} • Draws ${tally.d}`],again:start}),1300);return true;}
- sq.forEach((s,i)=>s.onclick=async()=>{if(over||busy||b[i])return;busy=true;const ok=await ask();
+ sq.forEach((s,i)=>s.onclick=async()=>{if(over||busy||b[i])return;busy=true;const ok=await ask(null,sh.level);
   if(ok){place(i,'X');status.textContent='✅ Square claimed!';if(end()){busy=false;return;}status.textContent='🤖 The computer is choosing…';await new Promise(r=>setTimeout(r,650));place(cpuMove(),'O');if(!end())status.textContent='Your turn: pick a square.';}
   else{place(i,'O');toast('Wrong! The computer steals that square.','bad');if(!end())status.textContent='Your turn: pick a square.';}
   busy=false;});
@@ -713,28 +739,27 @@ function gameTTT(el){
 
 /* ================= GAME 5: MEMORY ================= */
 function gameMemory(el){
- const sh=shell(el,'memory','Flip two cards at a time. Match each key word with its meaning. Fewer moves means more stars!');
+ const sh=shell(el,'memory','Flip two cards at a time. Match each key word with its meaning. Fewer moves means more stars!',{levels:{easy:'4 pairs. Cards stay face up for longer.',medium:'6 pairs.',hard:'8 pairs. Cards flip back quickly, so concentrate!'}});
  let pairs=6,cards,open,moves,matched,t0,done,lock,tick;
- sh.body.innerHTML=`<div style="display:flex;justify-content:center;margin-bottom:14px"><div class="seg"><button data-n="4">Easy (4 pairs)</button><button data-n="6" class="on">Medium (6 pairs)</button><button data-n="8">Hard (8 pairs)</button></div></div><div class="mgrid"></div>`;
+ sh.body.innerHTML=`<div class="mgrid"></div>`;
  const gEl=$('.mgrid',sh.body);
  function stat(){sh.stats([['Moves',moves],['Pairs',`${matched} / ${pairs}`],['Time',fmtT(done||(Date.now()-t0)/1000)]]);}
- function start(){const ks=shuffle(kwPool(pairs)).slice(0,pairs);cards=shuffle(ks.flatMap((k,i)=>[{id:i,w:1,txt:k.s,t:k.t},{id:i,w:0,txt:k.d,t:k.t}]));open=[];moves=0;matched=0;t0=Date.now();done=0;lock=false;
+ function start(){pairs={easy:4,medium:6,hard:8}[sh.level];const ks=shuffle(kwPool(pairs)).slice(0,pairs);cards=shuffle(ks.flatMap((k,i)=>[{id:i,w:1,txt:k.s,t:k.t},{id:i,w:0,txt:k.d,t:k.t}]));open=[];moves=0;matched=0;t0=Date.now();done=0;lock=false;
   gEl.innerHTML=cards.map((c,i)=>`<button class="mcard" data-i="${i}"><div class="in"><div class="face back">❔</div><div class="face front ${c.w?'w':''}">${esc(c.txt)}</div></div></button>`).join('');
   $$('.mcard',gEl).forEach(m=>m.onclick=()=>flip(+m.dataset.i,m));stat();}
  function flip(i,m){if(lock||done||m.classList.contains('open')||m.classList.contains('done'))return;m.classList.add('open');beep('tick');open.push([i,m]);
   if(open.length===2){moves++;lock=true;const [[a,ma],[c,mc]]=open;open=[];
    if(cards[a].id===cards[c].id){setTimeout(()=>{ma.classList.add('done');mc.classList.add('done');beep('good');matched++;addPoints(3);lock=false;stat();if(matched===pairs)win();},450);}
-   else setTimeout(()=>{ma.classList.remove('open');mc.classList.remove('open');lock=false;stat();},1000);}stat();}
+   else setTimeout(()=>{ma.classList.remove('open');mc.classList.remove('open');lock=false;stat();},{easy:1500,medium:1000,hard:650}[sh.level]);}stat();}
  function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const stars=moves<=pairs+2?3:moves<=pairs*2?2:1;const score=pairs*10+Math.max(0,pairs*6-moves*2);addPoints(stars*5);const nb=setBest('memory',score,stars);
   setTimeout(()=>result({emoji:'🃏',title:'All pairs matched!',stars,lines:[`${moves} moves • ${fmtT(done)}`,`Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
- $$('.seg button',sh.body).forEach(x=>x.onclick=()=>{pairs=+x.dataset.n;$$('.seg button',sh.body).forEach(y=>y.classList.toggle('on',y===x));start();});
  sh.onNew=start;start();tick=setInterval(()=>{if(!done)stat();},1000);return ()=>clearInterval(tick);
 }
 
 /* ================= GAME 6: CODE BREAKER ================= */
 function gameCode(el){
- const sh=shell(el,'code','Read the clue. Guess the key word one letter at a time by clicking or typing. Six wrong letters and the virus reaches the server!');
- const MAX=6;let word,guessed,wrong,over,hinted,streak=0,score=0,bag=[];
+ const sh=shell(el,'code','Read the clue. Guess the key word one letter at a time by clicking or typing. Too many wrong letters and the virus reaches the server!',{levels:{easy:'8 lives and the first letter is given to you.',medium:'6 lives and one hint per word.',hard:'Only 4 lives and no hints. Bonus points for every word.'}});
+ let MAX=6;let word,guessed,wrong,over,hinted,streak=0,score=0,bag=[];
  sh.body.innerHTML=`<div class="panel"><div class="track"><span class="virus">🦠</span><span class="shields"></span><span class="srv">🖥️</span></div><div class="clue"></div><div class="slots"></div><div class="kb"></div><div style="display:flex;gap:10px;justify-content:center;margin-top:16px"><button class="btn ghost" id="hint">💡 Hint (costs 5 points)</button><button class="btn g" id="nextW" style="display:none">Next word ➜</button></div></div>`;
  const tr=$('.track',sh.body),slots=$('.slots',sh.body),kb=$('.kb',sh.body);
  kb.innerHTML=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].map(r=>`<div>${[...r].map(l=>`<button data-l="${l}">${l}</button>`).join('')}</div>`).join('');
@@ -744,14 +769,15 @@ function gameCode(el){
  const solved=()=>[...word.s.toUpperCase()].filter(ch=>/[A-Z]/.test(ch)).every(ch=>guessed.has(ch));
  function guess(l){if(over||guessed.has(l))return;guessed.add(l);const btn=$(`[data-l="${l}"]`,kb);const hit=word.s.toUpperCase().includes(l);btn.classList.add(hit?'ok':'no');btn.disabled=true;
   if(hit){beep('pop');}else{wrong++;beep('bad');}draw();
-  if(solved()){over=true;streak++;const pts=10+(MAX-wrong)*2-(hinted?5:0);score+=pts;addPoints(pts);beep('win');confetti(80);toast(`Cracked it! +${pts}`,'good');setBest('code',score,streak>=5?3:streak>=3?2:1);finish();}
+  if(solved()){over=true;streak++;const pts=10+(MAX-wrong)*2-(hinted?5:0)+(sh.level==='hard'?8:0);score+=pts;addPoints(pts);beep('win');confetti(80);toast(`Cracked it! +${pts}`,'good');setBest('code',score,streak>=5?3:streak>=3?2:1);finish();}
   else if(wrong>=MAX){over=true;streak=0;tr.classList.add('hit');setTimeout(()=>tr.classList.remove('hit'),1300);toast(`The virus got in! The word was ${word.s.toUpperCase()}.`,'bad');draw(true);finish();}}
  function finish(){$('#nextW',sh.body).style.display='';$('#hint',sh.body).style.display='none';stat();}
- function next(){if(!bag.length)bag=shuffle(kwPool(5));word=bag.pop();guessed=new Set();wrong=0;over=false;hinted=false;
+ function next(){MAX={easy:8,medium:6,hard:4}[sh.level];if(!bag.length)bag=shuffle(kwPool(5));word=bag.pop();guessed=new Set();wrong=0;over=false;hinted=false;
   $('.clue',sh.body).innerHTML=`<span class="qtag" style="--c:${TOPICS[word.t].c}">${TOPICS[word.t].icon} ${TOPICS[word.t].name}</span><div style="margin-top:10px">${esc(word.d)}</div>`;
-  $$('button',kb).forEach(b=>{b.className='';b.disabled=false;});$('#nextW',sh.body).style.display='none';$('#hint',sh.body).style.display='';draw();}
+  $$('button',kb).forEach(b=>{b.className='';b.disabled=false;});$('#nextW',sh.body).style.display='none';$('#hint',sh.body).style.display=sh.level==='hard'?'none':'';draw();
+  if(sh.level==='easy'){const f=[...word.s.toUpperCase()].find(ch=>/[A-Z]/.test(ch));guess(f);}}
  $$('button',kb).forEach(b=>b.onclick=()=>guess(b.dataset.l));
- $('#hint',sh.body).onclick=()=>{if(over||hinted)return;const left=[...new Set([...word.s.toUpperCase()].filter(ch=>/[A-Z]/.test(ch)&&!guessed.has(ch)))];if(left.length<2){toast('No hints left for this word.');return;}hinted=true;guess(pick(left));};
+ $('#hint',sh.body).onclick=()=>{if(over||hinted||sh.level==='hard')return;const left=[...new Set([...word.s.toUpperCase()].filter(ch=>/[A-Z]/.test(ch)&&!guessed.has(ch)))];if(left.length<2){toast('No hints left for this word.');return;}hinted=true;guess(pick(left));};
  $('#nextW',sh.body).onclick=next;
  const key=e=>{if(modalOpen())return;if(/^[a-z]$/i.test(e.key))guess(e.key.toUpperCase());else if(e.key==='Enter'&&over)next();};document.addEventListener('keydown',key);
  sh.onNew=()=>{score=0;streak=0;bag=[];next();};sh.onNew();return ()=>document.removeEventListener('keydown',key);
@@ -759,15 +785,15 @@ function gameCode(el){
 
 /* ================= GAME 7: SORT IT ================= */
 function gameSort(el){
- const sh=shell(el,'sort','Drag the card into the right group, or click a group to drop it there. Sort every card to finish.');
- let set,deck,cur,tries,right,wrongN,t0,done,tick;
+ const sh=shell(el,'sort','Drag the card into the right group, or click a group to drop it there. Sort every card to finish.',{levels:{easy:'6 cards to sort. The right group glows after 1 mistake.',medium:'Every card. The right group glows after 2 mistakes.',hard:'Every card, no glowing help, and only 75 seconds on the clock.'}});
+ const HARDT=75;let set,deck,cur,tries,right,wrongN,t0,done,tick,total;
  sh.body.innerHTML=`<div class="panel"><div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:12px"><b>Choose a sorting challenge:</b><select class="tsel" id="setSel"></select></div><div class="deal"></div><div class="bins"></div></div>`;
  const deal=$('.deal',sh.body),binsEl=$('.bins',sh.body),selEl=$('#setSel',sh.body);
  const BC=['#6c3cff','#ff4d8d','#16b981','#ff8a3d','#2d9cff'];
  function sets(){const s=SORTS.filter(inTopic);return s.length?s:SORTS;}
  function fillSel(){selEl.innerHTML=sets().map(s=>`<option value="${s.id}">${TOPICS[s.t].icon} ${s.title}</option>`).join('');}
- function stat(){sh.stats([['Cards left',deck.length+(cur?1:0)],['Correct first time',right],['Mistakes',wrongN],['Time',fmtT(done||(Date.now()-t0)/1000)]]);}
- function start(){set=SORTS.find(s=>s.id===selEl.value)||sets()[0];deck=shuffle(set.items);right=0;wrongN=0;t0=Date.now();done=0;
+ function stat(){const el2=done||(Date.now()-t0)/1000;sh.stats([['Cards left',deck.length+(cur?1:0)],['Correct first time',right],['Mistakes',wrongN],[sh.level==='hard'?'Time left':'Time',sh.level==='hard'?fmtT(Math.max(0,HARDT-el2)):fmtT(el2)]]);}
+ function start(){set=SORTS.find(s=>s.id===selEl.value)||sets()[0];deck=shuffle(set.items);if(sh.level==='easy')deck=deck.slice(0,6);total=deck.length;right=0;wrongN=0;t0=Date.now();done=0;
   binsEl.innerHTML=set.bins.map((b,i)=>`<div class="bin" data-b="${i}" style="--bc:${BC[i]}"><h4>${b}<span class="n">0</span></h4><div class="tags"></div></div>`).join('');
   $$('.bin',binsEl).forEach(bn=>bn.onclick=()=>{if(cur)judge(+bn.dataset.b,null);});dealNext();}
  function dealNext(){cur=deck.pop();tries=0;$$('.bin',binsEl).forEach(b=>b.classList.remove('hint'));
@@ -778,53 +804,59 @@ function gameSort(el){
   function mv(e){card.style.left=(e.clientX-ox)+'px';card.style.top=(e.clientY-oy)+'px';}}
  function judge(i,card){const bn=binsEl.children[i];const ok=i===cur[1];bn.classList.remove('yes','no');void bn.offsetWidth;
   if(ok){bn.classList.add('yes');beep('good');if(tries===0){right++;addPoints(3);}$('.tags',bn).insertAdjacentHTML('beforeend',`<span>${esc(cur[0])}</span>`);$('.n',bn).textContent=$$('.tags span',bn).length;deal.innerHTML='';setTimeout(dealNext,250);}
-  else{bn.classList.add('no');beep('bad');wrongN++;tries++;if(tries>=2){binsEl.children[cur[1]].classList.add('hint');toast('Look for the glowing group.','bad');}else toast('Not that group. Try again!','bad');stat();}}
- function win(){done=(Date.now()-t0)/1000;cur=null;deal.innerHTML='<div class="status">🎉 Every card sorted!</div>';beep('win');confetti();const n=set.items.length;const stars=wrongN===0?3:wrongN<=2?2:1;const score=right*10+Math.max(0,30-Math.floor(done/4));addPoints(stars*5);const nb=setBest('sort',score,stars);stat();
+  else{bn.classList.add('no');beep('bad');wrongN++;tries++;if(tries>={easy:1,medium:2,hard:99}[sh.level]){binsEl.children[cur[1]].classList.add('hint');toast('Look for the glowing group.','bad');}else toast('Not that group. Try again!','bad');stat();}}
+ function win(){done=(Date.now()-t0)/1000;cur=null;deal.innerHTML='<div class="status">🎉 Every card sorted!</div>';beep('win');confetti();const n=total;const stars=wrongN===0?3:wrongN<=2?2:1;const score=right*10+Math.max(0,30-Math.floor(done/4));addPoints(stars*5);const nb=setBest('sort',score,stars);stat();
   setTimeout(()=>result({emoji:'🗂️',title:set.title+': sorted!',stars,lines:[`Right first time: ${right} of ${n} • Mistakes: ${wrongN}`,`Time: ${fmtT(done)} • Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
  selEl.onchange=start;
  sh.onNew=()=>{const keep=selEl.value;fillSel();if([...selEl.options].some(o=>o.value===keep))selEl.value=keep;start();};
- fillSel();start();tick=setInterval(()=>{if(!done)stat();},1000);return ()=>clearInterval(tick);
+ fillSel();start();tick=setInterval(()=>{if(done)return;stat();if(sh.level==='hard'&&(Date.now()-t0)/1000>=HARDT)timeUp();},1000);
+ function timeUp(){done=HARDT;const sorted=total-deck.length-(cur?1:0);cur=null;deal.innerHTML='<div class="status">⏰ Time is up!</div>';beep('bad');const stars=sorted===total?2:1;const score=right*10;setBest('sort',score,stars);stat();
+  result({emoji:'⏰',title:'Time is up!',stars,lines:[`You sorted ${sorted} of ${total} cards • Right first time: ${right}`,`Score: ${score}`],again:start});}
+ return ()=>clearInterval(tick);
 }
 
 /* ================= GAME 8: BUG SPLAT ================= */
 function gameBugs(el){
- const sh=shell(el,'bugs','Each bug carries a statement. Click to splat the bugs with FALSE statements (myths). Let the TRUE ones crawl away safely.');
- const LEN=60;let running=false,score,splats,oops,missed,saved,seen,timeLeft,spawnT,clockT,bag=[],timers=[];
- sh.body.innerHTML=`<div class="panel"><div class="timebar"><i style="width:100%"></i></div><div class="rules"><div>🐛 False statement: <b>splat it</b> (+10)</div><div>✅ True statement: <b>leave it</b> (+2)</div><div>⚠️ Splat a true fact: <b>−5</b></div></div><div class="bugs">${'<div class="hole2"></div>'.repeat(6)}</div><div style="text-align:center;margin-top:16px"><button class="btn p" id="go">▶ Start the round (60 seconds)</button></div></div>`;
+ const sh=shell(el,'bugs','Each bug carries a statement. Click to splat the bugs with FALSE statements (myths). Let the TRUE ones crawl away safely.',{levels:{easy:'90 seconds. Bugs stay up for longer, so you have time to read.',medium:'60 seconds.',hard:'60 seconds. Faster bugs, up to 3 at once, and −10 for splatting a true fact.'}});
+ const CFG={easy:{len:90,life:8500,max:2,every:2200,pen:5},medium:{len:60,life:6500,max:2,every:1700,pen:5},hard:{len:60,life:4500,max:3,every:1100,pen:10}};const cfg=()=>CFG[sh.level];
+ let LEN=60;let running=false,score,splats,oops,missed,saved,seen,timeLeft,spawnT,clockT,bag=[],timers=[];
+ sh.body.innerHTML=`<div class="panel"><div class="timebar"><i style="width:100%"></i></div><div class="rules"></div><div class="bugs">${'<div class="hole2"></div>'.repeat(6)}</div><div style="text-align:center;margin-top:16px"><button class="btn p" id="go">▶ Start the round (60 seconds)</button></div></div>`;
  const holes=$$('.hole2',sh.body),bar=$('.timebar i',sh.body),go=$('#go',sh.body);
+ function rules(){$('.rules',sh.body).innerHTML=`<div>🐛 False statement: <b>splat it</b> (+10)</div><div>✅ True statement: <b>leave it</b> (+2)</div><div>⚠️ Splat a true fact: <b>−${cfg().pen}</b></div>`;LEN=cfg().len;go.textContent=`▶ Start the round (${LEN} seconds)`;}
  function stat(){sh.stats([['Score',score||0],['Myths splatted',splats||0],['True facts splatted',oops||0],['Time',(timeLeft??LEN)+'s']]);}
  function nextS(){if(!bag.length){const p=pool(TF,6);const f=shuffle(p.filter(x=>!x.v)),t=shuffle(p.filter(x=>x.v));bag=shuffle([...f,...t.slice(0,Math.max(3,Math.round(f.length*.8)))]);}return bag.pop();}
- function spawn(){if(!running)return;const free=holes.filter(h=>!h.firstChild);const busyN=6-free.length;if(busyN>=2||!free.length)return;const h=pick(free);const s=nextS();seen.push(s);const life=6500;
+ function spawn(){if(!running)return;const free=holes.filter(h=>!h.firstChild);const busyN=6-free.length;if(busyN>=cfg().max||!free.length)return;const h=pick(free);const s=nextS();seen.push(s);const life=cfg().life;
   const bug=document.createElement('div');bug.className='bug';bug.innerHTML=`<span class="bi">${s.v?'🐞':'🐛'}</span>${esc(s.s)}<div class="life"><i style="animation-duration:${life}ms"></i></div>`;h.appendChild(bug);
   let gone=false;const kill=cls=>{gone=true;bug.classList.add(cls);setTimeout(()=>bug.remove(),cls==='oops'?600:400);};
-  bug.onclick=()=>{if(gone||!running)return;if(!s.v){score+=10;splats++;addPoints(2);beep('good');kill('splat');}else{score=Math.max(0,score-5);oops++;beep('bad');toast('That one was TRUE: '+s.s,'bad');kill('oops');setTimeout(()=>bug.classList.add('gone'),300);}stat();};
+  bug.onclick=()=>{if(gone||!running)return;if(!s.v){score+=10;splats++;addPoints(2);beep('good');kill('splat');}else{score=Math.max(0,score-cfg().pen);oops++;beep('bad');toast('That one was TRUE: '+s.s,'bad');kill('oops');setTimeout(()=>bug.classList.add('gone'),300);}stat();};
   timers.push(setTimeout(()=>{if(gone)return;if(s.v){score+=2;saved++;}else missed.push(s);kill('gone');stat();},life));}
- function start(){clear();running=true;score=0;splats=0;oops=0;missed=[];saved=0;seen=[];timeLeft=LEN;bag=[];go.style.display='none';bar.style.width='100%';stat();spawn();
-  spawnT=setInterval(spawn,1700);clockT=setInterval(()=>{timeLeft--;bar.style.width=(timeLeft/LEN*100)+'%';stat();if(timeLeft<=0)end();},1000);}
+ function start(){clear();rules();running=true;score=0;splats=0;oops=0;missed=[];saved=0;seen=[];timeLeft=LEN;bag=[];go.style.display='none';bar.style.width='100%';stat();spawn();
+  spawnT=setInterval(spawn,cfg().every);clockT=setInterval(()=>{timeLeft--;bar.style.width=(timeLeft/LEN*100)+'%';stat();if(timeLeft<=0)end();},1000);}
  function clear(){running=false;clearInterval(spawnT);clearInterval(clockT);timers.forEach(clearTimeout);timers=[];holes.forEach(h=>h.innerHTML='');}
  function end(){clear();go.style.display='';go.textContent='▶ Play again';beep('win');if(score>=60)confetti();const stars=oops===0&&missed.length<=1?3:oops<=2?2:1;const nb=setBest('bugs',score,stars);
   const myths=[...new Map(seen.filter(s=>!s.v).map(s=>[s.s,s])).values()];
   result({emoji:'🐛',title:'Time is up!',stars,lines:[`Score: ${score}${nb?' 🎉 New best!':''}`,`Myths splatted: ${splats} • True facts splatted: ${oops} • Myths missed: ${missed.length}`],listTitle:'Learn the facts behind the myths:',list:myths.map(s=>`<s>${esc(s.s)}</s><br>✅ ${esc(s.fix)}`),again:start});}
- go.onclick=start;sh.onNew=()=>{clear();go.style.display='';go.textContent='▶ Start the round (60 seconds)';timeLeft=LEN;score=0;splats=0;oops=0;bar.style.width='100%';stat();};
- stat();return clear;
+ go.onclick=start;sh.onNew=()=>{clear();go.style.display='';rules();timeLeft=LEN;score=0;splats=0;oops=0;bar.style.width='100%';stat();};
+ rules();stat();return clear;
 }
 
 /* ================= GAME 9: BIGGER OR SMALLER ================= */
 function gameBigger(el){
- const sh=shell(el,'bigger','Click the amount that holds MORE data. Remember: 1000 KB = 1 MB, 1000 MB = 1 GB, 1000 GB = 1 TB.',{topic:false});
+ const sh=shell(el,'bigger','Click the amount that holds MORE data. Remember: 1000 KB = 1 MB, 1000 MB = 1 GB, 1000 GB = 1 TB.',{topic:false,levels:{easy:'15 seconds per round. The amounts are far apart.',medium:'10 seconds per round.',hard:'6 seconds per round. The amounts are close, and some jump two units (such as KB against GB).'}});
+ const CFG={easy:{t:150,ms:[.2,.3,.4,2.5,3,4,5]},medium:{t:100,ms:[.4,.5,.6,.75,.8,1.2,1.25,1.5,2,3]},hard:{t:60,ms:[.6,.75,.8,.9,1.1,1.2,1.25,1.5],jump:true}};
  const U=['KB','MB','GB','TB'],ROUNDS=10;let round,score,streak,best,pair,answered,timer,tLeft;
  sh.body.innerHTML=`<div class="panel"><div class="ladder">${U.map((u,i)=>`<span>${u}</span>${i<3?'<span style="border:0;background:none">×1000 ➜</span>':''}`).join('')}</div><div class="timebar"><i style="width:100%"></i></div><div class="duel"><button class="amt" data-i="0"></button><div class="vs">OR</div><button class="amt" data-i="1"></button></div><div class="explain"></div><div style="text-align:center"><button class="btn g" id="nx" style="display:none">Next ➜</button></div></div>`;
  const bar=$('.timebar i',sh.body),A=$$('.amt',sh.body),ex=$('.explain',sh.body),nx=$('#nx',sh.body);
  const nice=v=>Number.isInteger(v)?v.toLocaleString('en-GB'):String(+v.toFixed(3));
- function gen(){const u=rand(3);const big=pick([1,1.5,2,2.5,3,4,5,8,10]);const m=pick([.4,.5,.6,.75,.8,1.2,1.25,1.5,2,3]);let small=Math.round(big*1000*m);if(Math.random()<.5)small=Math.round(small/50)*50;if(small===big*1000)small+=50;
-  let a={v:big,u:u+1},b={v:small,u};if(Math.random()<.18){b={v:pick([2,5,10,20,50,100,250,500,750]),u:u+1};if(b.v===a.v)b.v+=1;}
+ function gen(){const c=CFG[sh.level];const jump=c.jump&&Math.random()<.35;const step=jump?2:1;const u=rand(4-step);const big=pick([1,1.5,2,2.5,3,4,5,8,10]);const m=pick(c.ms);const f=Math.pow(1000,step);let small=Math.round(big*f*m);if(Math.random()<.5)small=Math.round(small/(jump?50000:50))*(jump?50000:50);if(small===big*f)small+=jump?50000:50;
+  let a={v:big,u:u+step},b={v:small,u};if(!jump&&sh.level!=='hard'&&Math.random()<.18){b={v:pick([2,5,10,20,50,100,250,500,750]),u:u+1};if(b.v===a.v)b.v+=1;}
   const kb=x=>x.v*Math.pow(1000,x.u);return Math.random()<.5?[a,b,kb]:[b,a,kb];}
  function stat(){sh.stats([['Round',`${Math.min(round,ROUNDS)} / ${ROUNDS}`],['Score',score],['Streak',streak+' 🔥']]);}
  function show(){answered=false;const [x,y,kb]=gen();pair=[x,y];pair.kb=kb;A.forEach((b,i)=>{b.className='amt';b.innerHTML=`${nice(pair[i].v)} ${U[pair[i].u]}<small>${['Kilobytes','Megabytes','Gigabytes','Terabytes'][pair[i].u]}</small>`;b.style.animation='none';void b.offsetWidth;b.style.animation='';});
-  ex.textContent='Which holds more data?';nx.style.display='none';tLeft=100;bar.style.width='100%';clearInterval(timer);timer=setInterval(()=>{tLeft-=1;bar.style.width=tLeft+'%';if(tLeft<=0){clearInterval(timer);pickA(-1);}},100);stat();}
- function explain(){const [x,y]=pair;const lo=x.u<y.u?x:y,hi=x.u<y.u?y:x;if(lo.u===hi.u)return `Same unit, so just compare the numbers: ${nice(Math.max(x.v,y.v))} is bigger.`;const conv=lo.v/Math.pow(1000,hi.u-lo.u);const bigger=conv>hi.v?lo:hi;return `${nice(lo.v)} ${U[lo.u]} = ${nice(conv)} ${U[hi.u]} (divide by 1000). So <b>${nice(bigger.v)} ${U[bigger.u]}</b> is bigger.`;}
+  ex.textContent='Which holds more data?';nx.style.display='none';tLeft=100;bar.style.width='100%';clearInterval(timer);const dec=1000/CFG[sh.level].t;timer=setInterval(()=>{tLeft-=dec;bar.style.width=tLeft+'%';if(tLeft<=0){clearInterval(timer);pickA(-1);}},100);stat();}
+ function explain(){const [x,y]=pair;const lo=x.u<y.u?x:y,hi=x.u<y.u?y:x;if(lo.u===hi.u)return `Same unit, so just compare the numbers: ${nice(Math.max(x.v,y.v))} is bigger.`;const conv=lo.v/Math.pow(1000,hi.u-lo.u);const bigger=conv>hi.v?lo:hi;return `${nice(lo.v)} ${U[lo.u]} = ${nice(conv)} ${U[hi.u]} (divide by ${hi.u-lo.u>1?'1000 twice':'1000'}). So <b>${nice(bigger.v)} ${U[bigger.u]}</b> is bigger.`;}
  function pickA(i){if(answered)return;answered=true;clearInterval(timer);const kb=pair.kb;const ci=kb(pair[0])>kb(pair[1])?0:1;
-  if(i===ci){const pts=10+Math.floor(tLeft/10)+streak*2;score+=pts;streak++;A[i].classList.add('right');beep('good');ex.innerHTML=`✅ Correct! +${pts}. ${explain()}`;addPoints(2);}
+  if(i===ci){const pts=10+Math.floor(Math.max(0,tLeft)/10)+streak*2+(sh.level==='hard'?5:0);score+=pts;streak++;A[i].classList.add('right');beep('good');ex.innerHTML=`✅ Correct! +${pts}. ${explain()}`;addPoints(2);}
   else{streak=0;if(i>=0)A[i].classList.add('wrong');A[ci].classList.add('right');beep('bad');ex.innerHTML=`${i<0?'⏰ Too slow!':'❌ Not this time.'} ${explain()}`;}
   round++;stat();nx.style.display='';nx.textContent=round>ROUNDS?'See my score ➜':'Next ➜';nx.focus();}
  nx.onclick=()=>{if(round>ROUNDS)finish();else show();};
