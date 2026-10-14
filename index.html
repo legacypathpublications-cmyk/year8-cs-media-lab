@@ -86,7 +86,7 @@ canvas{width:100%;max-width:340px;aspect-ratio:1;border:2px solid var(--line);bo
 .log th,.log td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}
 .log th{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 
-.board{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.board{margin-top:14px;width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:10px}
 .board text{font-family:var(--body)}
 .board .t{fill:var(--ink)}.board .m{fill:var(--muted)}.board .al{fill:var(--bronze)}
 .board .nt{fill:var(--navy);font-family:var(--display);font-weight:800}
@@ -105,6 +105,7 @@ canvas{width:100%;max-width:340px;aspect-ratio:1;border:2px solid var(--line);bo
 .checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .checks button{background:var(--panel);color:var(--navy);border:2px solid var(--navy);text-align:left}
 .checks button[aria-pressed=true]{background:var(--teal-t);border-color:var(--teal)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .found{display:flex;flex-direction:column;gap:10px}
 .found .f{background:var(--teal-t);border-left:5px solid var(--teal);padding:10px 14px;border-radius:6px}
 .opts{display:flex;flex-direction:column;gap:10px}
@@ -228,9 +229,9 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
   <section id="t3" hidden class="card">
     <button class="alt back" type="button" data-back>Back to the menu</button>
     <div class="panelhead"><span class="lv g">Gold · Activity 3</span><h2>Verification detective</h2><p>This post is spreading fast. Run the verification routine before you decide what to do.</p></div>
-
-    <div class="step">
-      <div class="steplab">Step 1 · The post</div>
+<div class="step">
+      <div class="steplab">Step 1 · Run the five checks on the post (<span id="cnt">0</span> of 5 done)</div>
+      <div class="checks" id="checks"></div>
       <svg id="board" class="board" viewBox="0 0 700 362" role="img" aria-label="Evidence board for the stadium post. Each check you run changes the post on the left and draws an arrow to show what changed.">
   <defs>
     <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#E0820F"/></marker>
@@ -263,29 +264,23 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
   <text x="22" y="272" class="t" font-size="15" font-weight="700">Posted by CityNewsLive2</text>
   <text x="22" y="292" class="m" font-size="14">14,000 shares in 1 hour</text>
   <g class="lyr" data-e="4"><rect x="10" y="248" width="324" height="82" rx="8" fill="none" stroke="#E0820F" stroke-width="4"/><text x="22" y="316" class="al" font-size="14" font-weight="800">Account is 2 days old. Earns ad money.</text><circle cx="302" cy="268" r="14" fill="#E3B954" stroke="#B7791F" stroke-width="2"/><text x="302" y="272" text-anchor="middle" font-size="9" font-weight="800" fill="#1F2D3D">QAR</text></g>
-  <g class="cd" data-e="0"><rect class="cdr" x="370" y="28" width="320" height="60" rx="10"/><circle cx="392" cy="58" r="14" class="nb"/><text x="392" y="64" text-anchor="middle" class="nn">1</text><text x="414" y="50" class="nt" font-size="16">Reverse image search</text><text x="414" y="72" class="m pre" font-size="13.5">Not run yet. Press the button above.</text><g class="res"><text x="414" y="67" class="t" font-size="13.5">Match: a 2019 news story from</text><text x="414" y="82" class="t" font-size="13.5">another country.</text></g></g><g class="cd" data-e="1"><rect class="cdr" x="370" y="92" width="320" height="60" rx="10"/><circle cx="392" cy="122" r="14" class="nb"/><text x="392" y="128" text-anchor="middle" class="nn">2</text><text x="414" y="114" class="nt" font-size="16">Find the original</text><text x="414" y="136" class="m pre" font-size="13.5">Not run yet. Press the button above.</text><g class="res"><text x="414" y="131" class="t" font-size="13.5">First posted in 2019. The caption</text><text x="414" y="146" class="t" font-size="13.5">was changed by CityNewsLive2.</text></g></g><g class="cd" data-e="2"><rect class="cdr" x="370" y="156" width="320" height="60" rx="10"/><circle cx="392" cy="186" r="14" class="nb"/><text x="392" y="192" text-anchor="middle" class="nn">3</text><text x="414" y="178" class="nt" font-size="16">Check a second source</text><text x="414" y="200" class="m pre" font-size="13.5">Not run yet. Press the button above.</text><g class="res"><text x="414" y="195" class="t" font-size="13.5">Council and two news sites:</text><text x="414" y="210" class="t" font-size="13.5">no stadium roof collapsed.</text></g></g><g class="cd" data-e="3"><rect class="cdr" x="370" y="220" width="320" height="60" rx="10"/><circle cx="392" cy="250" r="14" class="nb"/><text x="392" y="256" text-anchor="middle" class="nn">4</text><text x="414" y="242" class="nt" font-size="16">Check the date</text><text x="414" y="264" class="m pre" font-size="13.5">Not run yet. Press the button above.</text><g class="res"><text x="414" y="259" class="t" font-size="13.5">From 2019, so 7 years old.</text><text x="414" y="274" class="t" font-size="13.5">It cannot show this morning.</text></g></g><g class="cd" data-e="4"><rect class="cdr" x="370" y="284" width="320" height="60" rx="10"/><circle cx="392" cy="314" r="14" class="nb"/><text x="392" y="320" text-anchor="middle" class="nn">5</text><text x="414" y="306" class="nt" font-size="16">Ask who benefits</text><text x="414" y="328" class="m pre" font-size="13.5">Not run yet. Press the button above.</text><g class="res"><text x="414" y="323" class="t" font-size="13.5">Account is 2 days old and earns</text><text x="414" y="338" class="t" font-size="13.5">advert money from shares.</text></g></g><line class="arr" data-e="0" x1="368" y1="56" x2="338" y2="45" marker-end="url(#ah)"/><line class="arr" data-e="1" x1="368" y1="120" x2="338" y2="90" marker-end="url(#ah)"/><line class="arr" data-e="2" x1="368" y1="184" x2="338" y2="134" marker-end="url(#ah)"/><line class="arr" data-e="3" x1="368" y1="248" x2="338" y2="224" marker-end="url(#ah)"/><line class="arr" data-e="4" x1="368" y1="312" x2="338" y2="285" marker-end="url(#ah)"/>
+  <g class="cd" data-e="0"><rect class="cdr" x="370" y="28" width="320" height="60" rx="10"/><circle cx="392" cy="58" r="14" class="nb"/><text x="392" y="64" text-anchor="middle" class="nn">1</text><text x="414" y="50" class="nt" font-size="16">Reverse image search</text><text x="414" y="72" class="m pre" font-size="13.5">Press its button above to run it.</text><g class="res"><text x="414" y="67" class="t" font-size="13.5">Match: a 2019 news story from</text><text x="414" y="82" class="t" font-size="13.5">another country.</text></g></g><g class="cd" data-e="1"><rect class="cdr" x="370" y="92" width="320" height="60" rx="10"/><circle cx="392" cy="122" r="14" class="nb"/><text x="392" y="128" text-anchor="middle" class="nn">2</text><text x="414" y="114" class="nt" font-size="16">Find the original</text><text x="414" y="136" class="m pre" font-size="13.5">Press its button above to run it.</text><g class="res"><text x="414" y="131" class="t" font-size="13.5">First posted in 2019. The caption</text><text x="414" y="146" class="t" font-size="13.5">was changed by CityNewsLive2.</text></g></g><g class="cd" data-e="2"><rect class="cdr" x="370" y="156" width="320" height="60" rx="10"/><circle cx="392" cy="186" r="14" class="nb"/><text x="392" y="192" text-anchor="middle" class="nn">3</text><text x="414" y="178" class="nt" font-size="16">Check a second source</text><text x="414" y="200" class="m pre" font-size="13.5">Press its button above to run it.</text><g class="res"><text x="414" y="195" class="t" font-size="13.5">Council and two news sites:</text><text x="414" y="210" class="t" font-size="13.5">no stadium roof collapsed.</text></g></g><g class="cd" data-e="3"><rect class="cdr" x="370" y="220" width="320" height="60" rx="10"/><circle cx="392" cy="250" r="14" class="nb"/><text x="392" y="256" text-anchor="middle" class="nn">4</text><text x="414" y="242" class="nt" font-size="16">Check the date</text><text x="414" y="264" class="m pre" font-size="13.5">Press its button above to run it.</text><g class="res"><text x="414" y="259" class="t" font-size="13.5">From 2019, so 7 years old.</text><text x="414" y="274" class="t" font-size="13.5">It cannot show this morning.</text></g></g><g class="cd" data-e="4"><rect class="cdr" x="370" y="284" width="320" height="60" rx="10"/><circle cx="392" cy="314" r="14" class="nb"/><text x="392" y="320" text-anchor="middle" class="nn">5</text><text x="414" y="306" class="nt" font-size="16">Ask who benefits</text><text x="414" y="328" class="m pre" font-size="13.5">Press its button above to run it.</text><g class="res"><text x="414" y="323" class="t" font-size="13.5">Account is 2 days old and earns</text><text x="414" y="338" class="t" font-size="13.5">advert money from shares.</text></g></g><line class="arr" data-e="0" x1="368" y1="56" x2="338" y2="45" marker-end="url(#ah)"/><line class="arr" data-e="1" x1="368" y1="120" x2="338" y2="90" marker-end="url(#ah)"/><line class="arr" data-e="2" x1="368" y1="184" x2="338" y2="134" marker-end="url(#ah)"/><line class="arr" data-e="3" x1="368" y1="248" x2="338" y2="224" marker-end="url(#ah)"/><line class="arr" data-e="4" x1="368" y1="312" x2="338" y2="285" marker-end="url(#ah)"/>
   <line x1="10" y1="350" x2="44" y2="350" stroke="#E0820F" stroke-width="4" marker-end="url(#ah)"/>
   <text x="54" y="355" class="m" font-size="13">An orange arrow shows what changed in the post.</text>
 </svg>
-      
-    </div>
-
-    <div class="step">
-      <div class="steplab">Step 2 · Run the five checks (<span id="cnt">0</span> of 5 done)</div>
-      <div class="checks" id="checks"></div>
-      <div class="found" id="found" aria-live="polite"></div>
+      <div class="found sr" id="found" aria-live="polite"></div>
       <div class="record"><b>Type on your worksheet:</b> what each check showed, in a few words.</div>
     </div>
 
     <div class="step">
-      <div class="steplab">Step 3 · Your verdict</div>
+      <div class="steplab">Step 2 · Your verdict</div>
       <p id="vlock" class="lead">Finish all five checks to unlock your verdict.</p>
       <div class="opts" id="verdict" hidden></div>
       <div class="fb" id="vfb" aria-live="polite" hidden></div>
     </div>
 
     <div class="step">
-      <div class="steplab">Step 4 · Content credentials</div>
+      <div class="steplab">Step 3 · Content credentials</div>
       <p>Content credentials are signed information attached to a file when it is made. Press each photo to inspect it.</p>
       <div class="cc">
         <div class="item"><b>Photo A</b><button type="button" class="alt" data-cc="a">Inspect Photo A</button><dl id="ccA" hidden><dt>Made with</dt><dd>A phone camera</dd><dt>Taken</dt><dd>14 March, 10:42</dd><dt>Edits</dt><dd>Crop and brightness</dd><dt>AI used</dt><dd>No</dd><dt>Signed by</dt><dd>A news organisation</dd></dl></div>
@@ -404,7 +399,7 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
   $$('#checks button').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-c');
     if(seen[i])return;seen[i]=1;b.setAttribute('aria-pressed','true');
     $$('#board [data-e="'+i+'"]').forEach(function(e){e.classList.add('on')});if(i===3){$('#morn').classList.add('struck');$('#art').setAttribute('filter','url(#sep)')}
-    var d=document.createElement('div');d.className='f';d.innerHTML='<b>'+CHECKS[i][0]+':</b> '+CHECKS[i][1];$('#found').appendChild(d);
+    $('#found').textContent=CHECKS[i][0]+': '+CHECKS[i][1];
     var n=Object.keys(seen).length;$('#cnt').textContent=n;
     if(n===5){$('#vlock').hidden=true;var v=$('#verdict');v.hidden=false}}});
   var VERD=[['Real. It happened this morning.',0,'Not quite. Three checks show the picture is old and no source reports a collapse.'],
