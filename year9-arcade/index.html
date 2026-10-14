@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 9 ICT Games Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--hf:'Fredoka','Nunito',system-ui,'Segoe UI',sans-serif;--bg:#f3f0ff;--ink:#1d1846;--muted:#5d5880;--card:#fff;--line:#e3ddff;--pri:#6c3cff;--pri2:#4b22d9;--pink:#ff4d8d;--yel:#ffc83d;--grn:#16b981;--red:#ef4444;--blue:#2d9cff;--org:#ff8a3d}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Nunito',system-ui,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);background-image:radial-gradient(circle at 1px 1px,rgba(108,60,255,.13) 1px,transparent 0);background-size:22px 22px;min-height:100vh;font-size:17px}
+h1,h2,h3,.fred{font-family:var(--hf);margin:0}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;padding:10px 20px;background:var(--ink);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+.logo{font-family:var(--hf);font-weight:700;font-size:22px;display:flex;gap:8px;align-items:center;color:#fff;text-decoration:none;margin-right:auto}
+.logo .bolt{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--pink),var(--yel));font-size:20px}
+.pill{background:rgba(255,255,255,.13);padding:6px 14px;border-radius:999px;font-weight:900;white-space:nowrap}
+.pill.pts{background:var(--yel);color:var(--ink)}
+.bump{animation:bump .5s}
+@keyframes bump{30%{transform:scale(1.25)}}
+.iconbtn{background:rgba(255,255,255,.13);border:0;border-radius:999px;width:38px;height:38px;cursor:pointer;font-size:18px}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 70px}
+.btn{font-weight:900;border:0;border-radius:14px;padding:11px 18px;background:var(--pri);color:#fff;box-shadow:0 4px 0 var(--pri2);cursor:pointer;transition:transform .08s,box-shadow .08s;font-size:16px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pri2)}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+.btn.y{background:var(--yel);color:var(--ink);box-shadow:0 4px 0 #d79c00}
+.btn.g{background:var(--grn);box-shadow:0 4px 0 #0d8a60}
+.btn.p{background:var(--pink);box-shadow:0 4px 0 #c92766}
+.btn[disabled]{opacity:.45;cursor:default}
+/* HOME */
+.hero{position:relative;overflow:hidden;border-radius:28px;padding:34px 30px;background:linear-gradient(120deg,#6c3cff,#a33cff 55%,#ff4d8d);color:#fff;box-shadow:0 8px 0 rgba(29,24,70,.18)}
+.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.05}
+.hero p{font-size:19px;max-width:620px;margin:10px 0 18px;font-weight:700;opacity:.95}
+.floaty{position:absolute;font-size:44px;opacity:.9;animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px) rotate(8deg)}}
+.namebox{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.namebox input{font:inherit;font-weight:800;padding:11px 14px;border-radius:14px;border:0;min-width:220px;color:var(--ink)}
+.rank{margin-top:18px;background:rgba(255,255,255,.16);border-radius:16px;padding:12px 16px;max-width:520px}
+.rank .bar{height:12px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden;margin-top:8px}
+.rank .bar i{display:block;height:100%;background:var(--yel);border-radius:99px;transition:width .6s}
+.sec{margin:30px 0 12px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec h2{font-size:26px}
+.sec span{color:var(--muted);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer;display:flex;gap:6px;align-items:center;transition:transform .1s}
+.chip:hover{transform:translateY(-2px)}
+.chip.on{background:var(--c,var(--pri));border-color:var(--c,var(--pri));color:#fff}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:18px}
+.gcard{position:relative;display:flex;flex-direction:column;text-decoration:none;background:#fff;border-radius:22px;border:2px solid var(--line);box-shadow:0 6px 0 var(--line);overflow:hidden;transition:transform .15s,box-shadow .15s}
+.gcard:hover{transform:translateY(-5px);box-shadow:0 11px 0 var(--line)}
+.gcard .art{height:118px;display:grid;place-items:center;font-size:62px;background:var(--c)}
+.gcard:hover .art span{animation:wob .6s}
+@keyframes wob{25%{transform:rotate(-12deg) scale(1.1)}75%{transform:rotate(10deg) scale(1.1)}}
+.gcard .info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.gcard h3{font-size:21px}
+.gcard p{margin:0;color:var(--muted);font-weight:700;font-size:15px;flex:1}
+.gcard .meta{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:14px}
+.tag{background:var(--bg);border-radius:99px;padding:4px 10px;font-size:13px;font-weight:900;color:var(--pri2)}
+.stars{color:#f5b301;letter-spacing:2px;font-size:16px}
+.stars .off{color:#d9d3f3}
+.foot{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+/* GAME SHELL */
+.ghead{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px 18px;box-shadow:0 6px 0 var(--line)}
+.gtitle{display:flex;gap:14px;align-items:center;flex:1 1 420px}
+.gicon{font-size:42px;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--c);flex:none}
+.gtitle h2{font-size:26px}
+.gtitle p{margin:3px 0 0;color:var(--muted);font-weight:700;font-size:15.5px}
+.gctrl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.back{font-weight:900;text-decoration:none;color:var(--pri2);display:inline-block;margin-bottom:10px}
+select.tsel{font:inherit;font-weight:800;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:#fff;max-width:250px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.stat{background:#fff;border:2px solid var(--line);border-radius:14px;padding:6px 14px;font-weight:900}
+.stat small{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.gbody{position:relative}
+.panel{background:#fff;border:2px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 6px 0 var(--line)}
+.status{font-family:var(--hf);font-size:22px;font-weight:600;text-align:center;margin:4px 0 12px;min-height:30px}
+/* MODAL */
+#modal{position:fixed;inset:0;z-index:50;background:rgba(29,24,70,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:16px}
+#modal.show{display:flex}
+.qcard{background:#fff;border-radius:26px;max-width:680px;width:100%;padding:24px;box-shadow:0 10px 0 rgba(0,0,0,.18);animation:popin .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes popin{from{transform:scale(.7) translateY(30px);opacity:0}}
+.qtag{display:inline-flex;gap:6px;align-items:center;background:var(--c);color:#fff;font-weight:900;border-radius:99px;padding:5px 12px;font-size:14px}
+.qcard h3{font-size:25px;margin:14px 0 16px;line-height:1.25}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--line);background:#fff;border-radius:16px;padding:12px 14px;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 4px 0 var(--line);transition:transform .08s}
+.opt:hover{transform:translateY(-2px);border-color:var(--pri)}
+.opt b{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff;background:var(--k)}
+.opt.right{background:#dcfce7;border-color:var(--grn);box-shadow:0 4px 0 #86efac;animation:yay .5s}
+.opt.wrong{background:#fee2e2;border-color:var(--red);box-shadow:0 4px 0 #fca5a5;animation:shake .4s}
+@keyframes yay{40%{transform:scale(1.06)}}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.qfb{min-height:26px;margin-top:14px;font-weight:900;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.qfb .g{color:var(--grn)}.qfb .r{color:var(--red)}
+.result{text-align:center}
+.result .big{font-size:70px;animation:wob 1s}
+.result h3{font-size:32px;margin:6px 0}
+.result .stars{font-size:38px}
+.result ul{text-align:left;max-height:260px;overflow:auto;padding-left:20px;font-weight:700}
+.result li{margin:6px 0}
+.result .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+#toast{opacity:0;pointer-events:none;position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(140px);z-index:60;background:var(--ink);color:#fff;font-weight:900;padding:12px 20px;border-radius:16px;transition:transform .3s;max-width:92vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.good{background:var(--grn)}#toast.bad{background:var(--red)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+/* MAZE */
+.mazewrap{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start}
+.mazewrap canvas{width:100%;display:block;border-radius:18px;box-shadow:0 6px 0 rgba(29,24,70,.25);touch-action:none;background:#14123a}
+.side{display:flex;flex-direction:column;gap:14px}
+.dpad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,64px);gap:6px;justify-content:center}
+.dpad button{border:0;border-radius:16px;background:var(--pri);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 4px 0 var(--pri2)}
+.dpad button:active{transform:translateY(3px);box-shadow:none}
+.fact{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #6ee7b7;border-radius:18px;padding:14px;min-height:120px}
+.fact b{font-family:var(--hf);font-size:20px;color:#047857;display:block}
+.legend{font-weight:800;font-size:15px;line-height:1.9}
+/* WORD SEARCH */
+.wswrap{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}
+.wsgrid{display:grid;grid-template-columns:repeat(12,var(--ws));gap:3px;background:#fff;padding:10px;border-radius:18px;border:2px solid var(--line);box-shadow:0 6px 0 var(--line);touch-action:none;user-select:none;--ws:42px}
+.wsgrid span{width:var(--ws);height:var(--ws);display:grid;place-items:center;font-family:var(--hf);font-weight:600;font-size:calc(var(--ws)*.52);border-radius:10px;cursor:pointer;transition:background .15s,transform .15s}
+.wsgrid span:hover{background:var(--bg)}
+.wsgrid span.sel{background:var(--yel);transform:scale(1.08)}
+.wsgrid span.f{background:var(--fc);color:#fff}
+.clues{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.clues li{background:var(--bg);border-radius:14px;padding:10px 12px;font-weight:700;border-left:6px solid var(--fc,var(--line))}
+.clues li.done{background:#dcfce7}
+.clues li b{font-family:var(--hf);letter-spacing:.06em}
+/* CONNECT 4 */
+.c4area{display:flex;flex-direction:column;align-items:center}
+.c4{--s:62px;display:grid;grid-template-columns:repeat(7,var(--s));gap:8px;padding:12px;background:linear-gradient(#3b82f6,#1d4ed8);border-radius:22px;box-shadow:0 8px 0 #1e3a8a}
+.c4 .hole{width:var(--s);height:var(--s);border-radius:50%;background:#dbeafe;box-shadow:inset 0 5px 0 rgba(0,0,0,.18);position:relative;cursor:pointer}
+.c4 .col-hover{background:#eff6ff}
+.disc{position:absolute;inset:0;border-radius:50%;z-index:2}
+.disc.p1{background:radial-gradient(circle at 35% 30%,#ff8fb3,#ff2e74 60%,#c2185b)}
+.disc.p2{background:radial-gradient(circle at 35% 30%,#ffe9a6,#ffc83d 60%,#d79c00)}
+.disc.win{animation:pulse .7s infinite alternate;box-shadow:0 0 0 5px #fff,0 0 22px 8px #fff}
+@keyframes pulse{to{transform:scale(.86)}}
+.arrows{display:grid;grid-template-columns:repeat(7,var(--s));gap:8px;padding:0 12px;--s:62px;margin-bottom:4px}
+.arrows span{text-align:center;font-size:26px;opacity:0;transition:opacity .15s}
+.arrows span.on{opacity:1;animation:bob .6s infinite alternate}
+@keyframes bob{to{transform:translateY(6px)}}
+.seg{display:inline-flex;background:var(--bg);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;border-radius:10px;padding:8px 14px;font-weight:900;cursor:pointer}
+.seg button.on{background:#fff;box-shadow:0 2px 0 var(--line)}
+.who{display:inline-flex;align-items:center;gap:6px}
+.who i{width:20px;height:20px;border-radius:50%;display:inline-block}
+/* TTT */
+.ttt{display:grid;grid-template-columns:repeat(3,130px);gap:12px;justify-content:center}
+.ttt button{width:130px;height:130px;border-radius:24px;border:0;background:#fff;box-shadow:0 6px 0 var(--line);cursor:pointer;display:grid;place-items:center;font-family:var(--hf);font-size:46px;color:#c9c1f2;transition:transform .12s}
+.ttt button:hover:not(.taken){transform:translateY(-4px) rotate(-2deg);color:var(--pri)}
+.ttt button.taken{cursor:default}
+.ttt button.win{background:#fef3c7;animation:pulse .6s infinite alternate}
+.ttt svg{width:84px;height:84px}
+.ttt svg path,.ttt svg circle{fill:none;stroke-width:13;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:draw .45s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* MEMORY */
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:880px;margin:0 auto}
+.mcard{aspect-ratio:4/3;border:0;background:transparent;perspective:900px;cursor:pointer;padding:0}
+.mcard .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.mcard.open .in,.mcard.done .in{transform:rotateY(180deg)}
+.mcard .face{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;display:grid;place-items:center;padding:10px;text-align:center;box-shadow:0 5px 0 rgba(29,24,70,.15)}
+.mcard .back{background:linear-gradient(135deg,var(--pri),var(--pink));color:#fff;font-size:40px}
+.mcard .front{background:#fff;transform:rotateY(180deg);font-weight:800;font-size:15px;line-height:1.25;border:3px solid var(--line)}
+.mcard .front.w{font-family:var(--hf);font-size:22px;color:var(--pri2)}
+.mcard.done .front{background:#dcfce7;border-color:var(--grn)}
+.mcard.done .in{animation:yayf .6s}
+@keyframes yayf{50%{transform:rotateY(180deg) scale(1.08)}}
+/* CODE BREAKER */
+.track{position:relative;height:78px;background:linear-gradient(90deg,#fee2e2,#fef3c7 60%,#dcfce7);border-radius:20px;border:2px solid var(--line);margin-bottom:16px;overflow:hidden}
+.track .virus{position:absolute;top:10px;font-size:50px;transition:left .6s cubic-bezier(.3,1.5,.5,1)}
+.track .srv{position:absolute;right:14px;top:10px;font-size:50px}
+.track.hit .srv{animation:shake .4s 3}
+.shields{position:absolute;right:80px;top:20px;font-size:28px;letter-spacing:2px}
+.slots{display:flex;flex-wrap:wrap;gap:clamp(4px,1.2vw,8px);justify-content:center;margin:18px 0}
+.slots span{width:clamp(22px,7.4vw,48px);height:clamp(40px,10vw,58px);border-bottom:5px solid var(--ink);display:grid;place-items:center;font-family:var(--hf);font-size:clamp(20px,6vw,34px);font-weight:700}
+.slots span.gap{border:0;width:22px}
+.slots span.show{animation:popin .3s}
+.slots span.lost{color:var(--red)}
+.kb{display:flex;flex-direction:column;gap:8px;align-items:center}
+.kb div{display:flex;gap:clamp(3px,1vw,6px);flex-wrap:nowrap;justify-content:center}
+.kb button{width:clamp(27px,8.2vw,46px);height:clamp(40px,11vw,52px);padding:0;border-radius:12px;border:2px solid var(--line);background:#fff;font-family:var(--hf);font-size:21px;font-weight:600;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.kb button.ok{background:var(--grn);color:#fff;border-color:var(--grn)}
+.kb button.no{background:#fee2e2;color:#b91c1c;border-color:#fca5a5}
+.clue{background:var(--bg);border-radius:18px;padding:14px 16px;font-weight:800;font-size:19px;text-align:center}
+/* SORT */
+.deal{min-height:150px;display:flex;justify-content:center;align-items:center;margin-bottom:16px}
+.scard{background:#fff;border:3px solid var(--pri);border-radius:20px;padding:20px 26px;font-weight:900;font-size:22px;max-width:520px;text-align:center;box-shadow:0 8px 0 rgba(108,60,255,.25);cursor:grab;touch-action:none;user-select:none;animation:popin .35s cubic-bezier(.2,1.4,.4,1)}
+.scard.drag{cursor:grabbing;position:fixed;z-index:40;pointer-events:none;transform:rotate(-3deg) scale(1.04)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.bin{border:3px dashed var(--bc);background:color-mix(in srgb,var(--bc) 10%,#fff);border-radius:20px;padding:12px;min-height:160px;cursor:pointer;transition:transform .12s}
+.bin:hover{transform:translateY(-3px)}
+.bin h4{margin:0 0 8px;font-family:var(--hf);font-size:20px;color:var(--bc);display:flex;justify-content:space-between}
+.bin .tags{display:flex;flex-wrap:wrap;gap:5px}
+.bin .tags span{background:#fff;border-radius:9px;padding:3px 8px;font-size:13px;font-weight:800;border:1px solid var(--line)}
+.bin.yes{animation:yay .5s;background:#dcfce7}
+.bin.no{animation:shake .4s;background:#fee2e2}
+.bin.hint{box-shadow:0 0 0 5px var(--yel);animation:pulse .5s 4 alternate}
+/* BUGS */
+.bugs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.hole2{position:relative;height:170px;border-radius:22px;background:linear-gradient(#2a1f5c,#14123a);overflow:hidden;box-shadow:inset 0 -14px 0 #0d0b26}
+.hole2::after{content:'';position:absolute;left:12%;right:12%;bottom:10px;height:22px;border-radius:50%;background:#000;opacity:.55}
+.bug{position:absolute;left:8px;right:8px;bottom:10px;z-index:2;background:#fff;border-radius:16px;padding:10px 10px 12px;text-align:center;font-weight:800;font-size:15.5px;line-height:1.25;cursor:pointer;animation:rise .35s cubic-bezier(.2,1.4,.4,1);box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.bug .bi{font-size:30px;display:block;margin-top:-4px}
+.bug .life{height:5px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden}
+.bug .life i{display:block;height:100%;background:var(--org);animation:drain linear forwards}
+@keyframes drain{from{width:100%}to{width:0}}
+@keyframes rise{from{transform:translateY(120%)}}
+.bug.gone{animation:sink .35s forwards}
+@keyframes sink{to{transform:translateY(130%)}}
+.bug.splat{animation:splat .45s forwards;background:#bbf7d0}
+@keyframes splat{40%{transform:scale(1.15) rotate(-4deg)}to{transform:scale(0);opacity:0}}
+.bug.oops{animation:shake .4s;background:#fecaca}
+.timebar{height:14px;border-radius:99px;background:#fff;border:2px solid var(--line);overflow:hidden;margin-bottom:14px}
+.timebar i{display:block;height:100%;background:linear-gradient(90deg,var(--grn),var(--yel),var(--red));transition:width .25s linear}
+.rules{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:10px 0 18px}
+.rules div{background:var(--bg);border-radius:16px;padding:12px 16px;font-weight:800}
+/* BIGGER */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;max-width:820px;margin:0 auto}
+.amt{border:0;border-radius:26px;padding:34px 10px;background:#fff;box-shadow:0 8px 0 var(--line);cursor:pointer;font-family:var(--hf);font-size:clamp(30px,6vw,56px);font-weight:700;color:var(--ink);transition:transform .12s;animation:popin .35s cubic-bezier(.2,1.4,.4,1)}
+.amt:hover{transform:translateY(-5px)}
+.amt small{display:block;font-family:inherit;font-size:15px;color:var(--muted);font-weight:800;margin-top:4px}
+.amt.right{background:#dcfce7;box-shadow:0 8px 0 #86efac}
+.amt.wrong{background:#fee2e2;box-shadow:0 8px 0 #fca5a5;animation:shake .4s}
+.vs{width:64px;height:64px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-family:var(--hf);font-size:24px;font-weight:700;box-shadow:0 5px 0 #c92766}
+.explain{max-width:820px;margin:18px auto 0;text-align:center;font-weight:800;font-size:19px;min-height:56px}
+.ladder{display:flex;gap:8px;justify-content:center;margin:14px 0;flex-wrap:wrap}
+.ladder span{background:#fff;border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:900}
+/* GLOSSARY */
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.gl div{background:#fff;border-radius:16px;padding:12px 14px;border-left:7px solid var(--c);box-shadow:0 4px 0 var(--line);font-weight:700}
+.gl b{font-family:var(--hf);font-size:19px;display:block}
+.search{font:inherit;font-weight:800;padding:11px 14px;border-radius:14px;border:2px solid var(--line);min-width:260px}
+@media (max-width:860px){
+  .mazewrap,.wswrap{grid-template-columns:1fr}
+  .opts{grid-template-columns:1fr}
+  .ttt{grid-template-columns:repeat(3,96px)}
+  .ttt button{width:96px;height:96px}
+  .bugs{grid-template-columns:repeat(2,1fr)}
+  .duel{grid-template-columns:1fr}
+  .vs{margin:0 auto}
+  .topbar .pill.rk{display:none}
+  .hero{padding:26px 18px}
+  .floaty{display:none}
+}
+@media (max-width:600px){
+  .mgrid{grid-template-columns:repeat(3,1fr);gap:9px}
+  .mcard{aspect-ratio:5/7}
+  .shields{font-size:18px;right:66px;top:28px}
+  .mcard .front{font-size:12.5px;padding:6px}
+  .mcard .front.w{font-size:16px;overflow-wrap:anywhere}
+  .ladder{gap:4px;font-size:14px}
+  .ghead{padding:12px}
+  .gicon{width:52px;height:52px;font-size:32px}
+  .wrap{padding:16px 12px 60px}
+  .qcard{padding:18px}
+  .qcard h3{font-size:21px}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="logo" href="#"><span class="bolt">🎮</span> Year 9 ICT Arcade</a>
+  <span class="pill rk" id="rankPill"></span>
+  <span class="pill pts" id="ptsPill">⭐ 0</span>
+  <button class="iconbtn" id="muteBtn" title="Sound on or off">🔊</button>
+</header>
+<main class="wrap" id="app"></main>
+<div id="modal"></div>
+<div id="toast"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+/* ================= CONTENT ================= */
+const TOPICS = {
+  fm:  {name:'File management', icon:'📁', c:'#2d9cff'},
+  dev: {name:'Digital devices', icon:'💻', c:'#ff8a3d'},
+  feat:{name:'Features of devices', icon:'⚙️', c:'#16b981'},
+  conv:{name:'Other devices and convergence', icon:'⌚', c:'#ff4d8d'},
+  sto: {name:'Storage devices', icon:'💾', c:'#8b5cf6'},
+  os:  {name:'Operating systems', icon:'🧠', c:'#0ea5a4'},
+  upd: {name:'Software updates', icon:'🔄', c:'#f59e0b'},
+  lic: {name:'Software licences', icon:'📜', c:'#e11d48'}
+};
+
+const KW = [
+ ['fm','FOLDER','Folder','A container that groups related files together'],
+ ['fm','EXTENSION','Extension','The letters after the dot that show the type of file, such as .docx'],
+ ['fm','VERSION','Version','A numbered copy of a file, such as v1 or v2, so older work is not saved over'],
+ ['fm','BACKUP','Backup','A spare copy of files kept safe in case the original is lost'],
+ ['fm','FILEPATH','File path','The address that shows exactly where a file is saved'],
+ ['fm','SUBFOLDER','Subfolder','A folder saved inside another folder'],
+ ['fm','FILENAME','File name','The name of a file, which should say what the file is'],
+ ['fm','RENAME','Rename','To change the name of a file or folder'],
+ ['dev','LAPTOP','Laptop','A portable computer with a built-in keyboard and a battery'],
+ ['dev','DESKTOP','Desktop','A computer that stays on a desk with a separate monitor, keyboard and mouse'],
+ ['dev','TABLET','Tablet','A touchscreen device bigger than a phone, usually with no physical keyboard'],
+ ['dev','SMARTPHONE','Smartphone','A pocket device that makes calls, takes photos and runs apps'],
+ ['dev','SMARTWATCH','Smartwatch','A device worn on the wrist that counts steps and shows messages'],
+ ['dev','CONSOLE','Console','A device built mainly for playing games with a controller'],
+ ['dev','SMARTTV','Smart TV','A television that connects to the internet to stream shows and apps'],
+ ['dev','UPGRADE','Upgrade','To add better parts, such as more RAM, which is easiest on a desktop computer'],
+ ['feat','PORTABILITY','Portability','How easy a device is to carry and use in different places'],
+ ['feat','PERFORMANCE','Performance','How quickly a device can run programs and process data'],
+ ['feat','STORAGE','Storage','How much data, such as photos and apps, a device can keep'],
+ ['feat','CONNECTIVITY','Connectivity','How a device links to other devices and networks, such as Wi-Fi and Bluetooth'],
+ ['feat','BATTERYLIFE','Battery life','How long a device can run before it needs charging'],
+ ['feat','SECURITY','Security','Features such as face unlock and PIN codes that protect a device'],
+ ['feat','INTERFACE','Interface','How a user controls a device, such as a touchscreen or keyboard'],
+ ['conv','CONVERGENCE','Convergence','When one device takes on the jobs of several devices'],
+ ['conv','WEARABLE','Wearable','A device worn on the body, such as a fitness tracker'],
+ ['conv','SATNAV','Sat nav','A device that gives directions using GPS'],
+ ['conv','GPS','GPS','The satellite system that finds your location'],
+ ['conv','SMARTHOME','Smart home','Home devices, such as speakers and lights, that connect to the internet'],
+ ['conv','DOORBELL','Doorbell','A smart device with a camera that shows who is at the door on your phone'],
+ ['conv','TRACKER','Tracker','A wearable that measures your steps and heart rate'],
+ ['conv','SPEAKER','Speaker','A smart home device you control with your voice'],
+ ['sto','MAGNETIC','Magnetic','Storage that uses magnetised spinning disks, such as a hard disk drive'],
+ ['sto','OPTICAL','Optical','Storage read by a laser, such as a DVD or Blu-ray disc'],
+ ['sto','SOLIDSTATE','Solid state','Storage with no moving parts that uses flash memory'],
+ ['sto','CLOUD','Cloud','Storage on remote servers that you reach over the internet'],
+ ['sto','GIGABYTE','Gigabyte','1000 megabytes'],
+ ['sto','TERABYTE','Terabyte','1000 gigabytes'],
+ ['sto','CAPACITY','Capacity','How much data a storage device can hold'],
+ ['sto','FLASHDRIVE','Flash drive','A small USB storage device you can carry in your pocket'],
+ ['os','MEMORY','Memory','Working space (RAM) for the programs that are open right now'],
+ ['os','RESOURCE','Resource','Anything programs have to share, such as the processor, printer or internet'],
+ ['os','SPOOL','Spool','The queue on the disk where print jobs wait their turn'],
+ ['os','PERMISSIONS','Permissions','What a user is allowed to open or change'],
+ ['os','SERVER','Server','The main computer that runs a network'],
+ ['os','NETWORK','Network','Many computers run from a server, so you can log in anywhere'],
+ ['os','LOGIN','Log in','Proving who you are with a user name and password'],
+ ['os','PROCESSOR','Processor','The part that runs programs, shared out by the operating system'],
+ ['upd','PATCH','Patch','A small update that fixes a problem'],
+ ['upd','BUG','Bug','An error in a program'],
+ ['upd','UPDATE','Update','A change to software that fixes problems or adds features'],
+ ['upd','AUTOMATIC','Automatic','Updates that install without you starting them'],
+ ['upd','MANUAL','Manual','Updates you choose to install yourself, when it suits you'],
+ ['upd','HACKER','Hacker','A person who tries to break into computer systems'],
+ ['upd','RESTART','Restart','Turning a computer off and on again, often needed after an update'],
+ ['upd','RANSOMWARE','Ransomware','Malware that locks your files and demands payment'],
+ ['lic','LICENCE','Licence','The rules that say how you are allowed to use software'],
+ ['lic','PROPRIETARY','Proprietary','Software you pay for, and you cannot see or change the code'],
+ ['lic','OPENSOURCE','Open source','Free software whose code anyone can see and change'],
+ ['lic','FREEWARE','Freeware','Free to use, but you cannot see or change the code'],
+ ['lic','SHAREWARE','Shareware','Try it free for a short time, then pay to keep using it'],
+ ['lic','COPYRIGHT','Copyright','The law that stops people copying someone else\'s work without permission'],
+ ['lic','SITELICENCE','Site licence','One licence that covers every computer on one site, such as a school'],
+ ['lic','PIRACY','Piracy','Copying or using software illegally, without a licence']
+].map(([t,w,s,d])=>({t,w,s,d}));
+
+const MCQ = [
+ ['fm','Which is the best file name?','Science Homework 2026-10-08 v1.docx',['doc1.docx','homework!!!.docx','final FINAL new.docx']],
+ ['fm','What does the extension .xlsx tell you?','It is a spreadsheet',['It is a photo','It is a presentation','It is a sound file']],
+ ['fm','Which extension is a presentation?','.pptx',['.jpg','.mp3','.xlsx']],
+ ['fm','Which extension is a photo?','.jpg',['.docx','.pptx','.mp3']],
+ ['fm','C:\\Users\\Sara\\Documents\\ICT\\Notes.docx. Which folder is Notes.docx saved in?','ICT',['Users','Sara','C:']],
+ ['fm','Why add v1, v2, v3 to file names?','So older versions are kept and not saved over',['To make files smaller','To hide files','To make the computer faster']],
+ ['fm','Why save your work in named folders?','Files are quicker to find',['Files load faster','Folders stop viruses','Folders make files free']],
+ ['fm','What is a backup?','A spare copy kept safe in case the original is lost',['A file you deleted','A faster computer','A folder that cannot be opened']],
+ ['dev','Which device is best for writing essays on the bus?','Laptop',['Desktop computer','Smart TV','Games console']],
+ ['dev','Which device is worn on the wrist?','Smartwatch',['Tablet','Laptop','Sat nav']],
+ ['dev','Which device is easiest to upgrade with new parts?','Desktop computer',['Smartphone','Smartwatch','Tablet']],
+ ['dev','What is the main disadvantage of a desktop computer?','It is not portable',['It has a tiny screen','It cannot use the internet','It cannot run programs']],
+ ['dev','What does a tablet usually have?','A touchscreen and no physical keyboard',['A separate monitor and mouse','No screen at all','A built-in printer']],
+ ['dev','A graphic designer needs a big screen and lots of power. Which device?','Desktop computer',['Smartwatch','Smartphone','Tablet']],
+ ['dev','Which device is built mainly for playing games with a controller?','Games console',['Smart speaker','Sat nav','Laptop']],
+ ['feat','Face unlock is which type of feature?','Security',['Portability','Storage','Media support']],
+ ['feat','Wi-Fi and Bluetooth are types of what?','Connectivity',['Performance','Storage','Security']],
+ ['feat','A fast processor and lots of RAM give good what?','Performance',['Portability','Connectivity','Security']],
+ ['feat','A light tablet that fits in a bag has high what?','Portability',['Performance','Storage','Security']],
+ ['feat','A photographer with huge photo files needs lots of what?','Storage',['Speakers','Bluetooth','A smaller screen']],
+ ['feat','A farmer works outside all day with no plug sockets. Which feature matters most?','Battery life',['Media support','Screen colour','Webcam quality']],
+ ['feat','Touchscreens and keyboards are part of the device\'s what?','User interface',['Storage','Connectivity','Battery life']],
+ ['conv','What is convergence?','One device taking on the jobs of several devices',['Devices getting bigger','Two devices joined by a cable','A type of storage']],
+ ['conv','Which device has replaced the camera, sat nav and music player?','Smartphone',['Desktop computer','Smart TV','Printer']],
+ ['conv','A fitness tracker is which type of device?','Wearable',['Smart home','Storage','Games console']],
+ ['conv','A smart doorbell is which type of device?','Smart home',['Wearable','Storage','Sat nav']],
+ ['conv','Which is a disadvantage of convergence?','Lose the one device and you lose everything',['You carry more devices','You need more chargers','Batteries last forever']],
+ ['conv','Which is an advantage of convergence?','You carry fewer devices',['The battery lasts longer','You need more chargers','Screens get bigger']],
+ ['conv','What does a sat nav use to find where you are?','GPS',['Bluetooth','A DVD','A printer']],
+ ['sto','Which storage has no moving parts?','Solid state drive',['Hard disk drive','DVD','Blu-ray disc']],
+ ['sto','Which type of storage uses a laser to read data?','Optical',['Magnetic','Solid state','Cloud']],
+ ['sto','Which of these is cloud storage?','OneDrive',['USB flash drive','DVD','Hard disk drive']],
+ ['sto','Which is the smallest unit?','KB',['MB','GB','TB']],
+ ['sto','1 GB is the same as how many MB?','1000 MB',['100 MB','10 MB','1 MB']],
+ ['sto','Each photo is 5 MB. How many fit on a 2 GB card?','400',['40','200','4000']],
+ ['sto','Which is best for carrying homework in your pocket?','USB flash drive',['Desktop hard disk drive','Blu-ray disc','Magnetic tape']],
+ ['sto','Which backup is safest if the school building floods?','Cloud storage',['A DVD in the office','The office laptop','RAM']],
+ ['sto','Which storage makes games load fastest?','Solid state drive (SSD)',['DVD','CD','Magnetic tape']],
+ ['os','What is an operating system?','Software that runs the computer and manages everything else',['A web browser','A type of storage','A printer']],
+ ['os','Which of these is an operating system?','Android',['Microsoft Word','Google Chrome','Minecraft']],
+ ['os','Which OS job keeps print jobs waiting in a queue?','Print spooling',['Memory management','Security','Resource management']],
+ ['os','You see "Access denied" when opening a friend\'s folder. Which OS job?','Security',['Print spooling','Memory management','Resource management']],
+ ['os','You close an app. What does memory management do?','Takes back the memory the app was using',['Deletes the app','Saves your files','Turns the computer off']],
+ ['os','A video call and a download share the internet. Which OS job?','Resource management',['Security','Print spooling','Memory management']],
+ ['os','You log in anywhere in school and your files are there. Which type of OS?','Network OS',['Single-user OS','A games OS','No OS']],
+ ['os','Where do print jobs wait their turn?','In the spool on the disk',['In RAM','On the printer screen','In the cloud']],
+ ['os','The server of a network OS breaks. What happens?','The computers on the network cannot be used',['Every computer gets faster','Only the printer stops','Nothing happens']],
+ ['upd','What is a patch?','A small update that fixes a problem',['A new computer','A type of virus','A backup of your files']],
+ ['upd','Why are security updates important?','They close weaknesses hackers could use',['They make the screen brighter','They free up storage','They delete old files']],
+ ['upd','What does "automatic updates" mean?','Updates install without you starting them',['You must buy each update','Updates only work offline','The computer never restarts']],
+ ['upd','What is a bug?','An error in a program',['A new feature','A computer part','A type of licence']],
+ ['upd','Google Chrome adds a dark mode. What type of update is this?','New feature',['Bug fix','Security update','Licence update']],
+ ['upd','Microsoft Word stops crashing after an update. What type of update is this?','Bug fix',['New feature','Security update','Storage update']],
+ ['upd','What is the risk of turning updates off?','Hackers can use weaknesses that are not fixed',['The battery lasts longer','Files get bigger','The screen gets brighter']],
+ ['upd','What should you do before installing an update?','Save your work and close your programs',['Unplug the keyboard','Delete your files','Turn the screen off']],
+ ['upd','How can a business stop updates restarting computers during meetings?','Schedule updates outside working hours',['Turn updates off forever','Never restart','Buy new computers']],
+ ['lic','What is open source software?','Free, and anyone can see and change the code',['Paid for, and the code is secret','Free for 30 days only','Software with no licence']],
+ ['lic','What is shareware?','Try it free for a short time, then pay',['Always free with open code','Paid for and the code is secret','Illegal software']],
+ ['lic','What type of licence does Adobe Photoshop have?','Proprietary',['Open source','Freeware','Shareware']],
+ ['lic','What type of software is LibreOffice?','Open source',['Proprietary','Shareware','Pirated']],
+ ['lic','A school wants software on every computer in the building. Which licence?','Site licence',['Single-user licence','Shareware','No licence']],
+ ['lic','A free trial ends and Sara uses a "crack" to keep using it. Is this legal?','No, it is software piracy',['Yes, always','Yes, if she is a student','Yes, if she deletes it later']],
+ ['lic','A clinic installs ONE single-user licence on 8 computers. What is wrong?','It breaks the licence and copyright law',['Nothing, licences cover any number','It makes the software faster','It is fine if the computers are new']],
+ ['lic','What is freeware?','Free to use, but you cannot see or change the code',['Free and you can change the code','A free trial that ends','Software you must pay for']],
+ ['lic','Which law protects software from being copied?','Copyright law',['Traffic law','Tax law','Health and safety law']]
+].map(([t,q,a,w])=>({t,q,a,w}));
+
+const TF = [
+ ['fm','A file extension shows the type of file.',true,''],
+ ['fm','"Doc1 final FINAL.docx" is a good file name.',false,'A good name says what the file is and has a date or version number.'],
+ ['fm','.mp3 is a spreadsheet file.',false,'.mp3 is a sound file. Spreadsheets are .xlsx.'],
+ ['fm','A file path shows exactly where a file is saved.',true,''],
+ ['fm','Keeping files in named folders makes them easier to find.',true,''],
+ ['dev','A laptop has a built-in keyboard and battery.',true,''],
+ ['dev','A desktop computer is the most portable device.',false,'A desktop stays on a desk. It is the least portable.'],
+ ['dev','A smartwatch can count your steps.',true,''],
+ ['dev','A tablet always has a physical keyboard.',false,'Most tablets use an on-screen keyboard on the touchscreen.'],
+ ['feat','Wi-Fi and Bluetooth are types of connectivity.',true,''],
+ ['feat','Portability means how fast a device runs.',false,'That is performance. Portability is how easy a device is to carry.'],
+ ['feat','Fingerprint unlock is a security feature.',true,''],
+ ['feat','Energy efficiency is about the size of the screen.',false,'Energy efficiency is about battery life and how little power a device uses.'],
+ ['conv','Convergence is when one device does the jobs of several devices.',true,''],
+ ['conv','A smartphone can do the job of a camera and a sat nav.',true,''],
+ ['conv','Convergence means people need more devices.',false,'Convergence means people need fewer devices.'],
+ ['conv','A sat nav is a wearable device.',false,'A sat nav is a travel and navigation device.'],
+ ['sto','An SSD stores data on spinning magnetic disks.',false,'An SSD uses flash memory and has no moving parts.'],
+ ['sto','A DVD is optical storage.',true,''],
+ ['sto','A terabyte is bigger than a gigabyte.',true,''],
+ ['sto','A KB is bigger than an MB.',false,'A KB is smaller. 1 MB is 1000 KB.'],
+ ['sto','Cloud storage needs the internet to reach your files.',true,''],
+ ['os','RAM keeps your saved files when the computer is turned off.',false,'RAM is emptied when the power goes off. Saved files live on storage.'],
+ ['os','Print spooling makes the printer print faster.',false,'Spooling keeps print jobs in order and frees the computer. The printer is no faster.'],
+ ['os','A network OS uses a server to manage many computers.',true,''],
+ ['os','The desktop and the web browser are the operating system.',false,'They are programs you see. The OS is the software underneath everything.'],
+ ['os','The OS shares the processor and internet between programs.',true,''],
+ ['os','A network OS just means the computer is on the internet.',false,'A network OS means many computers are managed from a server.'],
+ ['upd','Updates only add new features.',false,'Updates also fix bugs and close security weaknesses.'],
+ ['upd','A bug is an error in a program.',true,''],
+ ['upd','Some updates need the computer to restart.',true,''],
+ ['upd','Software that is never updated is safer from hackers.',false,'Software that is not updated has weaknesses hackers can use.'],
+ ['upd','A patch is a small update that fixes a problem.',true,''],
+ ['lic','Open source software must be paid for.',false,'Open source software is free and its code can be changed.'],
+ ['lic','A site licence covers every computer on one site.',true,''],
+ ['lic','Using a crack to keep using a free trial is legal.',false,'It is illegal. This is software piracy.'],
+ ['lic','Freeware is free, but you cannot change the code.',true,''],
+ ['lic','You can legally give a friend a copy of LibreOffice.',true,'']
+].map(([t,s,v,fix])=>({t,s,v,fix}));
+
+const SORTS = [
+ {id:'store',t:'sto',title:'Storage types',bins:['Magnetic','Optical','Solid state','Cloud'],items:[['Hard disk drive (HDD)',0],['Magnetic tape',0],['DVD',1],['Blu-ray disc',1],['CD',1],['Solid state drive (SSD)',2],['USB flash drive',2],['SD memory card',2],['OneDrive',3],['Google Drive',3],['iCloud',3]]},
+ {id:'osjob',t:'os',title:'Which OS job?',bins:['Memory management','Resource management','Security','Print spooling'],items:[['Closing a game frees up space for other programs',0],['50 tabs are open and the laptop slows down',0],['Each open program gets its own space in RAM',0],['A video call and a download share the internet',1],['Music keeps playing while a game downloads',1],['The processor is shared between programs',1],['"Access denied" when opening a friend\'s folder',2],['The screen locks after five minutes',2],['A guest account cannot install software',2],['Print jobs wait in a queue on the disk',3],['Each person\'s pages come out together, in turn',3],['You keep working while the printer prints',3]]},
+ {id:'lic',t:'lic',title:'Licence types',bins:['Proprietary','Open source','Freeware','Shareware'],items:[['Adobe Photoshop',0],['Microsoft Office',0],['Microsoft Windows',0],['LibreOffice',1],['Mozilla Firefox',1],['GIMP photo editor',1],['Linux',1],['Google Chrome',2],['Adobe Acrobat Reader',2],['WinRAR (free trial, then pay)',3],['WinZip (free trial, then pay)',3]]},
+ {id:'upd',t:'upd',title:'Why was this update made?',bins:['Bug fix','Security update','New feature'],items:[['Microsoft Word stops crashing when you save',0],['A game no longer freezes on level 3',0],['The spelling checker underlines words correctly again',0],['Closes a weakness that ransomware was using',1],['Stops hackers reading saved passwords',1],['Blocks viruses getting in through email',1],['Google Chrome adds a dark mode',2],['An app adds a new set of stickers',2],['Microsoft Teams adds live captions',2]]},
+ {id:'devgrp',t:'conv',title:'Device groups',bins:['Smart home','Wearable','Travel and navigation'],items:[['Smart speaker',0],['Smart doorbell',0],['Smart thermostat',0],['Smart light bulb',0],['Fitness tracker',1],['Smartwatch',1],['VR headset',1],['Sat nav',2],['GPS tracker for luggage',2],['Car dashboard map screen',2]]},
+ {id:'ext',t:'fm',title:'File extensions',bins:['Document','Spreadsheet','Presentation','Image','Sound'],items:[['.docx',0],['.pdf',0],['.txt',0],['.xlsx',1],['.csv',1],['.pptx',2],['.jpg',3],['.png',3],['.gif',3],['.mp3',4],['.wav',4]]},
+ {id:'feat',t:'feat',title:'Name the feature',bins:['Portability','Performance','Storage','Connectivity','Security'],items:[['Weighs only 400 g and fits in a bag',0],['Small enough to use on a train',0],['Fast processor',1],['16 GB of RAM',1],['Runs big games without lag',1],['512 GB to keep photos and apps',2],['Room for 10,000 songs',2],['Wi-Fi',3],['Bluetooth',3],['5G mobile data',3],['Face unlock',4],['Fingerprint reader',4],['PIN code',4]]},
+ {id:'pick',t:'dev',title:'Best device for the job',bins:['Desktop computer','Laptop','Tablet','Smartphone'],items:[['Video editing on a big screen in an office',0],['Easy to upgrade with new parts',0],['Typing essays on the bus',1],['Making presentations at home and at school, with a keyboard',1],['Drawing with a stylus on the sofa',2],['Reading e-books on a big touchscreen',2],['Calling a friend while walking',3],['Paying in a shop with one tap',3]]}
+];
+
+/* ================= HELPERS ================= */
+const $=(s,el=document)=>el.querySelector(s);
+const $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const rand=n=>Math.floor(Math.random()*n);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtT=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+const store={get(k,d){try{const v=localStorage.getItem('ict9_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem('ict9_'+k,JSON.stringify(v));}catch(e){}}};
+const S={topic:store.get('topic','all'),name:store.get('name',''),points:store.get('points',0),best:store.get('best',{}),muted:store.get('muted',false)};
+if(S.topic!=='all'&&!TOPICS[S.topic])S.topic='all';
+const inTopic=x=>S.topic==='all'||x.t===S.topic;
+const pool=(arr,min)=>{const p=arr.filter(inTopic);return p.length>=(min||1)?p:arr;};
+const kwPool=min=>{const p=KW.filter(inTopic);if(p.length>=(min||1))return p;return [...p,...shuffle(KW.filter(k=>!inTopic(k)))].slice(0,Math.max(min,p.length));};
+let qBag=[];
+function nextQ(){if(!qBag.length)qBag=shuffle(pool(MCQ,4));return qBag.pop();}
+
+const RANKS=[[0,'Rookie'],[100,'Explorer'],[300,'Tech Pro'],[600,'ICT Expert'],[1000,'ICT Legend']];
+function rankInfo(p){let i=0;while(i<RANKS.length-1&&p>=RANKS[i+1][0])i++;const nx=RANKS[i+1];return {name:RANKS[i][1],next:nx,pct:nx?Math.round((p-RANKS[i][0])/(nx[0]-RANKS[i][0])*100):100};}
+function drawTop(){const r=rankInfo(S.points);$('#ptsPill').textContent='⭐ '+S.points;$('#rankPill').textContent='🏅 '+r.name;$('#muteBtn').textContent=S.muted?'🔇':'🔊';}
+function addPoints(n){S.points=Math.max(0,S.points+n);store.set('points',S.points);drawTop();const p=$('#ptsPill');p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump');}
+function setBest(id,score,stars){const b=S.best[id]||{s:0,st:0};let nb=false;if(score>b.s){b.s=score;nb=true;}if((stars||0)>b.st)b.st=stars;S.best[id]=b;store.set('best',S.best);return nb;}
+const starStr=n=>'★'.repeat(n)+'<span class="off">'+'★'.repeat(3-n)+'</span>';
+
+let AC;
+function beep(type){if(S.muted)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;const seq={good:[523,659,784],bad:[260,180],pop:[880,1175],win:[523,659,784,1047,1319],drop:[330,220],tick:[700]}[type]||[440];o.type=type==='bad'?'sawtooth':'triangle';seq.forEach((f,i)=>o.frequency.setValueAtTime(f,t+i*.08));g.gain.setValueAtTime(.11,t);g.gain.exponentialRampToValueAtTime(.001,t+seq.length*.08+.18);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+seq.length*.08+.2);}catch(e){}}
+
+let toastT;
+function toast(msg,kind){const t=$('#toast');t.textContent=msg;t.className='show '+(kind||'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',2200);}
+
+/* confetti */
+const cv=$('#confetti'),cx=cv.getContext('2d');let parts=[],cRaf=null;
+function confetti(n=140){cv.width=innerWidth;cv.height=innerHeight;const cols=['#6c3cff','#ff4d8d','#ffc83d','#16b981','#2d9cff','#ff8a3d'];for(let i=0;i<n;i++)parts.push({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:-Math.random()*16-4,r:Math.random()*7+4,c:pick(cols),a:Math.random()*6,va:(Math.random()-.5)*.3,life:140});if(!cRaf)cLoop();}
+function cLoop(){cx.clearRect(0,0,cv.width,cv.height);parts.forEach(p=>{p.vy+=.45;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.life--;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cx.restore();});parts=parts.filter(p=>p.life>0&&p.y<innerHeight+40);cRaf=parts.length?requestAnimationFrame(cLoop):(cx.clearRect(0,0,cv.width,cv.height),null);}
+
+/* ================= MODAL: QUESTION + RESULT ================= */
+let modalKey=null;
+const modalOpen=()=>$('#modal').classList.contains('show');
+function closeModal(){const m=$('#modal');m.classList.remove('show');m.innerHTML='';if(modalKey){document.removeEventListener('keydown',modalKey);modalKey=null;}}
+function ask(q){q=q||nextQ();return new Promise(res=>{const m=$('#modal');const opts=shuffle([q.a,...q.w]);const ci=opts.indexOf(q.a);const T=TOPICS[q.t];const kc=['#6c3cff','#ff4d8d','#16b981','#ff8a3d'];
+ m.innerHTML=`<div class="qcard"><span class="qtag" style="--c:${T.c}">${T.icon} ${T.name}</span><h3>${esc(q.q)}</h3><div class="opts">${opts.map((o,i)=>`<button class="opt" style="--k:${kc[i]}"><b>${'ABCD'[i]}</b><span>${esc(o)}</span></button>`).join('')}</div><div class="qfb"></div></div>`;
+ m.classList.add('show');let done=false;const bs=$$('.opt',m);
+ const choose=i=>{if(done)return;done=true;const fb=$('.qfb',m);
+  if(i===ci){bs[i].classList.add('right');beep('good');fb.innerHTML='<span class="g">✅ Correct! Well done.</span>';setTimeout(()=>{closeModal();res(true);},950);}
+  else{bs[i].classList.add('wrong');bs[ci].classList.add('right');beep('bad');fb.innerHTML=`<span class="r">❌ Not quite. The answer is: ${esc(q.a)}</span><button class="btn">Continue</button>`;const go=()=>{closeModal();res(false);};$('.btn',fb).onclick=go;$('.btn',fb).focus();}};
+ bs.forEach((b,i)=>b.onclick=()=>choose(i));
+ modalKey=e=>{if(done)return;const i='abcd'.indexOf(e.key.toLowerCase());const j='1234'.indexOf(e.key);if(i>-1)choose(i);else if(j>-1)choose(j);};document.addEventListener('keydown',modalKey);
+});}
+function result({emoji,title,lines,stars,list,again,listTitle}){const m=$('#modal');m.innerHTML=`<div class="qcard result"><div class="big">${emoji}</div><h3>${title}</h3>${stars!==undefined?`<div class="stars">${starStr(stars)}</div>`:''}${(lines||[]).map(l=>`<p style="font-weight:800;font-size:19px;margin:6px 0">${l}</p>`).join('')}${list&&list.length?`<h4 class="fred" style="text-align:left;margin:14px 0 4px;font-size:19px">${listTitle||''}</h4><ul>${list.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}<div class="row"><button class="btn g" data-a="again">Play again</button><a class="btn ghost" href="#" data-a="home" style="text-decoration:none">Back to the arcade</a></div></div>`;m.classList.add('show');$('[data-a=again]',m).onclick=()=>{closeModal();again&&again();};$('[data-a=home]',m).onclick=()=>closeModal();}
+
+/* ================= SHELL ================= */
+const GAMES=[
+ {id:'maze',title:'Server Room Maze',icon:'🤖',c:'#d9ccff',desc:'Guide the robot to the server. Answer questions to unlock the doors and grab data chips for key word facts.',tag:'Questions'},
+ {id:'search',title:'Key Word Search',icon:'🔎',c:'#cfe8ff',desc:'Read the meanings and hunt for the matching key words hidden in the grid.',tag:'Key words'},
+ {id:'connect',title:'Connect 4 Quiz',icon:'🔴',c:'#ffd6e4',desc:'Answer correctly to drop your counter. Get four in a row before the computer or a friend.',tag:'Questions'},
+ {id:'ttt',title:'Noughts and Crosses',icon:'❌',c:'#fff0c2',desc:'Each square hides a question. Get it right to claim it. Get it wrong and the computer steals it!',tag:'Questions'},
+ {id:'memory',title:'Memory Match',icon:'🃏',c:'#d1fae5',desc:'Flip the cards and match each key word to its meaning in as few moves as you can.',tag:'Key words'},
+ {id:'code',title:'Code Breaker',icon:'🦠',c:'#ffe1cc',desc:'Guess the key word letter by letter before the virus reaches the server.',tag:'Key words'},
+ {id:'sort',title:'Sort It!',icon:'🗂️',c:'#e0e7ff',desc:'Drag each card into the right group: storage types, OS jobs, licences, updates and more.',tag:'Sorting'},
+ {id:'bugs',title:'Bug Splat',icon:'🐛',c:'#dcfce7',desc:'Bugs carry statements. Splat the myths and let the true facts crawl away.',tag:'True or false'},
+ {id:'bigger',title:'Bigger or Smaller?',icon:'💾',c:'#ede9fe',desc:'Which holds more data? Race against the clock comparing KB, MB, GB and TB.',tag:'Storage units'}
+];
+function topicSelect(){return `<select class="tsel" title="Choose a topic"><option value="all">🌈 All topics</option>${Object.entries(TOPICS).map(([k,v])=>`<option value="${k}" ${S.topic===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select>`;}
+function setTopic(t){S.topic=t;store.set('topic',t);qBag=[];}
+function shell(el,id,how,{topic=true}={}){const g=GAMES.find(x=>x.id===id);
+ el.innerHTML=`<a href="#" class="back">← Back to the arcade</a><div class="ghead"><div class="gtitle"><span class="gicon" style="--c:${g.c}">${g.icon}</span><div><h2>${g.title}</h2><p>${how}</p></div></div><div class="gctrl">${topic?topicSelect():''}<button class="btn y" data-act="new">New game</button></div></div><div class="stats"></div><div class="gbody"></div>`;
+ const api={body:$('.gbody',el),statsEl:$('.stats',el),onNew:null,stats(arr){api.statsEl.innerHTML=arr.map(([l,v])=>`<div class="stat"><small>${l}</small>${v}</div>`).join('');}};
+ $('[data-act=new]',el).onclick=()=>api.onNew&&api.onNew();
+ const ts=$('.tsel',el);if(ts)ts.onchange=()=>{setTopic(ts.value);toast('Topic: '+(TOPICS[ts.value]?TOPICS[ts.value].name:'All topics'));api.onNew&&api.onNew();};
+ return api;}
+
+/* ================= HOME ================= */
+function renderHome(el){const r=rankInfo(S.points);
+ el.innerHTML=`<section class="hero"><span class="floaty" style="right:6%;top:14%">💾</span><span class="floaty" style="right:20%;top:56%;animation-delay:-2s">🖥️</span><span class="floaty" style="right:34%;top:10%;animation-delay:-4s">🔐</span>
+ <h1>Year 9 ICT Games Arcade</h1><p>Play games, earn stars and master everything from Term 1: files, devices, storage, operating systems, updates and licences.</p>
+ <div class="namebox"><input id="nm" placeholder="Type your name" maxlength="24" value="${esc(S.name)}"><span style="font-weight:900">${S.name?'👋 Hi '+esc(S.name)+'!':'Add your name to save your progress on this computer.'}</span></div>
+ <div class="rank"><b>🏅 Rank: ${r.name}</b> &nbsp;•&nbsp; ⭐ ${S.points} points${r.next?` &nbsp;•&nbsp; ${r.next[0]-S.points} more for ${r.next[1]}`:''}<div class="bar"><i style="width:${r.pct}%"></i></div></div></section>
+ <div class="sec"><h2>1. Pick a topic</h2><span>Every game uses the topic you choose.</span></div>
+ <div class="chips">${[['all',{name:'All topics',icon:'🌈',c:'#6c3cff'}],...Object.entries(TOPICS)].map(([k,v])=>`<button class="chip ${S.topic===k?'on':''}" data-t="${k}" style="--c:${v.c}">${v.icon} ${v.name}</button>`).join('')}</div>
+ <div class="sec"><h2>2. Pick a game</h2><span>Beat your best score to earn more stars.</span></div>
+ <div class="games">${GAMES.map(g=>{const b=S.best[g.id];return `<a class="gcard" href="#${g.id}"><div class="art" style="--c:${g.c}"><span>${g.icon}</span></div><div class="info"><h3>${g.title}</h3><p>${g.desc}</p><div class="meta"><span class="tag">${g.tag}</span><span class="stars">${starStr(b?b.st:0)}</span></div>${b?`<div style="font-weight:800;font-size:13px;color:var(--muted)">Best score: ${b.s}</div>`:''}</div></a>`;}).join('')}</div>
+ <div class="foot"><a class="btn ghost" href="#words" style="text-decoration:none">📖 Key words list</a><button class="btn ghost" id="resetBtn">Reset my progress</button></div>`;
+ $('#nm',el).onchange=e=>{S.name=e.target.value.trim();store.set('name',S.name);renderHome(el);};
+ $$('.chip',el).forEach(b=>b.onclick=()=>{setTopic(b.dataset.t);renderHome(el);});
+ $('#resetBtn',el).onclick=()=>{if(confirm('Reset all your points and stars on this computer?')){S.points=0;S.best={};store.set('points',0);store.set('best',{});drawTop();renderHome(el);}};
+}
+function renderWords(el){el.innerHTML=`<a href="#" class="back">← Back to the arcade</a><div class="sec" style="margin-top:0"><h2>📖 Key words list</h2><input class="search" placeholder="Search key words"></div><div id="glw"></div>`;
+ const draw=f=>{f=(f||'').toLowerCase();$('#glw',el).innerHTML=Object.entries(TOPICS).map(([k,v])=>{const ws=KW.filter(w=>w.t===k&&(w.s+w.d).toLowerCase().includes(f));return ws.length?`<h3 class="fred" style="margin:18px 0 10px;font-size:22px">${v.icon} ${v.name}</h3><div class="gl">${ws.map(w=>`<div style="--c:${v.c}"><b>${w.s}</b>${esc(w.d)}</div>`).join('')}</div>`:'';}).join('')||'<p>No key words match.</p>';};
+ draw();$('.search',el).oninput=e=>draw(e.target.value);}
+
+/* ================= GAME 1: MAZE ================= */
+function gameMaze(el){
+ const sh=shell(el,'maze','Use the arrow keys, WASD or the buttons. Answer a question to open each 🔒 door. Collect 💠 data chips for key word facts.');
+ sh.body.innerHTML=`<div class="mazewrap"><div><canvas></canvas></div><div class="side"><div class="dpad"><span></span><button data-d="n">▲</button><span></span><button data-d="w">◀</button><span></span><button data-d="e">▶</button><span></span><button data-d="s">▼</button><span></span></div><div class="fact"><b>💠 Data chip facts</b><span id="factTxt">Collect a data chip to learn a key word.</span></div><div class="panel legend">🤖 You &nbsp; 🔒 Locked door<br>💠 Data chip (+5) &nbsp; 🖥️ Server (finish)</div></div></div>`;
+ const canvas=$('canvas',sh.body),ctx=canvas.getContext('2d');
+ const DIRS={n:[0,-1],e:[1,0],s:[0,1],w:[-1,0]};
+ let C=15,R=11,cells,doors,chips,pl,an,cs,dpr,t0,wrong,score,done,busy,raf,tick,kwB=[];
+ function nextKw(){if(!kwB.length)kwB=shuffle(kwPool(6));return kwB.pop();}
+ function gen(){cells=[...Array(R)].map(()=>[...Array(C)].map(()=>({n:1,e:1,s:1,w:1,v:0})));const st=[[0,0]];cells[0][0].v=1;const opp={n:'s',s:'n',e:'w',w:'e'};
+  while(st.length){const [x,y]=st[st.length-1];const nb=Object.entries(DIRS).filter(([d,[dx,dy]])=>{const nx=x+dx,ny=y+dy;return nx>=0&&ny>=0&&nx<C&&ny<R&&!cells[ny][nx].v;});if(!nb.length){st.pop();continue;}const [d,[dx,dy]]=pick(nb);cells[y][x][d]=0;cells[y+dy][x+dx][opp[d]]=0;cells[y+dy][x+dx].v=1;st.push([x+dx,y+dy]);}
+  const prev={},seen={'0,0':1},q=[[0,0]];while(q.length){const [x,y]=q.shift();if(x===C-1&&y===R-1)break;for(const [d,[dx,dy]] of Object.entries(DIRS)){if(cells[y][x][d])continue;const k=(x+dx)+','+(y+dy);if(seen[k])continue;seen[k]=1;prev[k]=[x,y];q.push([x+dx,y+dy]);}}
+  const path=[];let cur=[C-1,R-1];while(cur){path.unshift(cur);cur=prev[cur[0]+','+cur[1]];}
+  doors=new Set();[.2,.4,.6,.8].forEach(f=>{const p=path[Math.max(1,Math.floor(path.length*f))];doors.add(p[0]+','+p[1]);});
+  const on=new Set(path.map(p=>p.join(',')));const dead=[];for(let y=0;y<R;y++)for(let x=0;x<C;x++){const c=cells[y][x];if(['n','e','s','w'].filter(d=>!c[d]).length===1&&!on.has(x+','+y))dead.push(x+','+y);}
+  chips=new Map();shuffle(dead).slice(0,6).forEach(k=>chips.set(k,nextKw()));}
+ function size(){const w=canvas.parentElement.clientWidth;cs=Math.floor(w/C);dpr=window.devicePixelRatio||1;canvas.width=cs*C*dpr;canvas.height=cs*R*dpr;canvas.style.height=(cs*R)+'px';}
+ function emoji(e,x,y,s){ctx.font=`${s}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(e,x,y);}
+ function draw(ts){ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#14123a';ctx.fillRect(0,0,C*cs,R*cs);
+  ctx.fillStyle='rgba(110,231,255,.05)';for(let y=0;y<R;y++)for(let x=0;x<C;x++)if((x+y)%2)ctx.fillRect(x*cs,y*cs,cs,cs);
+  const pulse=.5+.5*Math.sin(ts/300);
+  ctx.fillStyle=`rgba(34,197,94,${.25+.25*pulse})`;ctx.fillRect((C-1)*cs+2,(R-1)*cs+2,cs-4,cs-4);emoji('🖥️',(C-.5)*cs,(R-.5)*cs,cs*.62);
+  chips.forEach((v,k)=>{const [x,y]=k.split(',').map(Number);const g=ctx.createRadialGradient((x+.5)*cs,(y+.5)*cs,1,(x+.5)*cs,(y+.5)*cs,cs*.5);g.addColorStop(0,`rgba(52,211,153,${.6+.4*pulse})`);g.addColorStop(1,'rgba(52,211,153,0)');ctx.fillStyle=g;ctx.fillRect(x*cs,y*cs,cs,cs);emoji('💠',(x+.5)*cs,(y+.5)*cs,cs*.5);});
+  doors.forEach(k=>{const [x,y]=k.split(',').map(Number);ctx.fillStyle='#ff8a3d';ctx.beginPath();ctx.roundRect(x*cs+3,y*cs+3,cs-6,cs-6,cs*.2);ctx.fill();emoji('🔒',(x+.5)*cs,(y+.52)*cs,cs*.55);});
+  ctx.strokeStyle='#6ee7ff';ctx.lineWidth=Math.max(2,cs*.1);ctx.lineCap='round';ctx.shadowColor='#22d3ee';ctx.shadowBlur=8;ctx.beginPath();
+  for(let y=0;y<R;y++)for(let x=0;x<C;x++){const c=cells[y][x],X=x*cs,Y=y*cs;if(c.n){ctx.moveTo(X,Y);ctx.lineTo(X+cs,Y);}if(c.w){ctx.moveTo(X,Y);ctx.lineTo(X,Y+cs);}if(y===R-1&&c.s){ctx.moveTo(X,Y+cs);ctx.lineTo(X+cs,Y+cs);}if(x===C-1&&c.e){ctx.moveTo(X+cs,Y);ctx.lineTo(X+cs,Y+cs);}}
+  ctx.stroke();ctx.shadowBlur=0;
+  an.x+=(pl.x-an.x)*.3;an.y+=(pl.y-an.y)*.3;const bob=Math.sin(ts/180)*cs*.04;emoji('🤖',(an.x+.5)*cs,(an.y+.5)*cs+bob,cs*.7);
+  raf=requestAnimationFrame(draw);}
+ function stat(){sh.stats([['Time',fmtT(done?done:(Date.now()-t0)/1000)],['Doors left',doors.size],['Chips',`${6-chips.size} / 6`],['Wrong answers',wrong],['Score',score]]);}
+ async function move(d){if(done||busy||modalOpen())return;const [dx,dy]=DIRS[d];if(cells[pl.y][pl.x][d]){beep('tick');return;}const nx=pl.x+dx,ny=pl.y+dy,k=nx+','+ny;
+  if(doors.has(k)){busy=true;const ok=await ask();busy=false;if(!ok){wrong++;toast('The door stays locked. Try again!','bad');stat();return;}doors.delete(k);score+=10;addPoints(10);toast('🔓 Door unlocked! +10','good');}
+  pl.x=nx;pl.y=ny;
+  if(chips.has(k)){const f=chips.get(k);chips.delete(k);score+=5;addPoints(5);beep('pop');$('#factTxt',sh.body).innerHTML=`<b style="font-size:22px">${f.s}</b>${esc(f.d)}`;}
+  if(nx===C-1&&ny===R-1)win();stat();}
+ function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const bonus=Math.max(0,60-Math.floor(done/5));score+=bonus;addPoints(bonus);const stars=wrong===0&&chips.size===0?3:wrong<=2?2:1;const nb=setBest('maze',score,stars);
+  setTimeout(()=>result({emoji:'🖥️',title:'Server reached!',stars,lines:[`Time: ${fmtT(done)} • Wrong answers: ${wrong}`,`Data chips: ${6-chips.size} of 6 • Speed bonus: +${bonus}`,`Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
+ function start(){gen();pl={x:0,y:0};an={x:0,y:0};t0=Date.now();wrong=0;score=0;done=0;busy=false;$('#factTxt',sh.body).textContent='Collect a data chip to learn a key word.';size();stat();}
+ const key=e=>{const m={ArrowUp:'n',ArrowDown:'s',ArrowLeft:'w',ArrowRight:'e',w:'n',s:'s',a:'w',d:'e',W:'n',S:'s',A:'w',D:'e'}[e.key];if(m&&!modalOpen()){e.preventDefault();move(m);}};
+ document.addEventListener('keydown',key);
+ $$('.dpad button',sh.body).forEach(b=>b.onclick=()=>move(b.dataset.d));
+ let sx,sy;canvas.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;});canvas.addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<25)return;move(Math.abs(dx)>Math.abs(dy)?(dx>0?'e':'w'):(dy>0?'s':'n'));});
+ const rs=()=>size();window.addEventListener('resize',rs);
+ sh.onNew=start;start();raf=requestAnimationFrame(draw);tick=setInterval(()=>{if(!done)stat();},1000);
+ return ()=>{cancelAnimationFrame(raf);clearInterval(tick);document.removeEventListener('keydown',key);window.removeEventListener('resize',rs);};
+}
+
+/* ================= GAME 2: WORD SEARCH ================= */
+function gameSearch(el){
+ const sh=shell(el,'search','Read each meaning, then drag across the letters to find the key word. Words go across, down or diagonally.');
+ const N=12;let grid,words,t0,done,hard=false,showW=false,tick,sel=null;
+ const cols=['#6c3cff','#ff4d8d','#16b981','#ff8a3d','#2d9cff','#e11d48','#0ea5a4','#8b5cf6'];
+ sh.body.innerHTML=`<div class="wswrap"><div class="wsgrid"></div><div class="panel"><div style="display:flex;gap:8px;flex-wrap:wrap"><div class="seg"><button data-m="0" class="on">Normal</button><button data-m="1">Hard (backwards too)</button></div><button class="btn ghost" id="showW" style="padding:8px 12px">👀 Show the words</button></div><ol class="clues"></ol></div></div>`;
+ const g=$('.wsgrid',sh.body),cl=$('.clues',sh.body);
+ function fit(){const w=Math.min(sh.body.clientWidth-26,560);g.style.setProperty('--ws',Math.max(22,Math.floor((w-20-3*11)/12))+'px');}
+ function build(){const dirs=hard?[[1,0],[0,1],[1,1],[1,-1],[-1,0],[0,-1],[-1,-1],[-1,1]]:[[1,0],[0,1],[1,1]];
+  for(let attempt=0;attempt<20;attempt++){grid=[...Array(N)].map(()=>Array(N).fill(''));words=[];
+   for(const k of shuffle(kwPool(8).filter(k=>k.w.length<=N))){if(words.length>=8)break;const w=k.w;
+    for(let t=0;t<300;t++){const [dx,dy]=pick(dirs),x0=rand(N),y0=rand(N),x1=x0+dx*(w.length-1),y1=y0+dy*(w.length-1);if(x1<0||x1>=N||y1<0||y1>=N)continue;let ok=true;for(let i=0;i<w.length;i++){const c=grid[y0+dy*i][x0+dx*i];if(c&&c!==w[i]){ok=false;break;}}if(!ok)continue;for(let i=0;i<w.length;i++)grid[y0+dy*i][x0+dx*i]=w[i];words.push({...k,x0,y0,x1,y1,found:false,col:cols[words.length%8]});break;}}
+   if(words.length>=Math.min(8,kwPool(8).length))break;}
+  const L='ABCDEFGHIJKLMNOPRSTUVWY';for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(!grid[y][x])grid[y][x]=pick(L);}
+ function render(){g.innerHTML=grid.map((r,y)=>r.map((c,x)=>`<span data-x="${x}" data-y="${y}">${c}</span>`).join('')).join('');
+  words.filter(w=>w.found).forEach(paint);clues();}
+ function clues(){cl.innerHTML=words.map((w,i)=>`<li class="${w.found?'done':''}" style="--fc:${w.found?w.col:'var(--line)'}">${i+1}. ${esc(w.d)} <span style="color:var(--muted)">(${w.w.length} letters)</span>${w.found||showW?` <b style="color:${w.found?w.col:'var(--muted)'}">${w.found?'✅ ':''}${w.w}</b>`:''}</li>`).join('');}
+ const cellsOf=(x0,y0,x1,y1)=>{const dx=Math.sign(x1-x0),dy=Math.sign(y1-y0),n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0));const out=[];for(let i=0;i<=n;i++)out.push([x0+dx*i,y0+dy*i]);return out;};
+ const cellEl=(x,y)=>g.children[y*N+x];
+ function paint(w){cellsOf(w.x0,w.y0,w.x1,w.y1).forEach(([x,y])=>{const c=cellEl(x,y);c.classList.add('f');c.style.setProperty('--fc',w.col);});}
+ function snap(x1,y1){let dx=x1-sel.x0,dy=y1-sel.y0;if(dx&&dy&&Math.abs(dx)!==Math.abs(dy)){if(Math.abs(dx)>2*Math.abs(dy))dy=0;else if(Math.abs(dy)>2*Math.abs(dx))dx=0;else{const n=Math.max(Math.abs(dx),Math.abs(dy));dx=Math.sign(dx)*n;dy=Math.sign(dy)*n;}}
+  let x=sel.x0+dx,y=sel.y0+dy;x=Math.max(0,Math.min(N-1,x));y=Math.max(0,Math.min(N-1,y));if(Math.abs(x-sel.x0)!==Math.abs(dx)||Math.abs(y-sel.y0)!==Math.abs(dy)){return [sel.x1,sel.y1];}return [x,y];}
+ function hi(){$$('.sel',g).forEach(c=>c.classList.remove('sel'));if(sel)cellsOf(sel.x0,sel.y0,sel.x1,sel.y1).forEach(([x,y])=>cellEl(x,y).classList.add('sel'));}
+ const cellAt=e=>{const t=document.elementFromPoint(e.clientX,e.clientY);return t&&t.parentElement===g?t:null;};
+ g.addEventListener('pointerdown',e=>{if(done)return;const c=cellAt(e);if(!c)return;g.setPointerCapture(e.pointerId);sel={x0:+c.dataset.x,y0:+c.dataset.y,x1:+c.dataset.x,y1:+c.dataset.y};hi();});
+ g.addEventListener('pointermove',e=>{if(!sel)return;const c=cellAt(e);if(!c)return;[sel.x1,sel.y1]=snap(+c.dataset.x,+c.dataset.y);hi();});
+ const up=()=>{if(!sel)return;const s=sel;sel=null;hi();const w=words.find(w=>!w.found&&((w.x0===s.x0&&w.y0===s.y0&&w.x1===s.x1&&w.y1===s.y1)||(w.x0===s.x1&&w.y0===s.y1&&w.x1===s.x0&&w.y1===s.y0)));
+  if(w){w.found=true;paint(w);clues();beep('good');addPoints(5);toast(`Found ${w.s}! +5`,'good');stat();if(words.every(w=>w.found))win();}else if(s.x0!==s.x1||s.y0!==s.y1)beep('tick');};
+ g.addEventListener('pointerup',up);g.addEventListener('pointercancel',()=>{sel=null;hi();});
+ function stat(){sh.stats([['Found',`${words.filter(w=>w.found).length} / ${words.length}`],['Time',fmtT(done||(Date.now()-t0)/1000)],['Mode',hard?'Hard':'Normal']]);}
+ function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const bonus=(hard?30:15)+Math.max(0,40-Math.floor(done/6));const total=words.length*5+bonus;addPoints(bonus);const stars=showW?1:done<240?3:2;const nb=setBest('search',total,stars);
+  setTimeout(()=>result({emoji:'🔎',title:'All words found!',stars,lines:[`Time: ${fmtT(done)}${showW?' (with words shown)':''}`,`Score: ${total}${nb?' 🎉 New best!':''}`],again:start}),700);}
+ function start(){done=0;t0=Date.now();showW=false;$('#showW',sh.body).textContent='👀 Show the words';fit();build();render();stat();}
+ $$('.seg button',sh.body).forEach(b=>b.onclick=()=>{hard=b.dataset.m==='1';$$('.seg button',sh.body).forEach(x=>x.classList.toggle('on',x===b));start();});
+ $('#showW',sh.body).onclick=e=>{showW=!showW;e.target.textContent=showW?'🙈 Hide the words':'👀 Show the words';clues();};
+ const rs=()=>fit();window.addEventListener('resize',rs);
+ sh.onNew=start;start();tick=setInterval(()=>{if(!done)stat();},1000);
+ return ()=>{clearInterval(tick);window.removeEventListener('resize',rs);};
+}
+
+/* ================= GAME 3: CONNECT 4 ================= */
+function gameConnect(el){
+ const sh=shell(el,'connect','Click a column, then answer the question. Correct: your counter drops in. Wrong: you lose your turn. Four in a row wins!');
+ let mode='cpu',b,turn,over,busy,tally=store.get('c4tally',{w:0,l:0,d:0});
+ sh.body.innerHTML=`<div class="panel c4area"><div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:8px"><div class="seg"><button data-m="cpu" class="on">🤖 Play the computer</button><button data-m="2p">👥 Two players</button></div></div><div class="status"></div><div class="arrows">${'<span>⬇️</span>'.repeat(7)}</div><div class="c4">${Array.from({length:42},(_,i)=>`<div class="hole" data-c="${i%7}" data-r="${Math.floor(i/7)}"></div>`).join('')}</div></div>`;
+ const board=$('.c4',sh.body),arrows=$('.arrows',sh.body),status=$('.status',sh.body);
+ const names=()=>mode==='cpu'?['','You','Computer']:['','Player 1','Player 2'];
+ function fit(){const s=Math.max(34,Math.min(62,Math.floor((sh.body.clientWidth-60-6*8)/7)));board.style.setProperty('--s',s+'px');arrows.style.setProperty('--s',s+'px');}
+ const hole=(r,c)=>board.children[r*7+c];
+ function setStatus(){const n=names();status.innerHTML=over?status.innerHTML:`<span class="who"><i class="disc p${turn}" style="position:static;display:inline-block"></i> ${mode==='cpu'?(turn===1?'Your turn: pick a column':'The computer is thinking…'):n[turn]+': pick a column'}</span>`;}
+ function stat(){sh.stats(mode==='cpu'?[['Wins',tally.w],['Losses',tally.l],['Draws',tally.d]]:[['Mode','Two players']]);}
+ const lowest=c=>{for(let r=5;r>=0;r--)if(!b[r][c])return r;return -1;};
+ function winLine(bd,p){const D=[[0,1],[1,0],[1,1],[1,-1]];for(let r=0;r<6;r++)for(let c=0;c<7;c++)for(const [dr,dc] of D){const L=[];for(let i=0;i<4;i++){const rr=r+dr*i,cc=c+dc*i;if(rr<0||rr>5||cc<0||cc>6||bd[rr][cc]!==p)break;L.push([rr,cc]);}if(L.length===4)return L;}return null;}
+ function drop(c,p){const r=lowest(c);b[r][c]=p;const d=document.createElement('div');d.className='disc p'+p;hole(r,c).appendChild(d);beep('drop');
+  return d.animate([{transform:`translateY(${-(r+1)*115}%)`},{transform:'translateY(0)',offset:.75},{transform:'translateY(-12%)',offset:.87},{transform:'translateY(0)'}],{duration:380+r*70,easing:'ease-in'}).finished.catch(()=>{});}
+ function cpuCol(){const valid=[0,1,2,3,4,5,6].filter(c=>lowest(c)>=0);const test=(c,p)=>{const r=lowest(c);b[r][c]=p;const w=!!winLine(b,p);b[r][c]=0;return w;};
+  for(const c of valid)if(test(c,2))return c;for(const c of valid)if(test(c,1))return c;
+  const safe=valid.filter(c=>{const r=lowest(c);b[r][c]=2;let bad=false;if(r>0){b[r-1][c]=1;bad=!!winLine(b,1);b[r-1][c]=0;}b[r][c]=0;return !bad;});const pool2=safe.length?safe:valid;
+  if(Math.random()<.65){for(const c of [3,2,4,1,5,0,6])if(pool2.includes(c))return c;}return pick(pool2);}
+ function check(p){const L=winLine(b,p);const n=names();
+  if(L){over=true;L.forEach(([r,c])=>hole(r,c).firstChild.classList.add('win'));
+   if(mode==='cpu'){if(p===1){tally.w++;addPoints(30);beep('win');confetti();setBest('connect',tally.w,Math.min(3,tally.w));status.innerHTML='🎉 You win! +30';}else{tally.l++;beep('bad');status.innerHTML='🤖 The computer wins this time.';}store.set('c4tally',tally);}
+   else{beep('win');confetti();status.innerHTML=`🎉 ${n[p]} wins!`;}
+   stat();setTimeout(()=>result({emoji:p===1||mode==='2p'?'🏆':'🤖',title:mode==='cpu'?(p===1?'You win!':'The computer wins!'):`${n[p]} wins!`,lines:[mode==='cpu'?`Wins ${tally.w} • Losses ${tally.l} • Draws ${tally.d}`:'Great game!'],again:start}),1400);return true;}
+  if(b.every(r=>r.every(x=>x))){over=true;if(mode==='cpu'){tally.d++;store.set('c4tally',tally);addPoints(10);}status.innerHTML='🤝 It is a draw!';stat();setTimeout(()=>result({emoji:'🤝',title:'A draw!',lines:['The board is full.'],again:start}),900);return true;}
+  return false;}
+ async function cpuTurn(){busy=true;setStatus();await new Promise(r=>setTimeout(r,450));if(over){busy=false;return;}await drop(cpuCol(),2);if(!check(2)){turn=1;setStatus();}busy=false;}
+ async function choose(c){if(over||busy||lowest(c)<0)return;if(mode==='cpu'&&turn!==1)return;busy=true;const ok=await ask();const n=names();
+  if(ok){await drop(c,turn);if(check(turn)){busy=false;return;}}else toast(`${n[turn]} answered wrong and loses the turn!`,'bad');
+  turn=3-turn;busy=false;if(mode==='cpu'&&turn===2)cpuTurn();else setStatus();}
+ $$('.hole',board).forEach(h=>{h.onclick=()=>choose(+h.dataset.c);h.onmouseenter=()=>{$$('span',arrows).forEach((a,i)=>a.classList.toggle('on',i===+h.dataset.c));};});
+ board.onmouseleave=()=>$$('span',arrows).forEach(a=>a.classList.remove('on'));
+ $$('.seg button',sh.body).forEach(x=>x.onclick=()=>{mode=x.dataset.m;$$('.seg button',sh.body).forEach(y=>y.classList.toggle('on',y===x));start();});
+ function start(){b=[...Array(6)].map(()=>Array(7).fill(0));$$('.hole',board).forEach(h=>h.innerHTML='');turn=1;over=false;busy=false;fit();setStatus();stat();}
+ const rs=()=>fit();window.addEventListener('resize',rs);
+ sh.onNew=start;start();return ()=>{over=true;window.removeEventListener('resize',rs);};
+}
+
+/* ================= GAME 4: NOUGHTS AND CROSSES ================= */
+function gameTTT(el){
+ const sh=shell(el,'ttt','Pick a square and answer its question. Right: you claim it with an X. Wrong: the computer steals it with an O!');
+ let b,over,busy,tally=store.get('ttttally',{w:0,l:0,d:0});
+ sh.body.innerHTML=`<div class="panel"><div class="status"></div><div class="ttt">${Array.from({length:9},(_,i)=>`<button data-i="${i}">?</button>`).join('')}</div></div>`;
+ const status=$('.status',sh.body),sq=$$('.ttt button',sh.body);
+ const LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+ const X='<svg viewBox="0 0 100 100"><path d="M22 22 L78 78 M78 22 L22 78" stroke="#6c3cff"/></svg>';
+ const O='<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" stroke="#ff4d8d"/></svg>';
+ function place(i,p){b[i]=p;sq[i].innerHTML=p==='X'?X:O;sq[i].classList.add('taken');beep(p==='X'?'pop':'drop');}
+ const winOf=p=>LINES.find(L=>L.every(i=>b[i]===p));
+ function cpuMove(){const free=b.map((v,i)=>v?null:i).filter(i=>i!==null);const tryW=p=>free.find(i=>{b[i]=p;const w=!!winOf(p);b[i]=null;return w;});
+  let m=tryW('O');if(m===undefined)m=tryW('X');if(m===undefined&&Math.random()<.25)m=pick(free);if(m===undefined&&!b[4])m=4;if(m===undefined){const cn=[0,2,6,8].filter(i=>!b[i]);m=cn.length?pick(cn):pick(free);}return m;}
+ function stat(){sh.stats([['Wins',tally.w],['Losses',tally.l],['Draws',tally.d]]);}
+ function end(){const wx=winOf('X'),wo=winOf('O');const full=b.every(v=>v);if(!wx&&!wo&&!full)return false;over=true;
+  if(wx){wx.forEach(i=>sq[i].classList.add('win'));tally.w++;addPoints(20);beep('win');confetti();status.textContent='🎉 Three in a row! You win! +20';setBest('ttt',tally.w,Math.min(3,tally.w));}
+  else if(wo){wo.forEach(i=>sq[i].classList.add('win'));tally.l++;beep('bad');status.textContent='🤖 The computer got three in a row.';}
+  else{tally.d++;addPoints(5);status.textContent='🤝 It is a draw! +5';}
+  store.set('ttttally',tally);stat();setTimeout(()=>result({emoji:wx?'🏆':wo?'🤖':'🤝',title:wx?'You win!':wo?'The computer wins!':'A draw!',lines:[`Wins ${tally.w} • Losses ${tally.l} • Draws ${tally.d}`],again:start}),1300);return true;}
+ sq.forEach((s,i)=>s.onclick=async()=>{if(over||busy||b[i])return;busy=true;const ok=await ask();
+  if(ok){place(i,'X');status.textContent='✅ Square claimed!';if(end()){busy=false;return;}status.textContent='🤖 The computer is choosing…';await new Promise(r=>setTimeout(r,650));place(cpuMove(),'O');if(!end())status.textContent='Your turn: pick a square.';}
+  else{place(i,'O');toast('Wrong! The computer steals that square.','bad');if(!end())status.textContent='Your turn: pick a square.';}
+  busy=false;});
+ function start(){b=Array(9).fill(null);over=false;busy=false;sq.forEach(s=>{s.innerHTML='?';s.className='';});status.textContent='Your turn: pick a square.';stat();}
+ sh.onNew=start;start();return ()=>{over=true;};
+}
+
+/* ================= GAME 5: MEMORY ================= */
+function gameMemory(el){
+ const sh=shell(el,'memory','Flip two cards at a time. Match each key word with its meaning. Fewer moves means more stars!');
+ let pairs=6,cards,open,moves,matched,t0,done,lock,tick;
+ sh.body.innerHTML=`<div style="display:flex;justify-content:center;margin-bottom:14px"><div class="seg"><button data-n="4">Easy (4 pairs)</button><button data-n="6" class="on">Medium (6 pairs)</button><button data-n="8">Hard (8 pairs)</button></div></div><div class="mgrid"></div>`;
+ const gEl=$('.mgrid',sh.body);
+ function stat(){sh.stats([['Moves',moves],['Pairs',`${matched} / ${pairs}`],['Time',fmtT(done||(Date.now()-t0)/1000)]]);}
+ function start(){const ks=shuffle(kwPool(pairs)).slice(0,pairs);cards=shuffle(ks.flatMap((k,i)=>[{id:i,w:1,txt:k.s,t:k.t},{id:i,w:0,txt:k.d,t:k.t}]));open=[];moves=0;matched=0;t0=Date.now();done=0;lock=false;
+  gEl.innerHTML=cards.map((c,i)=>`<button class="mcard" data-i="${i}"><div class="in"><div class="face back">❔</div><div class="face front ${c.w?'w':''}">${esc(c.txt)}</div></div></button>`).join('');
+  $$('.mcard',gEl).forEach(m=>m.onclick=()=>flip(+m.dataset.i,m));stat();}
+ function flip(i,m){if(lock||done||m.classList.contains('open')||m.classList.contains('done'))return;m.classList.add('open');beep('tick');open.push([i,m]);
+  if(open.length===2){moves++;lock=true;const [[a,ma],[c,mc]]=open;open=[];
+   if(cards[a].id===cards[c].id){setTimeout(()=>{ma.classList.add('done');mc.classList.add('done');beep('good');matched++;addPoints(3);lock=false;stat();if(matched===pairs)win();},450);}
+   else setTimeout(()=>{ma.classList.remove('open');mc.classList.remove('open');lock=false;stat();},1000);}stat();}
+ function win(){done=(Date.now()-t0)/1000;beep('win');confetti();const stars=moves<=pairs+2?3:moves<=pairs*2?2:1;const score=pairs*10+Math.max(0,pairs*6-moves*2);addPoints(stars*5);const nb=setBest('memory',score,stars);
+  setTimeout(()=>result({emoji:'🃏',title:'All pairs matched!',stars,lines:[`${moves} moves • ${fmtT(done)}`,`Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
+ $$('.seg button',sh.body).forEach(x=>x.onclick=()=>{pairs=+x.dataset.n;$$('.seg button',sh.body).forEach(y=>y.classList.toggle('on',y===x));start();});
+ sh.onNew=start;start();tick=setInterval(()=>{if(!done)stat();},1000);return ()=>clearInterval(tick);
+}
+
+/* ================= GAME 6: CODE BREAKER ================= */
+function gameCode(el){
+ const sh=shell(el,'code','Read the clue. Guess the key word one letter at a time by clicking or typing. Six wrong letters and the virus reaches the server!');
+ const MAX=6;let word,guessed,wrong,over,hinted,streak=0,score=0,bag=[];
+ sh.body.innerHTML=`<div class="panel"><div class="track"><span class="virus">🦠</span><span class="shields"></span><span class="srv">🖥️</span></div><div class="clue"></div><div class="slots"></div><div class="kb"></div><div style="display:flex;gap:10px;justify-content:center;margin-top:16px"><button class="btn ghost" id="hint">💡 Hint (costs 5 points)</button><button class="btn g" id="nextW" style="display:none">Next word ➜</button></div></div>`;
+ const tr=$('.track',sh.body),slots=$('.slots',sh.body),kb=$('.kb',sh.body);
+ kb.innerHTML=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].map(r=>`<div>${[...r].map(l=>`<button data-l="${l}">${l}</button>`).join('')}</div>`).join('');
+ function stat(){sh.stats([['Score',score],['Streak',streak+' 🔥'],['Lives',MAX-wrong]]);}
+ function draw(reveal){const letters=[...word.s.toUpperCase()];slots.innerHTML=letters.map(ch=>ch===' '?'<span class="gap"></span>':/[A-Z]/.test(ch)?`<span class="${guessed.has(ch)?'show':''} ${reveal&&!guessed.has(ch)?'lost':''}">${guessed.has(ch)||reveal?ch:''}</span>`:`<span>${ch}</span>`).join('');
+  $('.virus',tr).style.left=`calc(${wrong/MAX} * (100% - 150px) + 14px)`;$('.shields',tr).textContent='🛡️'.repeat(MAX-wrong);stat();}
+ const solved=()=>[...word.s.toUpperCase()].filter(ch=>/[A-Z]/.test(ch)).every(ch=>guessed.has(ch));
+ function guess(l){if(over||guessed.has(l))return;guessed.add(l);const btn=$(`[data-l="${l}"]`,kb);const hit=word.s.toUpperCase().includes(l);btn.classList.add(hit?'ok':'no');btn.disabled=true;
+  if(hit){beep('pop');}else{wrong++;beep('bad');}draw();
+  if(solved()){over=true;streak++;const pts=10+(MAX-wrong)*2-(hinted?5:0);score+=pts;addPoints(pts);beep('win');confetti(80);toast(`Cracked it! +${pts}`,'good');setBest('code',score,streak>=5?3:streak>=3?2:1);finish();}
+  else if(wrong>=MAX){over=true;streak=0;tr.classList.add('hit');setTimeout(()=>tr.classList.remove('hit'),1300);toast(`The virus got in! The word was ${word.s.toUpperCase()}.`,'bad');draw(true);finish();}}
+ function finish(){$('#nextW',sh.body).style.display='';$('#hint',sh.body).style.display='none';stat();}
+ function next(){if(!bag.length)bag=shuffle(kwPool(5));word=bag.pop();guessed=new Set();wrong=0;over=false;hinted=false;
+  $('.clue',sh.body).innerHTML=`<span class="qtag" style="--c:${TOPICS[word.t].c}">${TOPICS[word.t].icon} ${TOPICS[word.t].name}</span><div style="margin-top:10px">${esc(word.d)}</div>`;
+  $$('button',kb).forEach(b=>{b.className='';b.disabled=false;});$('#nextW',sh.body).style.display='none';$('#hint',sh.body).style.display='';draw();}
+ $$('button',kb).forEach(b=>b.onclick=()=>guess(b.dataset.l));
+ $('#hint',sh.body).onclick=()=>{if(over||hinted)return;const left=[...new Set([...word.s.toUpperCase()].filter(ch=>/[A-Z]/.test(ch)&&!guessed.has(ch)))];if(left.length<2){toast('No hints left for this word.');return;}hinted=true;guess(pick(left));};
+ $('#nextW',sh.body).onclick=next;
+ const key=e=>{if(modalOpen())return;if(/^[a-z]$/i.test(e.key))guess(e.key.toUpperCase());else if(e.key==='Enter'&&over)next();};document.addEventListener('keydown',key);
+ sh.onNew=()=>{score=0;streak=0;bag=[];next();};sh.onNew();return ()=>document.removeEventListener('keydown',key);
+}
+
+/* ================= GAME 7: SORT IT ================= */
+function gameSort(el){
+ const sh=shell(el,'sort','Drag the card into the right group, or click a group to drop it there. Sort every card to finish.');
+ let set,deck,cur,tries,right,wrongN,t0,done,tick;
+ sh.body.innerHTML=`<div class="panel"><div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:12px"><b>Choose a sorting challenge:</b><select class="tsel" id="setSel"></select></div><div class="deal"></div><div class="bins"></div></div>`;
+ const deal=$('.deal',sh.body),binsEl=$('.bins',sh.body),selEl=$('#setSel',sh.body);
+ const BC=['#6c3cff','#ff4d8d','#16b981','#ff8a3d','#2d9cff'];
+ function sets(){const s=SORTS.filter(inTopic);return s.length?s:SORTS;}
+ function fillSel(){selEl.innerHTML=sets().map(s=>`<option value="${s.id}">${TOPICS[s.t].icon} ${s.title}</option>`).join('');}
+ function stat(){sh.stats([['Cards left',deck.length+(cur?1:0)],['Correct first time',right],['Mistakes',wrongN],['Time',fmtT(done||(Date.now()-t0)/1000)]]);}
+ function start(){set=SORTS.find(s=>s.id===selEl.value)||sets()[0];deck=shuffle(set.items);right=0;wrongN=0;t0=Date.now();done=0;
+  binsEl.innerHTML=set.bins.map((b,i)=>`<div class="bin" data-b="${i}" style="--bc:${BC[i]}"><h4>${b}<span class="n">0</span></h4><div class="tags"></div></div>`).join('');
+  $$('.bin',binsEl).forEach(bn=>bn.onclick=()=>{if(cur)judge(+bn.dataset.b,null);});dealNext();}
+ function dealNext(){cur=deck.pop();tries=0;$$('.bin',binsEl).forEach(b=>b.classList.remove('hint'));
+  if(!cur){win();return;}deal.innerHTML=`<div class="scard">${esc(cur[0])}</div>`;const card=$('.scard',deal);drag(card);stat();}
+ function drag(card){let ox,oy;card.addEventListener('pointerdown',e=>{if(done)return;const r=card.getBoundingClientRect();ox=e.clientX-r.left;oy=e.clientY-r.top;card.setPointerCapture(e.pointerId);card.style.width=r.width+'px';card.classList.add('drag');mv(e);
+   const mvH=ev=>mv(ev);const upH=ev=>{card.removeEventListener('pointermove',mvH);card.removeEventListener('pointerup',upH);const t=document.elementFromPoint(ev.clientX,ev.clientY);const bn=t&&t.closest('.bin');card.classList.remove('drag');card.style.left=card.style.top=card.style.width='';if(bn)judge(+bn.dataset.b,card);};
+   card.addEventListener('pointermove',mvH);card.addEventListener('pointerup',upH);});
+  function mv(e){card.style.left=(e.clientX-ox)+'px';card.style.top=(e.clientY-oy)+'px';}}
+ function judge(i,card){const bn=binsEl.children[i];const ok=i===cur[1];bn.classList.remove('yes','no');void bn.offsetWidth;
+  if(ok){bn.classList.add('yes');beep('good');if(tries===0){right++;addPoints(3);}$('.tags',bn).insertAdjacentHTML('beforeend',`<span>${esc(cur[0])}</span>`);$('.n',bn).textContent=$$('.tags span',bn).length;deal.innerHTML='';setTimeout(dealNext,250);}
+  else{bn.classList.add('no');beep('bad');wrongN++;tries++;if(tries>=2){binsEl.children[cur[1]].classList.add('hint');toast('Look for the glowing group.','bad');}else toast('Not that group. Try again!','bad');stat();}}
+ function win(){done=(Date.now()-t0)/1000;cur=null;deal.innerHTML='<div class="status">🎉 Every card sorted!</div>';beep('win');confetti();const n=set.items.length;const stars=wrongN===0?3:wrongN<=2?2:1;const score=right*10+Math.max(0,30-Math.floor(done/4));addPoints(stars*5);const nb=setBest('sort',score,stars);stat();
+  setTimeout(()=>result({emoji:'🗂️',title:set.title+': sorted!',stars,lines:[`Right first time: ${right} of ${n} • Mistakes: ${wrongN}`,`Time: ${fmtT(done)} • Score: ${score}${nb?' 🎉 New best!':''}`],again:start}),700);}
+ selEl.onchange=start;
+ sh.onNew=()=>{const keep=selEl.value;fillSel();if([...selEl.options].some(o=>o.value===keep))selEl.value=keep;start();};
+ fillSel();start();tick=setInterval(()=>{if(!done)stat();},1000);return ()=>clearInterval(tick);
+}
+
+/* ================= GAME 8: BUG SPLAT ================= */
+function gameBugs(el){
+ const sh=shell(el,'bugs','Each bug carries a statement. Click to splat the bugs with FALSE statements (myths). Let the TRUE ones crawl away safely.');
+ const LEN=60;let running=false,score,splats,oops,missed,saved,seen,timeLeft,spawnT,clockT,bag=[],timers=[];
+ sh.body.innerHTML=`<div class="panel"><div class="timebar"><i style="width:100%"></i></div><div class="rules"><div>🐛 False statement: <b>splat it</b> (+10)</div><div>✅ True statement: <b>leave it</b> (+2)</div><div>⚠️ Splat a true fact: <b>−5</b></div></div><div class="bugs">${'<div class="hole2"></div>'.repeat(6)}</div><div style="text-align:center;margin-top:16px"><button class="btn p" id="go">▶ Start the round (60 seconds)</button></div></div>`;
+ const holes=$$('.hole2',sh.body),bar=$('.timebar i',sh.body),go=$('#go',sh.body);
+ function stat(){sh.stats([['Score',score||0],['Myths splatted',splats||0],['True facts splatted',oops||0],['Time',(timeLeft??LEN)+'s']]);}
+ function nextS(){if(!bag.length){const p=pool(TF,6);const f=shuffle(p.filter(x=>!x.v)),t=shuffle(p.filter(x=>x.v));bag=shuffle([...f,...t.slice(0,Math.max(3,Math.round(f.length*.8)))]);}return bag.pop();}
+ function spawn(){if(!running)return;const free=holes.filter(h=>!h.firstChild);const busyN=6-free.length;if(busyN>=2||!free.length)return;const h=pick(free);const s=nextS();seen.push(s);const life=6500;
+  const bug=document.createElement('div');bug.className='bug';bug.innerHTML=`<span class="bi">${s.v?'🐞':'🐛'}</span>${esc(s.s)}<div class="life"><i style="animation-duration:${life}ms"></i></div>`;h.appendChild(bug);
+  let gone=false;const kill=cls=>{gone=true;bug.classList.add(cls);setTimeout(()=>bug.remove(),cls==='oops'?600:400);};
+  bug.onclick=()=>{if(gone||!running)return;if(!s.v){score+=10;splats++;addPoints(2);beep('good');kill('splat');}else{score=Math.max(0,score-5);oops++;beep('bad');toast('That one was TRUE: '+s.s,'bad');kill('oops');setTimeout(()=>bug.classList.add('gone'),300);}stat();};
+  timers.push(setTimeout(()=>{if(gone)return;if(s.v){score+=2;saved++;}else missed.push(s);kill('gone');stat();},life));}
+ function start(){clear();running=true;score=0;splats=0;oops=0;missed=[];saved=0;seen=[];timeLeft=LEN;bag=[];go.style.display='none';bar.style.width='100%';stat();spawn();
+  spawnT=setInterval(spawn,1700);clockT=setInterval(()=>{timeLeft--;bar.style.width=(timeLeft/LEN*100)+'%';stat();if(timeLeft<=0)end();},1000);}
+ function clear(){running=false;clearInterval(spawnT);clearInterval(clockT);timers.forEach(clearTimeout);timers=[];holes.forEach(h=>h.innerHTML='');}
+ function end(){clear();go.style.display='';go.textContent='▶ Play again';beep('win');if(score>=60)confetti();const stars=oops===0&&missed.length<=1?3:oops<=2?2:1;const nb=setBest('bugs',score,stars);
+  const myths=[...new Map(seen.filter(s=>!s.v).map(s=>[s.s,s])).values()];
+  result({emoji:'🐛',title:'Time is up!',stars,lines:[`Score: ${score}${nb?' 🎉 New best!':''}`,`Myths splatted: ${splats} • True facts splatted: ${oops} • Myths missed: ${missed.length}`],listTitle:'Learn the facts behind the myths:',list:myths.map(s=>`<s>${esc(s.s)}</s><br>✅ ${esc(s.fix)}`),again:start});}
+ go.onclick=start;sh.onNew=()=>{clear();go.style.display='';go.textContent='▶ Start the round (60 seconds)';timeLeft=LEN;score=0;splats=0;oops=0;bar.style.width='100%';stat();};
+ stat();return clear;
+}
+
+/* ================= GAME 9: BIGGER OR SMALLER ================= */
+function gameBigger(el){
+ const sh=shell(el,'bigger','Click the amount that holds MORE data. Remember: 1000 KB = 1 MB, 1000 MB = 1 GB, 1000 GB = 1 TB.',{topic:false});
+ const U=['KB','MB','GB','TB'],ROUNDS=10;let round,score,streak,best,pair,answered,timer,tLeft;
+ sh.body.innerHTML=`<div class="panel"><div class="ladder">${U.map((u,i)=>`<span>${u}</span>${i<3?'<span style="border:0;background:none">×1000 ➜</span>':''}`).join('')}</div><div class="timebar"><i style="width:100%"></i></div><div class="duel"><button class="amt" data-i="0"></button><div class="vs">OR</div><button class="amt" data-i="1"></button></div><div class="explain"></div><div style="text-align:center"><button class="btn g" id="nx" style="display:none">Next ➜</button></div></div>`;
+ const bar=$('.timebar i',sh.body),A=$$('.amt',sh.body),ex=$('.explain',sh.body),nx=$('#nx',sh.body);
+ const nice=v=>Number.isInteger(v)?v.toLocaleString('en-GB'):String(+v.toFixed(3));
+ function gen(){const u=rand(3);const big=pick([1,1.5,2,2.5,3,4,5,8,10]);const m=pick([.4,.5,.6,.75,.8,1.2,1.25,1.5,2,3]);let small=Math.round(big*1000*m);if(Math.random()<.5)small=Math.round(small/50)*50;if(small===big*1000)small+=50;
+  let a={v:big,u:u+1},b={v:small,u};if(Math.random()<.18){b={v:pick([2,5,10,20,50,100,250,500,750]),u:u+1};if(b.v===a.v)b.v+=1;}
+  const kb=x=>x.v*Math.pow(1000,x.u);return Math.random()<.5?[a,b,kb]:[b,a,kb];}
+ function stat(){sh.stats([['Round',`${Math.min(round,ROUNDS)} / ${ROUNDS}`],['Score',score],['Streak',streak+' 🔥']]);}
+ function show(){answered=false;const [x,y,kb]=gen();pair=[x,y];pair.kb=kb;A.forEach((b,i)=>{b.className='amt';b.innerHTML=`${nice(pair[i].v)} ${U[pair[i].u]}<small>${['Kilobytes','Megabytes','Gigabytes','Terabytes'][pair[i].u]}</small>`;b.style.animation='none';void b.offsetWidth;b.style.animation='';});
+  ex.textContent='Which holds more data?';nx.style.display='none';tLeft=100;bar.style.width='100%';clearInterval(timer);timer=setInterval(()=>{tLeft-=1;bar.style.width=tLeft+'%';if(tLeft<=0){clearInterval(timer);pickA(-1);}},100);stat();}
+ function explain(){const [x,y]=pair;const lo=x.u<y.u?x:y,hi=x.u<y.u?y:x;if(lo.u===hi.u)return `Same unit, so just compare the numbers: ${nice(Math.max(x.v,y.v))} is bigger.`;const conv=lo.v/Math.pow(1000,hi.u-lo.u);const bigger=conv>hi.v?lo:hi;return `${nice(lo.v)} ${U[lo.u]} = ${nice(conv)} ${U[hi.u]} (divide by 1000). So <b>${nice(bigger.v)} ${U[bigger.u]}</b> is bigger.`;}
+ function pickA(i){if(answered)return;answered=true;clearInterval(timer);const kb=pair.kb;const ci=kb(pair[0])>kb(pair[1])?0:1;
+  if(i===ci){const pts=10+Math.floor(tLeft/10)+streak*2;score+=pts;streak++;A[i].classList.add('right');beep('good');ex.innerHTML=`✅ Correct! +${pts}. ${explain()}`;addPoints(2);}
+  else{streak=0;if(i>=0)A[i].classList.add('wrong');A[ci].classList.add('right');beep('bad');ex.innerHTML=`${i<0?'⏰ Too slow!':'❌ Not this time.'} ${explain()}`;}
+  round++;stat();nx.style.display='';nx.textContent=round>ROUNDS?'See my score ➜':'Next ➜';nx.focus();}
+ nx.onclick=()=>{if(round>ROUNDS)finish();else show();};
+ A.forEach((b,i)=>b.onclick=()=>pickA(i));
+ function finish(){clearInterval(timer);const stars=score>=170?3:score>=110?2:1;const nb=setBest('bigger',score,stars);beep('win');if(stars>1)confetti();result({emoji:'💾',title:stars===3?'Storage champion!':stars===2?'Great storage skills!':'Round complete!',stars,lines:[`Score: ${score}${nb?' 🎉 New best!':''}`,'Tip: to change to a bigger unit, divide by 1000.'],again:start});}
+ function start(){round=1;score=0;streak=0;show();}
+ sh.onNew=start;start();return ()=>clearInterval(timer);
+}
+
+/* ================= ROUTER ================= */
+const RUN={maze:gameMaze,search:gameSearch,connect:gameConnect,ttt:gameTTT,memory:gameMemory,code:gameCode,sort:gameSort,bugs:gameBugs,bigger:gameBigger};
+let cleanup=null;const app=$('#app');
+function route(){$('#toast').className='';if(cleanup){try{cleanup();}catch(e){}cleanup=null;}closeModal();const id=location.hash.slice(1);window.scrollTo(0,0);
+ if(id==='words')renderWords(app);else if(RUN[id]){cleanup=RUN[id](app)||null;document.title=GAMES.find(g=>g.id===id).title+' | Year 9 ICT Arcade';return;}else renderHome(app);document.title='Year 9 ICT Games Arcade';}
+$('#muteBtn').onclick=()=>{S.muted=!S.muted;store.set('muted',S.muted);drawTop();};
+window.addEventListener('hashchange',route);drawTop();route();
+</script>
+</body>
+</html>
