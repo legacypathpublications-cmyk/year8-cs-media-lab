@@ -254,6 +254,18 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
 .tfa .big{font-size:26px}
 @media(prefers-reduced-motion:reduce){.vt.glitch svg,.wavebox.live i{animation:none}}
 </style>
+<style>
+.todo{background:var(--blue-t);border-left:5px solid var(--blue);padding:10px 14px;border-radius:6px}
+.todo ol{margin:6px 0 0;padding-left:1.3em}.todo li{margin:3px 0}
+.res{border:2px solid var(--gold);border-radius:10px;overflow-x:auto;background:var(--gold-t)}
+.res table{border-collapse:collapse;width:100%;min-width:420px}
+.res th,.res td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.res th{font-size:.85rem;background:var(--panel);color:var(--navy)}
+.res th .lv{font-size:.65rem;padding:1px 7px;margin-left:4px}
+.res td.v{font-weight:700;color:var(--good)}
+.res td button{font-size:.85rem;padding:5px 10px;margin-left:8px}
+.res .sg{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -331,11 +343,16 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
   <!-- TASK 2 -->
   <section id="t2" hidden class="card">
     <button class="alt back" type="button" data-back>Back to the menu</button>
-    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 2</span></span><h2>Scam message lab</h2><p>Do all three steps in order. Type your results on your worksheet as you go.</p></div>
+    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 2</span></span><h2>Scam message lab</h2>
+      <p>Do Step 1, then Step 2, then Step 3. Each step has a <b>results table</b>. It is the same table as on your worksheet, page 2A. Fill in your worksheet from it.</p></div>
 
     <div class="step">
-      <div class="steplab">Step 1 · Rewrite and scan (<span id="n2a">0</span> of 4 signs scanned)</div>
-      <p>A scammer wrote the rough message on the left. Press <b>Ask AI to rewrite it</b> and see what changes. Then scan both messages for each warning sign.</p>
+      <div class="steplab">STEP 1: REWRITE AND SCAN (<span id="n2a">0</span> of 4 warning signs scanned)</div>
+      <div class="todo"><b>What to do</b><ol>
+        <li>Read the scammer's rough draft.</li>
+        <li>Press <b>Ask AI to rewrite it</b>. Then try the Arabic button.</li>
+        <li>In the table, press <b>Scan</b> next to each warning sign.</li>
+        <li>Type the three results for each sign onto your worksheet: <b>Still reliable?</b> (Bronze), <b>Draft hits</b> and <b>AI hits</b> (Silver).</li></ol></div>
       <div class="two3">
         <div class="sms"><h3>Scammer's rough draft</h3><div class="m" id="oldMsg"></div></div>
         <div class="sms" id="aiBox"><h3>AI rewrite <span id="aiLang"></span></h3><div class="m" id="aiMsg" aria-live="polite">Not written yet.</div></div>
@@ -343,43 +360,58 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
       <div class="row2"><button type="button" id="aiBtn">Ask AI to rewrite it</button>
         <span class="lang row2" id="langBtns" hidden><button type="button" class="alt" data-l="en" aria-pressed="true">English</button><button type="button" class="alt" data-l="ar" aria-pressed="false">Arabic</button></span></div>
       <p class="note" id="arNote" hidden>In English: "Dear Ahmed, your bank account has been suspended. Please confirm your details within one hour and send the verification code using the link below."</p>
-      <div class="scan" id="scan"></div>
+      <div class="res"><table><thead><tr><th>Warning sign</th><th>Still reliable? <span class="lv b">Bronze</span></th><th>Draft hits <span class="lv s">Silver</span></th><th>AI hits <span class="lv s">Silver</span></th></tr></thead><tbody id="scanBody"></tbody></table></div>
+      <p class="note">Hits means how many times that warning sign appears in the message. Still reliable? means: does the sign still show up in the AI rewrite? Yes or No.</p>
     </div>
 
     <div class="step">
-      <div class="steplab">Step 2 · Sending at scale (<span id="n2b">0</span> of 2 runs)</div>
-      <p class="note">These numbers are made up for teaching. Start the 24-hour clock for each scammer.</p>
-      <div class="row2"><button type="button" id="runH">Run: one scammer by hand</button><button type="button" id="runA">Run: one scammer with AI</button><span class="clock" id="clk">Hour 0</span></div>
-      <div class="lane"><b>By hand</b><div class="tr"><canvas id="cvH"></canvas></div><b id="vh">0</b></div>
-      <div class="lane ai"><b>With AI</b><div class="tr"><canvas id="cvA"></canvas></div><b id="va">0</b></div>
-      <div class="two">
-        <div class="stat"><span>Replies at 1 in 1,000, by hand</span><div class="big" id="rh">...</div></div>
-        <div class="stat"><span>Replies at 1 in 1,000, with AI</span><div class="big" id="ra">...</div></div>
-      </div>
-      <div class="row2"><label for="rate" class="steplab">What if the reply rate is lower?</label>
-        <select id="rate" style="font:inherit;padding:8px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink)"><option value="1000">1 in 1,000 reply</option><option value="10000">1 in 10,000 reply</option><option value="100000">1 in 100,000 reply</option></select>
-        <span class="note" id="rateOut"></span></div>
+      <div class="steplab">STEP 2: SENDING AT SCALE (24 HOURS) (<span id="n2b">0</span> of 2 runs, <span id="n2b2">0</span> of 2 reply rates)</div>
+      <div class="todo"><b>What to do</b><ol>
+        <li>Press <b>Run: Human scammer</b> and watch the 24-hour clock. Then press <b>Run: AI tool</b>.</li>
+        <li>The table fills in <b>Messages sent</b> and <b>Replies (1 in 1,000)</b>.</li>
+        <li>Change <b>Reply rate</b> to 1 in 10,000. The last row fills in.</li>
+        <li>Type all three rows onto your worksheet.</li></ol>
+        <p class="note">These numbers are made up for teaching.</p></div>
+      <div class="row2"><button type="button" id="runH">Run: Human scammer</button><button type="button" id="runA">Run: AI tool</button><span class="clock" id="clk">Hour 0</span></div>
+      <div class="lane"><b>Human scammer</b><div class="tr"><canvas id="cvH"></canvas></div><b id="vh">0</b></div>
+      <div class="lane ai"><b>AI tool</b><div class="tr"><canvas id="cvA"></canvas></div><b id="va">0</b></div>
+      <div class="row2"><label for="rate" class="steplab">Reply rate</label>
+        <select id="rate" style="font:inherit;padding:8px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--ink)"><option value="1000">1 in 1,000 reply</option><option value="10000">1 in 10,000 reply</option></select></div>
+      <div class="res"><table><thead><tr><th></th><th>Human scammer <span class="lv b">Bronze</span></th><th>AI tool <span class="lv b">Bronze</span></th></tr></thead><tbody>
+        <tr><td>Messages sent</td><td id="r_h_m"></td><td id="r_a_m"></td></tr>
+        <tr><td>Replies (1 in 1,000)</td><td id="r_h_1000"></td><td id="r_a_1000"></td></tr>
+        <tr><td>Replies (1 in 10,000)</td><td id="r_h_10000"></td><td id="r_a_10000"></td></tr></tbody></table></div>
     </div>
 
     <div class="step">
-      <div class="steplab">Step 3 · Investigate the profile (<span id="n2c">0</span> of 4 rated)</div>
-      <p>"Layla" has messaged you about an investment. Use each investigation tool, then rate what you find: <b>Red flag</b> or <b>Normal</b>.</p>
+      <div class="steplab">STEP 3: INVESTIGATE THE PROFILE (<span id="n2c">0</span> of 4 features rated)</div>
+      <div class="todo"><b>What to do</b><ol>
+        <li>"Layla" has messaged you about an investment. Look at her profile.</li>
+        <li>For each feature, press its investigation tool and read the evidence.</li>
+        <li>Rate it <b>Red flag</b> or <b>Normal</b>. The table fills in.</li>
+        <li>Type the four ratings onto your worksheet under <b>Red flag or normal?</b> (Bronze).</li></ol></div>
       <div class="prof">
         <div class="pcard"><svg viewBox="0 0 150 150" id="laylaFace" role="img" aria-label="Profile picture of Layla"></svg><b>Layla, 29</b><span>"Investor and traveller. I can help you make money fast. Message me privately."</span><small class="note">48,000 followers</small></div>
         <div class="clues" id="clues"></div>
       </div>
+      <div class="res"><table><thead><tr><th>Feature</th><th>Red flag or normal? <span class="lv b">Bronze</span></th></tr></thead><tbody id="featBody"></tbody></table></div>
     </div>
-    <div class="finish" id="done2" hidden><b>Task 2 complete.</b> Answer the questions on worksheet page 2A. Your teacher will check the answers, then you do Activity 2B on your worksheet.</div>
+    <div class="finish" id="done2" hidden><b>Activity 2A website task complete.</b> Check your worksheet table. Now answer the <b>two GOLD questions</b> on worksheet page 2A. Your teacher will check the answers, then you do Activity 2B on your worksheet.</div>
   </section>
 
   <!-- TASK 3 -->
   <section id="t3" hidden class="card">
     <button class="alt back" type="button" data-back>Back to the menu</button>
-    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 3</span></span><h2>Defence workshop</h2><p>Do all three steps in order. Type your results on your worksheet as you go.</p></div>
+    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 3</span></span><h2>Defence workshop</h2>
+      <p>Do Step 1, then Step 2, then Step 3. Each step has a <b>results table</b>. It is the same table as on your worksheet, page 3A. Fill in your worksheet from it.</p></div>
 
     <div class="step">
-      <div class="steplab">Step 1 · Beat the scam (<span id="n3a">0</span> of 4 stopped)</div>
-      <p>Choose a situation. Use a defence from your toolkit. If you pick badly, the scammer gets closer to your money.</p>
+      <div class="steplab">STEP 1: BEAT THE SCAM (<span id="n3a">0</span> of 4 situations stopped)</div>
+      <div class="todo"><b>What to do</b><ol>
+        <li>Press <b>Situation 1</b> and read the scam.</li>
+        <li>Choose a defence from your toolkit. A wrong choice moves the scammer's progress bar closer to your money.</li>
+        <li>When you stop the scam, the best defence appears in the table.</li>
+        <li>Do all four situations. Then type the <b>Best defence</b> (Bronze) for each one onto your worksheet.</li></ol></div>
       <div class="simtabs" id="simtabs" role="group" aria-label="Situations"></div>
       <div class="two3">
         <div class="phone" style="min-height:0"><div class="chat" id="simChat" aria-live="polite"></div></div>
@@ -388,37 +420,43 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
           <div class="meter" role="img" aria-label="Scammer progress"><i id="simMeter"></i></div>
           <div class="steplab">Your toolkit</div>
           <div class="toolkit" id="toolkit"></div>
-          <div class="fb" id="simFb" aria-live="polite">Pick a situation, then a defence.</div>
+          <div class="fb" id="simFb" aria-live="polite">Press a situation to start.</div>
         </div>
       </div>
+      <div class="res"><table><thead><tr><th>Situation</th><th>Best defence <span class="lv b">Bronze</span></th></tr></thead><tbody id="sitBody"></tbody></table></div>
     </div>
 
     <div class="step">
-      <div class="steplab">Step 2 · The safe word lab (<span id="n3b">0</span> of 3 tested)</div>
-      <p>This family posts lots of photos online. A scammer reads them and builds a list of guesses. Test each safe word against the scammer's guess machine.</p>
+      <div class="steplab">STEP 2: THE SAFE WORD LAB (<span id="n3b">0</span> of 3 safe words tested)</div>
+      <div class="todo"><b>What to do</b><ol>
+        <li>Read the family's public posts. A scammer reads them too.</li>
+        <li>In the table, press <b>Test</b> next to each safe word. The scammer's guess machine runs.</li>
+        <li>Type <b>Good or weak?</b> (Bronze) and <b>Cracked?</b> (Silver) onto your worksheet.</li>
+        <li>Then try your own safe word at the bottom. It is not recorded.</li></ol></div>
       <div class="two3">
         <div class="fam"><b>The Hassan family's public posts</b>
           <div class="post" id="fp1">&#128054; "Biscuit turns 3 today! Best dog ever." <small class="note">12 May</small></div>
           <div class="post" id="fp2">&#127874; "Happy birthday Sara! 14 June" <small class="note">posted by Mum</small></div>
           <div class="post">&#127979; "First day at Al Noor School" <small class="note">September</small></div>
         </div>
-        <div class="stack">
-          <div class="wordrow" id="wordBtns"></div>
-          <div class="mach" id="mach" aria-live="polite">Scammer's guess machine ready. Choose a safe word to test.</div>
-        </div>
+        <div class="mach" id="mach" aria-live="polite">Scammer's guess machine ready. Press Test next to a safe word.</div>
       </div>
-      <div class="tip"><b>Your turn.</b> Type your own safe word idea and test it. Can you make one the machine cannot crack?</div>
+      <div class="res"><table><thead><tr><th>Safe word</th><th>Good or weak? <span class="lv b">Bronze</span></th><th>Cracked? <span class="lv s">Silver</span></th></tr></thead><tbody id="wordBody"></tbody></table></div>
+      <div class="tip"><b>Your turn (not recorded).</b> Type your own safe word idea. Can you make one the machine cannot crack?</div>
       <div class="row2"><label for="myWord" class="steplab">My safe word idea</label><input type="text" id="myWord" maxlength="30" style="text-transform:none;width:16rem" autocomplete="off"><button type="button" id="myTest" class="alt">Test it</button></div>
     </div>
 
     <div class="step">
-      <div class="steplab">Step 3 · Does two-factor authentication stop it? (<span id="n3c">0</span> of 4 tried)</div>
-      <p>Two-factor authentication (2FA) puts a gate in front of an account. It asks for a code from your phone. Send each attack and watch where it goes.</p>
+      <div class="steplab">STEP 3: DOES 2FA STOP IT? (<span id="n3c">0</span> of 4 attacks sent)</div>
+      <div class="todo"><b>What to do</b><ol>
+        <li>Two-factor authentication (2FA) is a gate in front of an account. It asks for a code from your phone.</li>
+        <li>In the table, press <b>Send</b> next to each attack and watch where the attack goes.</li>
+        <li>Type <b>Stopped by 2FA?</b> (Bronze) and <b>Where did it go?</b> (Silver) onto your worksheet.</li></ol></div>
       <svg id="tfa" class="tfa" viewBox="0 0 700 325" role="img" aria-label="Diagram: an attacker, a 2FA gate in front of the account, and you with your phone"></svg>
-      <div class="row2" id="atkBtns"></div>
-      <div class="fb" id="atkFb" aria-live="polite">Choose an attack.</div>
+      <div class="fb" id="atkFb" aria-live="polite">Press Send next to an attack.</div>
+      <div class="res"><table><thead><tr><th>Attack</th><th>Stopped by 2FA? <span class="lv b">Bronze</span></th><th>Where did it go? <span class="lv s">Silver</span></th></tr></thead><tbody id="atkBody"></tbody></table></div>
     </div>
-    <div class="finish" id="done3" hidden><b>Task 3 complete.</b> Finish worksheet page 3A. Your teacher will check the answers, then you do Activity 3B on your worksheet.</div>
+    <div class="finish" id="done3" hidden><b>Activity 3A website task complete.</b> Check your worksheet table. Now answer the <b>GOLD question</b> on worksheet page 3A. Your teacher will check the answers, then you do Activity 3B on your worksheet.</div>
   </section>
 
   <footer>Year 8 Computer Science · Cyber Security and Threats · Lesson 6 · AI Scams and Fraud. All messages, profiles and figures on this page are made up for teaching, except the facts about the Arup case.</footer>
@@ -548,32 +586,28 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
   function fin1(){if(Object.keys(found).length===5&&callBack&&Object.keys(vChecked).length===3&&lossSeen)$('#done1').hidden=false}
 
   /* ================= TASK 2 ================= */
-  var OLD='Dear custommer, your <span data-w="spell">acount</span> has been <span data-w="spell">suspendd</span>. You <span data-w="gram">has to</span> <span data-w="urg">click within one hour</span> and <span data-w="code">send us you password</span>.';
-  OLD=OLD.replace('custommer','<span data-w="spell">custommer</span>').replace('send us you password','send us <span data-w="gram">you</span> password').replace('<span data-w="code">send us <span data-w="gram">you</span> password</span>','<span data-w="code">send us <span data-w="gram">you</span> password</span>');
+  var OLD='Dear <span data-w="spell">custommer</span>, your <span data-w="spell">acount</span> has been <span data-w="spell">suspendd</span>. You <span data-w="gram">has to</span> <span data-w="urg">click within one hour</span> and <span data-w="code">send us <span data-w="gram">you</span> password</span>.';
   var AI={en:'Dear Sara, we noticed a sign-in to your account from a new device. To keep your account safe, please <span data-w="urg">confirm your details within one hour</span> and <span data-w="code">reply with the code we just sent you</span>.',
           ar:'عزيزي أحمد، تم تعليق حسابك المصرفي. يرجى <span data-w="urg">تأكيد بياناتك خلال ساعة</span> و<span data-w="code">إرسال رمز التحقق</span> عبر الرابط التالي.'};
   var lang='en',written=false,scanned={};
   $('#oldMsg').innerHTML=OLD;
   var SIGNS=[['spell','Spelling mistakes'],['gram','Poor grammar'],['urg','Urgency ("within one hour")'],['code','Asks for a code or password']];
-  var sc='<div class="h">Warning sign</div><div class="h">Rough draft</div><div class="h">AI rewrite</div><div class="h">Verdict</div>';
-  SIGNS.forEach(function(s,i){sc+='<div><button type="button" class="alt" data-sc="'+s[0]+'" disabled>Scan: '+s[1]+'</button></div><div class="n" id="so_'+s[0]+'">?</div><div class="n" id="sa_'+s[0]+'">?</div><div id="sv_'+s[0]+'"></div>'});
-  $('#scan').innerHTML=sc;
+  $('#scanBody').innerHTML=SIGNS.map(function(s){return '<tr><td><div class="sg"><span>'+s[1]+'</span><button type="button" class="alt" data-sc="'+s[0]+'" disabled>Scan</button></div></td><td class="v" id="sr_'+s[0]+'"></td><td class="v" id="so_'+s[0]+'"></td><td class="v" id="sa_'+s[0]+'"></td></tr>'}).join('');
   function applyScan(){
     Object.keys(scanned).forEach(function(k){
       $$('[data-w="'+k+'"]').forEach(function(e){e.classList.remove('hl')});
-      var o=$$('#oldMsg [data-w="'+k+'"]').length,a=written?$$('#aiMsg [data-w="'+k+'"]').length:0;
+      var o=$$('#oldMsg [data-w="'+k+'"]').length,a=$$('#aiMsg [data-w="'+k+'"]').length;
       $$('#oldMsg [data-w="'+k+'"],#aiMsg [data-w="'+k+'"]').forEach(function(e){e.classList.add('hl')});
-      $('#so_'+k).textContent=o;$('#sa_'+k).textContent=a;
-      $('#sv_'+k).innerHTML=a>0?pill('ok','Still works'):pill('no','No longer works');
+      $('#so_'+k).textContent=o;$('#sa_'+k).textContent=a;$('#sr_'+k).textContent=a>0?'Yes':'No';
     })}
-  $$('[data-sc]').forEach(function(b){b.onclick=function(){scanned[b.getAttribute('data-sc')]=1;applyScan();$('#n2a').textContent=Object.keys(scanned).length;fin2()}});
+  $$('[data-sc]').forEach(function(b){b.onclick=function(){scanned[b.getAttribute('data-sc')]=1;applyScan();b.textContent='Scanned';$('#n2a').textContent=Object.keys(scanned).length;fin2()}});
   $('#aiBtn').onclick=function(){var b=this;b.disabled=true;$('#aiMsg').textContent='AI is writing...';
-    setTimeout(function(){written=true;setLang(lang);$('#langBtns').hidden=false;b.textContent='Written. Try Arabic below';$$('[data-sc]').forEach(function(x){x.disabled=false})},RM?10:1100)};
+    setTimeout(function(){written=true;setLang(lang);$('#langBtns').hidden=false;b.textContent='Written. Now try Arabic';$$('[data-sc]').forEach(function(x){x.disabled=false})},RM?10:1100)};
   function setLang(l){lang=l;$('#aiMsg').innerHTML=AI[l];$('#aiBox').setAttribute('dir',l==='ar'?'rtl':'ltr');$('#aiBox').setAttribute('lang',l);$('#aiLang').textContent='('+(l==='ar'?'Arabic':'English')+')';$('#arNote').hidden=(l!=='ar');
     $$('#langBtns button').forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-l')===l?'true':'false')});applyScan()}
   $$('#langBtns button').forEach(function(b){b.onclick=function(){setLang(b.getAttribute('data-l'))}});
   /* scale */
-  var run={},hours=0;
+  var run={},rateSeen={};
   function runLane(cv,total,ms,col,vid,key){
     var w=cv.parentNode.clientWidth,h=cv.parentNode.clientHeight,dp=window.devicePixelRatio||1;cv.width=w*dp;cv.height=h*dp;var cx=cv.getContext('2d');cx.scale(dp,dp);
     var full=240000,max=Math.max(0,w-2),endw=Math.max(4,total/full*max),dots=total>1000?70:2;
@@ -582,57 +616,58 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
       cx.clearRect(0,0,w,h);cx.fillStyle=col;cx.globalAlpha=.85;cx.fillRect(0,0,bw,h);cx.globalAlpha=1;cx.fillStyle='#fff';
       for(var i=0;i<dots;i++){var x=((k*bw*3+i*bw/dots*7)%bw),y=(i*37%h);cx.fillRect(x,y,4,3)}
       $('#'+vid).textContent=n.toLocaleString('en-GB');$('#clk').textContent='Hour '+Math.round(24*k);
-    },function(){run[key]=1;$('#n2b').textContent=Object.keys(run).length;showReplies();fin2()})}
+    },function(){run[key]=1;$('#r_'+key+'_m').textContent=total.toLocaleString('en-GB');$('#n2b').textContent=Object.keys(run).length;fillRates();fin2()})}
   function repl(total,rate){var r=total/rate;return r<1?'Less than 1':(r<10?String(Math.round(r*10)/10):Math.round(r).toLocaleString('en-GB'))}
-  function showReplies(){var rate=+$('#rate').value,lab=rate===1000?'1,000':(rate===10000?'10,000':'100,000');
-    if(run.h)$('#rh').textContent=repl(240,rate);if(run.a)$('#ra').textContent=repl(240000,rate);
-    if(run.a)$('#rateOut').textContent='At 1 in '+lab+', AI still gets about '+repl(240000,rate)+' replies a day. A few replies are enough to make money.';}
+  function fillRates(){var rate=+$('#rate').value;
+    if(run.h)$('#r_h_'+rate).textContent=repl(240,rate);if(run.a)$('#r_a_'+rate).textContent=repl(240000,rate);
+    if(run.h&&run.a){rateSeen[rate]=1;$('#n2b2').textContent=Object.keys(rateSeen).length;fin2()}}
   $('#runH').onclick=function(){runLane($('#cvH'),240,4500,'#A33B3B','vh','h')};
   $('#runA').onclick=function(){runLane($('#cvA'),240000,4500,'#2E8C83','va','a')};
-  $('#rate').onchange=showReplies;
+  $('#rate').onchange=fillRates;
+  $$('#r_h_m,#r_a_m,#r_h_1000,#r_a_1000,#r_h_10000,#r_a_10000').forEach(function(e){e.className='v'});
   /* profile */
   var rated={};
   function lineChart(){var pts=[[0,0],[2,300],[5,500],[9,800],[12,1500],[14,24000],[15,41000],[17,46000],[21,48000]],p=pts.map(function(a){return(40+a[0]/21*320).toFixed(0)+','+(110-a[1]/48000*90).toFixed(0)}).join(' ');
-    return '<svg viewBox="0 0 400 150" role="img" aria-label="Followers jump from about 1,500 to 41,000 in two days"><line x1="40" y1="110" x2="370" y2="110" stroke="currentColor" opacity=".3"/><polyline points="'+p+'" fill="none" stroke="#A33B3B" stroke-width="3"/><text x="40" y="128" font-size="11" fill="currentColor">Day 1 (account created)</text><text x="260" y="128" font-size="11" fill="currentColor">Day 21 (today)</text><text x="220" y="40" font-size="12" fill="#A33B3B" font-weight="700">Jump: +40,000 in 2 days</text></svg>'}
+    return '<svg viewBox="0 0 400 150" role="img" aria-label="Followers jump from about 1,500 to 41,000 in two days"><line x1="40" y1="110" x2="370" y2="110" stroke="currentColor" opacity=".3"/><polyline points="'+p+'" fill="none" stroke="#A33B3B" stroke-width="3"/><text x="40" y="128" font-size="11" fill="currentColor">Day 1 (account created)</text><text x="260" y="128" font-size="11" fill="currentColor">Day 21 (today)</text><text x="60" y="40" font-size="12" fill="#A33B3B" font-weight="700">Jump: +40,000 followers in 2 days</text></svg>'}
   var CL=[{k:'Account created 3 weeks ago',tool:'Check the account history',red:1,why:'A brand new account with a huge following is a red flag. The followers were probably bought.',ev:function(){return '<div><b>Account created: 3 weeks ago.</b></div>'+lineChart()}},
           {k:'Promises guaranteed profits',tool:"Read Layla's posts",red:1,why:'No honest investment is guaranteed. Guaranteed profit with a deadline is a scam pattern.',ev:function(){return '<div class="chatx"><div class="l">"I made QAR 40,000 in 7 days. <b>Guaranteed</b> 40% profit!"</div><div class="l">"Last chance. The offer ends today."</div></div>'}},
           {k:'Wants a private chat quickly',tool:'Open the chat',red:1,why:'Scammers move you off the public platform so nobody else can warn you.',ev:function(){return '<div class="chatx"><div class="l">"Hi! I cannot discuss this here. Message me privately."</div><div class="r">"Why?"</div><div class="l">"Send me your phone number and I will show you how."</div></div>'}},
           {k:'Lists football as a hobby',tool:"Read Layla's hobbies",red:0,why:'This is normal. Real people have hobbies, and fake profiles list them too. A hobby alone proves nothing.',ev:function(){return '<div><b>Hobbies:</b> football, travel, coffee.</div>'}}];
-  $('#clues').innerHTML=CL.map(function(c,i){return '<div class="clue" id="cl'+i+'"><b>'+c.k+'</b><div><button type="button" class="alt" data-ct="'+i+'">'+c.tool+'</button></div><div class="ev" id="ev'+i+'" hidden></div></div>'}).join('')+
-    '<div class="clue" id="clx"><b>Extra tool (not rated)</b><div><button type="button" class="alt" data-cx="1">Reverse image search the photo</button></div><div class="ev" id="evx" hidden></div></div>';
+  $('#clues').innerHTML=CL.map(function(c,i){return '<div class="clue" id="cl'+i+'"><b>'+(i+1)+'. '+c.k+'</b><div><button type="button" class="alt" data-ct="'+i+'">Investigate: '+c.tool+'</button></div><div class="ev" id="ev'+i+'" hidden></div></div>'}).join('');
+  $('#featBody').innerHTML=CL.map(function(c,i){return '<tr><td>'+c.k+'</td><td class="v" id="fb'+i+'"></td></tr>'}).join('');
   $$('[data-ct]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-ct'),e=$('#ev'+i);e.hidden=false;
     e.innerHTML=CL[i].ev()+'<div class="row2"><b>Your rating:</b><button type="button" data-r="1" data-i="'+i+'">Red flag</button><button type="button" class="alt" data-r="0" data-i="'+i+'">Normal</button></div><div class="fb" id="fr'+i+'" hidden></div>';b.disabled=true}});
   $('#clues').addEventListener('click',function(e){var b=e.target.closest('[data-r]');if(!b)return;var i=+b.getAttribute('data-i'),c=CL[i],ok=(+b.getAttribute('data-r'))===c.red,f=$('#fr'+i);f.hidden=false;
-    if(ok){f.innerHTML=pill(c.red?'no':'ok',c.red?'Red flag':'Normal')+' '+c.why;$('#cl'+i).classList.add('done');$$('[data-i="'+i+'"]',$('#ev'+i)).forEach(function(x){x.disabled=true});rated[i]=1;$('#n2c').textContent=Object.keys(rated).length;fin2()}
+    if(ok){f.innerHTML=pill(c.red?'no':'ok',c.red?'Red flag':'Normal')+' '+c.why;$('#cl'+i).classList.add('done');$$('[data-i="'+i+'"]',$('#ev'+i)).forEach(function(x){x.disabled=true});rated[i]=1;$('#fb'+i).textContent=c.red?'Red flag':'Normal';$('#n2c').textContent=Object.keys(rated).length;fin2()}
     else{f.textContent='Not quite. Look at the evidence again and think about what a real person would do.';shake($('#cl'+i))}});
-  $$('[data-cx]').forEach(function(b){b.onclick=function(){var e=$('#evx');e.hidden=false;b.disabled=true;e.innerHTML='<div class="tip">0 other matches found. Real photos usually appear in many places over many years. This face may be AI-generated. Judge the offer and the behaviour, not the photo.</div>'}});
-  function fin2(){if(Object.keys(scanned).length===4&&Object.keys(run).length===2&&Object.keys(rated).length===4)$('#done2').hidden=false}
+  function fin2(){if(Object.keys(scanned).length===4&&Object.keys(run).length===2&&Object.keys(rateSeen).length===2&&Object.keys(rated).length===4)$('#done2').hidden=false}
 
   /* ================= TASK 3 ================= */
   var DEF=['Ask for the family safe word','Verify on a second channel you start','Call back on a number you already hold','Never act on urgency alone'];
-  var SIT=[{n:'A "son" rings from a new number and asks for money',tab:'1 Son rings',chat:[['l','"Mum? It\'s me. New number, I dropped my phone."'],['l','"I need QAR 2,000 now. Please hurry."']],
+  var SIT=[{n:'A "son" rings from a new number and asks for money',tab:'Situation 1',chat:[['l','"Mum? It\'s me. New number, I dropped my phone."'],['l','"I need QAR 2,000 now. Please hurry."']],
             me:'"What is our family safe word?"',sc:'"...um... what word? It is me, hurry up!"',ok:'Stopped. A cloned voice cannot know a word agreed in private.'},
-           {n:'A "manager" emails an urgent payment and invites you to a video call',tab:'2 Manager emails',chat:[['l','Email: "Urgent. Pay QAR 40,000 to this supplier today."'],['l','"Join the video call now so I can approve it."']],
+           {n:'A "manager" emails an urgent payment and invites you to a video call',tab:'Situation 2',chat:[['l','Email: "Urgent. Pay QAR 40,000 to this supplier today."'],['l','"Join the video call now so I can approve it."']],
             me:'"I will message you on the company chat first."',sc:'"No time! Do it now on this call!"',ok:'Stopped. You moved to a channel that YOU started.'},
-           {n:'A "bank" gives you a number to ring',tab:'3 Bank number',chat:[['l','"This is your bank. Your account is at risk."'],['l','"Ring this number now to fix it: 5550 0000."']],
+           {n:'A "bank" gives you a number to ring',tab:'Situation 3',chat:[['l','"This is your bank. Your account is at risk."'],['l','"Ring this number now to fix it: 5550 0000."']],
             me:'"I will hang up and ring the number on my bank card."',sc:'"Wait, do not hang up!"',ok:'Stopped. The number you already hold reaches the real bank.'},
-           {n:'An "investment coach" says the offer ends in one hour',tab:'4 Coach',chat:[['l','"This offer ends in ONE HOUR."'],['l','"Only 3 places left. Send your deposit now."']],
+           {n:'An "investment coach" says the offer ends in one hour',tab:'Situation 4',chat:[['l','"This offer ends in ONE HOUR."'],['l','"Only 3 places left. Send your deposit now."']],
             me:'"A real offer will still be here after I check it."',sc:'"You will miss out forever!"',ok:'Stopped. Urgency is a tactic. A real offer survives a pause.'}];
-  var won={},cur=-1,prog=0,usedD={};
+  var won={},cur=-1,prog=0;
   $('#simtabs').innerHTML=SIT.map(function(s,i){return '<button type="button" aria-pressed="false" data-s="'+i+'">'+s.tab+'</button>'}).join('');
+  $('#sitBody').innerHTML=SIT.map(function(s,i){return '<tr><td>'+s.n+'</td><td class="v" id="sb'+i+'"></td></tr>'}).join('');
   $('#toolkit').innerHTML=DEF.map(function(d,j){return '<button type="button" data-d="'+j+'" disabled>'+d+'</button>'}).join('');
   function chatRender(i,extra){var s=SIT[i],h='<b>'+s.n+'</b>'+s.chat.map(function(c){return '<div class="bub pop">'+c[1]+'</div>'}).join('')+(extra||'');$('#simChat').innerHTML=h}
   function setProg(p){prog=p;$('#simMeter').style.width=Math.min(100,p)+'%'}
   $$('[data-s]').forEach(function(b){b.onclick=function(){cur=+b.getAttribute('data-s');$$('[data-s]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
-    usedD={};setProg(0);chatRender(cur);$$('#toolkit button').forEach(function(t){t.disabled=!!won[cur];t.classList.remove('used')});
+    setProg(0);chatRender(cur);$$('#toolkit button').forEach(function(t){t.disabled=!!won[cur];t.classList.remove('used')});
     $('#simFb').textContent=won[cur]?'You already stopped this scam.':'Choose a defence from your toolkit.'}});
   $$('#toolkit button').forEach(function(b){b.onclick=function(){
     if(cur<0||won[cur])return;var j=+b.getAttribute('data-d'),s=SIT[cur];
     if(j===cur){won[cur]=1;chatRender(cur,'<div class="bub me pop">'+s.me+'</div><div class="bub pop">'+s.sc+'</div>');
-      $('#simFb').innerHTML=pill('ok','Scam stopped')+' '+s.ok;$$('#toolkit button').forEach(function(t){t.disabled=true});$$('[data-s]')[cur].classList.add('won');$('#n3a').textContent=Object.keys(won).length;fin3()}
+      $('#simFb').innerHTML=pill('ok','Scam stopped')+' '+s.ok;$$('#toolkit button').forEach(function(t){t.disabled=true});$$('[data-s]')[cur].classList.add('won');$('#sb'+cur).textContent=DEF[j];$('#n3a').textContent=Object.keys(won).length;fin3()}
     else{b.classList.add('used');b.disabled=true;setProg(prog+34);shake($('#simChat'));
       chatRender(cur,'<div class="bub me pop">(You use: '+DEF[j]+')</div><div class="bub pop">"Good. Now send the money before it is too late."</div>');
-      if(prog>=100){$('#simFb').innerHTML=pill('no','The scammer won this round')+' Money sent. Choose the situation again and try a better defence.';$$('#toolkit button').forEach(function(t){t.disabled=true});setTimeout(function(){if(!won[cur]){setProg(0);usedD={};$$('#toolkit button').forEach(function(t){t.disabled=false;t.classList.remove('used')});chatRender(cur);$('#simFb').textContent='Round reset. Try a different defence.'}},RM?50:1800)}
+      if(prog>=100){$('#simFb').innerHTML=pill('no','The scammer won this round')+' Money sent. Press the situation again and try a better defence.';$$('#toolkit button').forEach(function(t){t.disabled=true});setTimeout(function(){if(!won[cur]){setProg(0);$$('#toolkit button').forEach(function(t){t.disabled=false;t.classList.remove('used')});chatRender(cur);$('#simFb').textContent='Round reset. Try a different defence.'}},RM?50:1800)}
       else $('#simFb').textContent='Not the best fit here. The scammer is still in control of the conversation. Try another defence.'}}});
   /* safe word machine */
   var PROF=['biscuit','sara','hassan','alnoor','12may','14june','june','birthday','september'],COMMON=['password','secret','family','welcome','letmein','football','sunshine','qwerty','123456'];
@@ -649,12 +684,12 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
     $$('.fam .post').forEach(function(p){p.classList.remove('hit')});m.innerHTML='Testing: <b>'+w.replace(/</g,'&lt;')+'</b><br>';
     mt=setInterval(function(){if(k<lines.length){m.innerHTML+=lines[k]+'<br>';k++;return}
       clearInterval(mt);
-      if(r.c){m.innerHTML+='<span class="r">CRACKED in 0.4 seconds: '+r.why+'.</span><br>Verdict: WEAK';if(r.hit)$('#'+r.hit).classList.add('hit');m.setAttribute('data-v','weak')}
-      else{m.innerHTML+='<span class="g">Not found after 4,200,000 guesses.</span><br>Verdict: GOOD. It is random, agreed in person and never posted.';m.setAttribute('data-v','good')}
-      if(key!==undefined){tested[key]=1;$('#n3b').textContent=Object.keys(tested).length;$$('[data-w3="'+key+'"]')[0].insertAdjacentHTML('afterend',' '+pill(r.c?'no':'ok',r.c?'Weak':'Good'));fin3()}
+      if(r.c){m.innerHTML+='<span class="r">Cracked? YES in 0.4 seconds: '+r.why+'.</span><br>Good or weak? WEAK';if(r.hit)$('#'+r.hit).classList.add('hit')}
+      else{m.innerHTML+='<span class="g">Cracked? NO. Not found after 4,200,000 guesses.</span><br>Good or weak? GOOD. It is random, agreed in person and never posted.'}
+      if(key!==undefined){tested[key]=1;$('#n3b').textContent=Object.keys(tested).length;$('#wg_'+key).textContent=r.c?'Weak':'Good';$('#wc_'+key).textContent=r.c?'Yes':'No';fin3()}
     },RM?5:230)}
   var PW=['Biscuit (the family dog, in public photos)','Purple-lamp-seven (agreed in person)','Your birthday'],PT=['Biscuit','Purple-lamp-seven','Your birthday'];
-  $('#wordBtns').innerHTML=PW.map(function(w,i){return '<span><button type="button" class="alt" data-w3="'+i+'">Test: '+w+'</button></span>'}).join('');
+  $('#wordBody').innerHTML=PW.map(function(w,i){return '<tr><td><div class="sg"><span>'+w+'</span><button type="button" class="alt" data-w3="'+i+'">Test</button></div></td><td class="v" id="wg_'+i+'"></td><td class="v" id="wc_'+i+'"></td></tr>'}).join('');
   $$('[data-w3]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-w3');if(tested[i])return;testWord(PT[i],i)}});
   $('#myTest').onclick=function(){var v=$('#myWord').value.trim();if(v)testWord(v)};
   $('#myWord').addEventListener('keydown',function(e){if(e.key==='Enter')$('#myTest').click()});
@@ -667,12 +702,12 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
     s+='<rect class="nd" x="250" y="215" width="180" height="76" rx="10"/><text x="340" y="245" text-anchor="middle" font-weight="700" font-size="16">You</text><text x="340" y="270" text-anchor="middle" class="lab">&#128241; your phone gets the code</text>';
     s+='<circle class="dot" id="adot" r="11" cx="140" cy="100" opacity="0"/><text id="acap" x="350" y="314" text-anchor="middle" font-size="14" font-weight="700"></text>';
     $('#tfa').innerHTML=s})();
-  var ATK=[{n:'A criminal logs in with a stolen password',path:[[140,95,'Tries the stolen password'],[400,80,'At the gate: the code goes to YOUR phone']],res:'stop',where:'Stopped at the gate',fb:'The gate asks for a code the criminal does not have.'},
-           {n:'A cloned voice asks you to send money',path:[[330,215,'Cloned voice rings YOU'],[140,125,'You send the money to the attacker']],res:'go',where:'Went round the gate, through you',fb:'No login happens. You are tricked into paying, so the gate is never used.'},
-           {n:'A fake video call tells you to pay',path:[[330,215,'Fake video call to YOU'],[140,125,'You pay the attacker']],res:'go',where:'Went round the gate, through you',fb:'The real person is tricked, so no account check is involved.'},
-           {n:'A scammer asks you to read out your 2FA code',path:[[330,215,'Scammer asks YOU for your code'],[140,125,'You read out the code'],[400,80,'Attacker enters the code at the gate'],[560,80,'The gate opens. Attacker is in']],res:'pass',where:'Through you, then through the gate',fb:'You pass the check yourself by giving the code away.'}];
+  var ATK=[{n:'A criminal logs in with a stolen password',path:[[140,95,'Tries the stolen password'],[400,80,'At the gate: the code goes to YOUR phone']],res:'stop',st:'Yes',where:'Stopped at the gate',fb:'The gate asks for a code the criminal does not have.'},
+           {n:'A cloned voice asks you to send money',path:[[330,215,'Cloned voice rings YOU'],[140,125,'You send the money to the attacker']],res:'go',st:'No',where:'Round the gate, through you',fb:'No login happens. You are tricked into paying, so the gate is never used.'},
+           {n:'A fake video call tells you to pay',path:[[330,215,'Fake video call to YOU'],[140,125,'You pay the attacker']],res:'go',st:'No',where:'Round the gate, through you',fb:'The real person is tricked, so no account check is involved.'},
+           {n:'A scammer asks you to read out your 2FA code',path:[[330,215,'Scammer asks YOU for your code'],[140,125,'You read out the code'],[400,80,'Attacker enters the code at the gate'],[560,80,'The gate opens. Attacker is in']],res:'pass',st:'No',where:'Through you, then the gate',fb:'You pass the check yourself by giving the code away.'}];
   var tried={},busy=false;
-  $('#atkBtns').innerHTML=ATK.map(function(a,i){return '<button type="button" class="alt" data-a="'+i+'">Send: '+a.n+'</button>'}).join('');
+  $('#atkBody').innerHTML=ATK.map(function(a,i){return '<tr><td><div class="sg"><span>'+a.n+'</span><button type="button" class="alt" data-a="'+i+'">Send</button></div></td><td class="v" id="as'+i+'"></td><td class="v" id="aw'+i+'"></td></tr>'}).join('');
   $$('[data-a]').forEach(function(b){b.onclick=function(){if(busy)return;busy=true;var i=+b.getAttribute('data-a'),a=ATK[i],dot=$('#adot'),cap=$('#acap'),g=$('#gate');
     g.setAttribute('class','gate');cap.textContent='';dot.setAttribute('opacity','1');dot.setAttribute('cx','140');dot.setAttribute('cy','100');
     var x=140,y=100,leg=0;
@@ -680,8 +715,8 @@ footer{margin-top:28px;color:var(--muted);font-size:.9rem}
       tween(900,function(k){var e=ease(k);dot.setAttribute('cx',x0+(p[0]-x0)*e);dot.setAttribute('cy',y0+(p[1]-y0)*e)},function(){x=p[0];y=p[1];leg++;setTimeout(go,RM?5:250)})})();
     function fin(){
       if(a.res==='stop')g.setAttribute('class','gate block');if(a.res==='pass')g.setAttribute('class','gate pass');
-      $('#atkFb').innerHTML=pill(a.res==='stop'?'ok':'no',a.res==='stop'?'Stopped by 2FA':'Not stopped')+' <b>'+a.where+'.</b> '+a.fb;
-      b.insertAdjacentHTML('afterend','');tried[i]=1;$('#n3c').textContent=Object.keys(tried).length;busy=false;b.classList.remove('alt');fin3()}
+      $('#atkFb').innerHTML=pill(a.res==='stop'?'ok':'no','Stopped by 2FA? '+a.st.toUpperCase())+' <b>'+a.where+'.</b> '+a.fb;
+      $('#as'+i).textContent=a.st;$('#aw'+i).textContent=a.where;b.textContent='Sent';tried[i]=1;$('#n3c').textContent=Object.keys(tried).length;busy=false;fin3()}
   }});
   function fin3(){if(Object.keys(won).length===4&&Object.keys(tested).length===3&&Object.keys(tried).length===4)$('#done3').hidden=false}
 })();
