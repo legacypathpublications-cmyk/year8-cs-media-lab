@@ -14,7 +14,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* TOP BAR */
 .top{height:var(--topH);display:flex;align-items:center;gap:10px;padding:0 14px;background:var(--dark);color:#fff}
-.brand{font-weight:800;font-size:18px;display:flex;gap:10px;align-items:center;margin-right:auto;white-space:nowrap}
+.brand{border:0;background:none;color:#fff;cursor:pointer;padding:0;font:inherit;font-weight:800;font-size:18px;display:flex;gap:10px;align-items:center;margin-right:auto;white-space:nowrap}
 .brand b{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#8b7bff,#f472b6)}
 .brand b svg{width:22px;height:22px}
 .who{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);padding:5px 6px 5px 10px;border-radius:12px}
@@ -26,6 +26,8 @@ svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .tb:hover{background:rgba(255,255,255,.22)}
 .tb.y{background:#fbbf24;color:#1b1840}.tb.y:hover{background:#fcd34d}
 .tb.ic{padding:8px}
+.tb.home{background:#fff;color:var(--dark);margin-right:auto}.tb.home:hover{background:#eeecff}
+.brand{margin-right:6px!important}
 /* APP SHELL */
 .app{display:grid;grid-template-columns:92px minmax(0,1fr);height:calc(100vh - var(--topH))}
 .rail{background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;padding:10px 8px;overflow:auto}
@@ -229,7 +231,8 @@ kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-bottom-width:2px;border-r
 </head>
 <body>
 <header class="top">
-  <div class="brand"><b><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></b> Web Design Studio</div>
+  <button class="brand" id="brandBtn" title="Go to the Home page"><b><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></b> Web Design Studio</button>
+  <button class="tb home" id="homeBtn" title="Back to the Home page: task, checklist and hand in"></button>
   <div class="who" title="Your name and class appear in the footer of every design"><svg class="i" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg><input id="sName" placeholder="Your full name" maxlength="40"><input id="sClass" placeholder="Class" maxlength="20"></div>
   <button class="tb ic" id="helpBtn" title="How to use the studio"></button>
   <button class="tb" id="saveBtn" title="Save a copy of all your work to your computer"></button>
@@ -357,7 +360,7 @@ const PAL={
 /* ===================== TOOLS ===================== */
 const DEV={desktop:{n:'Desktop',w:1200,cols:12},tablet:{n:'Tablet',w:820,cols:8},mobile:{n:'Mobile',w:420,cols:4}};
 const TOOLS={
- start:{t:'Start and submit',ic:'🏁'},
+ start:{t:'Home: task, checklist and hand in',ic:'🏠'},
  sitemap:{t:'Site map',ic:'🗺️',req:true,canvas:true,links:'elbow',file:'Site map',def:'Site map',W:1400,H:900,
    needs:['Home page at the top','Every page shown as a labelled box','Lines show how pages link together','Sub-pages grouped under their main page','A colour key so colours mean something','At least 5 pages']},
  wire:{t:'Wireframes',ic:'📐',req:true,canvas:true,devices:true,file:'Wireframe',def:'Home',H:1500,
@@ -764,7 +767,7 @@ async function downloadAll(){if(!nameOK())return;const files=allFiles();const zi
 
 /* ===================== UI LAYER: ICONS ===================== */
 const IC={
- flag:'M5 21V4M5 4h11l-2 4 2 4H5',sitemap:'M9 3h6v5H9zM3 16h6v5H3zM15 16h6v5h-6zM12 8v4M6 16v-4h12v4',wire:'M3 4h18v16H3zM3 9h18M8 9v11M11 13h7M11 16h5',
+ home:'M3 11 12 3l9 8M5 9.5V21h5v-6h4v6h5V9.5',flag:'M5 21V4M5 4h11l-2 4 2 4H5',sitemap:'M9 3h6v5H9zM3 16h6v5H3zM15 16h6v5h-6zM12 8v4M6 16v-4h12v4',wire:'M3 4h18v16H3zM3 9h18M8 9v11M11 13h7M11 16h5',
  layout:'M3 3h18v18H3zM3 8h18M3 16h18M14 8v8',flow:'M4 3h7v5H4zM13 16h7v5h-7zM7.5 8v4.5h9V16',palette:'M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.4-1-2.4S13.8 15 15 15h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8zM7.5 11.5h.01M10 7.5h.01M15 7.5h.01',
  image:'M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5h.01',doc:'M6 2h9l5 5v15H6zM14 2v6h6M9 13h8M9 17h8M9 9h3',undo:'M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3',redo:'M15 14l5-5-5-5M20 9H10a6 6 0 0 0 0 12h3',
  copy:'M9 9h11v11H9zM5 15H4V4h11v1',trash:'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3',front:'M8 8h12v12H8zM4 16V4h12',back:'M4 4h12v12H4zM20 8v12H8',
@@ -785,7 +788,7 @@ const IC={
  border:'M4 4h16v16H4zM8 8h8v8H8z',corner:'M4 20V10a6 6 0 0 1 6-6h10',page:'M6 2h9l5 5v15H6zM14 2v6h6',rename:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',dot:'M12 12h.01',
  star:'M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z',arrowR:'M5 12h14M13 6l6 6-6 6'};
 const ic=(n,cls)=>`<svg class="i${cls?' '+cls:''}" viewBox="0 0 24 24"><path d="${IC[n]||IC.dot}"/></svg>`;
-const TMETA={start:{c:'#5b4bf5',i:'flag',s:'Start'},sitemap:{c:'#2563eb',i:'sitemap',s:'Site map'},wire:{c:'#0891b2',i:'wire',s:'Wireframes'},layout:{c:'#ea580c',i:'layout',s:'Layout'},flow:{c:'#16a34a',i:'flow',s:'User flow'},style:{c:'#db2777',i:'palette',s:'Style guide'},mood:{c:'#9333ea',i:'image',s:'Mood board'},content:{c:'#ca8a04',i:'doc',s:'Content'}};
+const TMETA={start:{c:'#5b4bf5',i:'home',s:'Home'},sitemap:{c:'#2563eb',i:'sitemap',s:'Site map'},wire:{c:'#0891b2',i:'wire',s:'Wireframes'},layout:{c:'#ea580c',i:'layout',s:'Layout'},flow:{c:'#16a34a',i:'flow',s:'User flow'},style:{c:'#db2777',i:'palette',s:'Style guide'},mood:{c:'#9333ea',i:'image',s:'Mood board'},content:{c:'#ca8a04',i:'doc',s:'Content'}};
 const GI={'Pages':'page','Extras':'star','Shapes':'shapes','Page structure':'layout','Content':'image','Interactive':'cursor','Notes':'note','Regions':'columns','Flow shapes':'flow','Mood board':'palette'};
 const DESC={header:'The top band with the site name and logo',nav:'Menu links to the other pages',footer:'The bottom band with contact details and links',sidebar:'A side column for links or adverts',logo:'Where the logo goes',hamburger:'The three-line menu button used on phones',
  heading:'A big page title',para:'A block of text',image:'A picture placeholder',video:'A video placeholder',slider:'A slideshow of pictures',card:'A picture with a title and text',map:'A map showing a location',icon:'A small icon',
@@ -969,7 +972,7 @@ const TDESC={sitemap:'Plan every page and how they link together.',wire:'Sketch 
 function buildStart(){const v=$('#v_start');const files=allFiles();const req=['sitemap','wire'],opt=['layout','flow','style','mood','content'];
  const ckRow=t=>{const s=score(t);const T=TOOLS[t],M=TMETA[t];return `<div class="ck" style="--c:${M.c}"><span class="rt">${ic(M.i)}</span><span class="t"><b>${T.t}</b>${T.req?'<span class="req">required</span>':''}<small>${s.done} of ${s.total} checks done</small><div class="bar"><i style="width:${s.total?s.done/s.total*100:0}%"></i></div></span><a data-go="${t}">Open ${ic('chevR')}</a></div>`;};
  v.innerHTML=`<div class="startv"><div class="start">
- <div class="card brief"><h2>${ic('flag')} Your task</h2><ul>
+ <div class="card brief"><h2>${ic('home')} Home: your task</h2><ul>
   <li><span class="bi">${ic('sitemap')}</span><span>Make a <b>site map</b> and a <b>wireframe for each page</b>. They can be hand-drawn and photographed, or made in software. Either is fine if they are clear and labelled.</span></li>
   <li><span class="bi">${ic('user')}</span><span>This studio is the software option. Every design sits in a template with your <b>name and class in the footer</b>.</span></li>
   <li><span class="bi">${ic('download')}</span><span>Submit your rendered design files too, <b>named by page</b>. The <b>Download all designs</b> button does this for you.</span></li>
@@ -990,14 +993,14 @@ function tabs(){$('#tabs').innerHTML=ORDER.map((t,i)=>{const T=TOOLS[t],M=TMETA[
  return (i===1||i===3?'<hr>':'')+`<button class="ri ${S.tool===t?'on':''}" data-t="${t}" style="--c:${M.c}" title="${T.t}"><span class="rt">${ic(M.i)}</span>${M.s}${badge}</button>`;}).join('');$$('#tabs .ri').forEach(b=>b.onclick=()=>go(b.dataset.t));}
 function updateBadges(){clearTimeout(badgeT);badgeT=setTimeout(tabs,300);}
 let badgeT;
-function go(t){closeMenu();S.tool=t;S.sel=null;S.connect=false;S.from=null;$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v_'+t));tabs();
+function go(t){closeMenu();S.tool=t;$('#homeBtn').style.visibility=t==='start'?'hidden':'visible';S.sel=null;S.connect=false;S.from=null;$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v_'+t));tabs();
  if(t==='start')buildStart();else if(t==='style'){buildStyle();decorateForm('style');}else if(t==='content'){buildContent();decorateForm('content');}else{pagebar_();}
  try{history.replaceState(null,'','#'+t);}catch(e){}}
 $('#views').innerHTML=ORDER.map(t=>`<section class="view" id="v_${t}"></section>`).join('');
 ['sitemap','wire','layout','flow','mood'].forEach(buildEditor);
 
 /* ===================== SAVE / OPEN / NAME ===================== */
-$('#helpBtn').innerHTML=ic('help');$('#saveBtn').innerHTML=ic('save')+'<span>Save my work</span>';$('#openBtn').innerHTML=ic('open')+'<span>Open saved work</span>';$('#zipBtn').innerHTML=ic('zip')+'<span>Download all designs</span>';
+$('#helpBtn').innerHTML=ic('help');$('#homeBtn').innerHTML=ic('home')+'<span>Home</span>';$('#homeBtn').onclick=()=>go('start');$('#brandBtn').onclick=()=>go('start');$('#saveBtn').innerHTML=ic('save')+'<span>Save my work</span>';$('#openBtn').innerHTML=ic('open')+'<span>Open saved work</span>';$('#zipBtn').innerHTML=ic('zip')+'<span>Download all designs</span>';
 function saveFile(){const blob=new Blob([JSON.stringify(P)],{type:'application/json'});saveBlob(blob,`${safeName(P.name||'My')} ${safeName(P.cls||'')} - web design work.json`.replace(/\s+-/,' -'));toast('Saved. Keep this file safe and open it next lesson.','good');}
 $('#saveBtn').onclick=saveFile;$('#openBtn').onclick=()=>{$('#openFile').value='';$('#openFile').click();};$('#helpBtn').onclick=showHelp;
 $('#openFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const o=JSON.parse(fr.result);if(!o.tools||!o.tools.wire)throw 0;if(!confirm('Open this saved work? It replaces what is on screen now.'))return;
