@@ -265,6 +265,11 @@ select.tsel{font:inherit;font-weight:800;padding:10px 12px;border-radius:12px;bo
   .qcard{padding:18px}
   .qcard h3{font-size:21px}
 }
+#lock{position:fixed;inset:0;z-index:200;background:linear-gradient(135deg,#1d1846,#4b22d9);display:flex;align-items:center;justify-content:center;padding:16px;color:#fff;text-align:center}
+#lock .box{max-width:560px;width:100%}#lock .pad{font-size:90px;animation:bump 1.6s infinite}
+#lock h1{font-size:38px;margin:8px 0}#lock p{font-size:19px;font-weight:700;opacity:.92}
+#lock .bar{height:18px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;margin:16px 0}#lock .bar i{display:block;height:100%;background:#ffc83d}
+#lock input{font:inherit;font-weight:900;width:130px;text-align:center;padding:9px;border-radius:12px;border:0}
 </style>
 </head>
 <body>
@@ -866,6 +871,19 @@ function gameBigger(el){
  sh.onNew=start;start();return ()=>clearInterval(timer);
 }
 
+/* ================= LOCK: finish the Year 9 Revision Quest (38/38) to get a code ================= */
+const REV_URL='https://legacypathpublications-cmyk.github.io/year8-cs-media-lab/year9-revision/';
+const TEACHER_CODE='2580';
+const normName=n=>String(n||'').toLowerCase().replace(/[^a-z]/g,'');
+function unlockCode(name){let h=97;for(const c of normName(name)+'y9arcade')h=(h*131+c.charCodeAt(0))%1000003;return String(1000+h%9000);}
+(function(){let ok=false;try{ok=localStorage.getItem('ict9_unlocked')==='1';}catch(e){}if(ok)return;const d=document.createElement('div');d.id='lock';
+ d.innerHTML=`<div class="box"><div class="pad">🔒</div><h1>The arcade is locked!</h1><p>Collect all 38 stars in the <b>Year 9 ICT Revision Quest</b>. When you finish, you get your own <b>games code</b>.</p>
+ <p><a class="btn y" href="${REV_URL}" style="text-decoration:none;font-size:19px">🚀 Go to the Revision Quest</a></p>
+ <div style="background:rgba(255,255,255,.12);border-radius:20px;padding:16px;margin-top:22px"><p style="margin:0 0 10px"><b>Got your code?</b></p><input id="lname" placeholder="Your full name" style="width:220px;text-align:left"> <input id="lcode" placeholder="Code" inputmode="numeric" maxlength="4"> <button class="btn g" id="lgo" style="padding:9px 16px">🔓 Unlock</button><p id="lmsg" style="font-size:16px;min-height:22px;margin:10px 0 0"></p></div></div>`;
+ document.body.appendChild(d);const go=()=>{const n=document.getElementById('lname').value,c=document.getElementById('lcode').value.trim();
+  if(c===TEACHER_CODE||(normName(n)&&c===unlockCode(n))){try{localStorage.setItem('ict9_unlocked','1');if(normName(n))localStorage.setItem('ict9_name',JSON.stringify(n.trim()));}catch(e){}d.remove();}
+  else{document.getElementById('lmsg').textContent='❌ That code does not match that name. Type your name exactly as you did in the Revision Quest.';}};
+ document.getElementById('lgo').onclick=go;document.getElementById('lcode').onkeydown=e=>{if(e.key==='Enter')go();};})();
 /* ================= ROUTER ================= */
 const RUN={maze:gameMaze,search:gameSearch,connect:gameConnect,ttt:gameTTT,memory:gameMemory,code:gameCode,sort:gameSort,bugs:gameBugs,bigger:gameBigger};
 let cleanup=null;const app=$('#app');

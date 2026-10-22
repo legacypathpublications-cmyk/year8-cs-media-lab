@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 9 ICT Revision Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1e1b4b;--muted:#5b5a7a;--line:#e4e2f5;--bg:#f5f3ff;--pri:#6d4aff;--pri2:#5233e6;--yel:#ffc93c;--grn:#22c55e;--red:#ef4444;--hf:'Baloo 2','Nunito',system-ui,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Nunito',system-ui,'Segoe UI',sans-serif;color:var(--ink);font-size:17px;min-height:100vh;background:#f5f3ff;background-image:radial-gradient(circle at 10% 0%,#e0f2fe 0,transparent 40%),radial-gradient(circle at 90% 10%,#fce7f3 0,transparent 35%),radial-gradient(circle at 50% 100%,#ede9fe 0,transparent 50%)}
+h1,h2,h3,h4{font-family:var(--hf);margin:0;line-height:1.1}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;padding:10px 18px;background:rgba(30,27,75,.96);color:#fff;backdrop-filter:blur(6px)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--hf);font-size:22px;font-weight:800;margin-right:auto;color:#fff}
+.logo i{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#ec4899);font-style:normal;font-size:20px}
+.tbtn{display:flex;align-items:center;gap:6px;border:0;border-radius:12px;padding:8px 14px;font-weight:800;cursor:pointer;background:rgba(255,255,255,.13);color:#fff;text-decoration:none;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.24)}
+.tbtn.home{background:#fff;color:var(--ink)}
+.pill{background:var(--yel);color:var(--ink);font-weight:900;border-radius:99px;padding:6px 14px;white-space:nowrap}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:14px;padding:11px 18px;font-weight:900;cursor:pointer;background:var(--pri);color:#fff;box-shadow:0 4px 0 var(--pri2);transition:transform .08s;text-decoration:none;font-size:16px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pri2)}
+.btn.g{background:var(--grn);box-shadow:0 4px 0 #15803d}.btn.y{background:var(--yel);color:var(--ink);box-shadow:0 4px 0 #d49b00}.btn.w{background:#fff;color:var(--ink);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}.btn.r{background:var(--red);box-shadow:0 4px 0 #b91c1c}
+.btn[disabled]{opacity:.45;cursor:default}
+/* HERO */
+.hero{position:relative;border-radius:30px;padding:30px 30px 26px;color:#fff;overflow:hidden;background:linear-gradient(120deg,#6d4aff,#a855f7 55%,#ec4899);box-shadow:0 10px 0 rgba(30,27,75,.15)}
+.hero h1{font-size:clamp(32px,5vw,52px)}
+.hero p{font-size:19px;font-weight:700;max-width:640px;margin:8px 0 16px;opacity:.95}
+.hero .bot{position:absolute;right:26px;bottom:-6px;width:190px;animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.bubble{position:absolute;right:215px;bottom:150px;background:#fff;color:var(--ink);border-radius:18px;padding:10px 14px;font-weight:800;max-width:230px;box-shadow:0 6px 0 rgba(0,0,0,.1)}
+.bubble::after{content:'';position:absolute;right:-12px;top:22px;border:8px solid transparent;border-left:14px solid #fff}
+.prog{background:rgba(255,255,255,.2);border-radius:16px;padding:12px 16px;max-width:520px}
+.prog .bar{height:14px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden;margin-top:8px}
+.prog .bar i{display:block;height:100%;background:var(--yel);border-radius:99px;transition:width .8s}
+.unit{margin-top:34px}
+.uhead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.uhead .badge{font-family:var(--hf);font-weight:800;background:var(--ink);color:#fff;border-radius:14px;padding:6px 14px;font-size:18px}
+.uhead h2{font-size:28px}.uhead span{color:var(--muted);font-weight:800}
+.path{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px 12px 14px;border-radius:24px;background:#fff;border:3px solid var(--line);box-shadow:0 7px 0 var(--line);text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.tile:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 13px 0 var(--line);border-color:var(--c)}
+.tile .ill{width:96px;height:96px;border-radius:26px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 15%,#fff)}
+.tile .ill svg{width:72px;height:72px}
+.tile:hover .ill svg{animation:wig .6s}
+@keyframes wig{25%{transform:rotate(-8deg) scale(1.08)}75%{transform:rotate(7deg) scale(1.08)}}
+.tile h3{font-size:20px}.tile small{color:var(--muted);font-weight:800;font-size:13px}
+.tile .num{position:absolute;left:12px;top:10px;width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;font-weight:900;display:grid;place-items:center;font-size:14px}
+.stars{color:#f5b301;letter-spacing:1px;font-size:20px;line-height:1}.stars .off{color:#dcd8f0}
+.specials{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:34px}
+.sp{display:flex;gap:14px;align-items:center;padding:18px;border-radius:24px;text-decoration:none;color:#fff;box-shadow:0 7px 0 rgba(30,27,75,.15);transition:transform .15s}
+.sp:hover{transform:translateY(-5px)}
+.sp .em{font-size:46px;width:70px;height:70px;border-radius:20px;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:none}
+.sp h3{font-size:22px}.sp p{margin:2px 0 0;font-weight:700;opacity:.92;font-size:15px}
+/* TOPIC PAGE */
+.thead{display:flex;gap:20px;align-items:center;padding:20px 24px;border-radius:28px;background:linear-gradient(120deg,var(--c),color-mix(in srgb,var(--c) 60%,#1e1b4b));color:#fff;box-shadow:0 8px 0 rgba(30,27,75,.15);position:relative;overflow:hidden}
+.thead .ill{width:104px;height:104px;border-radius:28px;background:rgba(255,255,255,.95);display:grid;place-items:center;flex:none}
+.thead .ill svg{width:80px;height:80px}
+.thead h1{font-size:clamp(28px,4vw,42px)}.thead p{margin:4px 0 0;font-weight:700;opacity:.95}
+.thead .stars{font-size:26px;margin-top:6px}.thead .stars .off{color:rgba(255,255,255,.35)}
+.crumb{display:inline-flex;align-items:center;gap:6px;font-weight:900;color:var(--pri2);text-decoration:none;margin-bottom:12px}
+.ttabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
+.ttab{display:flex;align-items:center;gap:8px;border:3px solid var(--line);background:#fff;border-radius:16px;padding:10px 16px;font-weight:900;cursor:pointer;font-size:16px;box-shadow:0 4px 0 var(--line)}
+.ttab .ok{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:var(--line);color:#fff}
+.ttab .ok.y{background:var(--grn)}
+.ttab.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff)}
+.panel{background:#fff;border:3px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 6px 0 var(--line)}
+.ptitle{display:flex;align-items:center;gap:10px;margin-bottom:6px}.ptitle h2{font-size:26px}
+.lead{color:var(--muted);font-weight:700;margin:0 0 16px}
+/* LEARN CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.kc{border:3px solid var(--line);border-radius:22px;background:#fff;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s}
+.kc.done{border-color:var(--grn)}
+.kc .kh{display:flex;align-items:center;gap:12px;padding:14px 16px;background:color-mix(in srgb,var(--c) 9%,#fff)}
+.kc .kh .ki{width:64px;height:64px;border-radius:18px;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 3px 0 var(--line)}
+.kc .kh .ki svg{width:50px;height:50px}
+.kc h3{font-size:21px}
+.kc .kb{padding:12px 16px 14px;flex:1;display:flex;flex-direction:column;gap:8px;font-weight:600;line-height:1.45}
+.kc .kb b{font-weight:900}
+.use{background:#f1f5f9;border-radius:12px;padding:7px 11px;font-size:15px}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14.5px}
+.pc div{border-radius:12px;padding:7px 10px}
+.pc .p{background:#dcfce7}.pc .m{background:#fee2e2}
+.pc b{display:block;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+.got{margin-top:auto;align-self:flex-start;border:2px solid var(--line);background:#fff;border-radius:12px;padding:6px 12px;font-weight:900;cursor:pointer;font-size:14.5px}
+.kc.done .got{background:var(--grn);border-color:var(--grn);color:#fff}
+.diagram{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:4px 0}
+.diagram span{background:var(--c);color:#fff;border-radius:12px;padding:6px 10px;font-weight:900;font-size:14px;text-align:center}
+.diagram em{font-style:normal;font-weight:900;color:var(--muted)}
+/* QUIZ */
+.qtop{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.qbar{flex:1;height:14px;background:#efedfb;border-radius:99px;overflow:hidden}.qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--c),#ffc93c);transition:width .4s}
+.qtype{font-size:12.5px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;background:color-mix(in srgb,var(--c) 14%,#fff);color:color-mix(in srgb,var(--c) 70%,#1e1b4b);border-radius:99px;padding:4px 10px;display:inline-block}
+.qq,.opt span,.review div,.gapline{overflow-wrap:anywhere}
+.qq{font-family:var(--hf);font-size:clamp(22px,3vw,30px);margin:10px 0 16px;line-height:1.2}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;border:3px solid var(--line);background:#fff;border-radius:18px;padding:13px 15px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 var(--line);font-size:17px}
+.opt:hover{border-color:var(--c)}
+.opt b{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;background:var(--k)}
+.opt.right{background:#dcfce7;border-color:var(--grn);box-shadow:0 4px 0 #86efac;animation:pop .45s}
+.opt.wrong{background:#fee2e2;border-color:var(--red);box-shadow:0 4px 0 #fca5a5;animation:shake .4s}
+@keyframes pop{40%{transform:scale(1.05)}}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tf .opt{justify-content:center;font-size:24px;padding:22px;font-family:var(--hf)}
+.gapline{font-size:22px;font-weight:800;line-height:1.7}
+.slot{display:inline-block;min-width:150px;border-bottom:4px solid var(--c);text-align:center;color:var(--c);padding:0 8px;margin:0 4px}
+.slot.right{color:var(--grn);border-color:var(--grn)}.slot.wrong{color:var(--red);border-color:var(--red)}
+.bank{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.chipb{border:3px solid var(--line);background:#fff;border-radius:14px;padding:9px 14px;font-weight:900;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.chipb:hover{border-color:var(--c)}.chipb.sel{background:var(--c);color:#fff;border-color:var(--c)}
+.mcols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mcols .col{display:flex;flex-direction:column;gap:8px}
+.mi{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;font-weight:800;cursor:pointer;text-align:left;position:relative}
+.mi.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff)}
+.mi .tag{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;color:#fff;font-weight:900;display:grid;place-items:center;font-size:13px}
+.mi.ok{border-color:var(--grn);background:#f0fdf4}.mi.no{border-color:var(--red);background:#fef2f2}
+.olist{display:flex;flex-direction:column;gap:8px;max-width:620px}
+.oi{display:flex;align-items:center;gap:10px;border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;font-weight:800}
+.oi .n{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:900;flex:none}
+.oi .mv{margin-left:auto;display:flex;gap:4px}.oi .mv button{border:2px solid var(--line);background:#fff;border-radius:9px;width:34px;height:32px;cursor:pointer;font-weight:900}
+.oi.ok{border-color:var(--grn);background:#f0fdf4}.oi.no{border-color:var(--red);background:#fef2f2}
+.fb{margin-top:16px;border-radius:16px;padding:12px 16px;font-weight:800;display:none;align-items:flex-start;gap:12px}
+.fb.show{display:flex}.fb.g{background:#dcfce7;color:#14532d}.fb.r{background:#fee2e2;color:#7f1d1d}
+.fb .fe{font-size:28px;line-height:1}
+.qnav{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.result{text-align:center;padding:10px}
+.result .big{font-size:84px;animation:pop .8s}
+.result h2{font-size:36px}
+.result .stars{font-size:44px;margin:8px 0}
+.review{text-align:left;margin-top:16px;display:grid;gap:8px}
+.review div{border-radius:14px;padding:10px 14px;background:#fef2f2;font-weight:700}
+.review div.ok{background:#f0fdf4}
+/* SORTER / MATCHER */
+.tray{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px;border-radius:20px;background:#f8f7ff;border:3px dashed var(--line);min-height:76px}
+.chip{display:flex;align-items:center;gap:8px;border:3px solid var(--line);background:#fff;border-radius:16px;padding:8px 12px;font-weight:900;cursor:grab;user-select:none;touch-action:none;box-shadow:0 4px 0 var(--line);transition:transform .1s}
+.chip:hover{border-color:var(--c);transform:translateY(-2px)}
+.chip.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);transform:scale(1.05)}
+.chip svg{width:34px;height:34px;flex:none}
+.chip small{display:block;font-weight:700;color:var(--muted);font-size:12.5px}
+.ghost{position:fixed;z-index:90;pointer-events:none;opacity:.92;transform:rotate(-4deg) scale(1.05)}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.bin{border:3px dashed var(--bc);border-radius:20px;padding:12px;min-height:140px;background:color-mix(in srgb,var(--bc) 8%,#fff);cursor:pointer;transition:transform .12s}
+.bin:hover{transform:translateY(-3px)}
+.bin h4{font-size:20px;color:var(--bc);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bin h4 small{margin-left:auto;font-family:'Nunito';font-size:14px;background:var(--bc);color:#fff;border-radius:99px;padding:1px 9px}
+.bin .in{display:flex;flex-wrap:wrap;gap:6px}
+.bin .in span{background:#fff;border-radius:10px;padding:4px 9px;font-weight:800;font-size:13.5px;border:1px solid var(--line);animation:pop .35s}
+.bin.yes{animation:pop .45s;background:#dcfce7}.bin.no{animation:shake .4s;background:#fee2e2}
+.hintline{text-align:center;font-weight:800;min-height:28px;margin-top:10px;color:var(--muted)}
+.targets{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
+.tg{border:3px solid var(--line);border-radius:20px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:8px;transition:transform .12s}
+.tg .who{display:flex;gap:10px;align-items:flex-start;font-weight:800;line-height:1.35}
+.tg .who .av{font-size:34px;line-height:1;flex:none}
+.tg .drop{border:3px dashed var(--line);border-radius:14px;min-height:56px;display:flex;align-items:center;justify-content:center;color:#a8a4c8;font-weight:800;font-size:14px;gap:8px;padding:6px}
+.tg.over .drop,.tg:hover .drop{border-color:var(--c)}
+.tg.done{border-color:var(--grn);background:#f0fdf4}.tg.done .drop{border-style:solid;border-color:var(--grn);color:var(--ink)}
+.tg.no{animation:shake .4s;border-color:var(--red)}
+.tg .why{font-size:14.5px;font-weight:700;color:#166534;display:none}.tg.done .why{display:block}
+.tg .drop svg{width:34px;height:34px}
+/* SIMS */
+.sim{border:3px solid var(--line);border-radius:22px;padding:16px;background:#fbfaff}
+.simgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.screen{background:#0f172a;color:#e2e8f0;border-radius:16px;padding:14px;font-family:'Courier New',monospace;font-weight:700}
+.screen .hl{background:#facc15;color:#111;border-radius:4px;padding:0 4px}
+.dbt{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}
+.dbt th,.dbt td{border:1px solid #cbd5e1;padding:6px 8px;text-align:left}.dbt th{background:#ede9fe}
+.dbt tr.hit td{background:#fef08a;animation:pop .5s}
+.cap{height:30px;background:#e5e7eb;border-radius:99px;overflow:hidden;position:relative;border:2px solid #cbd5e1}
+.cap i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#facc15,#ef4444);transition:width .5s}
+.cap span{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;font-size:14px}
+.ftile{display:flex;flex-direction:column;align-items:center;gap:4px;border:3px solid var(--line);background:#fff;border-radius:16px;padding:10px;font-weight:900;cursor:pointer;min-width:110px;box-shadow:0 4px 0 var(--line)}
+.ftile:hover{border-color:var(--c)}.ftile .e{font-size:30px}.ftile small{color:var(--muted);font-weight:800}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;gap:6px;flex-wrap:wrap}
+.seg button{border:3px solid var(--line);background:#fff;border-radius:14px;padding:8px 12px;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:6px}
+.seg button.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,#fff)}
+.seg button svg{width:30px;height:30px}
+.subh{font-family:var(--hf);font-size:22px;margin:22px 0 6px;display:flex;align-items:center;gap:8px}
+.note{background:#fffbeb;border:2px solid #fde68a;border-radius:16px;padding:10px 14px;font-weight:700}
+.mascot{display:flex;gap:12px;align-items:flex-end;margin:4px 0 14px}
+.mascot svg{width:64px;flex:none}
+.mascot .say{background:#fff;border:3px solid var(--line);border-radius:18px 18px 18px 4px;padding:10px 14px;font-weight:800}
+/* FLASHCARDS */
+.flash{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.fc{perspective:900px;height:170px;cursor:pointer;border:0;background:none;padding:0}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .f,.fc .b{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;padding:14px;text-align:center}
+.fc .f{background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#1e1b4b));color:#fff;font-family:var(--hf);font-size:26px;font-weight:800;box-shadow:0 6px 0 rgba(30,27,75,.15)}
+.fc .b{background:#fff;border:3px solid var(--c);transform:rotateY(180deg);font-weight:800;line-height:1.35}
+/* MISSION */
+.mstep{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.mstep span{border-radius:99px;padding:5px 12px;font-weight:900;font-size:14px;background:#efedfb;color:var(--muted)}
+.mstep span.on{background:var(--ink);color:#fff}.mstep span.d{background:#dcfce7;color:#166534}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.choice{border:3px solid var(--line);border-radius:20px;padding:14px;background:#fff;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:6px;box-shadow:0 5px 0 var(--line)}
+.choice:hover{border-color:var(--c)}.choice.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 9%,#fff)}
+.choice svg{width:60px;height:60px}
+.choice .price{font-weight:900;color:#166534}
+.budget{display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--line);border-radius:18px;padding:10px 14px;margin-bottom:14px;font-weight:900}
+.budget .cap{flex:1}
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0}
+.person{background:#fff;border:3px solid var(--line);border-radius:18px;padding:10px;font-weight:700;font-size:14.5px}
+.person b{font-family:var(--hf);font-size:19px;display:block}
+.person .av{font-size:30px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.share canvas{width:100%;border-radius:18px;box-shadow:0 8px 0 rgba(30,27,75,.12);background:#fff}
+.field{display:block;font-weight:900;margin:12px 0 6px}
+.inp{width:100%;font:inherit;font-weight:800;padding:11px 13px;border-radius:14px;border:3px solid var(--line);background:#fff}
+.inp.miss{border-color:#f87171;background:#fff1f2}
+.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0 0;display:grid;gap:8px}
+.steps li{counter-increment:s;display:flex;gap:10px;align-items:flex-start;font-weight:700;line-height:1.4}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:900}
+.code{font-family:'Courier New',monospace;font-weight:700;word-break:break-all;background:#f1f5f9;border-radius:12px;padding:10px;font-size:13px}
+.ctab{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;background:#fff}
+.ctab th,.ctab td{border:1px solid var(--line);padding:6px 8px;text-align:center}.ctab th{background:#ede9fe;font-size:12px}.ctab td:first-child,.ctab th:first-child{text-align:left}
+.sharebar{display:flex;align-items:center;gap:14px;margin-top:22px;padding:16px 20px;border-radius:22px;background:#fff;border:3px solid var(--line);box-shadow:0 6px 0 var(--line);text-decoration:none}
+.sharebar .em{font-size:40px}.sharebar b{font-family:var(--hf);font-size:22px;display:block}.sharebar span{color:var(--muted);font-weight:700}
+@media (max-width:900px){.share{grid-template-columns:1fr}}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140px);opacity:0;z-index:99;background:var(--ink);color:#fff;font-weight:900;padding:12px 20px;border-radius:16px;transition:all .3s;max-width:92vw;text-align:center;pointer-events:none}
+#toast.show{transform:translate(-50%,0);opacity:1}#toast.good{background:var(--grn)}#toast.bad{background:var(--red)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:98}
+@media (max-width:1400px){.bubble{display:none}}
+@media (max-width:600px){.hero .bot{display:none}}
+@media (max-width:900px){.path{grid-template-columns:1fr 1fr}.specials{grid-template-columns:1fr}.simgrid{grid-template-columns:1fr}.bubble{display:none}.hero .bot{width:120px;opacity:.5}}
+@media (max-width:600px){.top{gap:6px;padding:10px 10px}.logo{font-size:16px;gap:6px}.logo i{width:30px;height:30px;font-size:16px}.pill{padding:5px 9px;font-size:14px}.tbtn{padding:7px 9px}.opts,.mcols{grid-template-columns:1fr}.top .tbtn span{display:none}.thead{flex-direction:column;text-align:center}.pc{grid-template-columns:1fr}.wrap{padding:16px 12px 70px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <a class="logo" href="#"><i>🚀</i> Year 9 ICT Revision Quest</a>
+ <a class="tbtn home" href="#">🏠 <span>Home</span></a>
+ <a class="tbtn" href="#share" style="background:#22c55e">📤 <span>Send progress</span></a>
+ <span class="pill" id="starPill">⭐ 0</span>
+ <button class="tbtn" id="muteBtn" title="Sound on or off">🔊</button>
+</header>
+<main class="wrap" id="app"></main>
+<div id="toast"></div>
+<canvas id="confetti"></canvas>
+<script>
+/* ================= ILLUSTRATIONS (64 x 64 cartoon style) ================= */
+const O='#1e1b4b';
+const sv=b=>`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round" stroke-linecap="round">${b}</svg>`;
+const keys=(x,y,c,r,w,h,g,fill)=>{let s='';for(let j=0;j<r;j++)for(let i=0;i<c;i++)s+=`<rect x="${x+i*(w+g)}" y="${y+j*(h+g)}" width="${w}" height="${h}" rx="1.5" fill="${fill}"/>`;return s;};
+const ART={
+ keyboard:sv(`<rect x="4" y="20" width="56" height="28" rx="6" fill="#64748b" stroke="${O}" stroke-width="2.5"/>${keys(9,25,8,3,4.6,4.6,1.4,'#f1f5f9')}<rect x="18" y="42" width="28" height="3.6" rx="1.5" fill="#f1f5f9"/>`),
+ mouse:sv(`<path d="M32 8c-9 0-14 7-14 16v14c0 10 6 18 14 18s14-8 14-18V24c0-9-5-16-14-16z" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><path d="M32 8v18M18 26h28" stroke="${O}" stroke-width="2.5"/><rect x="29.5" y="13" width="5" height="9" rx="2.5" fill="#6366f1"/>`),
+ trackerball:sv(`<path d="M8 44c0-8 6-12 24-12s24 4 24 12v4c0 4-4 6-8 6H16c-4 0-8-2-8-6z" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="30" r="14" fill="#ef4444" stroke="${O}" stroke-width="2.5"/><circle cx="27" cy="25" r="4" fill="#fff" opacity=".6"/>`),
+ joystick:sv(`<rect x="12" y="44" width="40" height="12" rx="5" fill="#475569" stroke="${O}" stroke-width="2.5"/><path d="M32 44V20" stroke="${O}" stroke-width="5"/><circle cx="32" cy="16" r="9" fill="#ef4444" stroke="${O}" stroke-width="2.5"/><circle cx="46" cy="49" r="3" fill="#facc15"/>`),
+ touch:sv(`<rect x="10" y="6" width="44" height="52" rx="7" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="14" y="11" width="36" height="40" rx="3" fill="#bae6fd"/><circle cx="32" cy="30" r="6" fill="none" stroke="#0284c7" stroke-width="2"/><circle cx="32" cy="30" r="11" fill="none" stroke="#0284c7" stroke-width="1.5" opacity=".5"/><path d="M38 52c0-6 0-12 2-15 1.5-2 4-1 4 1v14" fill="#fcd34d" stroke="${O}" stroke-width="2.5"/>`),
+ gtablet:sv(`<rect x="6" y="16" width="44" height="34" rx="5" fill="#334155" stroke="${O}" stroke-width="2.5"/><rect x="11" y="21" width="34" height="24" rx="2" fill="#cbd5e1"/><path d="M15 39c5-10 10 2 15-6s8-2 11-4" fill="none" stroke="#7c3aed" stroke-width="2.5"/><path d="M58 8L42 30" stroke="${O}" stroke-width="5"/><path d="M58 8L42 30" stroke="#f97316" stroke-width="2.5"/>`),
+ scanner:sv(`<rect x="6" y="28" width="52" height="20" rx="4" fill="#cbd5e1" stroke="${O}" stroke-width="2.5"/><rect x="6" y="22" width="52" height="8" rx="3" fill="#64748b" stroke="${O}" stroke-width="2.5"/><rect x="12" y="36" width="40" height="4" rx="2" fill="#22d3ee"/><path d="M20 22V8h20l6 6v8" fill="#fff" stroke="${O}" stroke-width="2.5"/>`),
+ camera:sv(`<rect x="6" y="18" width="52" height="34" rx="7" fill="#334155" stroke="${O}" stroke-width="2.5"/><rect x="20" y="11" width="16" height="9" rx="3" fill="#334155" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="35" r="12" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="35" r="6" fill="#1e3a8a"/><circle cx="49" cy="25" r="2.5" fill="#facc15"/>`),
+ webcam:sv(`<circle cx="32" cy="26" r="17" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="26" r="8" fill="#1e293b"/><circle cx="34" cy="24" r="2.5" fill="#60a5fa"/><path d="M24 43l-6 13h28l-6-13" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/><circle cx="44" cy="15" r="2" fill="#22c55e"/>`),
+ mic:sv(`<rect x="23" y="6" width="18" height="30" rx="9" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/><path d="M23 18h18M23 24h18" stroke="${O}" stroke-width="1.5" opacity=".5"/><path d="M16 28c0 9 7 15 16 15s16-6 16-15" fill="none" stroke="${O}" stroke-width="2.5"/><path d="M32 43v10M22 56h20" stroke="${O}" stroke-width="3"/>`),
+ barcode:sv(`<rect x="6" y="14" width="40" height="30" rx="3" fill="#fff" stroke="${O}" stroke-width="2.5"/>${[10,13,15,19,21,24,28,30,33,37,40].map((x,i)=>`<rect x="${x}" y="18" width="${i%3?1.5:2.6}" height="20" fill="${O}"/>`).join('')}<path d="M4 29h46" stroke="#ef4444" stroke-width="2.5"/><path d="M44 36l10 14 6-4-8-14z" fill="#facc15" stroke="${O}" stroke-width="2.5"/>`),
+ omr:sv(`<rect x="12" y="4" width="40" height="56" rx="4" fill="#fff" stroke="${O}" stroke-width="2.5"/>${[0,1,2,3].map(r=>[0,1,2,3].map(c=>`<circle cx="${22+c*7}" cy="${16+r*10}" r="2.6" fill="${(r+c*2)%4===0?O:'none'}" stroke="${O}" stroke-width="1.3"/>`).join('')).join('')}<text x="16" y="17.5" font-size="5" font-weight="700" fill="${O}">1</text>`),
+ ocr:sv(`<rect x="8" y="4" width="36" height="48" rx="4" fill="#fff" stroke="${O}" stroke-width="2.5"/><text x="13" y="20" font-family="Arial" font-weight="900" font-size="13" fill="${O}">Aa</text><path d="M13 28h24M13 34h20M13 40h22" stroke="#94a3b8" stroke-width="2.5"/><circle cx="44" cy="42" r="10" fill="#bfdbfe" fill-opacity=".7" stroke="${O}" stroke-width="2.5"/><path d="M51 49l8 8" stroke="${O}" stroke-width="4"/>`),
+ magcard:sv(`<rect x="4" y="16" width="56" height="34" rx="5" fill="#0ea5e9" stroke="${O}" stroke-width="2.5"/><rect x="4" y="22" width="56" height="8" fill="${O}"/><path d="M10 40h20M10 44h12" stroke="#fff" stroke-width="2.5"/><path d="M40 6l8 4-8 4" fill="none" stroke="#f59e0b" stroke-width="2.5"/>`),
+ chippin:sv(`<rect x="14" y="8" width="36" height="50" rx="6" fill="#334155" stroke="${O}" stroke-width="2.5"/><rect x="19" y="13" width="26" height="11" rx="2" fill="#a7f3d0"/>${keys(20,29,3,3,6,5,3,'#e2e8f0')}<rect x="8" y="48" width="30" height="14" rx="3" fill="#f59e0b" stroke="${O}" stroke-width="2"/><rect x="13" y="51" width="8" height="6" rx="1" fill="#fde68a" stroke="${O}" stroke-width="1"/>`),
+ finger:sv(`<path d="M32 8c-12 0-20 9-20 20v8" fill="none" stroke="#7c3aed" stroke-width="3"/><path d="M32 14c-8 0-14 6-14 14v14c0 4 1 8 3 11" fill="none" stroke="#7c3aed" stroke-width="3"/><path d="M32 20c-5 0-8 4-8 8v16c0 4 2 8 4 10" fill="none" stroke="#7c3aed" stroke-width="3"/><path d="M32 26v20c0 4 1 7 3 9" fill="none" stroke="#7c3aed" stroke-width="3"/><path d="M32 8c12 0 20 9 20 20v10M38 20c3 2 8 5 8 10v14M40 34v12c0 3 1 6 2 8" fill="none" stroke="#7c3aed" stroke-width="3"/>`),
+ sensor:sv(`<rect x="26" y="4" width="12" height="40" rx="6" fill="#fff" stroke="${O}" stroke-width="2.5"/><rect x="29.5" y="20" width="5" height="26" rx="2.5" fill="#ef4444"/><circle cx="32" cy="50" r="9" fill="#ef4444" stroke="${O}" stroke-width="2.5"/><path d="M40 12h5M40 18h3M40 24h5M40 30h3" stroke="${O}" stroke-width="2"/>`),
+ monitor:sv(`<rect x="4" y="8" width="56" height="38" rx="5" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="8" y="12" width="48" height="29" rx="2" fill="#7dd3fc"/><path d="M8 41l14-14 9 9 7-6 18 11z" fill="#22c55e"/><circle cx="46" cy="19" r="4" fill="#fde047"/><path d="M26 46l-3 10h18l-3-10" fill="#64748b" stroke="${O}" stroke-width="2.5"/>`),
+ projector:sv(`<path d="M30 22L62 6v48L30 38z" fill="#fde68a" opacity=".55"/><rect x="2" y="22" width="34" height="22" rx="5" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><circle cx="26" cy="33" r="7" fill="#334155" stroke="${O}" stroke-width="2.5"/><circle cx="26" cy="33" r="3" fill="#93c5fd"/><path d="M8 48v4M30 48v4" stroke="${O}" stroke-width="3"/>`),
+ speaker:sv(`<rect x="14" y="4" width="36" height="56" rx="6" fill="#334155" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="18" r="7" fill="#64748b" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="41" r="12" fill="#64748b" stroke="#0f172a" stroke-width="2"/><circle cx="32" cy="41" r="4" fill="#0f172a"/><path d="M54 30c3 4 3 8 0 12M58 26c5 6 5 14 0 20" fill="none" stroke="#f472b6" stroke-width="2.5"/>`),
+ inkjet:sv(`<rect x="6" y="22" width="52" height="24" rx="5" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><path d="M16 22V8h32v14" fill="#fff" stroke="${O}" stroke-width="2.5"/><rect x="14" y="42" width="36" height="16" fill="#fff" stroke="${O}" stroke-width="2.5"/><circle cx="22" cy="50" r="3" fill="#06b6d4"/><circle cx="32" cy="50" r="3" fill="#ec4899"/><circle cx="42" cy="50" r="3" fill="#facc15"/><circle cx="50" cy="30" r="2.5" fill="#22c55e"/>`),
+ laser:sv(`<rect x="6" y="14" width="52" height="34" rx="5" fill="#cbd5e1" stroke="${O}" stroke-width="2.5"/><rect x="12" y="20" width="40" height="6" rx="2" fill="#475569"/><path d="M14 30l36 6" stroke="#ef4444" stroke-width="2.5"/><rect x="14" y="44" width="36" height="14" fill="#fff" stroke="${O}" stroke-width="2.5"/><path d="M20 50h24M20 54h18" stroke="${O}" stroke-width="1.8"/>`),
+ p3d:sv(`<path d="M8 8h48v48H8z" fill="none" stroke="${O}" stroke-width="2.5"/><path d="M8 16h48" stroke="${O}" stroke-width="2.5"/><path d="M28 16v8l4 4 4-4v-8z" fill="#f97316" stroke="${O}" stroke-width="2"/><path d="M20 52h24v-4H20zM22 48h20v-4H22zM24 44h16v-4H24z" fill="#22c55e" stroke="${O}" stroke-width="1.8"/><path d="M32 30v6" stroke="#f97316" stroke-width="2" stroke-dasharray="2 2"/>`),
+ plotter:sv(`<rect x="2" y="14" width="60" height="12" rx="4" fill="#64748b" stroke="${O}" stroke-width="2.5"/><path d="M8 26v28h48V26" fill="#fff" stroke="${O}" stroke-width="2.5"/><path d="M14 46l10-10 8 6 10-12 8 8" fill="none" stroke="#2563eb" stroke-width="2.5"/><path d="M38 8v14l-3 4h6l-3-4" fill="#ef4444" stroke="${O}" stroke-width="2"/>`),
+ motor:sv(`<circle cx="32" cy="32" r="17" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/>${[0,45,90,135,180,225,270,315].map(a=>`<rect x="28" y="7" width="8" height="10" rx="2" fill="#94a3b8" stroke="${O}" stroke-width="2.5" transform="rotate(${a} 32 32)"/>`).join('')}<circle cx="32" cy="32" r="13" fill="#94a3b8"/><circle cx="32" cy="32" r="6" fill="#f8fafc" stroke="${O}" stroke-width="2.5"/>`),
+ laptop:sv(`<rect x="10" y="10" width="44" height="30" rx="4" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="14" y="14" width="36" height="22" rx="2" fill="#a5b4fc"/><path d="M4 44h56l-4 8H8z" fill="#cbd5e1" stroke="${O}" stroke-width="2.5"/><path d="M26 48h12" stroke="${O}" stroke-width="2"/>`),
+ desktop:sv(`<rect x="2" y="10" width="40" height="30" rx="4" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="6" y="14" width="32" height="22" rx="2" fill="#99f6e4"/><path d="M18 40l-2 8h12l-2-8" fill="#64748b" stroke="${O}" stroke-width="2.5"/><rect x="46" y="8" width="16" height="44" rx="3" fill="#475569" stroke="${O}" stroke-width="2.5"/><circle cx="54" cy="16" r="2.5" fill="#22c55e"/><path d="M50 24h8M50 28h8" stroke="#94a3b8" stroke-width="2"/><rect x="4" y="52" width="36" height="7" rx="2" fill="#94a3b8" stroke="${O}" stroke-width="2"/>`),
+ tablet:sv(`<rect x="8" y="4" width="48" height="56" rx="7" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="12" y="9" width="40" height="44" rx="3" fill="#fbcfe8"/><circle cx="32" cy="56" r="1.8" fill="#94a3b8"/><rect x="17" y="15" width="12" height="12" rx="3" fill="#f472b6"/><rect x="34" y="15" width="12" height="12" rx="3" fill="#a78bfa"/><rect x="17" y="32" width="12" height="12" rx="3" fill="#60a5fa"/>`),
+ phone:sv(`<rect x="16" y="2" width="32" height="60" rx="8" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="19.5" y="9" width="25" height="44" rx="3" fill="#bbf7d0"/><rect x="28" y="5" width="8" height="2" rx="1" fill="#475569"/><rect x="23" y="14" width="8" height="8" rx="2" fill="#22c55e"/><rect x="33" y="14" width="8" height="8" rx="2" fill="#0ea5e9"/><rect x="23" y="25" width="8" height="8" rx="2" fill="#f59e0b"/><rect x="33" y="25" width="8" height="8" rx="2" fill="#ec4899"/><circle cx="32" cy="57" r="2" fill="#64748b"/>`),
+ watch:sv(`<rect x="22" y="2" width="20" height="14" rx="3" fill="#f472b6" stroke="${O}" stroke-width="2.5"/><rect x="22" y="48" width="20" height="14" rx="3" fill="#f472b6" stroke="${O}" stroke-width="2.5"/><rect x="14" y="14" width="36" height="36" rx="10" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><path d="M22 35l5-8 5 10 4-6 5 4" fill="none" stroke="#4ade80" stroke-width="2.5"/>`),
+ console:sv(`<path d="M10 22c-4 0-7 4-7 10l2 14c1 6 7 8 11 3l5-6h22l5 6c4 5 10 3 11-3l2-14c0-6-3-10-7-10z" fill="#6366f1" stroke="${O}" stroke-width="2.5"/><path d="M17 30v8M13 34h8" stroke="#fff" stroke-width="3"/><circle cx="45" cy="31" r="2.6" fill="#facc15"/><circle cx="50" cy="36" r="2.6" fill="#22c55e"/><circle cx="40" cy="36" r="2.6" fill="#ef4444"/>`),
+ smartspeaker:sv(`<path d="M18 14c0-4 6-6 14-6s14 2 14 6v38c0 4-6 6-14 6s-14-2-14-6z" fill="#334155" stroke="${O}" stroke-width="2.5"/><ellipse cx="32" cy="14" rx="14" ry="5" fill="#475569" stroke="${O}" stroke-width="2"/><path d="M22 14a10 3 0 0 0 20 0" fill="none" stroke="#38bdf8" stroke-width="2.5"/><path d="M22 30h20M22 36h20M22 42h20" stroke="#64748b" stroke-width="2" stroke-dasharray="1 3"/>`),
+ doorbell:sv(`<rect x="18" y="4" width="28" height="56" rx="12" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="20" r="8" fill="#1e293b"/><circle cx="34" cy="18" r="2.5" fill="#60a5fa"/><circle cx="32" cy="44" r="7" fill="#38bdf8" stroke="${O}" stroke-width="2.5"/>`),
+ satnav:sv(`<rect x="6" y="12" width="52" height="38" rx="6" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="10" y="16" width="44" height="30" rx="2" fill="#bbf7d0"/><path d="M14 40c8-4 10-14 22-16s12 4 14 2" fill="none" stroke="#2563eb" stroke-width="3"/><path d="M42 20c-3 0-5 2-5 4.5 0 3.5 5 8 5 8s5-4.5 5-8c0-2.5-2-4.5-5-4.5z" fill="#ef4444"/>`),
+ mainframe:sv(`${[4,24,44].map(x=>`<rect x="${x}" y="6" width="16" height="52" rx="3" fill="#475569" stroke="${O}" stroke-width="2.5"/><rect x="${x+3}" y="11" width="10" height="4" rx="1" fill="#22c55e"/><path d="M${x+3} 22h10M${x+3} 28h10M${x+3} 34h10M${x+3} 40h10" stroke="#94a3b8" stroke-width="2"/>`).join('')}`),
+ embedded:sv(`<rect x="14" y="14" width="36" height="36" rx="4" fill="#1e293b" stroke="${O}" stroke-width="2.5"/>${[20,28,36,44].map(p=>`<path d="M${p} 14V6M${p} 50v8M14 ${p}H6M50 ${p}h8" stroke="#94a3b8" stroke-width="2.5"/>`).join('')}<rect x="22" y="22" width="20" height="20" rx="2" fill="#a3e635"/><text x="32" y="36" text-anchor="middle" font-family="Arial" font-weight="900" font-size="9" fill="${O}">CPU</text>`),
+ hdd:sv(`<rect x="8" y="4" width="48" height="56" rx="5" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/><circle cx="30" cy="28" r="17" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><circle cx="30" cy="28" r="4" fill="${O}"/><path d="M48 50L34 32" stroke="${O}" stroke-width="3"/><circle cx="48" cy="50" r="3" fill="#ef4444"/>`),
+ ssd:sv(`<rect x="6" y="14" width="52" height="36" rx="5" fill="#1e293b" stroke="${O}" stroke-width="2.5"/>${[12,25,38].map(x=>`<rect x="${x}" y="20" width="10" height="16" rx="1.5" fill="#64748b"/>`).join('')}<text x="32" y="46" text-anchor="middle" font-family="Arial" font-weight="900" font-size="7" fill="#a78bfa">SSD</text><rect x="20" y="50" width="24" height="5" fill="#facc15" stroke="${O}" stroke-width="2"/>`),
+ usb:sv(`<rect x="18" y="24" width="28" height="36" rx="5" fill="#8b5cf6" stroke="${O}" stroke-width="2.5"/><rect x="22" y="6" width="20" height="18" fill="#cbd5e1" stroke="${O}" stroke-width="2.5"/><rect x="26" y="11" width="4" height="4" fill="${O}"/><rect x="34" y="11" width="4" height="4" fill="${O}"/><circle cx="32" cy="46" r="4" fill="#fff" opacity=".6"/>`),
+ dvd:sv(`<circle cx="32" cy="32" r="27" fill="#e0e7ff" stroke="${O}" stroke-width="2.5"/><path d="M14 22a22 22 0 0 1 14-10" stroke="#f472b6" stroke-width="4"/><path d="M50 42a22 22 0 0 1-14 10" stroke="#38bdf8" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#fff" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="32" r="3" fill="${O}"/>`),
+ cloud:sv(`<path d="M18 48h30c7 0 12-5 12-11s-5-11-11-11c-1-8-8-14-16-14-7 0-13 5-15 11-7 0-14 6-14 13s6 12 14 12z" fill="#e0f2fe" stroke="${O}" stroke-width="2.5"/><path d="M32 42V28M26 33l6-6 6 6" fill="none" stroke="#0284c7" stroke-width="3"/>`),
+ server:sv(`${[6,24,42].map(y=>`<rect x="10" y="${y}" width="44" height="15" rx="3" fill="#334155" stroke="${O}" stroke-width="2.5"/><circle cx="18" cy="${y+7.5}" r="2.5" fill="#22c55e"/><path d="M28 ${y+7.5}h20" stroke="#64748b" stroke-width="2.5"/>`).join('')}`),
+ folder:sv(`<path d="M4 16c0-3 2-5 5-5h14l5 6h27c3 0 5 2 5 5v28c0 3-2 5-5 5H9c-3 0-5-2-5-5z" fill="#fbbf24" stroke="${O}" stroke-width="2.5"/><path d="M4 24h56" stroke="${O}" stroke-width="2.5"/><rect x="14" y="30" width="18" height="18" rx="2" fill="#fff" stroke="${O}" stroke-width="2"/><path d="M18 36h10M18 40h8" stroke="#94a3b8" stroke-width="2"/>`),
+ doc:sv(`<path d="M14 4h26l12 12v44H14z" fill="#fff" stroke="${O}" stroke-width="2.5"/><path d="M40 4v12h12" fill="#e0e7ff" stroke="${O}" stroke-width="2.5"/><path d="M20 26h24M20 33h24M20 40h18" stroke="#93c5fd" stroke-width="3"/><rect x="18" y="46" width="16" height="9" rx="2" fill="#2563eb"/><text x="26" y="53" text-anchor="middle" font-family="Arial" font-weight="900" font-size="6" fill="#fff">v2</text>`),
+ os:sv(`<rect x="4" y="8" width="56" height="40" rx="5" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="8" y="12" width="48" height="31" rx="2" fill="#0ea5e9"/><rect x="12" y="16" width="8" height="8" rx="2" fill="#fff"/><rect x="12" y="28" width="8" height="8" rx="2" fill="#fde047"/><rect x="28" y="18" width="24" height="18" rx="2" fill="#f8fafc" stroke="${O}" stroke-width="1.5"/><path d="M28 22h24" stroke="${O}" stroke-width="1.5"/><path d="M26 48l-3 9h18l-3-9" fill="#64748b" stroke="${O}" stroke-width="2.5"/>`),
+ shield:sv(`<path d="M32 4l22 8v16c0 14-10 26-22 32C20 54 10 42 10 28V12z" fill="#fbbf24" stroke="${O}" stroke-width="2.5"/><path d="M22 32l7 7 14-15" fill="none" stroke="${O}" stroke-width="4"/>`),
+ bug:sv(`<ellipse cx="32" cy="36" rx="13" ry="17" fill="#22c55e" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="17" r="8" fill="#16a34a" stroke="${O}" stroke-width="2.5"/><path d="M32 22v30M19 32H8M19 42H9M45 32h11M45 42h10M20 24l-7-6M44 24l7-6M28 11l-4-6M36 11l4-6" stroke="${O}" stroke-width="2.5"/>`),
+ lock:sv(`<path d="M20 28v-8a12 12 0 0 1 24 0v8" fill="none" stroke="${O}" stroke-width="4"/><rect x="12" y="28" width="40" height="30" rx="6" fill="#f43f5e" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="41" r="4" fill="${O}"/><path d="M32 44v6" stroke="${O}" stroke-width="3"/>`),
+ cafe:sv(`<path d="M12 24h34v16c0 10-7 18-17 18S12 50 12 40z" fill="#fff" stroke="${O}" stroke-width="2.5"/><path d="M46 28h4c4 0 7 3 7 7s-3 7-7 7h-5" fill="none" stroke="${O}" stroke-width="2.5"/><path d="M12 30h34" stroke="#a16207" stroke-width="5"/><path d="M22 6c-3 4 3 6 0 12M30 4c-3 4 3 6 0 12M38 6c-3 4 3 6 0 12" fill="none" stroke="#a8a29e" stroke-width="2.5"/>`),
+ printer:sv(`<rect x="6" y="22" width="52" height="24" rx="5" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><path d="M16 22V8h32v14" fill="#fff" stroke="${O}" stroke-width="2.5"/><rect x="16" y="40" width="32" height="18" fill="#fff" stroke="${O}" stroke-width="2.5"/><path d="M22 47h20M22 52h14" stroke="#94a3b8" stroke-width="2"/>`),
+ heater:sv(`<rect x="8" y="16" width="48" height="36" rx="6" fill="#fecaca" stroke="${O}" stroke-width="2.5"/>${[16,24,32,40,48].map(x=>`<path d="M${x} 22v24" stroke="#ef4444" stroke-width="3"/>`).join('')}<path d="M22 4c-3 4 3 6 0 10M32 4c-3 4 3 6 0 10M42 4c-3 4 3 6 0 10" fill="none" stroke="#f97316" stroke-width="2.5"/>`),
+ robot:`<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg"><line x1="60" y1="8" x2="60" y2="24" stroke="#1e1b4b" stroke-width="5"/><circle cx="60" cy="8" r="7" fill="#ffc93c" stroke="#1e1b4b" stroke-width="4"/><rect x="18" y="22" width="84" height="64" rx="22" fill="#fff" stroke="#1e1b4b" stroke-width="5"/><rect x="30" y="36" width="60" height="34" rx="14" fill="#1e1b4b"/><circle cx="47" cy="53" r="7" fill="#5eead4"/><circle cx="73" cy="53" r="7" fill="#5eead4"/><path d="M50 64q10 7 20 0" fill="none" stroke="#5eead4" stroke-width="3"/><circle cx="24" cy="70" r="5" fill="#f9a8d4"/><circle cx="96" cy="70" r="5" fill="#f9a8d4"/><rect x="34" y="88" width="52" height="40" rx="14" fill="#8b5cf6" stroke="#1e1b4b" stroke-width="5"/><circle cx="60" cy="106" r="7" fill="#ffc93c" stroke="#1e1b4b" stroke-width="3"/><path d="M34 98l-18 12M86 98l18-14" stroke="#1e1b4b" stroke-width="6"/><circle cx="14" cy="112" r="6" fill="#fff" stroke="#1e1b4b" stroke-width="4"/><circle cx="106" cy="82" r="6" fill="#fff" stroke="#1e1b4b" stroke-width="4"/></svg>`
+};
+const art=n=>ART[n]||ART.doc;
+
+ART.display=ART.monitor;
+/* ================= CONTENT ================= */
+const UNITS=[
+ {id:1,name:'Unit 1: Computers and software',sub:'Files, devices, storage, the OS, updates and licences',topics:['fm','dev','feat','conv','sto','os','upd','lic']},
+ {id:2,name:'Unit 2: Hardware for Qahwa House',sub:'Our café client: the portfolio, input and output devices',topics:['client','input','auto','output']}
+];
+const T={};
+function topic(id,o){T[id]=Object.assign({id},o);}
+
+topic('fm',{t:'Files and folders',art:'folder',c:'#3b82f6',tag:'Name it, find it, keep it safe',
+ cards:[
+  {a:'doc',t:'A good file name',d:'A good name <b>says what the file is</b>, has a <b>version or date</b>, and avoids words like final, new or untitled.',use:'Example: <b>Science Homework v2 2026-10-08.docx</b>',p:'Anyone can find the newest file',m:'Bad names like Document1 hide what is inside'},
+  {a:'folder',t:'Folders and sub-folders',d:'A <b>folder</b> groups related files. A <b>sub-folder</b> sits inside another folder.',use:'Example: Y9 ICT &gt; Unit 2 - Hardware',p:'Files are quicker to find',m:'Saving everything on the desktop gets messy fast'},
+  {a:'doc',t:'Dates the right way round',d:'Write dates <b>year first: 2026-10-08</b>. Then files sort into date order automatically.',use:'Version numbers work too: v1, v2, v3. The highest is the newest.'},
+  {a:'lock',t:'Characters to avoid',d:'File names cannot use <b>/ \\ : * ? " &lt; &gt; |</b>. Spaces are fine, as long as the name means something.'},
+  {a:'ocr',t:'File extensions',d:'The letters after the dot show the file type: <b>.docx</b> Word, <b>.xlsx</b> Excel, <b>.pptx</b> PowerPoint, <b>.jpg/.png</b> images, <b>.mp3</b> sound.'},
+  {a:'shield',t:'PDF: the sealed format',d:'A <b>.pdf</b> is hard to edit, so it is good for sending work that must not be changed.',use:'Send a .pdf to an accountant who must not change the numbers.'},
+  {a:'cloud',t:'Backups',d:'A <b>backup</b> is a spare copy kept safe in case the original is lost. Cloud storage like <b>OneDrive</b> keeps a copy off the computer.',p:'Safe if a laptop breaks',m:'Needs the internet to reach it'}
+ ],
+ words:[['File name','Says what the file is, with a version or a date'],['Folder','A place to group related files'],['Sub-folder','A folder inside another folder'],['Extension','The letters after the dot that show the file type'],['Version','A numbered copy of a file, such as v1 or v2'],['Backup','A spare copy kept safe in case the original is lost'],['PDF','A sealed file format that is hard to edit']],
+ quiz:[
+  {type:'mcq',q:'Which is the best file name?',a:'Science Homework v2 2026-10-08.docx',w:['Document1.docx','homework FINAL final.docx','new new.docx'],why:'It says what the file is and has a version and a date.'},
+  {type:'mcq',q:'Which file format is "sealed", so it is hard to edit?',a:'.pdf',w:['.docx','.pptx','.xlsx'],why:'A PDF keeps its layout and is hard to change. Word, PowerPoint and Excel files are easy to edit.'},
+  {type:'tf',q:'Spaces are fine in a file name, as long as the name means something.',a:true,why:'Spaces are allowed. Characters like / \\ : * ? " < > | are not.'},
+  {type:'match',q:'Match each extension to its file type.',pairs:[['.docx','Word document'],['.xlsx','Spreadsheet'],['.pptx','Presentation'],['.mp3','Sound']]},
+  {type:'gap',q:'Write dates ___ first, so files sort into date order.',a:'year',bank:['year','day','month','time'],why:'2026-10-08 sorts correctly because the year comes first.'},
+  {type:'mcq',q:'C:\\Users\\Sara\\Documents\\ICT\\Notes.docx. Which folder holds Notes.docx?',a:'ICT',w:['Users','Sara','Documents'],why:'The folder just before the file name is the one it is saved in.'},
+  {type:'tf',q:'"menu final FINAL (2).docx" tells you clearly which menu is the newest.',a:false,why:'Words like final and new do not show which is newest. Use v1, v2 or a date.'},
+  {type:'order',q:'Put these folders in order, from the biggest folder to the file.',items:['Y9 ICT - Sara Ali','Unit 2 - Hardware','L9 Qahwa House client notes v1.docx']}
+ ],
+ play:[{kind:'namelab'},{kind:'sorter',title:'Sort the extensions',lead:'Drag each file into the right group.',bins:['Document','Spreadsheet','Presentation','Image','Sound'],items:[['report.docx',0],['notes.pdf',0],['prices.xlsx',1],['budget.csv',1],['talk.pptx',2],['logo.png',3],['photo.jpg',3],['song.mp3',4],['voice note.wav',4]]}]});
+
+topic('dev',{t:'Digital devices',art:'laptop',c:'#f97316',tag:'From smartwatches to mainframes',
+ cards:[
+  {a:'desktop',t:'Desktop computer',d:'Stays on a desk with a <b>separate</b> monitor, keyboard and mouse.',use:'Used for: offices, video editing, gaming',p:'Powerful and easy to <b>upgrade</b>',m:'Not portable; needs mains power'},
+  {a:'laptop',t:'Laptop',d:'A portable computer with a <b>built-in</b> keyboard, screen and battery.',use:'Used for: school work, travelling',p:'Portable with a full keyboard',m:'Harder to upgrade; battery runs down'},
+  {a:'tablet',t:'Tablet',d:'A touch screen device bigger than a phone, usually with <b>no physical keyboard</b>.',use:'Used for: reading, drawing, watching',p:'Light; long battery life',m:'Slow for long typing'},
+  {a:'phone',t:'Smartphone',d:'A pocket device that makes calls, takes photos and runs apps.',p:'Does many jobs in one device',m:'Small screen; easy to lose'},
+  {a:'watch',t:'Smartwatch',d:'A <b>wearable</b> device on the wrist that counts steps and shows messages.',p:'Always with you',m:'Tiny screen; needs a phone for some jobs'},
+  {a:'console',t:'Games console',d:'A device built mainly for playing games with a <b>controller</b>.',m:'Not designed for school work'},
+  {a:'mainframe',t:'Mainframe',d:'A huge, very powerful computer that handles <b>millions of transactions</b>.',use:'Used for: banks, airlines, governments',p:'Handles enormous amounts of data',m:'Very expensive; needs experts'},
+  {a:'embedded',t:'Embedded computer',d:'A small computer <b>built inside</b> another device to do one job.',use:'Used in: washing machines, cars, microwaves',p:'Cheap and reliable',m:'Does only one job'}
+ ],
+ words:[['Desktop','A computer on a desk with separate monitor, keyboard and mouse'],['Laptop','A portable computer with a built-in keyboard and battery'],['Tablet','A touch screen device, usually with no physical keyboard'],['Mainframe','A huge computer that handles millions of transactions'],['Embedded computer','A small computer built inside another device to do one job'],['Upgrade','Add better parts, such as more RAM']],
+ quiz:[
+  {type:'mcq',q:'A bank must process millions of payments every hour. Which computer?',a:'Mainframe',w:['Laptop','Tablet','Smartwatch'],why:'Mainframes handle huge numbers of transactions.'},
+  {type:'mcq',q:'Which is an embedded computer?',a:'The computer inside a washing machine',w:['A gaming laptop','A desktop in an office','A school tablet'],why:'It is built inside another device to do one job.'},
+  {type:'tf',q:'A desktop computer is the easiest type to upgrade with new parts.',a:true,why:'Its case opens up so you can add RAM, storage or a better graphics card.'},
+  {type:'match',q:'Match each person to the best device.',pairs:[['Writes essays on the bus','Laptop'],['Edits video in an office','Desktop computer'],['Tracks their running','Smartwatch'],['Reads e-books on the sofa','Tablet']]},
+  {type:'gap',q:'A tablet usually has a touch screen and no physical ___.',a:'keyboard',bank:['keyboard','screen','battery','processor'],why:'Tablets use an on-screen keyboard.'},
+  {type:'tf',q:'A laptop is less portable than a desktop computer.',a:false,why:'A laptop has a battery and folds shut, so it is more portable.'},
+  {type:'mcq',q:'What is the main disadvantage of a desktop computer?',a:'It is not portable',w:['It has a small screen','It cannot be upgraded','It cannot connect to the internet'],why:'It needs a desk and mains power.'}
+ ],
+ play:[{kind:'matcher',title:'Device matchmaker',lead:'Drag the best device onto each person.',targets:[['🧑‍🎓','Sara writes long essays on the bus to school.','laptop','Laptop','Portable with a full keyboard and a battery.'],['🎬','Ali edits 4K video in an office all day.','desktop','Desktop computer','Powerful, with a big screen, and easy to upgrade.'],['🏃‍♀️','Mona wants to count her steps when she runs.','watch','Smartwatch','A wearable that tracks steps on the wrist.'],['🏦','A bank processes millions of card payments.','mainframe','Mainframe','Built for huge numbers of transactions.'],['🧺','A washing machine needs to run its wash cycles.','embedded','Embedded computer','A small computer built inside the machine for one job.'],['🎮','Yousef wants to play racing games on the TV.','console','Games console','Built for games with a controller.']]}]});
+
+topic('feat',{t:'Device features',art:'phone',c:'#10b981',tag:'What makes a device right for the job?',
+ cards:[
+  {a:'laptop',t:'Portability',d:'How easy a device is to <b>carry</b> and use in different places.',use:'Light, small and battery powered = very portable'},
+  {a:'embedded',t:'Performance',d:'How <b>fast</b> a device runs programs. A faster <b>processor</b> and more <b>RAM</b> give better performance.'},
+  {a:'ssd',t:'Storage',d:'How much data, such as photos and apps, a device can <b>keep</b>. Measured in GB or TB.'},
+  {a:'cloud',t:'Connectivity',d:'How a device <b>links</b> to networks: <b>Wi-Fi</b>, <b>Bluetooth</b>, and <b>mobile data</b> (4G or 5G) through a SIM card.',use:'A tablet with no SIM card can still go online through Wi-Fi.'},
+  {a:'sensor',t:'Battery life and energy use',d:'How long a device runs before it needs <b>charging</b>, and how much power it uses.'},
+  {a:'finger',t:'Security',d:'Features that protect a device: <b>PIN codes</b>, <b>fingerprint</b> and <b>face unlock</b>.'},
+  {a:'touch',t:'User interface',d:'How you <b>control</b> the device: a touch screen, keyboard, mouse or voice.'},
+  {a:'desktop',t:'Expansion',d:'Adding to a device later: more <b>RAM</b>, more <b>storage</b>, extra <b>ports</b>. Desktops are easiest to expand.'}
+ ],
+ words:[['Portability','How easy a device is to carry and use anywhere'],['Performance','How fast a device runs programs'],['Connectivity','How a device links to networks, such as Wi-Fi'],['SIM card','Connects a device to the mobile phone network'],['Battery life','How long a device runs before it needs charging'],['Expansion','Adding parts later, such as more RAM or ports']],
+ quiz:[
+  {type:'mcq',q:'A tablet has no SIM card. Can it still go online?',a:'Yes, through Wi-Fi',w:['No, never','Only with Bluetooth','Only if it has a keyboard'],why:'A SIM card only connects to the mobile phone network. Wi-Fi still works.'},
+  {type:'mcq',q:'A fast processor and lots of RAM improve which feature?',a:'Performance',w:['Portability','Security','Battery life'],why:'They make programs run faster.'},
+  {type:'match',q:'Match each example to its feature.',pairs:[['Face unlock','Security'],['Wi-Fi and Bluetooth','Connectivity'],['Weighs only 400 g','Portability'],['512 GB for photos','Storage']]},
+  {type:'tf',q:'Expansion means adding more RAM, storage or ports to a device later.',a:true,why:'Desktops are the easiest to expand.'},
+  {type:'gap',q:'A farmer working outside all day with no plug sockets needs good ___ life.',a:'battery',bank:['battery','screen','speaker','keyboard'],why:'There is nowhere to charge during the day.'},
+  {type:'tf',q:'Portability means how fast a device runs.',a:false,why:'That is performance. Portability is how easy it is to carry.'}
+ ],
+ play:[{kind:'shop'}]});
+
+topic('conv',{t:'Convergence',art:'watch',c:'#ec4899',tag:'One device, many jobs',
+ cards:[
+  {a:'phone',t:'Convergence',d:'<b>Convergence</b> is when one device takes on the jobs of <b>several</b> devices.',use:'A smartphone is now a camera, sat nav, music player, torch and wallet.'},
+  {a:'satnav',t:'Devices it replaced',d:'Cameras, sat navs, MP3 players, calculators, alarm clocks, diaries and torches.'},
+  {a:'smartspeaker',t:'Smart home devices',d:'Devices at home that connect to the internet: <b>smart speakers</b>, lights, thermostats and doorbells.'},
+  {a:'watch',t:'Wearables',d:'Devices you <b>wear</b>: smartwatches, fitness trackers and VR headsets.'},
+  {a:'tablet',t:'Good and bad',d:'Convergence has winners and losers.',p:'Carry fewer devices; cheaper than buying them all',m:'Lose the phone and you lose everything; the battery runs down faster'}
+ ],
+ words:[['Convergence','One device taking on the jobs of several devices'],['Smart home','Home devices that connect to the internet'],['Wearable','A device you wear, such as a smartwatch'],['Sat nav','A device that gives directions using GPS'],['GPS','The satellite system that finds your location']],
+ quiz:[
+  {type:'mcq',q:'What is convergence?',a:'One device taking on the jobs of several devices',w:['Devices getting bigger','Two devices joined by a cable','A type of storage'],why:'A smartphone is the best example.'},
+  {type:'mcq',q:'A smart doorbell is which type of device?',a:'Smart home',w:['Wearable','Storage','Games console'],why:'It connects your home to the internet.'},
+  {type:'tf',q:'Convergence means people need to carry more devices.',a:false,why:'They need fewer, because one device does many jobs.'},
+  {type:'match',q:'Match each device to its group.',pairs:[['Fitness tracker','Wearable'],['Smart speaker','Smart home'],['Sat nav','Travel and navigation'],['Smartphone','Convergence']]},
+  {type:'gap',q:'One disadvantage of convergence: if you lose the ___, you lose everything.',a:'phone',bank:['phone','keyboard','printer','router'],why:'All your jobs are in one device.'}
+ ],
+ play:[{kind:'absorb'}]});
+
+topic('sto',{t:'Storage',art:'ssd',c:'#8b5cf6',tag:'Where files live when the power is off',
+ cards:[
+  {a:'hdd',t:'Magnetic: hard disk drive',d:'Stores data on <b>spinning magnetic disks</b> read by a moving arm.',use:'Used for: desktops, backups',p:'Huge capacity for a low price',m:'Moving parts can break if dropped; slower'},
+  {a:'dvd',t:'Optical: DVD and Blu-ray',d:'Data is read by a <b>laser</b> from a shiny disc.',use:'Used for: films, games, software',p:'Cheap; easy to post',m:'Small capacity; scratches easily'},
+  {a:'ssd',t:'Solid state: SSD',d:'Uses <b>flash memory</b> with <b>no moving parts</b>.',use:'Used for: laptops, phones, fast games',p:'Very fast; tough; silent',m:'Costs more per GB'},
+  {a:'usb',t:'Solid state: USB and SD cards',d:'Small flash storage you can carry in your pocket.',p:'Portable',m:'Easy to lose'},
+  {a:'cloud',t:'Cloud storage',d:'Files saved on <b>remote servers</b> and reached over the internet, such as <b>OneDrive</b>.',p:'Safe if your device breaks; open anywhere',m:'Needs the internet'},
+  {a:'ssd',t:'Units',d:'<b>1000 KB = 1 MB</b>, <b>1000 MB = 1 GB</b>, <b>1000 GB = 1 TB</b>.',dia:['KB','MB','GB','TB']}
+ ],
+ words:[['Magnetic','Storage on spinning magnetic disks, such as a hard disk drive'],['Optical','Storage read by a laser, such as a DVD'],['Solid state','Flash storage with no moving parts'],['Cloud','Storage on remote servers reached over the internet'],['Capacity','How much data a storage device can hold'],['Gigabyte','1000 megabytes']],
+ quiz:[
+  {type:'mcq',q:'Which storage has no moving parts?',a:'Solid state drive',w:['Hard disk drive','DVD','Blu-ray disc'],why:'An SSD uses flash memory chips.'},
+  {type:'order',q:'Put these units in order, smallest first.',items:['KB','MB','GB','TB']},
+  {type:'mcq',q:'Each photo is 5 MB. How many fit on a 2 GB card?',a:'400',w:['40','200','4000'],why:'2 GB = 2000 MB, and 2000 ÷ 5 = 400.'},
+  {type:'match',q:'Match each device to its storage type.',pairs:[['DVD','Optical'],['Hard disk drive','Magnetic'],['USB flash drive','Solid state'],['OneDrive','Cloud']]},
+  {type:'tf',q:'Cloud storage keeps your work safe even if your laptop breaks.',a:true,why:'The files are on remote servers, not on the laptop.'},
+  {type:'gap',q:'Optical storage is read by a ___.',a:'laser',bank:['laser','magnet','fan','battery'],why:'DVDs and Blu-ray discs are read by a laser.'}
+ ],
+ play:[{kind:'fill'},{kind:'sorter',title:'Sort the storage',lead:'Drag each one into its type of storage.',bins:['Magnetic','Optical','Solid state','Cloud'],items:[['Hard disk drive',0],['Magnetic tape',0],['DVD',1],['Blu-ray disc',1],['SSD',2],['USB flash drive',2],['SD card',2],['OneDrive',3],['Google Drive',3]]}]});
+
+topic('os',{t:'Operating systems',art:'os',c:'#0ea5e9',tag:'The computer\'s manager',
+ cards:[
+  {a:'os',t:'What is an OS?',d:'The <b>operating system</b> is software that runs the computer and manages everything else on it.',use:'Examples: Windows, macOS, Linux, Android, iOS'},
+  {a:'server',t:'Single-user or network OS',d:'A <b>single-user OS</b> runs one computer. A <b>network OS</b> runs many computers from a <b>server</b>, so you can log in anywhere.',m:'If the server breaks, no one can log in'},
+  {a:'embedded',t:'Memory management',d:'Gives each open program its <b>own space in RAM</b>, and takes it back when the program closes.'},
+  {a:'speaker',t:'Resource management',d:'Shares the <b>processor, printer, speakers and internet</b> between programs, so they all keep working.'},
+  {a:'lock',t:'Security',d:'Checks <b>who you are</b> (user name and password) and what you are <b>allowed</b> to open (permissions).'},
+  {a:'printer',t:'Print spooling',d:'Print jobs wait in a <b>queue on the disk</b> (the spool) and go to the printer <b>one at a time</b>. You can keep working.',dia:['Print','Queue on disk','Printer']}
+ ],
+ words:[['Operating system','Software that runs the computer and manages everything else'],['Network OS','Many computers run from a server'],['Memory management','Gives each program its own space in RAM'],['Resource management','Shares the processor, printer and internet between programs'],['Permissions','What a user is allowed to open or change'],['Print spooling','Print jobs wait in a queue on the disk']],
+ quiz:[
+  {type:'mcq',q:'You print 40 pages and keep typing straight away. Which OS job lets you do this?',a:'Print spooling',w:['Memory management','Security','Resource management'],why:'The pages wait in a queue on the disk.'},
+  {type:'mcq',q:'"Access denied" when you open a friend\'s folder. Which OS job?',a:'Security',w:['Print spooling','Memory management','Resource management'],why:'Permissions control what you can open.'},
+  {type:'tf',q:'Print spooling makes the printer print faster.',a:false,why:'It keeps jobs in order and frees the computer. The printer is no faster.'},
+  {type:'match',q:'Match each event to the OS job.',pairs:[['Closing a game frees space in RAM','Memory management'],['A video call and a download share the internet','Resource management'],['The screen locks after 5 minutes','Security'],['Pages print one person at a time','Print spooling']]},
+  {type:'mcq',q:'Which of these is an operating system?',a:'Android',w:['Microsoft Word','Google Chrome','Minecraft'],why:'Android runs phones and tablets.'},
+  {type:'gap',q:'A network OS runs many computers from a ___.',a:'server',bank:['server','printer','keyboard','spool'],why:'That is why you can log in on any school computer.'}
+ ],
+ play:[{kind:'spool'},{kind:'sorter',title:'Which OS job?',lead:'Drag each event to the OS job that handles it.',bins:['Memory management','Resource management','Security','Print spooling'],items:[['50 tabs open and the laptop slows',0],['Each program gets its own space in RAM',0],['Music plays while a game downloads',1],['The processor is shared between programs',1],['A guest account cannot install software',2],['You need a password to log in',2],['Print jobs wait in a queue on the disk',3],['You keep working while the printer prints',3]]}]});
+
+topic('upd',{t:'Software and updates',art:'shield',c:'#f59e0b',tag:'Systems, applications and patches',
+ cards:[
+  {a:'shield',t:'Systems software',d:'Looks after <b>the computer itself</b>: the operating system, <b>antivirus</b> and utilities.'},
+  {a:'doc',t:'Application software',d:'Helps <b>you</b> make or do something: Microsoft Word, a photo editor, Google Chrome.',use:'Remember: antivirus is systems software. Word is application software.'},
+  {a:'bug',t:'Why updates matter',d:'Updates <b>fix bugs</b>, <b>close security holes</b>, <b>add new features</b> and make software <b>run faster</b>.'},
+  {a:'lock',t:'Patches',d:'A <b>patch</b> is a small update that fixes a problem, often a security hole.',m:'Skip it and attackers may get in'},
+  {a:'os',t:'Automatic or manual updates',d:'<b>Automatic</b> updates install without you starting them. <b>Manual</b> updates install when you choose.',p:'Automatic: always protected',m:'Automatic: may restart at a bad time'},
+  {a:'laptop',t:'Updating safely',d:'Save your work, close your programs, install the update, restart if asked, then check everything works.',dia:['Save','Install','Restart','Check']}
+ ],
+ words:[['Systems software','Looks after the computer itself, such as the OS and antivirus'],['Application software','Helps you make or do something, such as Word'],['Bug','An error in a program'],['Patch','A small update that fixes a problem'],['Automatic update','Installs without you starting it'],['Security hole','A weakness attackers can use']],
+ quiz:[
+  {type:'mcq',q:'Which of these is systems software?',a:'Antivirus',w:['Microsoft Word','A photo editor','Microsoft PowerPoint'],why:'Antivirus looks after the computer itself.'},
+  {type:'match',q:'Match each update to its reason.',pairs:[['Word stops crashing when you save','Bug fix'],['Closes a hole ransomware was using','Security'],['Chrome adds a dark mode','New feature'],['The app opens twice as fast','Performance']]},
+  {type:'tf',q:'Software that is never updated is safer from hackers.',a:false,why:'Old software has security holes that attackers can use.'},
+  {type:'order',q:'Put the steps for a safe update in order.',items:['Save your work','Close your programs','Install the update','Restart if asked','Check everything works']},
+  {type:'gap',q:'A small update that fixes a problem is called a ___.',a:'patch',bank:['patch','bug','virus','licence'],why:'Patches often close security holes.'},
+  {type:'mcq',q:'A photo editor is which type of software?',a:'Application software',w:['Systems software','An operating system','A utility'],why:'It helps you make something.'}
+ ],
+ play:[{kind:'patch'},{kind:'sorter',title:'Systems or application?',lead:'Drag each program into the right group.',bins:['Systems software','Application software'],items:[['Antivirus',0],['Windows',0],['Disk clean-up utility',0],['Android',0],['Microsoft Word',1],['Photo editor',1],['Google Chrome',1],['Microsoft PowerPoint',1]]}]});
+
+topic('lic',{t:'Software licences',art:'lock',c:'#e11d48',tag:'Who can use it, and on what terms?',
+ cards:[
+  {a:'lock',t:'Proprietary',d:'The company keeps the <b>source code secret</b>. You cannot see or change it.',use:'Examples: Microsoft Office, Adobe Photoshop, Google Chrome',m:'Free does not mean open source! Chrome is free but proprietary.'},
+  {a:'doc',t:'Open source',d:'Free to use, and <b>anyone can see and change</b> the code.',use:'Examples: LibreOffice, Mozilla Firefox, GIMP, Linux',p:'Free; can be changed to suit you',m:'Less official support'},
+  {a:'cloud',t:'Freeware',d:'Free to use, but you <b>cannot</b> see or change the code. It is still proprietary.',use:'Example: Adobe Acrobat Reader'},
+  {a:'sensor',t:'Shareware',d:'Try it free for a <b>short time</b>, then pay to keep using it.',use:'Example: WinRAR, WinZip'},
+  {a:'server',t:'Single-user and site licences',d:'A <b>single-user</b> licence covers one person on one computer. A <b>site licence</b> covers every computer on one site, such as a school.'},
+  {a:'shield',t:'Copyright and piracy',d:'<b>Copyright</b> law protects software from being copied. <b>Piracy</b> is copying or using it without a licence.',m:'Using a "crack" to keep a trial going is illegal'}
+ ],
+ words:[['Proprietary','The code is kept secret; you cannot see or change it'],['Open source','Free, and anyone can see and change the code'],['Freeware','Free to use, but the code is secret'],['Shareware','Free for a short trial, then you pay'],['Site licence','Covers every computer on one site'],['Piracy','Copying or using software without a licence']],
+ quiz:[
+  {type:'mcq',q:'Google Chrome is free. Is it proprietary or open source?',a:'Proprietary',w:['Open source','Shareware','Pirated'],why:'Google keeps the source code secret. Free is not the same as open source.'},
+  {type:'match',q:'Match each program to its licence.',pairs:[['LibreOffice','Open source'],['Microsoft Office','Proprietary'],['WinRAR (trial, then pay)','Shareware'],['Adobe Acrobat Reader','Freeware']]},
+  {type:'tf',q:'Using a crack to keep a free trial running is legal.',a:false,why:'It is piracy, which breaks copyright law.'},
+  {type:'mcq',q:'A school wants software on every computer in the building. Which licence?',a:'Site licence',w:['Single-user licence','Shareware','No licence'],why:'One site licence covers the whole site.'},
+  {type:'gap',q:'With open source software, anyone can see and change the ___.',a:'code',bank:['code','price','screen','password'],why:'That is what open source means.'},
+  {type:'tf',q:'You can legally give a friend a copy of LibreOffice.',a:true,why:'It is open source and free to share.'}
+ ],
+ play:[{kind:'sorter',title:'Licence detective',lead:'Read the clues on each card, then drag it to the right licence.',bins:['Proprietary','Open source','Freeware','Shareware'],items:[['Microsoft Office',0,'Paid • code secret'],['Google Chrome',0,'Free • code secret, made by Google'],['Adobe Photoshop',0,'Paid • code secret'],['LibreOffice',1,'Free • anyone can change the code'],['Mozilla Firefox',1,'Free • code is public'],['GIMP',1,'Free • code is public'],['Adobe Acrobat Reader',2,'Free forever • code secret'],['WinRAR',3,'Free for 40 days, then pay'],['WinZip',3,'Free trial, then pay']]},{kind:'court'}]});
+
+topic('client',{t:'Meet the client',art:'cafe',c:'#a16207',tag:'Qahwa House and your portfolio',
+ cards:[
+  {a:'cafe',t:'Our client: Qahwa House',d:'A family-run café in Doha, known for Arabic coffee, karak and fresh luqaimat. <b>"Every cup, a welcome."</b>',use:'Now: <b>Souq Waqif</b>, 30 seats. Next: a bigger branch at <b>The Pearl</b>.'},
+  {a:'doc',t:'The people',d:'<b>Noora</b>: owner, makes the decisions. <b>Faisal</b>: manager of the new branch, busy, not a tech fan. <b>Mariam</b>: barista with a visual impairment. <b>Omar</b>: marketing, works from home.'},
+  {a:'folder',t:'Your portfolio',d:'<b>One folder for the whole year</b> in OneDrive: <b>Y9 ICT - Firstname Surname</b>, with a sub-folder for each unit.',p:'Open it on any computer; not lost if a laptop breaks'},
+  {a:'doc',t:'Your file names',d:'Lesson + what it is + version + date.',use:'<b>L9 Qahwa House client notes v1 2026-10-08</b>'},
+  {a:'doc',t:'Version control',d:'Keep every version (<b>v1, v2</b>) so you can see what changed. Use <b>Save a copy</b> to make v2 and leave v1 as it was.',use:'Noora changed the opening to Sunday 4 April 2027 and seats to 72: that went in v2.'}
+ ],
+ words:[['Client','The person or business you are doing the work for'],['Portfolio','One folder that holds all your work for the year'],['Folder / sub-folder','A place to group files; a sub-folder sits inside another'],['File name','Says what the file is, with a version or date'],['Version control','Keeping each version so you can see what changed'],['Save a copy','Makes a new file and leaves the original as it was']],
+ quiz:[
+  {type:'mcq',q:'Who owns Qahwa House and makes the decisions?',a:'Noora',w:['Faisal','Mariam','Omar'],why:'Noora is the owner. You report to her.'},
+  {type:'mcq',q:'Which is the best name for your client notes?',a:'L9 Qahwa House client notes v1 2026-10-08',w:['notes.docx','client notes FINAL','Document1'],why:'Lesson, what it is, version and date.'},
+  {type:'tf',q:'Save a copy makes a new file and leaves the original as it was.',a:true,why:'That is how you keep v1 when you make v2.'},
+  {type:'order',q:'Put your portfolio in order, from the top folder down.',items:['OneDrive','Y9 ICT - Firstname Surname','Unit 2 - Hardware','L9 Qahwa House client notes v1']},
+  {type:'match',q:'Match each person to their role.',pairs:[['Noora','Owner'],['Faisal','Manager of The Pearl'],['Mariam','Barista'],['Omar','Marketing']]},
+  {type:'gap',q:'Keeping each version so you can see what changed is called version ___.',a:'control',bank:['control','spooling','backup','copyright'],why:'v1, v2, v3 show the history.'}
+ ],
+ play:[{kind:'portfolio'}]});
+
+topic('input',{t:'Input devices',art:'keyboard',c:'#2563eb',tag:'How does a café order get into the till?',
+ cards:[
+  {a:'monitor',t:'Input, process, output',d:'An <b>input device</b> sends data <b>into</b> a computer so it can be processed. A <b>peripheral</b> is a device connected to a computer.',dia:['INPUT','PROCESS','OUTPUT']},
+  {a:'keyboard',t:'Keyboard',d:'Keys for typing letters, numbers and commands.',use:'Used for: writing, entering data',p:'Fast for lots of text',m:'Slow if you cannot type well'},
+  {a:'mouse',t:'Mouse',d:'Moves a pointer on the screen; you click to choose.',use:'Used for: selecting, dragging, menus',p:'Precise and easy to learn',m:'Needs a flat space'},
+  {a:'trackerball',t:'Trackerball',d:'A ball you roll with your fingers. The device <b>stays still</b>.',use:'Used for: people with limited hand or arm movement; small spaces',p:'Very little arm movement',m:'Slower; takes practice'},
+  {a:'joystick',t:'Joystick',d:'A stick that tips in any direction.',use:'Used for: games, flight simulators, electric wheelchairs',p:'Natural for steering',m:'No good for typing'},
+  {a:'touch',t:'Touch screen',d:'You tap or swipe the screen itself. It is an <b>input and an output</b> device.',use:'Used for: phones, tills, ticket machines',p:'Quick to learn',m:'Small buttons are hard to hit'},
+  {a:'gtablet',t:'Graphics tablet',d:'You draw on a flat pad with a pen (a <b>stylus</b>).',use:'Used for: artists, designers, architects',p:'Natural, accurate drawing',m:'Costs more; takes practice'},
+  {a:'scanner',t:'Scanner',d:'Copies a paper page or photo into the computer <b>as an image</b>.',p:'An exact copy',m:'You cannot edit the words in the image'},
+  {a:'camera',t:'Digital camera',d:'Captures photos and video as files.',p:'High quality',m:'Large files'},
+  {a:'webcam',t:'Webcam',d:'A small camera that sends <b>live video</b> to the computer.',use:'Used for: video calls, online lessons',p:'Cheap; often built in',m:'Lower quality; privacy if left on'},
+  {a:'mic',t:'Microphone',d:'Turns sound into data the computer can use.',use:'Used for: calls, voice commands, podcasts',p:'Hands-free',m:'Picks up background noise'}
+ ],
+ words:[['Input device','Sends data into a computer so it can be processed'],['Peripheral','A device connected to a computer, not part of its main body'],['Trackerball','A ball rolled by the fingers; the device stays still'],['Touch screen','A screen you tap: an input and an output device'],['Graphics tablet','A flat pad you draw on with a pen'],['Scanner','Copies paper into the computer as an image']],
+ quiz:[
+  {type:'mcq',q:'Hamad has limited arm movement. Moving a mouse hurts. Which input device?',a:'Trackerball',w:['Joystick','Graphics tablet','Scanner'],why:'Only his fingers move. The device stays still.'},
+  {type:'mcq',q:'A designer wants to draw a logo by hand, straight into the computer.',a:'Graphics tablet',w:['Scanner','Keyboard','Webcam'],why:'Drawing with a pen is natural and accurate.'},
+  {type:'tf',q:'A touch screen is both an input device and an output device.',a:true,why:'You tap it to input, and it shows the results.'},
+  {type:'order',q:'Put the stages in order.',items:['Input','Process','Output']},
+  {type:'match',q:'Match each job to an input device.',pairs:[['Recording a podcast','Microphone'],['A flight simulator','Joystick'],['Emailing a signed paper form','Scanner'],['A video call to family','Webcam']]},
+  {type:'gap',q:'A ___ is a device connected to a computer, not part of its main body.',a:'peripheral',bank:['peripheral','processor','server','pixel'],why:'Keyboards and mice are peripherals.'},
+  {type:'tf',q:'A scanned page lets you edit the words straight away.',a:false,why:'A scan is an image. You need OCR to turn it into editable text.'}
+ ],
+ play:[{kind:'ipo'},{kind:'matcher',title:'Which input device?',lead:'Drag the best input device onto each situation.',targets:[['🧑‍💼','Writing a long report.','keyboard','Keyboard','Fast for lots of text.'],['🎨','Drawing a logo by hand.','gtablet','Graphics tablet','Natural, accurate drawing with a pen.'],['✈️','A flight simulator.','joystick','Joystick','Natural for steering.'],['📄','Emailing a signed paper form.','scanner','Scanner','Makes an exact image of the page.'],['🎙️','Recording a podcast.','mic','Microphone','Turns sound into data.'],['🚇','A metro ticket machine.','touch','Touch screen','Quick to learn; just tap.'],['🦾','Someone with limited wrist movement.','trackerball','Trackerball','The device stays still; only fingers move.'],['👵','A video call to family.','webcam','Webcam','Sends live video.']]}]});
+
+topic('auto',{t:'Automatic input',art:'barcode',c:'#16a34a',tag:'Data in, with no one typing',
+ cards:[
+  {a:'barcode',t:'Why capture data automatically?',d:'<b>Automatic data capture</b>: data goes in without anyone typing it.',p:'Fast, accurate, handles huge amounts',m:'Typing by hand is slow and people make copying mistakes'},
+  {a:'omr',t:'OMR',d:'<b>Optical mark recognition</b> reads marks made in set places on a form.',use:'Used for: multiple-choice answer sheets, lottery tickets, surveys',m:'Reads marks only, not words'},
+  {a:'ocr',t:'OCR',d:'<b>Optical character recognition</b> turns printed text in a scan or photo into text you can <b>edit</b>.',use:'Used for: scanned documents, passports, number plates',m:'Mistakes with handwriting or poor print'},
+  {a:'barcode',t:'Barcode scanner',d:'Reads the bars to get a <b>product number</b>. The computer looks it up in a <b>database</b>.',dia:['SCAN','LOOK UP','SHOW'],m:'The price is NOT in the barcode. It is in the database.'},
+  {a:'magcard',t:'Magnetic stripe reader',d:'The card is <b>swiped</b>; the stripe holds data such as a card number.',use:'Used for: hotel key cards, older bank cards',p:'Cheap and quick',m:'Wears out; easier to copy'},
+  {a:'chippin',t:'Chip and PIN',d:'The card goes in, the <b>chip</b> is read, and you type a <b>PIN</b> to prove it is yours.',p:'More secure than a stripe',m:'Others may see your PIN'},
+  {a:'finger',t:'Biometric scanner',d:'Measures part of a <b>person</b>: fingerprint, face, iris or voice.',use:'Used for: phones, passport e-gates, staff clock-in',p:'Cannot be forgotten or lent',m:'Can fail with wet fingers; it is personal data'},
+  {a:'sensor',t:'Sensors',d:'Measure something in the <b>real world</b>: temperature, light, motion, pressure, humidity.',dia:['SENSOR measures','COMPUTER decides','ACTION happens'],m:'A sensor only measures. A computer has to act.'}
+ ],
+ words:[['Automatic data capture','Data goes in without anyone typing it'],['OMR','Reads marks made in set places on a form'],['OCR','Turns printed text in a scan into editable text'],['Barcode scanner','Reads the bars to get a product number'],['Chip and PIN','Reads a card\'s chip; the PIN proves it is yours'],['Biometric scanner','Measures part of a person, such as a fingerprint'],['Sensor','Measures something in the world, such as temperature']],
+ quiz:[
+  {type:'mcq',q:'A till scans a barcode. Where does the price come from?',a:'The computer\'s database',w:['The barcode itself','The cashier types it','The card reader'],why:'The barcode holds a product number. The price is looked up in the database.'},
+  {type:'order',q:'Put the barcode steps in order.',items:['Scan the bars','Look up the number in the database','Show the name and price on the till']},
+  {type:'match',q:'Match each job to the automatic input method.',pairs:[['Marking 500 multiple-choice sheets','OMR'],['Reading a car number plate','OCR'],['Passport e-gate at the airport','Biometric scanner'],['Opening a hotel room door','Magnetic stripe reader']]},
+  {type:'tf',q:'A sensor decides what to do on its own.',a:false,why:'A sensor only measures. The computer decides and an actuator acts.'},
+  {type:'mcq',q:'Which method reads shaded boxes on survey forms?',a:'OMR',w:['OCR','Chip and PIN','Biometric scanner'],why:'Optical mark recognition reads marks in set places.'},
+  {type:'gap',q:'A fingerprint is ___ data, so staff should agree before it is used.',a:'personal',bank:['personal','optical','spare','backup'],why:'Biometric data belongs to the person.'}
+ ],
+ play:[{kind:'checkout'},{kind:'greenhouse'},{kind:'matcher',title:'Which automatic input?',lead:'Drag the right method onto each situation.',targets:[['🛒','Supermarket checkout.','barcode','Barcode scanner','Scans each item; no typing.'],['📝','Pencil survey forms.','omr','OMR','Reads marks in set places.'],['📚','An old printed book that must become editable.','ocr','OCR','Turns printed text into text you can edit.'],['📱','Unlocking a phone with a fingerprint.','finger','Biometric scanner','Measures part of the person.'],['🌱','A greenhouse getting too hot.','sensor','Temperature sensor','Measures the temperature automatically.'],['🏋️','A gym entrance card that you swipe.','magcard','Magnetic stripe reader','The stripe holds the member number.'],['⛽','Paying at a petrol pump with a card and PIN.','chippin','Chip and PIN','The PIN proves the card is yours.']]}]});
+
+topic('output',{t:'Output devices',art:'monitor',c:'#db2777',tag:'See it, hear it, make it move',
+ cards:[
+  {a:'monitor',t:'What is an output device?',d:'Shows or produces the <b>results of processing</b>, for people to see or hear, or to make a machine move.',dia:['INPUT','PROCESS','OUTPUT']},
+  {a:'monitor',t:'Monitors: size and resolution',d:'Size is measured <b>corner to corner</b> in inches. <b>Resolution</b> is the number of <b>pixels</b> across × down.',use:'1920 × 1080 = Full HD. 3840 × 2160 = 4K.',m:'A bigger screen is not automatically sharper. Count the pixels!'},
+  {a:'projector',t:'Data projector',d:'Projects the screen image onto a wall or big screen.',use:'Used for: classrooms, halls',p:'A huge image a whole room can see',m:'Needs a dim room; less sharp'},
+  {a:'speaker',t:'Speakers',d:'Turn data into <b>sound</b>.',use:'Used for: music, alerts, spoken directions',p:'Everyone in the room hears',m:'Can disturb others'},
+  {a:'inkjet',t:'Inkjet printer',d:'Sprays tiny <b>drops of ink</b> onto the paper.',use:'Used for: homes, photos',p:'Cheap to buy; good colour photos',m:'Ink is expensive per page; slower'},
+  {a:'laser',t:'Laser printer',d:'Uses <b>toner</b> (a powder) and a laser.',use:'Used for: offices, lots of pages',p:'Fast; cheap per page; sharp text',m:'Costs more to buy'},
+  {a:'p3d',t:'3D printer',d:'Builds a solid object <b>layer by layer</b>, usually from plastic.',use:'Used for: prototypes, spare parts, models',p:'Makes one-off shapes',m:'Slow; limited materials'},
+  {a:'plotter',t:'Plotter',d:'Draws <b>very large, accurate</b> line drawings with pens.',use:'Used for: architects\' plans, maps',m:'Slow, expensive, specialist'},
+  {a:'motor',t:'Control devices (actuators)',d:'Make something <b>move or change</b>: a motor, heater, valve, light or buzzer.',dia:['SENSOR measures','COMPUTER decides','ACTUATOR acts']}
+ ],
+ words:[['Output device','Shows or produces the results of processing'],['Resolution','The number of pixels across × down'],['Pixel','One tiny dot of colour on a screen'],['Inkjet printer','Sprays tiny drops of ink'],['Laser printer','Uses toner and a laser; fast and cheap per page'],['3D printer','Builds a solid object layer by layer'],['Plotter','Draws very large, accurate drawings with pens'],['Actuator','A control device that makes something move or change']],
+ quiz:[
+  {type:'mcq',q:'Two 24-inch screens: A is 1920 × 1080, B is 3840 × 2160. Which is sharper?',a:'B, because it has more pixels',w:['A, because it is Full HD','They are the same','A, because it has fewer pixels'],why:'Same size, four times the pixels, so B is sharper.'},
+  {type:'mcq',q:'A 32-inch and a 24-inch screen are both 1920 × 1080. Which looks sharper close up?',a:'The 24-inch',w:['The 32-inch','They look the same','It depends on the price'],why:'The same pixels are packed into a smaller screen.'},
+  {type:'match',q:'Match each job to the best output device.',pairs:[['2,000 school newsletters','Laser printer'],['Holiday photos at home','Inkjet printer'],['A replacement plastic part','3D printer'],['Building plans one metre wide','Plotter']]},
+  {type:'tf',q:'A motor that opens a greenhouse window is a control device.',a:true,why:'It is an actuator: it makes something move.'},
+  {type:'gap',q:'One tiny dot of colour on a screen is called a ___.',a:'pixel',bank:['pixel','toner','sensor','layer'],why:'Resolution counts the pixels.'},
+  {type:'order',q:'Put the greenhouse control steps in order.',items:['Sensor measures 35 °C','Computer checks: over 30 °C?','Motor opens the window']}
+ ],
+ play:[{kind:'pixels'},{kind:'matcher',title:'Which output device?',lead:'Drag the best output device onto each situation.',targets:[['🏖️','Holiday photos printed at home.','inkjet','Inkjet printer','Cheap to buy and good at colour photos.'],['🎥','Film night in the school hall.','projector','Data projector','A huge image the whole hall can see.'],['📑','Hundreds of contracts printed a day.','laser','Laser printer','Fast and cheap per page.'],['🌉','A model of a bridge part.','p3d','3D printer','Builds a solid object layer by layer.'],['🚗','Sat nav spoken directions.','speaker','Speakers','The driver hears without looking.'],['🗺️','A large, accurate map of Doha.','plotter','Plotter','Very large, precise drawings.'],['🥶','Turning the heating on when it is cold.','heater','Heater (control device)','An actuator that changes the temperature.'],['🖌️','A designer who needs sharp detail.','monitor','High-resolution monitor','More pixels give a sharper picture.']]}]});
+
+const DEVNAME={laptop:'Laptop',desktop:'Desktop computer',watch:'Smartwatch',mainframe:'Mainframe',embedded:'Embedded computer',console:'Games console',keyboard:'Keyboard',gtablet:'Graphics tablet',joystick:'Joystick',scanner:'Scanner',mic:'Microphone',touch:'Touch screen',trackerball:'Trackerball',webcam:'Webcam',barcode:'Barcode scanner',omr:'OMR',ocr:'OCR',finger:'Biometric scanner',sensor:'Temperature sensor',magcard:'Magnetic stripe reader',chippin:'Chip and PIN',inkjet:'Inkjet printer',projector:'Data projector',laser:'Laser printer',p3d:'3D printer',speaker:'Speakers',plotter:'Plotter',heater:'Heater',monitor:'High-res monitor'};
+const ORDER=[...UNITS[0].topics,...UNITS[1].topics];
+
+/* ================= HELPERS ================= */
+const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=localStorage.getItem('y9rev_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem('y9rev_'+k,JSON.stringify(v));}catch(e){}}};
+let PR=store.get('prog',{});let muted=store.get('muted',false);
+const prog=id=>PR[id]||(PR[id]={cards:[],play:[],quiz:0});
+const saveP=()=>{store.set('prog',PR);drawPill();};
+function starsOf(id){const p=prog(id),t=T[id];return (p.cards.length>=t.cards.length?1:0)+(p.play.length>=t.play.length?1:0)+(p.quiz>=70?1:0);}
+const starStr=(n,m=3)=>'★'.repeat(n)+`<span class="off">${'★'.repeat(m-n)}</span>`;
+function totalStars(){return ORDER.reduce((a,id)=>a+starsOf(id),0)+(store.get('mission',0)>=1?1:0)+(store.get('challenge',0)>=70?1:0);}
+const MAXSTARS=ORDER.length*3+2;
+function drawPill(){if(typeof ORDER!=='undefined'&&totalStars()>=MAXSTARS&&!store.get('doneShown',0)){store.set('doneShown',1);setTimeout(()=>{toast('🏆 All '+MAXSTARS+' stars! Get your games code…','good');setTimeout(()=>location.hash='#done',1600);},600);}try{localStorage.setItem('y9rev_total',JSON.stringify(totalStars()));localStorage.setItem('y9rev_max',JSON.stringify(MAXSTARS));}catch(e){}$('#starPill').textContent=`⭐ ${totalStars()} / ${MAXSTARS}`;$('#muteBtn').textContent=muted?'🔇':'🔊';}
+let toastT;function toast(m,k){const t=$('#toast');t.textContent=m;t.className='show '+(k||'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',2600);}
+let AC;function beep(type){if(muted)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;const seq={good:[523,659,784],bad:[260,180],pop:[880,1175],win:[523,659,784,1047,1319],tick:[700]}[type]||[440];o.type=type==='bad'?'sawtooth':'triangle';seq.forEach((f,i)=>o.frequency.setValueAtTime(f,t+i*.08));g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.001,t+seq.length*.08+.18);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+seq.length*.08+.2);}catch(e){}}
+const cv=$('#confetti'),cx=cv.getContext('2d');let parts=[],cRaf=null;
+function confetti(n=150){cv.width=innerWidth;cv.height=innerHeight;const cols=['#6d4aff','#ec4899','#ffc93c','#22c55e','#0ea5e9','#f97316'];for(let i=0;i<n;i++)parts.push({x:innerWidth/2+(Math.random()-.5)*240,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:-Math.random()*16-4,r:Math.random()*7+4,c:pick(cols),a:Math.random()*6,va:(Math.random()-.5)*.3,life:150});if(!cRaf)cLoop();}
+function cLoop(){cx.clearRect(0,0,cv.width,cv.height);parts.forEach(p=>{p.vy+=.45;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.life--;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cx.restore();});parts=parts.filter(p=>p.life>0&&p.y<innerHeight+40);cRaf=parts.length?requestAnimationFrame(cLoop):(cx.clearRect(0,0,cv.width,cv.height),null);}
+function mascot(text){return `<div class="mascot">${ART.robot}<div class="say">${text}</div></div>`;}
+let cleanups=[];const onClean=f=>cleanups.push(f);
+
+/* drag or click-to-place */
+let picked=null;
+function dragify(el,onDrop,onPick){el.addEventListener('pointerdown',e=>{if(el.classList.contains('used'))return;e.preventDefault();const sx=e.clientX,sy=e.clientY;let g=null;
+ const mv=ev=>{if(!g&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){g=el.cloneNode(true);g.classList.add('ghost');g.style.width=el.offsetWidth+'px';document.body.appendChild(g);el.style.opacity=.35;}if(g){g.style.left=(ev.clientX-el.offsetWidth/2)+'px';g.style.top=(ev.clientY-22)+'px';}};
+ const up=ev=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);if(g){g.remove();el.style.opacity='';onDrop(document.elementFromPoint(ev.clientX,ev.clientY));}else onPick();};
+ window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);});}
+
+/* ================= HOME ================= */
+function renderHome(app){const tot=totalStars();
+ app.innerHTML=`<section class="hero"><h1>Year 9 ICT Revision Quest 🚀</h1><p>Learn it, play it, prove it! Every topic has fun activities, a quiz and flashcards. Collect all the stars.</p>
+ <div class="prog"><b>⭐ ${tot} of ${MAXSTARS} stars collected</b><div class="bar"><i style="width:${tot/MAXSTARS*100}%"></i></div></div>
+ <div class="bubble">${tot?'Great work! Which topic next?':'Hi, I\'m Byte! Pick any topic to start.'}</div><div class="bot">${ART.robot}</div></section>
+ <a class="sharebar" href="#share"><span class="em">📤</span><div><b>Send your progress to your teacher</b><span>One click, any time. Your teacher sees it in their spreadsheet.</span></div><span class="btn g" style="margin-left:auto">Share ➜</span></a>
+ ${UNITS.map(u=>`<section class="unit"><div class="uhead"><span class="badge">Unit ${u.id}</span><div><h2>${u.name.replace(/^Unit \d: /,'')}</h2><span>${u.sub}</span></div></div>
+  <div class="path">${u.topics.map((id,i)=>{const t=T[id];return `<a class="tile" href="#t/${id}" style="--c:${t.c}"><span class="num">${ORDER.indexOf(id)+1}</span><span class="ill">${art(t.art)}</span><h3>${t.t}</h3><small>${t.tag}</small><span class="stars">${starStr(starsOf(id))}</span></a>`;}).join('')}</div></section>`).join('')}
+ <div class="specials">
+  <a class="sp" href="#mission" style="background:linear-gradient(120deg,#a16207,#d97706)"><span class="em">☕</span><div><h3>Qahwa House Mission</h3><p>Plan The Pearl's tech on a budget. ${store.get('mission',0)?'⭐ Done!':'Earn a star.'}</p></div></a>
+  <a class="sp" href="#challenge" style="background:linear-gradient(120deg,#0ea5e9,#6d4aff)"><span class="em">🏆</span><div><h3>Mixed Challenge</h3><p>15 questions from every topic. Best: ${store.get('challenge',0)}%</p></div></a>
+  ${tot>=MAXSTARS?`<a class="sp" href="#done" style="background:linear-gradient(120deg,#ec4899,#f97316)"><span class="em">🎮</span><div><h3>Games Arcade 🔓</h3><p>Unlocked! Get your code and play.</p></div></a>`:`<a class="sp" id="lockedGames" href="#" style="background:linear-gradient(120deg,#64748b,#334155)"><span class="em">🔒</span><div><h3>Games Arcade</h3><p>Locked. Collect all ${MAXSTARS} stars to unlock it. You have ${tot}, so ${MAXSTARS-tot} to go!</p><div style="height:10px;background:rgba(255,255,255,.25);border-radius:99px;margin-top:6px;overflow:hidden"><i style="display:block;height:100%;width:${tot/MAXSTARS*100}%;background:#ffc93c"></i></div></div></a>`}
+ </div>
+ <p style="text-align:center;margin-top:26px"><button class="btn w" id="resetAll">↺ Reset my stars</button></p>`;
+ const lg=$('#lockedGames',app);if(lg)lg.onclick=e=>{e.preventDefault();beep('bad');const miss=ORDER.filter(id=>starsOf(id)<3);toast(miss.length?`🔒 Still to finish: ${miss.slice(0,3).map(id=>T[id].t).join(', ')}${miss.length>3?'…':''}`:'🔒 Finish the Mission and the Mixed Challenge to unlock the games!','bad');};
+ $('#resetAll').onclick=()=>{if(confirm('Reset all your stars and progress on this computer?')){PR={};saveP();store.set('mission',0);store.set('challenge',0);renderHome(app);}};}
+
+/* ================= TOPIC PAGE ================= */
+function renderTopic(app,id,tab){const t=T[id];tab=tab||'learn';const p=prog(id);
+ const tabs=[['learn','📖 Learn',p.cards.length>=t.cards.length],['play','🎮 Play',p.play.length>=t.play.length],['quiz','✅ Quiz',p.quiz>=70],['words','🃏 Key words',null]];
+ const i=ORDER.indexOf(id),prev=ORDER[i-1],next=ORDER[i+1];
+ app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:${t.c}"><span class="ill">${art(t.art)}</span><div><small style="font-weight:900;opacity:.85">TOPIC ${i+1} • UNIT ${UNITS[0].topics.includes(id)?1:2}</small><h1>${t.t}</h1><p>${t.tag}</p><div class="stars">${starStr(starsOf(id))}</div></div></section>
+ <nav class="ttabs" style="--c:${t.c}">${tabs.map(([k,l,ok])=>`<button class="ttab ${k===tab?'on':''}" data-k="${k}">${l}${ok===null?'':`<span class="ok ${ok?'y':''}">${ok?'✓':''}</span>`}</button>`).join('')}</nav>
+ <section id="tbody" style="--c:${t.c}"></section>
+ <div class="row" style="justify-content:space-between;margin-top:22px">${prev?`<a class="btn w" href="#t/${prev}">← ${T[prev].t}</a>`:'<span></span>'}${next?`<a class="btn" href="#t/${next}">${T[next].t} →</a>`:`<a class="btn y" href="#mission">☕ Try the mission →</a>`}</div>`;
+ $$('.ttab',app).forEach(b=>b.onclick=()=>{location.hash=`#t/${id}/${b.dataset.k}`;});
+ const body=$('#tbody',app);
+ if(tab==='learn')learn(body,t);else if(tab==='play')play(body,t);else if(tab==='quiz')quizTab(body,t);else words(body,t);}
+function refreshHead(id){const t=T[id];const s=$('.thead .stars');if(s)s.innerHTML=starStr(starsOf(id));const p=prog(id);const map={learn:p.cards.length>=t.cards.length,play:p.play.length>=t.play.length,quiz:p.quiz>=70};$$('.ttab').forEach(b=>{const o=$('.ok',b);if(o&&b.dataset.k in map){o.className='ok '+(map[b.dataset.k]?'y':'');o.textContent=map[b.dataset.k]?'✓':'';}});}
+
+/* ---------- LEARN ---------- */
+function learn(el,t){const p=prog(t.id);
+ el.innerHTML=`<div class="panel">${mascot(`Read each card, then press <b>Got it</b>. Tick all ${t.cards.length} to earn the 📖 star!`)}<div class="cards">${t.cards.map((c,i)=>`<article class="kc ${p.cards.includes(i)?'done':''}" data-i="${i}"><div class="kh"><span class="ki">${art(c.a)}</span><h3>${c.t}</h3></div><div class="kb"><div>${c.d}</div>${c.dia?`<div class="diagram">${c.dia.map((d,j)=>`<span>${d}</span>${j<c.dia.length-1?'<em>➜</em>':''}`).join('')}</div>`:''}${c.use?`<div class="use">${c.use}</div>`:''}${c.p||c.m?`<div class="pc">${c.p?`<div class="p"><b>👍 Good</b>${c.p}</div>`:''}${c.m?`<div class="m"><b>👎 Watch out</b>${c.m}</div>`:''}</div>`:''}<button class="got">${p.cards.includes(i)?'✓ Got it':'Got it?'}</button></div></article>`).join('')}</div></div>`;
+ $$('.kc',el).forEach(k=>$('.got',k).onclick=()=>{const i=+k.dataset.i;const has=p.cards.includes(i);if(has)p.cards=p.cards.filter(x=>x!==i);else{p.cards.push(i);beep('pop');}k.classList.toggle('done',!has);$('.got',k).textContent=!has?'✓ Got it':'Got it?';saveP();refreshHead(t.id);
+  if(!has&&p.cards.length===t.cards.length){confetti();beep('win');toast('📖 Learn star earned! Now try Play.','good');}});}
+
+/* ---------- KEY WORDS ---------- */
+function words(el,t){el.innerHTML=`<div class="panel">${mascot('Say the meaning out loud, then click the card to check. Can you get them all?')}<div class="row" style="margin-bottom:12px"><button class="btn w" id="shuf">🔀 Shuffle</button><button class="btn w" id="flipall">🔁 Flip all</button></div><div class="flash"></div></div>`;
+ const draw=list=>{$('.flash',el).innerHTML=list.map(([w,d])=>`<button class="fc"><div class="in"><div class="f">${esc(w)}</div><div class="b">${esc(d)}</div></div></button>`).join('');$$('.fc',el).forEach(c=>c.onclick=()=>{c.classList.toggle('flip');beep('tick');});};
+ draw(t.words);$('#shuf').onclick=()=>draw(shuffle(t.words));$('#flipall').onclick=()=>$$('.fc',el).forEach(c=>c.classList.toggle('flip'));}
+
+/* ---------- QUIZ ENGINE ---------- */
+const KC=['#6d4aff','#ec4899','#16a34a','#f97316'];
+function runQuiz(el,qs,onEnd,opts={}){let i=0,score=0;const log=[];
+ const next=()=>{if(i>=qs.length)return end();const q=qs[i];const pct=i/qs.length*100;
+  el.innerHTML=`<div class="qtop"><b>Question ${i+1} of ${qs.length}</b><div class="qbar"><i style="width:${pct}%"></i></div><b>⭐ ${Math.round(score*10)/10}</b></div><span class="qtype">${{mcq:'Multiple choice',tf:'True or false',gap:'Fill the gap',match:'Match up',order:'Put in order'}[q.type]}${q._topic?` • ${T[q._topic].t}`:''}</span><div class="qq">${esc(q.q)}</div><div id="qa"></div><div class="fb"><span class="fe"></span><div class="ft"></div></div><div class="qnav"><button class="btn" id="qnext" style="display:none">Next ➜</button></div>`;
+  const qa=$('#qa',el),fb=$('.fb',el),nb=$('#qnext',el);
+  const finish=(frac,msg)=>{score+=frac;log.push({q,ok:frac>=1,frac});fb.className='fb show '+(frac>=1?'g':'r');$('.fe',fb).textContent=frac>=1?'🎉':frac>0?'👍':'💡';$('.ft',fb).innerHTML=(frac>=1?'<b>Correct!</b> ':frac>0?'<b>Nearly!</b> ':'<b>Not quite.</b> ')+(msg||'');beep(frac>=1?'good':'bad');nb.style.display='';nb.textContent=i===qs.length-1?'See my score ➜':'Next ➜';nb.onclick=()=>{i++;next();};nb.focus();};
+  if(q.type==='mcq'){const o=shuffle([q.a,...q.w]);qa.innerHTML=`<div class="opts">${o.map((x,k)=>`<button class="opt" style="--k:${KC[k]}"><b>${'ABCD'[k]}</b><span>${esc(x)}</span></button>`).join('')}</div>`;
+   $$('.opt',qa).forEach((b,k)=>b.onclick=()=>{if(fb.classList.contains('show'))return;const ok=o[k]===q.a;b.classList.add(ok?'right':'wrong');if(!ok)$$('.opt',qa)[o.indexOf(q.a)].classList.add('right');finish(ok?1:0,(ok?'':`The answer is <b>${esc(q.a)}</b>. `)+(q.why||''));});}
+  else if(q.type==='tf'){qa.innerHTML=`<div class="tf"><button class="opt" data-v="1">👍 True</button><button class="opt" data-v="0">👎 False</button></div>`;
+   $$('.opt',qa).forEach(b=>b.onclick=()=>{if(fb.classList.contains('show'))return;const v=b.dataset.v==='1';const ok=v===q.a;b.classList.add(ok?'right':'wrong');if(!ok)$(`.opt[data-v="${q.a?1:0}"]`,qa).classList.add('right');finish(ok?1:0,(ok?'':`It is <b>${q.a?'true':'false'}</b>. `)+(q.why||''));});}
+  else if(q.type==='gap'){const parts=q.q.split('___');$('.qq',el).textContent='Fill the gap.';qa.innerHTML=`<div class="gapline">${esc(parts[0])}<span class="slot">?</span>${esc(parts[1]||'')}</div><div class="bank">${shuffle(q.bank).map(w=>`<button class="chipb">${esc(w)}</button>`).join('')}</div>`;
+   $$('.chipb',qa).forEach(b=>b.onclick=()=>{if(fb.classList.contains('show'))return;const ok=b.textContent===q.a;const s=$('.slot',qa);s.textContent=b.textContent;s.classList.add(ok?'right':'wrong');b.classList.add('sel');finish(ok?1:0,(ok?'':`The missing word is <b>${esc(q.a)}</b>. `)+(q.why||''));});}
+  else if(q.type==='match'){const L=q.pairs.map(p=>p[0]),R=shuffle(q.pairs.map(p=>p[1]));let selL=null;const pair={};const colors=['#6d4aff','#ec4899','#16a34a','#f97316','#0ea5e9','#a16207'];
+   qa.innerHTML=`<p class="lead" style="margin:0 0 8px">Click an item on the left, then its partner on the right.</p><div class="mcols"><div class="col">${L.map((x,k)=>`<button class="mi" data-l="${k}">${esc(x)}</button>`).join('')}</div><div class="col">${R.map((x,k)=>`<button class="mi" data-r="${k}">${esc(x)}</button>`).join('')}</div></div><div class="qnav"><button class="btn g" id="mcheck" disabled>Check ✓</button></div>`;
+   const paint=()=>{$$('[data-l]',qa).forEach(b=>{const k=+b.dataset.l;b.classList.toggle('sel',selL===k);b.innerHTML=esc(L[k])+(pair[k]!==undefined?`<span class="tag" style="background:${colors[k]}">${k+1}</span>`:'');});$$('[data-r]',qa).forEach(b=>{const k=+b.dataset.r;const lk=Object.keys(pair).find(x=>pair[x]===k);b.innerHTML=esc(R[k])+(lk!==undefined?`<span class="tag" style="background:${colors[lk]}">${+lk+1}</span>`:'');});$('#mcheck',qa).disabled=Object.keys(pair).length<L.length;};
+   $$('[data-l]',qa).forEach(b=>b.onclick=()=>{if(fb.classList.contains('show'))return;selL=+b.dataset.l;beep('tick');paint();});
+   $$('[data-r]',qa).forEach(b=>b.onclick=()=>{if(fb.classList.contains('show')||selL===null)return;const k=+b.dataset.r;Object.keys(pair).forEach(x=>{if(pair[x]===k)delete pair[x];});pair[selL]=k;selL=null;beep('pop');paint();});
+   $('#mcheck',qa).onclick=()=>{let c=0;L.forEach((x,k)=>{const ok=R[pair[k]]===q.pairs[k][1];if(ok)c++;$(`[data-l="${k}"]`,qa).classList.add(ok?'ok':'no');$(`[data-r="${pair[k]}"]`,qa).classList.add(ok?'ok':'no');});$('#mcheck',qa).style.display='none';
+    finish(c/L.length,c===L.length?'All pairs matched.':`${c} of ${L.length} pairs right. The answers: `+q.pairs.map(p=>`${esc(p[0])} → <b>${esc(p[1])}</b>`).join('; ')+'.');};}
+  else if(q.type==='order'){let cur=shuffle(q.items);if(cur.join()===q.items.join())cur=[...q.items].reverse();
+   const draw=()=>{qa.innerHTML=`<p class="lead" style="margin:0 0 8px">Use the arrows to put them in order.</p><div class="olist">${cur.map((x,k)=>`<div class="oi"><span class="n">${k+1}</span>${esc(x)}<span class="mv"><button data-u="${k}" ${k?'':'disabled'}>▲</button><button data-d="${k}" ${k<cur.length-1?'':'disabled'}>▼</button></span></div>`).join('')}</div><div class="qnav"><button class="btn g" id="ocheck">Check ✓</button></div>`;
+    $$('[data-u]',qa).forEach(b=>b.onclick=()=>{const k=+b.dataset.u;[cur[k-1],cur[k]]=[cur[k],cur[k-1]];beep('tick');draw();});$$('[data-d]',qa).forEach(b=>b.onclick=()=>{const k=+b.dataset.d;[cur[k+1],cur[k]]=[cur[k],cur[k+1]];beep('tick');draw();});
+    $('#ocheck',qa).onclick=()=>{let c=0;$$('.oi',qa).forEach((r,k)=>{const ok=cur[k]===q.items[k];if(ok)c++;r.classList.add(ok?'ok':'no');$('.mv',r).remove();});$('#ocheck',qa).remove();finish(c===cur.length?1:c/cur.length*.5,c===cur.length?'Perfect order.':'The right order: '+q.items.map(esc).join(' ➜ ')+'.');};};draw();}
+ };
+ const end=()=>{const pct=Math.round(score/qs.length*100);const st=pct>=90?3:pct>=70?2:pct>=40?1:0;if(st>=2)confetti();beep(st>=2?'win':'pop');
+  el.innerHTML=`<div class="result"><div class="big">${pct>=90?'🏆':pct>=70?'🎉':pct>=40?'👍':'💪'}</div><h2>You scored ${pct}%</h2><div class="stars">${starStr(st)}</div><p style="font-weight:800">${pct>=70?'Brilliant! That earns the star.':'Score 70% or more to earn the star. Check the Learn cards and try again!'}</p>
+  <div class="row" style="justify-content:center"><button class="btn" id="again">↺ Try again</button>${opts.backTo?`<a class="btn w" href="${opts.backTo}">Back</a>`:''}</div>
+  <div class="review">${log.map(l=>`<div class="${l.ok?'ok':''}">${l.ok?'✅':'❌'} ${esc(l.q.q.replace('___','…'))}${l.ok?'':`<br><small>${l.q.type==='mcq'?'Answer: '+esc(l.q.a):l.q.type==='tf'?'Answer: '+(l.q.a?'True':'False'):l.q.type==='gap'?'Answer: '+esc(l.q.a):''} ${esc(l.q.why||'')}</small>`}</div>`).join('')}</div></div>`;
+  $('#again',el).onclick=()=>runQuiz(el,shuffle(qs),onEnd,opts);onEnd&&onEnd(pct);};
+ next();}
+function quizTab(el,t){const p=prog(t.id);el.innerHTML=`<div class="panel">${mascot(`${t.quiz.length} questions of different types. Score <b>70%</b> or more for the ✅ star.${p.quiz?` Your best so far: <b>${p.quiz}%</b>.`:''}`)}<div id="qz"></div></div>`;
+ runQuiz($('#qz',el),shuffle(t.quiz),pct=>{if(pct>p.quiz){p.quiz=pct;saveP();refreshHead(t.id);}});}
+
+/* ---------- PLAY ---------- */
+function play(el,t){const p=prog(t.id);el.innerHTML=`<div class="panel">${mascot(`Complete all ${t.play.length} activit${t.play.length>1?'ies':'y'} to earn the 🎮 star.`)}${t.play.map((a,i)=>`<div class="act" id="act${i}" style="margin-top:${i?'26px':'0'}"></div>`).join('')}</div>`;
+ t.play.forEach((a,i)=>{const host=$('#act'+i,el);const done=()=>{if(!p.play.includes(i)){p.play.push(i);saveP();refreshHead(t.id);if(p.play.length===t.play.length){confetti();beep('win');toast('🎮 Play star earned!','good');}}};ACT[a.kind](host,a,done,t);});}
+
+/* ================= GENERIC ACTIVITIES ================= */
+const ACT={};
+ACT.sorter=(host,s,done)=>{const BC=['#6d4aff','#ec4899','#16a34a','#f97316','#0ea5e9'];let sel=null,mist=0;
+ host.innerHTML=`<div class="subh">🗂️ ${s.title}</div><p class="lead">${s.lead} You can also click a card, then click a group.</p><div class="tray"></div><div class="bins">${s.bins.map((b,i)=>`<div class="bin" data-b="${i}" style="--bc:${BC[i%5]}"><h4>${esc(b)}<small>0</small></h4><div class="in"></div></div>`).join('')}</div><div class="hintline"></div>`;
+ const tray=$('.tray',host);shuffle(s.items).forEach(([txt,b,clue])=>{const c=document.createElement('div');c.className='chip';c.innerHTML=`<span>${esc(txt)}${clue?`<small>${esc(clue)}</small>`:''}</span>`;c.dataset.b=b;c.dataset.t=txt;tray.appendChild(c);
+  dragify(c,t=>{const bin=t&&t.closest('.bin');if(bin&&host.contains(bin))drop(c,bin);},()=>{$$('.chip',tray).forEach(x=>x.classList.remove('sel'));sel=c;c.classList.add('sel');});});
+ $$('.bin',host).forEach(bin=>bin.onclick=()=>{if(sel)drop(sel,bin);});
+ function drop(c,bin){const ok=+bin.dataset.b===+c.dataset.b;bin.classList.remove('yes','no');void bin.offsetWidth;
+  if(ok){bin.classList.add('yes');beep('good');$('.in',bin).insertAdjacentHTML('beforeend',`<span>${esc(c.dataset.t)}</span>`);$('small',bin).textContent=$$('.in span',bin).length;c.remove();sel=null;$('.hintline',host).textContent='✅ Correct!';
+   if(!$$('.chip',tray).length){tray.innerHTML=`<b>🎉 All sorted${mist?` with ${mist} mistake${mist>1?'s':''}`:' with no mistakes'}!</b>`;confetti(80);done();}}
+  else{bin.classList.add('no');beep('bad');mist++;$('.hintline',host).textContent=`❌ "${c.dataset.t}" does not go in ${s.bins[bin.dataset.b]}. Try another group.`;}}};
+ACT.matcher=(host,s,done)=>{let sel=null;
+ host.innerHTML=`<div class="subh">🎯 ${s.title}</div><p class="lead">${s.lead} You can also click a device, then click a person.</p><div class="tray"></div><div class="targets">${s.targets.map((g,i)=>`<div class="tg" data-i="${i}"><div class="who"><span class="av">${g[0]}</span><span>${esc(g[1])}</span></div><div class="drop">Drop a device here</div><div class="why">✅ <b>${esc(g[3])}</b>: ${esc(g[4])}</div></div>`).join('')}</div>`;
+ const tray=$('.tray',host);shuffle(s.targets.map(g=>g[2])).forEach(k=>{const c=document.createElement('div');c.className='chip';c.dataset.k=k;c.innerHTML=`${art(k)}<span>${esc(DEVNAME[k]||k)}</span>`;tray.appendChild(c);
+  dragify(c,t=>{const tg=t&&t.closest('.tg');if(tg&&host.contains(tg))drop(c,tg);},()=>{$$('.chip',tray).forEach(x=>x.classList.remove('sel'));sel=c;c.classList.add('sel');});});
+ $$('.tg',host).forEach(tg=>tg.onclick=()=>{if(sel)drop(sel,tg);});
+ function drop(c,tg){if(tg.classList.contains('done'))return;const g=s.targets[+tg.dataset.i];if(g[2]===c.dataset.k){tg.classList.add('done');$('.drop',tg).innerHTML=art(c.dataset.k)+esc(DEVNAME[c.dataset.k]);c.remove();sel=null;beep('good');if(!$$('.chip',tray).length){tray.innerHTML='<b>🎉 Every match is right!</b>';confetti(80);done();}}
+  else{tg.classList.remove('no');void tg.offsetWidth;tg.classList.add('no');beep('bad');toast(`Not the best choice for this one. Read the situation again.`,'bad');}}};
+
+/* ================= SPECIAL ACTIVITIES ================= */
+ACT.namelab=(host,s,done)=>{const FILES=[{old:'menu final FINAL (2).docx',ext:'.docx',sub:'menu',hint:'The newest café menu. It is version 3, made on 8 October 2026.'},{old:'Document1.docx',ext:'.docx',sub:'rota',hint:'The staff rota for next week. It is version 1.'},{old:'prices_old_USE THIS.xlsx',ext:'.xlsx',sub:'price',hint:'The price list for The Pearl. It is version 2.'},{old:'new new.pptx',ext:'.pptx',sub:'opening',hint:'Slides for the opening day. Made on 4 April 2027.'}];let cur=null;
+ host.innerHTML=`<div class="subh">🧹 Fix Faisal's desktop</div><p class="lead">Faisal's file names are a mess! Click a file, then type a better name. The lights turn green when your name follows the rules.</p>
+ <div class="simgrid"><div class="sim" style="background:linear-gradient(135deg,#0ea5e9,#6366f1);min-height:240px"><div style="color:#fff;font-weight:900;margin-bottom:8px">🖥️ Faisal's desktop</div><div class="row" id="desk"></div></div>
+ <div class="sim" id="lab"><p style="font-weight:800;margin:0">👈 Click a file on the desktop to rename it.</p></div></div>`;
+ const desk=$('#desk',host);
+ const drawDesk=()=>{desk.innerHTML=FILES.map((f,i)=>`<button class="ftile" data-i="${i}" style="min-width:130px;${f.fixed?'border-color:#22c55e;background:#f0fdf4':''}"><span class="e">${f.fixed?'✅':f.ext==='.xlsx'?'📊':f.ext==='.pptx'?'📽️':'📄'}</span><span style="font-size:13px;word-break:break-word">${esc(f.fixed||f.old)}</span></button>`).join('');$$('.ftile',desk).forEach(b=>b.onclick=()=>open(+b.dataset.i));};
+ const RULES=[['Says what the file is',(n,f)=>new RegExp(f.sub,'i').test(n)&&n.replace(/v\d+|\d{4}-\d{2}-\d{2}/gi,'').trim().split(/\s+/).filter(w=>/[a-z]{3,}/i.test(w)).length>=2],['Has a version (v1) or a date (2026-10-08)',n=>/\bv\d+\b/i.test(n)||/\b\d{4}-\d{2}-\d{2}\b/.test(n)],['No final, new or untitled',n=>!/\b(final|new|untitled|copy|use this)\b/i.test(n)],['No banned characters / \\ : * ? " < > |',n=>!/[\/\\:*?"<>|]/.test(n)&&n.trim().length>0]];
+ function open(i){cur=i;const f=FILES[i];$('#lab',host).innerHTML=`<p style="margin:0 0 6px;font-weight:900">Renaming: <s>${esc(f.old)}</s></p><div class="note">📌 ${esc(f.hint)}</div><div class="row" style="margin-top:10px;flex-wrap:nowrap"><input id="nm" style="flex:1;font:inherit;font-weight:800;padding:10px 12px;border-radius:12px;border:3px solid var(--line)" placeholder="Type a better name"><b style="color:#64748b">${f.ext}</b></div><div id="rules" style="margin-top:10px;display:grid;gap:6px"></div><div class="row" style="margin-top:10px"><button class="btn g" id="ren" disabled>✓ Rename</button></div>`;
+  const nm=$('#nm',host);const chk=()=>{const v=nm.value;const res=RULES.map(([l,fn])=>[l,fn(v,f)]);$('#rules',host).innerHTML=res.map(([l,ok])=>`<div style="font-weight:800">${ok?'🟢':'⚪'} ${esc(l)}</div>`).join('');$('#ren',host).disabled=!res.every(r=>r[1]);};nm.oninput=chk;chk();nm.focus();
+  $('#ren',host).onclick=()=>{f.fixed=nm.value.trim()+f.ext;beep('good');drawDesk();toast('Renamed! Anyone can find it now.','good');$('#lab',host).innerHTML=FILES.every(x=>x.fixed)?'<p style="font-weight:900;font-size:20px">🎉 Faisal\'s desktop is tidy! Every file says what it is and which version it is.</p>':'<p style="font-weight:800">Nice! Pick the next file.</p>';if(FILES.every(x=>x.fixed)){confetti(80);done();}};}
+ drawDesk();};
+
+ACT.shop=(host,s,done)=>{const R=[
+ {who:'👨‍🌾 A farmer works outside all day. There are no plug sockets in the fields.',feat:'Battery life',items:[['Phone A',{Battery:'10 hours',Storage:'128 GB',Weight:'180 g'}],['Phone B',{Battery:'30 hours',Storage:'64 GB',Weight:'220 g'}],['Phone C',{Battery:'14 hours',Storage:'256 GB',Weight:'170 g'}]],ans:1,why:'He cannot charge during the day, so <b>battery life</b> matters most.'},
+ {who:'📸 Hamad is a photographer. He travels and edits huge photo files on the road.',feat:'Storage and performance',items:[['Laptop A',{Storage:'256 GB',RAM:'8 GB',Weight:'1.3 kg'}],['Laptop B',{Storage:'1 TB',RAM:'16 GB',Weight:'1.6 kg'}],['Laptop C',{Storage:'128 GB',RAM:'4 GB',Weight:'1.1 kg'}]],ans:1,why:'Huge photos need lots of <b>storage</b>, and <b>RAM</b> gives the performance to edit them.'},
+ {who:'🚚 A delivery driver needs the internet everywhere on the road, not just where there is Wi-Fi.',feat:'Connectivity',items:[['Tablet A',{Connects:'Wi-Fi only',Screen:'11 inch',Battery:'12 hours'}],['Tablet B',{Connects:'Wi-Fi and 5G SIM',Screen:'10 inch',Battery:'11 hours'}],['Tablet C',{Connects:'Bluetooth only',Screen:'12 inch',Battery:'13 hours'}]],ans:1,why:'A <b>SIM card</b> gives mobile data anywhere. Wi-Fi only works near a router.'},
+ {who:'🔐 A nurse keeps patient notes on a tablet. They must stay private if it is lost.',feat:'Security',items:[['Tablet A',{Unlock:'No lock',Storage:'64 GB',Price:'QAR 900'}],['Tablet B',{Unlock:'4-digit PIN',Storage:'64 GB',Price:'QAR 1,000'}],['Tablet C',{Unlock:'Face unlock and PIN',Storage:'64 GB',Price:'QAR 1,300'}]],ans:2,why:'Face unlock plus a PIN gives the strongest <b>security</b>.'}];let r=0;
+ const draw=()=>{const q=R[r];host.innerHTML=`<div class="subh">🛍️ The device shop</div><p class="lead">Round ${r+1} of ${R.length}. Read what the customer needs, then pick the best device.</p><div class="note" style="font-size:19px">${q.who}</div><div class="choices" style="margin-top:12px">${q.items.map(([n,sp],i)=>`<button class="choice" data-i="${i}"><b style="font-family:var(--hf);font-size:22px">${n}</b><table class="dbt">${Object.entries(sp).map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table></button>`).join('')}</div><div class="fb"><span class="fe"></span><div class="ft"></div></div><div class="qnav"><button class="btn" id="nx" style="display:none">Next customer ➜</button></div>`;
+  $$('.choice',host).forEach(b=>b.onclick=()=>{const ok=+b.dataset.i===q.ans;const fb=$('.fb',host);fb.className='fb show '+(ok?'g':'r');$('.fe',fb).textContent=ok?'🎉':'🤔';$('.ft',fb).innerHTML=ok?`<b>Great choice!</b> ${q.why}`:`<b>Not the best for this customer.</b> Which feature matters most to them? Try again.`;beep(ok?'good':'bad');
+   if(ok){$$('.choice',host).forEach(x=>x.disabled=true);b.classList.add('on');const nx=$('#nx',host);nx.style.display='';if(r===R.length-1){nx.textContent='Finish 🎉';}nx.onclick=()=>{r++;if(r<R.length)draw();else{host.innerHTML=`<div class="subh">🛍️ The device shop</div><div class="note" style="font-size:19px">🎉 Every customer has the right device! You matched battery life, storage, performance, connectivity and security to what each person needs.</div>`;confetti(80);done();}};}});};draw();};
+
+ACT.absorb=(host,s,done)=>{const OLD=[['📷','Camera'],['🗺️','Sat nav'],['🎵','MP3 player'],['🧮','Calculator'],['🔦','Torch'],['⏰','Alarm clock'],['📔','Diary'],['💳','Wallet']];const inside=[];
+ host.innerHTML=`<div class="subh">📱 Feed the smartphone</div><p class="lead">Drag each old device into the smartphone (or click it). Watch the phone take over their jobs!</p><div class="simgrid"><div class="tray" id="old" style="align-content:flex-start"></div><div class="sim" style="display:flex;flex-direction:column;align-items:center"><div id="ph" style="width:200px;height:360px;border-radius:34px;background:#1e293b;border:5px solid #1e1b4b;padding:24px 14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start;transition:transform .2s"></div><b id="cnt" style="margin-top:8px">0 of ${OLD.length} jobs</b></div></div><div id="pc"></div>`;
+ const ph=$('#ph',host);OLD.forEach(([e,n])=>{const c=document.createElement('div');c.className='chip';c.innerHTML=`<span style="font-size:28px">${e}</span>${n}`;$('#old',host).appendChild(c);
+  const go=()=>{inside.push(n);c.remove();ph.insertAdjacentHTML('beforeend',`<div style="aspect-ratio:1;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:28px;animation:pop .4s">${e}</div>`);ph.style.transform='scale(1.05)';setTimeout(()=>ph.style.transform='',200);beep('pop');$('#cnt',host).textContent=`${inside.length} of ${OLD.length} jobs`;
+   if(inside.length===OLD.length){confetti(80);$('#pc',host).innerHTML=`<div class="note" style="margin-top:14px;font-size:18px">🎉 That is <b>convergence</b>: one device doing the jobs of ${OLD.length} devices!</div><div class="pc" style="margin-top:10px"><div class="p"><b>👍 Good</b>Carry fewer devices; cheaper than buying them all; everything in one place.</div><div class="m"><b>👎 Watch out</b>Lose it and you lose everything; the battery runs down faster; one broken part stops it all.</div></div>`;done();}};
+  dragify(c,t=>{if(t&&t.closest('#ph'))go();},go);});};
+
+ACT.fill=(host,s,done)=>{const DEVS=[['usb','USB stick',16e9],['phone','Phone',128e9],['ssd','SSD',1e12],['dvd','DVD',4.7e9]];const FILES=[['📄','Document',200e3],['🖼️','Photo',5e6],['🎵','Song',4e6],['🎬','HD film',4e9],['🎮','Game',60e9]];let dev=0,used=0,counts={};
+ const fmt=b=>b>=1e12?(b/1e12).toFixed(2).replace(/\.?0+$/,'')+' TB':b>=1e9?(b/1e9).toFixed(2).replace(/\.?0+$/,'')+' GB':b>=1e6?(b/1e6).toFixed(1).replace(/\.0$/,'')+' MB':(b/1e3).toFixed(0)+' KB';
+ host.innerHTML=`<div class="subh">💾 Fill the drive</div><p class="lead">Pick a storage device, then add files. Watch the capacity bar. Remember: 1000 MB = 1 GB.</p><div class="seg" id="devs">${DEVS.map(([a,n,c],i)=>`<button data-i="${i}" class="${i?'':'on'}">${art(a)}${n} <small>(${fmt(c)})</small></button>`).join('')}</div>
+ <div class="cap" style="margin:14px 0"><i style="width:0"></i><span></span></div><div class="row">${FILES.map(([e,n,sz],i)=>`<button class="ftile" data-f="${i}"><span class="e">${e}</span>${n}<small>${fmt(sz)}</small></button>`).join('')}<button class="btn w" id="empty">🗑️ Empty</button></div><div id="list" class="hintline"></div>
+ <div class="note" style="margin-top:12px"><b>🧮 Challenge:</b> How many 5 MB photos fit on the 16 GB USB stick? <input id="ans" type="number" style="font:inherit;width:120px;padding:6px 8px;border-radius:10px;border:2px solid var(--line)"> <button class="btn g" id="chk" style="padding:7px 14px">Check</button> <span id="res"></span></div>`;
+ const upd=()=>{const cap=DEVS[dev][2];$('.cap i',host).style.width=Math.min(100,used/cap*100)+'%';$('.cap span',host).textContent=`${fmt(used)} used of ${fmt(cap)} (${(used/cap*100).toFixed(1)}%)`;$('#list',host).textContent=Object.entries(counts).map(([n,c])=>`${c} × ${n}`).join(' • ')||'Empty';};
+ $$('#devs button',host).forEach(b=>b.onclick=()=>{dev=+b.dataset.i;used=0;counts={};$$('#devs button',host).forEach(x=>x.classList.toggle('on',x===b));upd();});
+ $$('[data-f]',host).forEach(b=>b.onclick=()=>{const [,n,sz]=FILES[+b.dataset.f];if(used+sz>DEVS[dev][2]){beep('bad');toast(`Not enough space! A ${n.toLowerCase()} needs ${fmt(sz)} but only ${fmt(DEVS[dev][2]-used)} is free.`,'bad');return;}used+=sz;counts[n]=(counts[n]||0)+1;beep('pop');upd();});
+ $('#empty',host).onclick=()=>{used=0;counts={};upd();};
+ $('#chk',host).onclick=()=>{const v=+$('#ans',host).value;if(v===3200){$('#res',host).innerHTML='✅ <b>Yes!</b> 16 GB = 16,000 MB, and 16,000 ÷ 5 = 3,200 photos.';beep('good');confetti(60);done();}else{$('#res',host).innerHTML='❌ Hint: change 16 GB into MB first (× 1000), then divide by 5.';beep('bad');}};upd();};
+
+ACT.spool=(host,s,done)=>{const P=[['👩','Sara',4],['👨','Ali',6],['🧑','Mona',3]];let queue=[],printing=null,printed=0,timer;
+ host.innerHTML=`<div class="subh">🖨️ The print queue (spooling)</div><p class="lead">Press Print for each student. The jobs wait in the <b>spool on the disk</b> and print one at a time, while everyone keeps typing.</p>
+ <div class="simgrid"><div class="sim"><div style="display:grid;gap:8px">${P.map(([e,n,pg],i)=>`<div class="row" style="background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 10px"><span style="font-size:28px">${e}</span><b>${n}</b><small>${pg} pages</small><span class="typing" data-i="${i}" style="color:#64748b;font-weight:800;margin-left:auto">✍️ typing…</span><button class="btn" data-p="${i}" style="padding:6px 12px">🖨️ Print</button></div>`).join('')}</div></div>
+ <div class="sim"><b>💽 Spool queue on the disk</b><div id="q" class="row" style="min-height:52px;margin:8px 0;padding:8px;border:2px dashed var(--line);border-radius:12px"></div><div class="row" style="align-items:flex-start;gap:14px"><div style="width:84px">${art('printer')}</div><div style="flex:1"><b id="now">Printer is waiting…</b><div class="cap" style="margin-top:8px;height:22px"><i id="pbar" style="width:0;background:#22c55e"></i></div><div id="out" class="row" style="margin-top:8px"></div></div></div></div></div><div class="hintline" id="sp"></div>`;
+ const dq=()=>{$('#q',host).innerHTML=queue.map(j=>`<span class="chip" style="cursor:default">${P[j][0]} ${P[j][1]} • ${P[j][2]}p</span>`).join('')||'<small style="color:#94a3b8;font-weight:800">Empty</small>';};
+ const run=()=>{if(printing!==null||!queue.length)return;printing=queue.shift();dq();const [e,n,pg]=P[printing];let page=0;$('#now',host).textContent=`Printing ${n}'s pages…`;
+  timer=setInterval(()=>{page++;$('#pbar',host).style.width=(page/pg*100)+'%';beep('tick');if(page>=pg){clearInterval(timer);$('#out',host).insertAdjacentHTML('beforeend',`<span class="chip" style="cursor:default;animation:pop .4s">📄 ${e} ${n} ✓</span>`);printed++;printing=null;$('#pbar',host).style.width='0';$('#now',host).textContent='Printer is waiting…';
+   if(printed===P.length){$('#sp',host).innerHTML='🎉 Every job printed, one at a time and in order. Nobody had to wait to keep typing. That is <b>print spooling</b>!';confetti(70);done();}run();}},420);};
+ $$('[data-p]',host).forEach(b=>b.onclick=()=>{const i=+b.dataset.p;b.disabled=true;b.textContent='Sent ✓';queue.push(i);dq();beep('pop');$('#sp',host).textContent=`${P[i][1]}'s job joins the queue. ${P[i][1]} carries on typing straight away!`;run();});dq();onClean(()=>clearInterval(timer));};
+
+ACT.patch=(host,s,done)=>{const MSG=[['Fixes a security hole that hackers are using','security'],['Stops Word crashing when you save','bug'],['Blocks a virus that spreads by email','security'],['Fixes a spelling checker bug','bug'],['Closes a hole that ransomware uses','security'],['Fixes a crash in the photo editor','bug']];let hearts=3,patched=0,idx=0,timers=[],over=false;
+ host.innerHTML=`<div class="subh">🛡️ Patch Attack!</div><p class="lead">Holes appear in the shield wall. Click <b>Install update</b> before the hacker gets in! Each patch also tells you what it fixes.</p><div class="row" style="justify-content:space-between"><b id="hearts">❤️❤️❤️</b><b id="pt">Patched: 0</b></div><div id="wall" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px"></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn y" id="go">▶ Start</button></div><div class="hintline" id="pm"></div>`;
+ const wall=$('#wall',host);for(let i=0;i<6;i++)wall.insertAdjacentHTML('beforeend',`<div class="slot2" data-i="${i}" style="height:130px;border-radius:18px;background:#e0e7ff;border:3px solid #c7d2fe;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:8px;font-weight:800"><span style="font-size:34px">🧱</span></div>`);
+ const end=()=>{over=true;timers.forEach(clearTimeout);$('#pm',host).innerHTML=`${patched>=4?'🎉':'💡'} You patched ${patched} of 6. Updates fix bugs and close security holes, so never ignore them!`;$('#go',host).style.display='';$('#go',host).textContent='↺ Play again';if(patched>=4)confetti(70);done();};
+ const spawn=()=>{if(over)return;if(idx>=6){if(!$$('.slot2.open',host).length)end();return;}const i=idx++;const sl=wall.children[i];const [m,type]=MSG[i];sl.className='slot2 open';sl.style.background='#fee2e2';sl.style.borderColor='#f87171';
+  sl.innerHTML=`<span style="font-size:30px">🕳️🦹</span><small>${esc(m)}</small><button class="btn g" style="padding:5px 10px;font-size:14px">Install update</button>`;
+  let gone=false;$('button',sl).onclick=()=>{if(gone)return;gone=true;patched++;sl.className='slot2';sl.style.background='#dcfce7';sl.style.borderColor='#4ade80';sl.innerHTML=`<span style="font-size:34px">🛡️</span><small>${type==='security'?'Security patch':'Bug fix'} installed</small>`;beep('good');$('#pt',host).textContent='Patched: '+patched;if(idx>=6&&!$$('.slot2.open',host).length)end();};
+  timers.push(setTimeout(()=>{if(gone||over)return;gone=true;hearts--;sl.className='slot2';sl.style.background='#1e1b4b';sl.style.color='#fff';sl.innerHTML=`<span style="font-size:34px">🦹</span><small>A hacker got in! The update was ignored.</small>`;beep('bad');$('#hearts',host).textContent='❤️'.repeat(hearts)+'🖤'.repeat(3-hearts);if(hearts<=0)end();else if(idx>=6&&!$$('.slot2.open',host).length)end();},4200));
+  timers.push(setTimeout(spawn,1600));};
+ $('#go',host).onclick=()=>{over=false;hearts=3;patched=0;idx=0;timers.forEach(clearTimeout);timers=[];$('#hearts',host).textContent='❤️❤️❤️';$('#pt',host).textContent='Patched: 0';$('#pm',host).textContent='';[...wall.children].forEach(c=>{c.className='slot2';c.style.cssText=c.style.cssText.replace(/background[^;]*;|border-color[^;]*;|color[^;]*;/g,'');c.style.background='#e0e7ff';c.style.borderColor='#c7d2fe';c.innerHTML='<span style="font-size:34px">🧱</span>';});$('#go',host).style.display='none';spawn();};onClean(()=>{over=true;timers.forEach(clearTimeout);});};
+
+ACT.court=(host,s,done)=>{const C=[['Ahmed uses the school\'s Microsoft 365 licence key to install Office on his cousin\'s laptop.',false,'The school licence only covers the school. This is piracy.'],['Mia downloads LibreOffice and gives a copy to her friend.',true,'LibreOffice is open source, so sharing it is allowed.'],['A free trial ends, so Sara downloads a "crack" to keep using the photo editor.',false,'Cracking software breaks copyright law.'],['A school with a site licence installs the software on all 30 lab computers.',true,'A site licence covers every computer on the site.'],['A clinic buys ONE single-user licence and installs it on 8 computers.',false,'One single-user licence covers one computer only.'],['Omar downloads Adobe Acrobat Reader free from Adobe\'s own website.',true,'It is freeware, given away free by the company.']];let i=0,right=0;
+ const draw=()=>{if(i>=C.length){host.innerHTML=`<div class="subh">⚖️ Licence court</div><div class="note" style="font-size:19px">🎉 Court closed! You judged ${right} of ${C.length} cases correctly.</div>`;if(right>=4)confetti(70);done();return;}const c=C[i];
+  host.innerHTML=`<div class="subh">⚖️ Licence court</div><p class="lead">Case ${i+1} of ${C.length}. You are the judge: legal or not legal?</p><div class="sim" style="text-align:center"><div style="font-size:54px">👩‍⚖️</div><div class="qq" style="font-size:24px">${esc(c[0])}</div><div class="tf" style="max-width:560px;margin:0 auto"><button class="opt" data-v="1">✅ Legal</button><button class="opt" data-v="0">🚫 Not legal</button></div><div class="fb"><span class="fe"></span><div class="ft"></div></div><div class="qnav"><button class="btn" id="nx" style="display:none">Next case ➜</button></div></div>`;
+  $$('.opt',host).forEach(b=>b.onclick=()=>{if($('.fb',host).classList.contains('show'))return;const ok=(b.dataset.v==='1')===c[1];if(ok)right++;b.classList.add(ok?'right':'wrong');const fb=$('.fb',host);fb.className='fb show '+(ok?'g':'r');$('.fe',fb).textContent=ok?'🔨':'🤔';$('.ft',fb).innerHTML=`<b>${c[1]?'Legal.':'Not legal.'}</b> ${esc(c[2])}`;beep(ok?'good':'bad');$('#nx',host).style.display='';$('#nx',host).onclick=()=>{i++;draw();};});};draw();};
+
+ACT.portfolio=(host,s,done)=>{const sub=document.createElement('div');host.appendChild(sub);let parts=0;const fin=()=>{parts++;if(parts===2)done();};
+ ACT.sorter(sub,{title:'Build your OneDrive portfolio',lead:'Drag each file into the right folder inside <b>Y9 ICT - Sara Ali</b>.',bins:['📁 Unit 2 - Hardware','📁 Unit 4 - Graphics'],items:[['L9 Qahwa House client notes v1',0],['L10 Till advice v1',0],['L11 Automatic input ideas v1',0],['L12 Kitchen screen advice v2',0],['L20 Café logo ideas v1',1],['L21 Opening poster draft v1',1]]},fin);
+ const v=document.createElement('div');host.appendChild(v);
+ v.innerHTML=`<div class="subh">📝 Version control</div><p class="lead">Your client notes v1 are saved. Then Noora emails…</p><div class="simgrid"><div class="sim"><div class="note">📧 <b>From Noora:</b> "The builders are late. We now open on <b>Sunday 4 April 2027</b>, and we've added <b>12 more seats</b> on the terrace. Keep your first version so we have a record!"</div><div class="row" style="margin-top:12px"><button class="btn r" id="over">✏️ Change v1 and save</button><button class="btn g" id="copy">📑 Save a copy as v2</button></div><div class="hintline" id="vm"></div></div><div class="sim" id="docs"><div class="row" style="align-items:flex-start"><div class="kc" style="flex:1;min-width:180px"><div class="kh" style="--c:#2563eb"><span class="ki">${art('doc')}</span><b>client notes v1</b></div><div class="kb">Opens: Sunday 21 March 2027<br>Seats: 60</div></div></div></div></div>`;
+ $('#over',v).onclick=()=>{beep('bad');$('#vm',v).innerHTML='❌ Careful! Saving over v1 loses the record of what it said before. Noora asked you to keep it.';};
+ $('#copy',v).onclick=()=>{if($('#copy',v).disabled)return;$('#copy',v).disabled=true;beep('good');$('#docs .row',v).insertAdjacentHTML('beforeend',`<div class="kc done" style="flex:1;min-width:180px;animation:pop .5s"><div class="kh" style="--c:#16a34a"><span class="ki">${art('doc')}</span><b>client notes v2</b></div><div class="kb">Opens: <mark>Sunday 4 April 2027</mark><br>Seats: <mark>72</mark></div></div>`);$('#vm',v).innerHTML='✅ v1 is kept exactly as it was, and v2 has the changes. That is <b>version control</b>!';confetti(60);fin();};};
+
+ACT.ipo=(host,s,done)=>{const EX=[['keyboard','Keyboard','Faisal types "2 karak"','The till adds up the order','The total shows on the screen: QAR 6'],['mic','Microphone','Omar says "Hey, call Noora"','The phone works out the words','It rings Noora'],['scanner','Scanner','A paper menu is scanned','The computer saves it as an image','The image appears on screen'],['touch','Touch screen','Mariam taps "Luqaimat"','The till finds the price','The order and price appear']];const tried=new Set();
+ host.innerHTML=`<div class="subh">⚙️ Input, process, output</div><p class="lead">Click an input device and watch the data travel through the computer.</p><div class="seg">${EX.map((e,i)=>`<button data-i="${i}">${art(e[0])}${e[1]}</button>`).join('')}</div>
+ <div class="row" style="margin-top:14px;align-items:stretch;flex-wrap:nowrap" id="ipo">${['INPUT','PROCESS','OUTPUT'].map((h,i)=>`<div class="sim" style="flex:1;text-align:center"><b style="font-family:var(--hf);font-size:22px;color:${['#2563eb','#7c3aed','#db2777'][i]}">${h}</b><p class="st" style="font-weight:800;min-height:48px;margin:8px 0 0">…</p></div>${i<2?'<b style="align-self:center;font-size:30px" class="arw">➜</b>':''}`).join('')}</div>`;
+ $$('.seg button',host).forEach(b=>b.onclick=()=>{const e=EX[+b.dataset.i];$$('.seg button',host).forEach(x=>x.classList.toggle('on',x===b));const st=$$('.st',host);st.forEach(x=>{x.textContent='…';});[1,2,3].forEach((k,j)=>setTimeout(()=>{st[j].textContent=e[k+1];st[j].style.animation='none';void st[j].offsetWidth;st[j].style.animation='pop .4s';beep('tick');},350+j*650));tried.add(b.dataset.i);if(tried.size===3){setTimeout(()=>{toast('You have seen input, process and output in action!','good');done();},2200);}});};
+
+ACT.checkout=(host,s,done)=>{const DB={'6281000000011':['Karak tea',3],'6281000000028':['Luqaimat (6)',12],'6281000000035':['Water bottle',2],'6281000000042':['Arabic coffee beans 250 g',35]};const ITEMS=[['☕','6281000000011'],['🍩','6281000000028'],['💧','6281000000035'],['🫘','6281000000042']];let total=0,scans=0,raised=false;
+ host.innerHTML=`<div class="subh">🛒 The checkout: where does the price come from?</div><p class="lead">Click an item to scan it. Watch the three steps: <b>scan</b>, <b>look up</b>, <b>show</b>.</p>
+ <div class="simgrid"><div class="sim"><div class="row">${ITEMS.map(([e,c])=>`<button class="ftile" data-c="${c}"><span class="e">${e}</span><svg viewBox="0 0 64 22" width="90" height="26">${[2,5,7,11,13,16,20,22,25,29,32,35,38,41,44,48,51,55,58,61].map((x,i)=>`<rect x="${x}" y="1" width="${i%3?1.4:2.4}" height="20" fill="#1e1b4b"/>`).join('')}</svg><small>${c}</small></button>`).join('')}</div>
+  <div class="row" style="margin-top:10px"><button class="btn y" id="raise">📈 Noora raises the karak price to QAR 4</button></div></div>
+ <div class="sim"><div class="screen" id="scr">TILL READY…</div><table class="dbt" id="db"><tr><th>Barcode number</th><th>Product</th><th>Price (QAR)</th></tr>${Object.entries(DB).map(([c,[n,p]])=>`<tr data-c="${c}"><td>${c}</td><td>${n}</td><td class="pr">${p}</td></tr>`).join('')}</table><div style="font-size:12px;font-weight:800;color:#64748b;margin-top:4px">💽 The café's database</div></div></div><div class="hintline" id="cm"></div>`;
+ $$('[data-c].ftile',host).forEach(b=>b.onclick=()=>{const c=b.dataset.c;const scr=$('#scr',host);$$('#db tr',host).forEach(r=>r.classList.remove('hit'));
+  scr.innerHTML=`1 SCAN 🔴 reading bars… <br>Number: <span class="hl">${c}</span>`;beep('tick');
+  setTimeout(()=>{scr.innerHTML+=`<br>2 LOOK UP: searching the database…`;const row=$(`#db tr[data-c="${c}"]`,host);row.classList.add('hit');beep('tick');
+   setTimeout(()=>{const [n,p]=DB[c];total+=p;scans++;scr.innerHTML+=`<br>3 SHOW: <span class="hl">${n}  QAR ${p}</span><br>────────<br>TOTAL: QAR ${total}`;beep('good');
+    $('#cm',host).innerHTML='The barcode only holds a <b>number</b>. The name and price come from the <b>database</b>.';if(scans===3&&!raised)toast('Now press "Noora raises the karak price", then scan the karak again!');if(raised&&c==='6281000000011'){$('#cm',host).innerHTML='🎉 Same barcode, new price! Noora only changed the <b>database</b>, not the barcode. That is why prices are not stored in barcodes.';confetti(70);done();}},700);},700);});
+ $('#raise',host).onclick=()=>{DB['6281000000011'][1]=4;raised=true;$('#db tr[data-c="6281000000011"] .pr',host).textContent='4';$('#db tr[data-c="6281000000011"]',host).classList.add('hit');beep('pop');$('#cm',host).textContent='The database now says QAR 4. The barcode on the cup has not changed. Scan the karak again!';};};
+
+ACT.greenhouse=(host,s,done)=>{let opened=false,closed=false;
+ host.innerHTML=`<div class="subh">🌱 Sensor ➜ Computer ➜ Actuator</div><p class="lead">Drag the sun slider to heat the greenhouse. The sensor measures, the computer decides, and a motor opens the window.</p>
+ <div class="simgrid"><div class="sim" style="text-align:center"><svg viewBox="0 0 240 180" width="100%" style="max-width:340px"><circle id="sun" cx="40" cy="34" r="22" fill="#facc15"/><path d="M30 170V90l90-60 90 60v80z" fill="#dcfce7" stroke="#1e1b4b" stroke-width="4"/><g id="win" style="transform-origin:120px 62px;transition:transform .6s"><rect x="96" y="62" width="48" height="26" fill="#bae6fd" stroke="#1e1b4b" stroke-width="3"/></g><rect x="56" y="140" width="128" height="30" fill="#a16207"/><path d="M76 140v-20M104 140v-26M132 140v-18M160 140v-24" stroke="#16a34a" stroke-width="6"/><g transform="translate(184,96)"><rect width="16" height="36" rx="8" fill="#fff" stroke="#1e1b4b" stroke-width="3"/><rect id="merc" x="5" y="20" width="6" height="12" fill="#ef4444"/></g></svg>
+ <input type="range" id="t" min="15" max="45" value="22" style="width:100%"><b>☀️ Outside heat</b></div>
+ <div class="sim"><div class="diagram" style="--c:#16a34a"><span>SENSOR</span><em>➜</em><span>COMPUTER</span><em>➜</em><span>ACTUATOR</span></div><div class="screen" id="gs" style="margin-top:12px;line-height:1.7"></div></div></div><div class="hintline" id="gm"></div>`;
+ const upd=()=>{const v=+$('#t',host).value;$('#merc',host).setAttribute('y',32-(v-15)/30*28);$('#merc',host).setAttribute('height',4+(v-15)/30*28);$('#sun',host).setAttribute('r',14+(v-15)/30*18);const open=v>30;
+  $('#win',host).style.transform=open?'rotate(-35deg) translateY(-6px)':'none';
+  $('#gs',host).innerHTML=`🌡️ SENSOR measures: <span class="hl">${v} °C</span><br>🖥️ COMPUTER checks: over 30 °C? <span class="hl">${open?'YES':'NO'}</span><br>⚙️ ACTUATOR (motor): <span class="hl">${open?'OPEN the window':'keep the window shut'}</span>`;
+  if(open)opened=true;if(opened&&!open)closed=true;if(opened&&closed&&!upd.d){upd.d=1;$('#gm',host).innerHTML='🎉 The sensor only measures. The <b>computer</b> decides, and the <b>actuator</b> makes it happen.';confetti(60);done();}};
+ $('#t',host).oninput=upd;upd();};
+
+ACT.pixels=(host,s,done)=>{let moved=new Set(),ans=false;
+ host.innerHTML=`<div class="subh">🔍 Resolution explorer</div><p class="lead">Slide to change how many pixels the screen has. Same screen size, different number of pixels!</p>
+ <div class="simgrid"><div class="sim" style="text-align:center"><canvas id="cv" width="320" height="180" style="width:100%;max-width:420px;image-rendering:pixelated;border-radius:12px;border:4px solid #1e1b4b"></canvas><input type="range" id="r" min="0" max="5" value="1" style="width:100%"><b id="rl"></b></div>
+ <div class="sim"><div class="note">A <b>pixel</b> is one tiny dot of colour. More pixels in the same size screen = <b>sharper</b>.</div><div class="qq" style="font-size:21px">Quick check: two 24-inch screens. A is 1920 × 1080, B is 3840 × 2160. Which is sharper?</div><div class="tf"><button class="opt" data-v="A">A</button><button class="opt" data-v="B">B</button></div><div class="hintline" id="pm"></div></div></div>`;
+ const RES=[[16,9,'16 × 9: very blocky'],[48,27,'48 × 27: still blocky'],[96,54,'96 × 54: getting there'],[160,90,'160 × 90'],[320,180,'Full HD style: sharp'],[320,180,'4K style: super sharp']];
+ const big=document.createElement('canvas');big.width=640;big.height=360;const b=big.getContext('2d');
+ b.fillStyle='#bae6fd';b.fillRect(0,0,640,360);b.fillStyle='#fde047';b.beginPath();b.arc(540,80,46,0,7);b.fill();b.fillStyle='#a16207';b.fillRect(0,290,640,70);b.fillStyle='#fff';b.strokeStyle='#1e1b4b';b.lineWidth=8;b.beginPath();b.moveTo(200,140);b.lineTo(420,140);b.lineTo(400,300);b.lineTo(220,300);b.closePath();b.fill();b.stroke();b.beginPath();b.arc(430,200,40,-1.3,1.3);b.stroke();b.fillStyle='#78350f';b.fillRect(214,160,192,26);
+ b.strokeStyle='#a8a29e';b.lineWidth=6;[250,310,370].forEach(x=>{b.beginPath();b.moveTo(x,120);b.bezierCurveTo(x-20,95,x+20,75,x,50);b.stroke();});b.fillStyle='#1e1b4b';b.font='bold 34px Arial';b.fillText('Qahwa House',190,260);
+ const draw=()=>{const k=+$('#r',host).value;moved.add(k);const [w,h,l]=RES[k];const sm=document.createElement('canvas');sm.width=w;sm.height=h;sm.getContext('2d').drawImage(big,0,0,w,h);const c=$('#cv',host);c.width=k===5?640:320;c.height=k===5?360:180;const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(sm,0,0,c.width,c.height);if(k===5){x.drawImage(big,0,0,640,360);}$('#rl',host).textContent=l;chk();};
+ const chk=()=>{if(ans&&moved.has(0)&&moved.size>=3&&!chk.d){chk.d=1;confetti(60);done();}};
+ $('#r',host).oninput=draw;draw();
+ $$('.opt',host).forEach(bt=>bt.onclick=()=>{const ok=bt.dataset.v==='B';bt.classList.add(ok?'right':'wrong');$('#pm',host).innerHTML=ok?'✅ B! Same size, but four times as many pixels, so each pixel is smaller and the picture is sharper.':'❌ Count the pixels: B has far more in the same size screen.';beep(ok?'good':'bad');if(ok){ans=true;chk();if(moved.size<3)toast('Now try moving the slider all the way down and up!');}});};
+
+/* ================= MISSION ================= */
+function renderMission(app){const BUD=15000;let step=0;const ch={till:null,tillWhy:null,kitchen:null,kitchenWhy:null,auto:[],menu:null,file:''};
+ const STEPS=['Meet the team','Tills','Kitchen','Automatic input','Menu screens','Save your report','Report card'];
+ const KIT={display:['monitor','Kitchen display screen',4800,'22-inch, on the wall'],printer:['printer','Order printer',1200,'Prints each order']};
+ const AUTO={barcode:['barcode','Barcode scanner',600,'Stock deliveries and counts'],finger:['finger','Fingerprint clock-in',1800,'Staff sign in and out'],sensor:['sensor','Fridge sensors',1400,'Alert Faisal\'s phone if too warm']};
+ const MENU={m43:['monitor','2 × 43-inch menu screens',6400,'QAR 3,200 each'],m55:['monitor','2 × 55-inch menu screens',9200,'QAR 4,600 each']};
+ const spent=()=>(ch.kitchen?KIT[ch.kitchen][2]:0)+ch.auto.reduce((a,k)=>a+AUTO[k][2],0)+(ch.menu?MENU[ch.menu][2]:0);
+ const fmt=n=>'QAR '+n.toLocaleString('en-GB');
+ const draw=()=>{const sp=spent();app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#a16207"><span class="ill">${art('cafe')}</span><div><h1>Qahwa House Mission ☕</h1><p>Noora needs your advice for the new branch at The Pearl. Choose wisely and stay in budget!</p></div></section>
+  <div class="panel" style="margin-top:18px;--c:#a16207"><div class="mstep">${STEPS.map((s,i)=>`<span class="${i===step?'on':i<step?'d':''}">${i<step?'✓ ':''}${s}</span>`).join('')}</div>${step>=2&&step<=4?`<div class="budget">💰 Budget for kitchen, automatic input and menu screens<div class="cap"><i style="width:${Math.min(100,sp/BUD*100)}%"></i><span>${fmt(sp)} of ${fmt(BUD)}</span></div></div>`:''}<div id="ms"></div></div>`;
+  const ms=$('#ms',app);
+  if(step===0){ms.innerHTML=`${mascot('Welcome to the team! Meet the people at Qahwa House before you give advice.')}<div class="people">${[['👩‍💼','Noora','Owner. Makes the decisions. You report to her.'],['🧔','Faisal','Manager of The Pearl. Busy; not a tech fan.'],['👩‍🍳','Mariam','Barista with a visual impairment. Small buttons are hard for her.'],['🧑‍💻','Omar','Marketing. Works from home.'],['👨‍🍳','Joseph','Head chef. Runs a busy kitchen.']].map(([a,n,d])=>`<div class="person"><span class="av">${a}</span><b>${n}</b>${d}</div>`).join('')}</div><div class="note">📍 The Pearl: <b>72 seats</b>, opens <b>Sunday 4 April 2027</b>, up to <b>500 customers a day</b> at weekends, <b>two tills</b>.</div><div class="qnav"><button class="btn" id="go">Start the mission ➜</button></div>`;$('#go',ms).onclick=()=>{step=1;draw();};}
+  else if(step===1)choiceStep(ms,'Tills: how will orders go in?','Faisal wants tills that are quick and simple. Mariam finds small touch buttons hard.',[['touch','Touch screens','Tap the drinks on screen'],['keyboard','Keyboard and mouse','Type and click each order']],'till',[['touch','Quick to learn and fast for a busy queue. Set big buttons and a high-contrast layout so Mariam can use them.',true],['touch','Touch screens look modern.',false],['keyboard','Keyboards are cheaper.',false]],[['keyboard','Mariam can feel the keys, so she does not need to see small buttons, but it is slower for a busy queue.',true],['keyboard','Everyone already knows how to type.',false],['touch','Tapping is faster.',false]]);
+  else if(step===2)choiceStep(ms,'Kitchen: how does Joseph get each order?','500 customers a day at weekends. Orders must not get lost or wet.',Object.entries(KIT).map(([k,v])=>[k,v[1],v[3],v[2]]),'kitchen',[['display','Everyone can read it from a distance, and there are no paper tickets to lose or get wet in a busy kitchen.',true],['display','Screens are more fun than paper.',false],['printer','It is the cheapest option.',false]],[['printer','It is much cheaper, so it leaves budget for other ideas. Use a clip rail so tickets do not get lost.',true],['printer','Printers never break.',false],['display','A screen is bigger.',false]]);
+  else if(step===3){ms.innerHTML=`<div class="qq">Automatic input: pick one or two of Noora's ideas</div><p class="lead">Now stock is counted on paper, staff sign in on a paper sheet, and fridge temperatures are sometimes forgotten.</p><div class="choices">${Object.entries(AUTO).map(([k,v])=>`<button class="choice ${ch.auto.includes(k)?'on':''}" data-k="${k}">${art(v[0])}<b style="font-family:var(--hf);font-size:21px">${v[1]}</b><span>${v[3]}</span><span class="price">${fmt(v[2])}</span></button>`).join('')}</div><div class="hintline" id="am"></div><div class="qnav"><button class="btn w" id="bk">← Back</button><button class="btn" id="nx" ${ch.auto.length?'':'disabled'}>Next ➜</button></div>`;
+   $$('.choice',ms).forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(ch.auto.includes(k))ch.auto=ch.auto.filter(x=>x!==k);else{if(ch.auto.length>=2){toast('Noora can only afford one or two. Unpick one first.','bad');return;}ch.auto.push(k);}beep('pop');draw();
+    const tip={barcode:'✅ Barcode scanner: fast, accurate stock counts, and Faisal stops retyping paper counts.',finger:'✅ Fingerprint clock-in: no paper sheets, but fingerprints are personal data, so staff must agree.',sensor:'✅ Fridge sensors: they check day and night, so no more forgotten temperatures. Food stays safe.'};$('#am',app).innerHTML=ch.auto.map(k=>tip[k]).join('<br>');});
+   $('#bk',ms).onclick=()=>{step=2;draw();};$('#nx',ms).onclick=()=>{step=4;draw();};}
+  else if(step===4){ms.innerHTML=`<div class="qq">Menu screens above the counter</div><p class="lead">Customers read them from the queue. Think about size, resolution and Mariam.</p><div class="choices">${Object.entries(MENU).map(([k,v])=>`<button class="choice ${ch.menu===k?'on':''}" data-k="${k}">${art(v[0])}<b style="font-family:var(--hf);font-size:21px">${v[1]}</b><span>${v[3]}</span><span class="price">${fmt(v[2])}</span></button>`).join('')}</div><div class="hintline" id="mm"></div><div class="qnav"><button class="btn w" id="bk">← Back</button><button class="btn" id="nx" ${ch.menu?'':'disabled'}>Next ➜</button></div>`;
+   $$('.choice',ms).forEach(b=>b.onclick=()=>{ch.menu=b.dataset.k;beep('pop');draw();const over=spent()>BUD;$('#mm',app).innerHTML=over?`⚠️ That puts you <b>${fmt(spent()-BUD)} over budget</b>! Go back and change something, or pick the smaller screens.`:'✅ In budget. Tip: a bigger screen is not sharper unless it has more pixels, so choose a 4K model.';});
+   $('#bk',ms).onclick=()=>{step=3;draw();};$('#nx',ms).onclick=()=>{if(spent()>BUD){toast('You are over budget! Change a choice first.','bad');beep('bad');return;}step=5;draw();};}
+  else if(step===5){const parts=['L17','Qahwa House','tech advice','v1','2026-11-12'],decoys=['FINAL','new','report?','advice:'];let built=[];
+   ms.innerHTML=`<div class="qq">Save your report for Noora</div><p class="lead">Click the pieces to build a good file name: <b>lesson, what it is, version, date</b>.</p><div class="bank" id="pcs">${shuffle([...parts,...decoys]).map(p=>`<button class="chipb">${esc(p)}</button>`).join('')}</div><div class="note" style="margin-top:14px;font-size:20px">📄 <span id="fn">…</span>.docx</div><div class="hintline" id="fm"></div><div class="qnav"><button class="btn w" id="clr">↺ Clear</button><button class="btn g" id="sv">💾 Save</button></div>`;
+   $$('#pcs .chipb',ms).forEach(b=>b.onclick=()=>{if(b.classList.contains('sel'))return;b.classList.add('sel');built.push(b.textContent);$('#fn',ms).textContent=built.join(' ');beep('tick');});
+   $('#clr',ms).onclick=()=>{built=[];$$('#pcs .chipb',ms).forEach(b=>b.classList.remove('sel'));$('#fn',ms).textContent='…';};
+   $('#sv',ms).onclick=()=>{if(built.some(x=>decoys.includes(x))){$('#fm',ms).innerHTML='❌ Take out words like FINAL and new, and characters like ? and :.';beep('bad');return;}if(built.join(' ')!==parts.join(' ')){$('#fm',ms).innerHTML='💡 Use all four parts in this order: lesson, what it is, version, date.';beep('bad');return;}ch.file=built.join(' ')+'.docx';beep('good');step=6;draw();};}
+  else if(step===6){let pts=0;const lines=[];const r=(ok,t)=>{if(ok)pts++;lines.push(`${ok?'✅':'💡'} ${t}`);};
+   r(ch.tillWhy,`Tills: <b>${ch.till==='touch'?'touch screens':'keyboard and mouse'}</b>. ${ch.tillWhy?'Your reason links to Faisal, the queue and Mariam.':'Your reason did not link to the café. A strong reason talks about the queue and Mariam.'}`);
+   r(ch.kitchenWhy,`Kitchen: <b>${KIT[ch.kitchen][1]}</b>. ${ch.kitchenWhy?'Your reason fits Joseph\'s busy kitchen.':'A strong reason talks about lost or wet orders, reading from a distance, or the budget.'}`);
+   r(ch.auto.includes('sensor')||ch.auto.includes('barcode'),`Automatic input: <b>${ch.auto.map(k=>AUTO[k][1]).join(' and ')}</b>. ${ch.auto.includes('sensor')||ch.auto.includes('barcode')?'These fix real problems with paper records and forgotten checks.':'Fingerprints help, but fridge sensors or barcodes fix the bigger problems.'}`);
+   r(spent()<=BUD,`Budget: you spent <b>${fmt(spent())}</b> of ${fmt(BUD)}.`);r(true,`Report saved as <b>${esc(ch.file)}</b>.`);
+   const st=pts>=5?3:pts>=4?2:1;if(st>=2){store.set('mission',1);drawPill();confetti();}beep('win');
+   ms.innerHTML=`<div class="result"><div class="big">☕</div><h2>Report card for Noora</h2><div class="stars">${starStr(st)}</div><div class="review">${lines.map(l=>`<div class="${l.startsWith('✅')?'ok':''}">${l}</div>`).join('')}</div><p style="font-weight:800">${st>=2?'⭐ Mission star earned! Noora is impressed.':'Try again: link every reason to the café to earn the star.'}</p><div class="row" style="justify-content:center"><button class="btn" id="re">↺ Plan again</button><a class="btn w" href="#">🏠 Home</a></div></div>`;$('#re',ms).onclick=()=>renderMission(app);}};
+ function choiceStep(ms,title,lead,opts,key,whysA,whysB){ms.innerHTML=`<div class="qq">${title}</div><p class="lead">${lead}</p><div class="choices">${opts.map(([k,n,d,price])=>`<button class="choice ${ch[key]===k?'on':''}" data-k="${k}">${art(k)}<b style="font-family:var(--hf);font-size:21px">${n}</b><span>${d}</span>${price?`<span class="price">${fmt(price)}</span>`:''}</button>`).join('')}</div><div id="why"></div><div class="qnav"><button class="btn w" id="bk">← Back</button><button class="btn" id="nx" ${ch[key+'Why']!==null?'':'disabled'}>Next ➜</button></div>`;
+  const showWhy=()=>{const W=ch[key]===opts[0][0]?whysA:whysB;$('#why',ms).innerHTML=`<p style="font-weight:900;margin:14px 0 6px">Which reason would you give Noora?</p><div style="display:grid;gap:8px">${shuffle(W).map(([k,t,good])=>`<button class="opt" data-g="${good?1:0}"><span>${esc(t)}</span></button>`).join('')}</div><div class="hintline" id="wm"></div>`;
+   $$('#why .opt',ms).forEach(b=>b.onclick=()=>{ch[key+'Why']=b.dataset.g==='1';$$('#why .opt',ms).forEach(x=>x.classList.remove('right','wrong'));b.classList.add(ch[key+'Why']?'right':'wrong');$('#wm',ms).innerHTML=ch[key+'Why']?'✅ Strong reason: it links to the café.':'💡 That reason does not link to the café. Pick a reason about the people and the busy days.';beep(ch[key+'Why']?'good':'bad');$('#nx',ms).disabled=false;});};
+  $$('.choice',ms).forEach(b=>b.onclick=()=>{ch[key]=b.dataset.k;ch[key+'Why']=null;$$('.choice',ms).forEach(x=>x.classList.toggle('on',x===b));beep('pop');showWhy();if(key==='kitchen'){const sp=spent();const bud=$('.budget .cap',app);if(bud){$('i',bud).style.width=Math.min(100,sp/BUD*100)+'%';$('span',bud).textContent=`${fmt(sp)} of ${fmt(BUD)}`;}}});
+  if(ch[key])showWhy();$('#bk',ms).onclick=()=>{step--;draw();};$('#nx',ms).onclick=()=>{step++;draw();};}
+ draw();}
+
+/* ================= CHALLENGE ================= */
+function renderChallenge(app){const all=ORDER.flatMap(id=>T[id].quiz.map(q=>Object.assign({_topic:id},q)));const per={};const qs=[];
+ shuffle(all).forEach(q=>{if(qs.length<15&&(per[q._topic]||0)<2){per[q._topic]=(per[q._topic]||0)+1;qs.push(q);}});
+ app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#6d4aff"><span class="ill" style="font-size:64px">🏆</span><div><h1>Mixed Challenge</h1><p>15 questions from every topic. Score 70% or more for a bonus star. Best so far: ${store.get('challenge',0)}%</p></div></section><div class="panel" style="margin-top:18px;--c:#6d4aff"><div id="qz"></div></div>`;
+ runQuiz($('#qz',app),qs,pct=>{if(pct>store.get('challenge',0)){store.set('challenge',pct);drawPill();}},{backTo:'#'});}
+
+/* ================= SHARE PROGRESS ================= */
+/* ===== TEACHER SETTINGS =====
+ FORM_URL: your Microsoft Forms pre-filled link. Make it with the sample answers NAME, CLASS, STARS, DETAILS and CODE.
+ The website swaps those words for each student's real progress. Leave it empty until the form is ready. */
+const FORM_URL='';
+const TEACHER_EMAIL='';
+const ARCADE_URL='https://legacypathpublications-cmyk.github.io/year8-cs-media-lab/year9-arcade/';
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+function hash(str){let h=7;for(const c of str)h=(h*31+c.charCodeAt(0))%1679616;return h.toString(36).padStart(4,'0');}
+function makeCode(nm,cl){const body=['Y9R1',nm,cl,today(),ORDER.map(id=>{const p=prog(id);return [p.cards.length,p.play.length,p.quiz].join('-');}).join('_'),store.get('mission',0),store.get('challenge',0)].join('~');
+ return btoa(unescape(encodeURIComponent(body+'~'+hash(body)))).replace(/=+$/,'');}
+function readCode(code){try{const raw=decodeURIComponent(escape(atob(code.trim())));const parts=raw.split('~');const chk=parts.pop();if(parts[0]!=='Y9R1'||hash(parts.join('~'))!==chk)return null;
+ const [, nm,cl,date,tp,mi,ch]=parts;const rows=tp.split('_').map((x,i)=>{const [c,pl,q]=x.split('-').map(Number);const id=ORDER[i];const t=T[id];return {id,stars:(c>=t.cards.length?1:0)+(pl>=t.play.length?1:0)+(q>=70?1:0),quiz:q};});
+ return {nm,cl,date,rows,mission:+mi,challenge:+ch,total:rows.reduce((a,r)=>a+r.stars,0)+(+mi>=1?1:0)+(+ch>=70?1:0)};}catch(e){return null;}}
+function summaryText(nm,cl){return `Year 9 ICT Revision Quest progress\nName: ${nm}\nClass: ${cl}\nDate: ${today()}\nStars: ${totalStars()} of ${MAXSTARS}\n`+ORDER.map((id,i)=>`${i+1}. ${T[id].t}: ${'★'.repeat(starsOf(id))}${'☆'.repeat(3-starsOf(id))}  quiz ${prog(id).quiz}%`).join('\n')+`\nQahwa House Mission: ${store.get('mission',0)?'done':'not yet'}\nMixed Challenge best: ${store.get('challenge',0)}%\nCheck code: ${makeCode(nm,cl)}`;}
+function drawCard(cv,nm,cl){const W=1000,H=1320;cv.width=W;cv.height=H;const x=cv.getContext('2d');
+ const g=x.createLinearGradient(0,0,W,0);g.addColorStop(0,'#6d4aff');g.addColorStop(.6,'#a855f7');g.addColorStop(1,'#ec4899');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle=g;x.fillRect(0,0,W,210);
+ x.fillStyle='#fff';x.font='800 50px "Baloo 2", Arial';x.fillText('Year 9 ICT Revision Quest',44,82);x.font='800 26px Nunito, Arial';x.fillText('Progress card',46,124);
+ x.font='900 30px Nunito, Arial';x.fillText(`${nm||'(name)'}   •   ${cl||'(class)'}`,46,178);x.textAlign='right';x.font='800 24px Nunito, Arial';x.fillText(today(),W-44,178);x.textAlign='left';
+ const tot=totalStars();x.fillStyle='#fef3c7';x.beginPath();x.roundRect(44,236,W-88,86,22);x.fill();x.fillStyle='#1e1b4b';x.font='900 40px Nunito, Arial';x.fillText(`⭐ ${tot} of ${MAXSTARS} stars`,70,293);
+ x.fillStyle='#e9e5ff';x.beginPath();x.roundRect(560,266,370,26,13);x.fill();x.fillStyle='#f59e0b';x.beginPath();x.roundRect(560,266,Math.max(26,370*tot/MAXSTARS),26,13);x.fill();
+ let y=360;x.font='900 18px Nunito, Arial';x.fillStyle='#64748b';x.fillText('TOPIC',70,y);x.fillText('📖 LEARN',520,y);x.fillText('🎮 PLAY',650,y);x.fillText('✅ QUIZ',780,y);y+=18;
+ ORDER.forEach((id,i)=>{const t=T[id],p=prog(id);const ry=y+i*62;x.fillStyle=i%2?'#faf9ff':'#fff';x.fillRect(44,ry,W-88,62);x.fillStyle=t.c;x.beginPath();x.arc(84,ry+31,18,0,7);x.fill();x.fillStyle='#fff';x.font='900 18px Nunito, Arial';x.textAlign='center';x.fillText(i+1,84,ry+37);x.textAlign='left';
+  x.fillStyle='#1e1b4b';x.font='800 24px Nunito, Arial';x.fillText(t.t,116,ry+39);
+  const mark=(ok,cx)=>{x.font='900 28px Nunito, Arial';x.fillStyle=ok?'#16a34a':'#cbd5e1';x.fillText(ok?'✔':'—',cx,ry+41);};
+  mark(p.cards.length>=t.cards.length,548);mark(p.play.length>=t.play.length,672);x.font='900 24px Nunito, Arial';x.fillStyle=p.quiz>=70?'#16a34a':p.quiz?'#d97706':'#cbd5e1';x.fillText(p.quiz?p.quiz+'%':'—',790,ry+40);
+  x.fillStyle='#f5b301';x.font='26px Arial';x.fillText('★'.repeat(starsOf(id)),880,ry+41);x.fillStyle='#dcd8f0';x.fillText('★'.repeat(3-starsOf(id)),880+26*starsOf(id),ry+41);});
+ y+=ORDER.length*62+30;x.fillStyle='#1e1b4b';x.font='800 24px Nunito, Arial';x.fillText(`☕ Qahwa House Mission: ${store.get('mission',0)?'complete ✔':'not yet'}`,60,y);x.fillText(`🏆 Mixed Challenge best: ${store.get('challenge',0)}%`,540,y);
+ y+=46;x.fillStyle='#f1f5f9';x.beginPath();x.roundRect(44,y,W-88,H-y-30,16);x.fill();x.fillStyle='#64748b';x.font='800 16px Nunito, Arial';x.fillText('CHECK CODE (for your teacher)',64,y+30);x.fillStyle='#1e1b4b';x.font='700 15px "Courier New", monospace';
+ const code=makeCode(nm,cl);for(let i=0,l=0;i<code.length;i+=88,l++)x.fillText(code.slice(i,i+88),64,y+56+l*20);}
+const normName=n=>String(n||'').toLowerCase().replace(/[^a-z]/g,'');
+function unlockCode(name){let h=97;for(const c of normName(name)+'y9arcade')h=(h*131+c.charCodeAt(0))%1000003;return String(1000+h%9000);}
+const who=()=>({nm:store.get('name','').trim(),cl:store.get('cls','').trim()});
+function detailsText(){return ORDER.map((id,i)=>`${i+1} ${T[id].t}: ${starsOf(id)}/3 stars, quiz ${prog(id).quiz}%`).join(' | ')+` | Mission: ${store.get('mission',0)?'done':'not yet'} | Challenge best: ${store.get('challenge',0)}%`;}
+function formLink(nm,cl){if(!FORM_URL)return null;const v={NAME:nm,CLASS:cl,STARS:`${totalStars()} of ${MAXSTARS}${totalStars()>=MAXSTARS?' (COMPLETE)':''}`,DETAILS:detailsText(),CODE:makeCode(nm,cl)};
+ return FORM_URL.replace(/=(NAME|CLASS|STARS|DETAILS|CODE)(?=&|$)/g,(m,k)=>'='+encodeURIComponent(v[k]));}
+function sendProgress(nm,cl,msgEl){const url=formLink(nm,cl);if(url){window.open(url,'_blank','noopener');store.set('sentAt',Date.now());if(msgEl)msgEl.innerHTML='✅ The form has opened in a new tab with your progress filled in. Press <b>Submit</b> there.';beep('good');return true;}
+ const txt=summaryText(nm,cl);(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();});
+ store.set('sentAt',Date.now());if(msgEl)msgEl.innerHTML='📋 Your teacher has not linked the form yet, so your progress has been <b>copied</b>. Paste it to your teacher in Teams with Ctrl + V.';return true;}
+function renderShare(app){const nm0=store.get('name',''),cl0=store.get('cls','');
+ app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#16a34a"><span class="ill" style="font-size:60px">📤</span><div><h1>Send my progress</h1><p>Send your stars to your teacher at any time. They go straight into your teacher's spreadsheet.</p></div></section>
+ <div class="share"><div class="panel"><label class="field">Your full name</label><input class="inp" id="nm" maxlength="40" placeholder="e.g. Sara Ali" value="${esc(nm0)}"><label class="field">Your class</label><input class="inp" id="cl" maxlength="12" placeholder="e.g. 9B" value="${esc(cl0)}">
+  <div class="row" style="margin-top:16px"><button class="btn g" id="send" style="font-size:18px">📤 Send my progress to my teacher</button></div><div class="hintline" id="sm"></div>
+  <div class="subh">📮 How it works</div><ol class="steps"><li>Type your name and class above.</li><li>Press <b>Send my progress to my teacher</b>. A Microsoft form opens with your stars already filled in.</li><li>Sign in with your school account if it asks, then press <b>Submit</b>. Done! 🎉</li></ol>
+  <p class="note" style="margin-top:14px">💡 Send it whenever you like: after each topic, or when you reach ${MAXSTARS} stars. Your teacher always sees your newest progress.</p>
+  <div class="row" style="margin-top:12px"><button class="btn w" id="dl">⬇ Download my progress card</button><button class="btn w" id="cp">📋 Copy my progress</button></div></div>
+ <div><canvas id="card"></canvas></div></div>`;
+ const cv=$('#card',app);const nmI=$('#nm',app),clI=$('#cl',app);
+ const redraw=()=>{store.set('name',nmI.value.trim());store.set('cls',clI.value.trim());drawCard(cv,nmI.value.trim(),clI.value.trim());};
+ nmI.oninput=redraw;clI.oninput=redraw;redraw();if(document.fonts)document.fonts.ready.then(redraw);
+ const ok=()=>{const a=nmI.value.trim(),b=clI.value.trim();nmI.classList.toggle('miss',!a);clI.classList.toggle('miss',!b);if(!a||!b){toast('Type your name and class first.','bad');(a?clI:nmI).focus();return false;}return true;};
+ $('#dl',app).onclick=()=>{if(!ok())return;redraw();cv.toBlob(bl=>{const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=`${nmI.value.trim()} ${clI.value.trim()} Revision progress ${today()}.png`.replace(/[\\/:*?"<>|]/g,'');document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);});beep('good');$('#sm',app).textContent='✅ Saved! Now upload it to your Teams assignment.';};
+ $('#cp',app).onclick=async()=>{if(!ok())return;const txt=summaryText(nmI.value.trim(),clI.value.trim());try{await navigator.clipboard.writeText(txt);$('#sm',app).textContent='✅ Copied! Paste it into Teams with Ctrl + V.';beep('good');}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('#sm',app).textContent='✅ Copied! Paste it into Teams with Ctrl + V.';}};
+ $('#send',app).onclick=()=>{if(!ok())return;sendProgress(nmI.value.trim(),clI.value.trim(),$('#sm',app));};
+ const tm=$('#tm',app);if(tm)tm.onclick=()=>{if(!ok())return;window.open(`https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(TEACHER_EMAIL)}&message=${encodeURIComponent(summaryText(nmI.value.trim(),clI.value.trim()))}`,'_blank','noopener');};}
+function renderCheck(app){app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#1e1b4b"><span class="ill" style="font-size:60px">🧑‍🏫</span><div><h1>Teacher: check progress codes</h1><p>Paste students' copied progress (or just their check codes). Each code is checked, so edited codes are flagged.</p></div></section>
+ <div class="panel" style="margin-top:18px"><textarea class="inp" id="codes" rows="7" placeholder="Paste here. You can paste lots of students at once."></textarea><div class="row" style="margin-top:10px"><button class="btn" id="go">📊 Make class table</button><button class="btn w" id="csv">⬇ Download as CSV (Excel)</button></div><div id="out"></div></div>`;
+ let rows=[];
+ $('#go',app).onclick=()=>{const found=($('#codes',app).value.match(/[A-Za-z0-9+/]{40,}/g)||[]);const bad=[];rows=[];found.forEach(c=>{const r=readCode(c);if(r)rows.push(r);else bad.push(c);});
+  rows.sort((a,b)=>(a.cl+a.nm).localeCompare(b.cl+b.nm));
+  $('#out',app).innerHTML=(rows.length?`<table class="ctab"><tr><th>Name</th><th>Class</th><th>Date</th><th>⭐ Total</th>${ORDER.map((id,i)=>`<th title="${T[id].t}">${i+1}</th>`).join('')}<th>Mission</th><th>Challenge</th></tr>${rows.map(r=>`<tr><td><b>${esc(r.nm)}</b></td><td>${esc(r.cl)}</td><td>${esc(r.date)}</td><td><b>${r.total}/${MAXSTARS}</b></td>${r.rows.map(t=>`<td style="background:${['#fee2e2','#fef3c7','#dcfce7','#bbf7d0'][t.stars]}">${t.stars}★</td>`).join('')}<td>${r.mission?'✔':''}</td><td>${r.challenge}%</td></tr>`).join('')}</table><p class="lead" style="margin-top:8px">Topic numbers: ${ORDER.map((id,i)=>`${i+1} ${T[id].t}`).join(' • ')}</p>`:'<p class="lead">No valid codes found.</p>')+(bad.length?`<p class="note">⚠️ ${bad.length} code${bad.length>1?'s were':' was'} changed or incomplete, so ${bad.length>1?'they were':'it was'} left out.</p>`:'');};
+ $('#csv',app).onclick=()=>{if(!rows.length){toast('Make the class table first.','bad');return;}const head=['Name','Class','Date','Total stars',...ORDER.map(id=>T[id].t),'Mission','Challenge %'];const lines=[head,...rows.map(r=>[r.nm,r.cl,r.date,r.total,...r.rows.map(t=>t.stars),r.mission?'Yes':'No',r.challenge])].map(l=>l.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'}));a.download=`Revision Quest progress ${today()}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),1000);};}
+
+/* ================= 38/38: SEND + UNLOCK CODE ================= */
+function renderDone(app){const done=totalStars()>=MAXSTARS;const w=who();
+ if(!done){app.innerHTML=`<a class="crumb" href="#">← All topics</a><div class="panel" style="text-align:center"><div style="font-size:70px">🔒</div><h2>Not yet!</h2><p class="lead">Collect all ${MAXSTARS} stars to get your games code. You have ${totalStars()}.</p><a class="btn" href="#">Keep going ➜</a></div>`;return;}
+ confetti(220);beep('win');
+ app.innerHTML=`<section class="thead" style="--c:#f59e0b"><span class="ill" style="font-size:66px">🏆</span><div><h1>${MAXSTARS} out of ${MAXSTARS}! You did it!</h1><p>You finished the whole Year 9 ICT Revision Quest. Amazing work!</p></div></section>
+ <div class="panel" style="margin-top:18px;--c:#f59e0b"><div class="subh" style="margin-top:0">Step 1: Send your progress to your teacher</div>
+ <div class="row"><input class="inp" id="nm" style="max-width:280px" placeholder="Your full name" value="${esc(w.nm)}"><input class="inp" id="cl" style="max-width:140px" placeholder="Class" value="${esc(w.cl)}"><button class="btn g" id="send">📤 Send my progress</button></div><div class="hintline" id="sm" style="text-align:left"></div>
+ <div class="subh">Step 2: Get your games code</div><div id="codebox"><p class="lead">Send your progress first, then your code appears here.</p></div></div>`;
+ const showCode=()=>{const nm=$('#nm',app).value.trim();$('#codebox',app).innerHTML=`<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div style="font-family:var(--hf);font-size:64px;letter-spacing:10px;background:#1e1b4b;color:#ffc93c;border-radius:22px;padding:6px 26px">${unlockCode(nm)}</div><div><p style="font-weight:800;margin:0 0 8px">This is <b>your</b> code. It only works with your name: <b>${esc(nm)}</b>.</p><a class="btn y" href="${ARCADE_URL}" target="_blank" rel="noopener">🎮 Open the Games Arcade</a></div></div>`;};
+ $('#send',app).onclick=()=>{const nm=$('#nm',app).value.trim(),cl=$('#cl',app).value.trim();if(!nm||!cl){toast('Type your name and class first.','bad');return;}store.set('name',nm);store.set('cls',cl);sendProgress(nm,cl,$('#sm',app));store.set('codeOK',1);showCode();};
+ if(store.get('codeOK',0)&&w.nm)showCode();}
+
+/* ================= ROUTER ================= */
+const app=$('#app');
+function route(){cleanups.forEach(f=>{try{f();}catch(e){}});cleanups=[];$('#toast').className='';const h=location.hash.slice(1).split('/');window.scrollTo(0,0);
+ if(h[0]==='t'&&T[h[1]]){renderTopic(app,h[1],h[2]);document.title=T[h[1]].t+' | Year 9 ICT Revision';}
+ else if(h[0]==='mission'){renderMission(app);document.title='Qahwa House Mission | Year 9 ICT Revision';}
+ else if(h[0]==='share'){renderShare(app);document.title='Share my progress | Year 9 ICT Revision';}
+ else if(h[0]==='done'){renderDone(app);document.title='Quest complete! | Year 9 ICT Revision';}
+ else if(h[0]==='check'){renderCheck(app);document.title='Teacher check | Year 9 ICT Revision';}
+ else if(h[0]==='challenge'){renderChallenge(app);document.title='Mixed Challenge | Year 9 ICT Revision';}
+ else{renderHome(app);document.title='Year 9 ICT Revision Quest';}}
+$('#muteBtn').onclick=()=>{muted=!muted;store.set('muted',muted);drawPill();};
+window.addEventListener('hashchange',route);drawPill();route();
+</script>
+</body>
+</html>
