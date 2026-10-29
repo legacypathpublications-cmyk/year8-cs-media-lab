@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Clinic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<style>
+/* Layout: one column, a locked card per activity, each opens into its own task panel. */
+:root{
+  --bg:#F4F7FA; --panel:#FFFFFF; --ink:#1F2D3D; --muted:#566574; --line:#CBD5DD;
+  --navy:#1F3557; --teal:#2E8C83; --teal-t:#E1F0EE; --blue:#4C79A6; --blue-t:#E4ECF4;
+  --bronze:#B87333; --bronze-t:#F6E8DA; --silver:#7C8895; --silver-t:#E8ECEF; --gold:#C79A33; --gold-t:#FAF0DA;
+  --good:#1F7A4D; --good-t:#DFF1E7; --bad:#A33B3B; --bad-t:#F6E1E1; --on:#FFFFFF;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif; --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-inline:max(16px,4vw);padding-block:20px 48px}
+.wrap{max-width:900px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);color:var(--navy);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);font-weight:800}
+h2{font-size:1.5rem;font-weight:800}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.kicker{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.lead{color:var(--muted);margin-top:8px;max-width:60ch}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.lv{display:inline-block;align-self:flex-start;width:fit-content;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;color:var(--on)}
+.lv.b{background:var(--bronze)}.lv.s{background:var(--silver)}.lv.g{background:var(--gold)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.menu .card{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center}
+.menu .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lock{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=text]{font:inherit;font-size:1.05rem;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:11.5rem;max-width:100%;text-transform:uppercase;letter-spacing:.06em}
+input[type=text]:focus-visible,button:focus-visible,select:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:10px 16px;background:var(--navy);color:var(--on);cursor:pointer}
+button.alt{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.msg{font-size:.95rem;min-height:1.3em;width:100%}
+.msg.bad{color:var(--bad)}.msg.good{color:var(--good)}
+.tag-open{color:var(--good);font-weight:700}
+.back{margin-bottom:14px}
+.panelhead{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.step{border-top:2px solid var(--line);padding-top:18px;margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.step:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.steplab{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.record{background:var(--gold-t);border:1px dashed var(--gold);border-radius:8px;padding:10px 14px;font-size:.95rem}
+.record b{color:var(--navy)}
+.big{font-family:var(--display);font-weight:800;font-size:2rem;font-variant-numeric:tabular-nums;color:var(--navy)}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-weight:700;font-size:.9rem}
+.pill.ok{background:var(--good-t);color:var(--good)}.pill.no{background:var(--bad-t);color:var(--bad)}
+input[type=range]{width:100%;accent-color:var(--teal);height:2rem}
+.ticks{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.two,.menu .card{grid-template-columns:1fr}}
+canvas{width:100%;max-width:340px;aspect-ratio:1;border:2px solid var(--line);border-radius:8px;background:#fff;image-rendering:pixelated;display:block}
+.stat{display:flex;flex-direction:column;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px}
+.stat span{color:var(--muted);font-size:.9rem}
+.seg{display:inline-flex;align-self:flex-start;width:fit-content;max-width:100%;border:2px solid var(--navy);border-radius:8px;overflow:hidden}
+.seg button{border-radius:0;background:transparent;color:var(--navy)}
+.seg button[aria-pressed=true]{background:var(--navy);color:var(--on)}
+.tog{display:flex;flex-direction:column;gap:10px}
+.tog label{display:flex;gap:12px;align-items:flex-start;background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.tog label:has(input:checked){border-color:var(--teal);background:var(--teal-t)}
+.tog input{width:22px;height:22px;margin-top:2px;accent-color:var(--teal);flex:none}
+.tog small{display:block;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar{display:grid;grid-template-columns:7.2rem minmax(0,1fr) 5.6rem;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.bar .track{background:var(--bg);border:1px solid var(--line);border-radius:6px;height:30px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--bad)}
+.bar.corr .fill{background:var(--teal)}
+.bar b{text-align:right}
+@media(max-width:520px){.bar{grid-template-columns:5.2rem minmax(0,1fr) 4.6rem}}
+.log{font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+.log table{border-collapse:collapse;width:100%;min-width:420px}
+.log th,.log td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.log th{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+
+.board{margin-top:14px;width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.board text{font-family:var(--body)}
+.board .t{fill:var(--ink)}.board .m{fill:var(--muted)}.board .al{fill:var(--bronze)}
+.board .nt{fill:var(--navy);font-family:var(--display);font-weight:800}
+.board .nb{fill:var(--silver-t);stroke:var(--line);stroke-width:2}.board .nn{fill:var(--navy);font-weight:800;font-size:15px}
+.board .cdr{fill:var(--panel);stroke:var(--line);stroke-width:2}.board .chip{fill:var(--panel);stroke:var(--line);stroke-width:2}.board .frm{stroke:var(--line)}
+.board .lyr{opacity:0;transition:opacity .5s}.board .lyr.on{opacity:1}
+.board .cd{opacity:.55;transition:opacity .5s}.board .cd.on{opacity:1}.board .cd.on .cdr{stroke:var(--teal);stroke-width:3}
+.board .res{opacity:0;transition:opacity .5s}.board .cd.on .res{opacity:1}.board .cd.on .pre{opacity:0}
+.board .arr{stroke:#E0820F;stroke-width:4;fill:none;stroke-dasharray:150;stroke-dashoffset:150;opacity:0;transition:stroke-dashoffset .7s,opacity .2s}
+.board .arr.on{stroke-dashoffset:0;opacity:1}
+.board .struck{text-decoration:line-through;text-decoration-thickness:3px;fill:var(--bad)}
+.post{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.post .ph{height:150px;display:block;width:100%}
+.post .tx{padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.post small{color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.checks button{background:var(--panel);color:var(--navy);border:2px solid var(--navy);text-align:left}
+.checks button[aria-pressed=true]{background:var(--teal-t);border-color:var(--teal)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.found{display:flex;flex-direction:column;gap:10px}
+.found .f{background:var(--teal-t);border-left:5px solid var(--teal);padding:10px 14px;border-radius:6px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts button{background:var(--panel);color:var(--ink);border:2px solid var(--line);text-align:left;font-weight:400}
+.opts button.right{border-color:var(--good);background:var(--good-t)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.fb{padding:10px 14px;border-radius:8px;background:var(--blue-t);min-height:2.6em}
+.cc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.cc{grid-template-columns:1fr}}
+.cc .item{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.cc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95rem}
+.cc dt{color:var(--muted)}.cc dd{margin:0;font-weight:700}
+.finish{background:var(--good-t);border:2px solid var(--good);border-radius:10px;padding:16px;color:var(--ink)}
+footer{margin-top:28px;color:var(--muted);font-size:.9rem}
+.themebtn{padding:6px 12px;font-size:.85rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* Code lab components shared by every Python lesson site */
+.todo{background:var(--blue-t);border-left:5px solid var(--blue);padding:10px 14px;border-radius:6px}
+.todo b.t{display:block;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.todo ol{margin:6px 0 0;padding-left:1.3em}.todo li{margin:3px 0}
+.res{border:2px solid var(--gold);border-radius:10px;overflow-x:auto;background:var(--gold-t)}
+.res table{border-collapse:collapse;width:100%;min-width:420px}
+.res caption{text-align:left;padding:8px 12px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy)}
+.res th,.res td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.res th{font-size:.85rem;background:var(--panel);color:var(--navy)}
+.res th .lv{font-size:.62rem;padding:1px 7px;margin-left:4px}
+.res td.v{font-weight:700;color:var(--good)}
+.res td.lock{color:var(--muted);font-weight:400}
+.res td code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:var(--panel);padding:1px 5px;border-radius:4px}
+@keyframes rv{0%{background:var(--good-t)}100%{background:transparent}}
+.res td.new{animation:rv 1.6s}
+.item{border:2px solid var(--line);border-radius:12px;background:var(--bg);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.item.done{border-color:var(--good)}
+.item .ih{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.item .ih b{font-family:var(--display);color:var(--navy);font-size:1.05rem}
+.pill.wait{background:var(--silver-t);color:var(--muted)}
+.part{border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.part[data-state=locked]{opacity:.45;pointer-events:none}
+.part .pq{font-weight:700}
+.part .pq .lv{font-size:.62rem;margin-right:6px;vertical-align:middle;padding:1px 7px}
+.code{display:grid;grid-template-columns:auto minmax(0,1fr);border:2px solid #243245;border-radius:8px;background:#10161f;overflow:hidden;position:relative}
+.code .gut{margin:0;padding:10px 8px 10px 12px;color:#6f8399;text-align:right;font:14px/22px ui-monospace,Menlo,Consolas,monospace;user-select:none;border-right:1px solid #243245;background:#0c1118}
+.code .gut span{display:block;height:22px}
+.code .gut span.cur{color:#ffd166;font-weight:700}
+.code .gut span.err{color:#ff8b8b;font-weight:700}
+.code .area{position:relative;min-width:0;overflow-x:auto}
+.code .hl{position:absolute;left:0;right:0;height:22px;top:10px;background:rgba(255,209,102,.20);border-left:4px solid #ffd166;pointer-events:none;display:none;transition:top .18s}
+.code .hl.err{background:rgba(255,107,107,.22);border-left-color:#ff6b6b}
+.code textarea{display:block;position:relative;width:100%;min-width:100%;border:0;margin:0;padding:10px 12px;background:transparent;color:#e6edf3;font:14px/22px ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:hidden;resize:none;tab-size:4;outline:none;caret-color:#ffd166}
+.code textarea[readonly]{color:#d6e2ee;cursor:default}
+.code:focus-within{border-color:var(--blue)}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ctl button{padding:7px 12px;font-size:.92rem}
+.ctl .grow{flex:1}
+.ctl select{font:inherit;padding:6px;border-radius:6px;border:2px solid var(--line);background:var(--panel);color:var(--ink)}
+.inbox{display:flex;flex-direction:column;gap:4px}
+.inbox label{font-size:.85rem;color:var(--muted)}
+.inbox textarea,.predbox textarea,.predbox input[type=text]{font:15px/1.5 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel);color:var(--ink);width:100%;text-transform:none;letter-spacing:0}
+.predbox input[type=text]{width:14rem;max-width:100%}
+.predbox{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.predbox textarea{min-height:5.2em}
+.term{background:#0c1118;color:#9ff0c6;border-radius:8px;padding:10px 12px;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;min-height:3.2em;white-space:pre-wrap;word-break:break-word;border:1px solid #243245}
+.term .e{color:#ff9b9b;font-weight:700}
+.term .lbl{display:block;color:#6f8399;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.watch{display:flex;flex-direction:column;gap:8px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;min-height:1.8em}
+.badge{padding:2px 10px;border-radius:99px;font-weight:700;font-size:.85rem;background:var(--silver-t);color:var(--ink)}
+.badge.t{background:var(--good-t);color:var(--good)}.badge.f{background:var(--bad-t);color:var(--bad)}
+.vars{display:flex;flex-wrap:wrap;gap:8px;min-height:3em}
+.vc{border:2px solid var(--line);border-radius:8px;background:var(--panel);padding:4px 10px;min-width:5rem;transition:border-color .2s,background .2s}
+.vc small{display:block;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+.vc b{font:700 1.05rem ui-monospace,Menlo,Consolas,monospace;color:var(--navy)}
+.vc.chg{border-color:var(--teal);background:var(--teal-t)}
+.vc.lst{padding:4px 8px}
+.cells{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}
+.cell{min-width:2.4rem;text-align:center;border:2px solid var(--navy);border-radius:4px;background:var(--panel);font:700 .95rem ui-monospace,Menlo,Consolas,monospace;color:var(--navy);padding:1px 6px 2px}
+.cell i{display:block;font:600 .68rem var(--body);color:var(--muted);font-style:normal;border-bottom:1px solid var(--line);margin:0 -6px 2px}
+.cell.chg{background:var(--teal-t);border-color:var(--teal)}
+.fb{padding:10px 14px;border-radius:8px;background:var(--blue-t);min-height:2.6em}
+.fb.good{background:var(--good-t);color:var(--ink);border-left:5px solid var(--good)}
+.fb.bad{background:var(--bad-t);border-left:5px solid var(--bad)}
+.fb code{font-family:ui-monospace,Menlo,Consolas,monospace}
+.tests{display:flex;flex-direction:column;gap:6px;font-size:.92rem}
+.tests div{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.tests code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--panel);padding:1px 6px;border-radius:4px;border:1px solid var(--line);white-space:pre-wrap}
+.picks{display:flex;gap:8px;flex-wrap:wrap}
+.picks button{background:var(--panel);color:var(--ink);border:2px solid var(--line);font-weight:400;text-align:left}
+.picks button.right{border-color:var(--good);background:var(--good-t)}.picks button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.tgrid{border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tgrid th,.tgrid td{border:1px solid var(--line);padding:4px 8px;text-align:center}
+.tgrid th{background:var(--panel);color:var(--navy);font-size:.85rem}
+.tgrid input{width:5.2rem;text-transform:none;letter-spacing:0;padding:5px 6px;font:15px ui-monospace,Menlo,Consolas,monospace;text-align:center;border-radius:6px}
+.tgrid input.ok{border-color:var(--good);background:var(--good-t)}.tgrid input.no{border-color:var(--bad);background:var(--bad-t)}
+.qbox{background:var(--gold-t);border:1px dashed var(--gold);border-radius:8px;padding:12px 16px}
+.qbox ol{margin:6px 0 0;padding-left:1.3em}.qbox li{margin:6px 0;font-weight:700}
+.lab{border:2px dashed var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.lab summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.tw{overflow-x:auto}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Year 8 Computer Science · Python: Loops, Lists and Building Programs · Lesson 1</div>
+      <h1>Code Clinic</h1>
+      <p class="lead">Your teacher shows a code on the board when it is time for each website task. You are the code doctor: run real Python in this page, diagnose what is wrong and record your results on your worksheet. Everyone does all three activities, and every Silver and Gold column.</p>
+    </div>
+    <button class="alt themebtn" id="themeBtn" type="button">Switch light or dark</button>
+  </div>
+  <div id="menu" class="stack menu">
+    <div class="card" id="c1">
+      <div class="meta"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 1</span></span><h2>Read the code</h2><p>Predict what real Python programs print, find out what type a variable holds, and test conditions line by line.</p></div>
+      <div class="lock"><label for="code1" class="steplab">Teacher code</label><input type="text" id="code1" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m1"><button type="button" data-open="1">Open</button><div class="msg" id="m1" role="status"></div></div>
+    </div>
+    <div class="card" id="c2">
+      <div class="meta"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 2</span></span><h2>Error gallery</h2><p>Run broken programs, read the error message, then fix each one until the tests pass.</p></div>
+      <div class="lock"><label for="code2" class="steplab">Teacher code</label><input type="text" id="code2" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m2"><button type="button" data-open="2">Open</button><div class="msg" id="m2" role="status"></div></div>
+    </div>
+    <div class="card" id="c3">
+      <div class="meta"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 3</span></span><h2>Wrong answers lab</h2><p>Run programs that work but give the wrong answer, say what they should print, then fix the logic.</p></div>
+      <div class="lock"><label for="code3" class="steplab">Teacher code</label><input type="text" id="code3" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4" aria-describedby="m3"><button type="button" data-open="3">Open</button><div class="msg" id="m3" role="status"></div></div>
+    </div>
+  </div>
+  
+  <section id="t1" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 1</span></span><h2>Read the code</h2><p>Do both steps in order. Run each program, watch it run line by line and record your results on your worksheet.</p></div>
+    <div class="steps stack"></div>
+    <div class="finish" id="done1" hidden><b>Activity 1A website task complete.</b> Check that your worksheet tables match the website tables. Answer the Gold questions on worksheet page 1A. Then do Activity 1B on your worksheet.</div>
+  </section>
+  <section id="t2" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 2</span></span><h2>Error gallery</h2><p>Do both steps in order. In Step 1 you only read the errors. In Step 2 you edit the code to fix it.</p></div>
+    <div class="steps stack"></div>
+    <div class="finish" id="done2" hidden><b>Activity 2A website task complete.</b> Check that your worksheet tables match the website tables. Answer the Gold questions on worksheet page 2A. Then do Activity 2B on your worksheet.</div>
+  </section>
+  <section id="t3" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2" style="gap:6px"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 3</span></span><h2>Wrong answers lab</h2><p>Do both steps in order. These programs never show an error message, so you have to notice the wrong answer yourself.</p></div>
+    <div class="steps stack"></div>
+    <div class="finish" id="done3" hidden><b>Activity 3A website task complete.</b> Check that your worksheet tables match the website tables. Answer the Gold questions on worksheet page 3A. Then do Activity 3B on your worksheet.</div>
+  </section>
+  <footer>Year 8 Computer Science · Python: Loops, Lists and Building Programs · Lesson 1 · Back to Code: What We Already Know. The programs run inside this page, so nothing is saved. Copy your own code into your Teams Assignment as text before you leave.</footer>
+</div>
+<script>/* Tiny Python-subset interpreter with a step tracer. Runs in the browser, no dependencies.
+   Supports: print, input, int/float/str/len/range/max/min/sum/abs/round/list/bool, lists, strings, f-strings,
+   if/elif/else, for, while, break, continue, pass, random (import random). Errors are worded like Python. */
+(function(root){
+'use strict';
+function PyErr(type,msg,line){this.pyType=type;this.pyMsg=msg;this.line=line||null;this.message=type+': '+msg}
+PyErr.prototype=Object.create(Error.prototype);
+function Fl(v){this.v=v}
+function Range(a,b,c){this.a=a;this.b=b;this.c=c;var n=0;if(c>0&&b>a)n=Math.ceil((b-a)/c);else if(c<0&&b<a)n=Math.ceil((a-b)/-c);this.n=n}
+var KW={'if':1,'elif':1,'else':1,'for':1,'while':1,'in':1,'not':1,'and':1,'or':1,'True':1,'False':1,'None':1,'break':1,'continue':1,'pass':1,'import':1,'from':1,'as':1,'def':1,'return':1};
+/* ---------- tokenizer ---------- */
+function tokenize(src){
+  var toks=[],lines=src.replace(/\r\n?/g,'\n').split('\n'),indents=[0],depth=0,openStack=[],i,ln;
+  for(ln=0;ln<lines.length;ln++){
+    var L=lines[ln],line=ln+1,p=0;
+    if(depth===0){
+      var m=/^[ \t]*/.exec(L)[0],w=0;for(i=0;i<m.length;i++)w+=(m[i]==='\t'?4:1);
+      var rest=L.slice(m.length);
+      if(rest===''||rest[0]==='#')continue;
+      if(w>indents[indents.length-1]){indents.push(w);toks.push({t:'INDENT',line:line})}
+      else if(w<indents[indents.length-1]){
+        while(w<indents[indents.length-1]){indents.pop();toks.push({t:'DEDENT',line:line})}
+        if(w!==indents[indents.length-1])throw new PyErr('IndentationError','unindent does not match any outer indentation level',line);
+      }
+      p=m.length;
+    }
+    while(p<L.length){
+      var c=L[p];
+      if(c===' '||c==='\t'){p++;continue}
+      if(c==='#')break;
+      if(c==='\\'&&p===L.length-1){p++;continue}
+      var fm=/^[fF]["']/.exec(L.slice(p,p+2));
+      if(c==='"'||c==="'"||fm){
+        var isF=!!fm,q=isF?L[p+1]:c,s=isF?p+2:p+1,out='',j=s,closed=false;
+        while(j<L.length){
+          if(L[j]==='\\'&&!isF){var e=L[j+1];out+=(e==='n'?'\n':e==='t'?'\t':e==='\\'?'\\':e===q?q:e==="'"?"'":e==='"'?'"':'\\'+(e||''));j+=2;continue}
+          if(L[j]===q){closed=true;break}
+          out+=L[j];j++;
+        }
+        if(!closed)throw new PyErr('SyntaxError','unterminated string literal (detected at line '+line+')',line);
+        toks.push({t:isF?'FSTR':'STR',v:out,line:line});p=j+1;continue;
+      }
+      if(/[0-9]/.test(c)||(c==='.'&&/[0-9]/.test(L[p+1]||''))){
+        var mm=/^(\d+\.\d*|\.\d+|\d+)([eE][+-]?\d+)?/.exec(L.slice(p));
+        var txt=mm[0],isFl=/[.eE]/.test(txt);
+        toks.push({t:'NUM',v:isFl?new Fl(parseFloat(txt)):parseInt(txt,10),line:line});p+=txt.length;continue;
+      }
+      if(/[A-Za-z_]/.test(c)){var n2=/^[A-Za-z_][A-Za-z_0-9]*/.exec(L.slice(p))[0];toks.push({t:KW[n2]?'KW':'NAME',v:n2,line:line});p+=n2.length;continue}
+      var three=L.slice(p,p+3),two=L.slice(p,p+2);
+      if(three==='//='||three==='**='){toks.push({t:'OP',v:three,line:line});p+=3;continue}
+      if(['==','!=','<=','>=','//','**','+=','-=','*=','/=','%='].indexOf(two)>=0){toks.push({t:'OP',v:two,line:line});p+=2;continue}
+      if('+-*/%<>=()[],:.'.indexOf(c)>=0){
+        if(c==='('||c==='['){depth++;openStack.push([c,line])}
+        if(c===')'||c===']'){depth--;openStack.pop();if(depth<0)throw new PyErr('SyntaxError',"unmatched '"+c+"'",line)}
+        toks.push({t:'OP',v:c,line:line});p++;continue;
+      }
+      throw new PyErr('SyntaxError','invalid syntax',line);
+    }
+    if(depth===0)toks.push({t:'NEWLINE',line:line});
+  }
+  if(depth>0){var o=openStack[openStack.length-1];throw new PyErr('SyntaxError',"'"+o[0]+"' was never closed",o[1])}
+  var last=lines.length;
+  while(indents.length>1){indents.pop();toks.push({t:'DEDENT',line:last})}
+  toks.push({t:'EOF',line:last});
+  return toks;
+}
+/* ---------- parser ---------- */
+function parse(src){
+  var T=tokenize(src),k=0;
+  function pk(){return T[k]}
+  function isOp(v){return T[k].t==='OP'&&T[k].v===v}
+  function isKw(v){return T[k].t==='KW'&&T[k].v===v}
+  function err(msg,line){throw new PyErr('SyntaxError',msg||'invalid syntax',line||T[k].line)}
+  function expectOp(v){if(!isOp(v))err(v===':'?"expected ':'":'invalid syntax');k++}
+  function parseBlock(what,hline){
+    if(T[k].t!=='NEWLINE')err("expected a newline"); k++;
+    if(T[k].t!=='INDENT')throw new PyErr('IndentationError',"expected an indented block after "+what+" on line "+hline,T[k].line);
+    k++;var body=[];
+    while(T[k].t!=='DEDENT'&&T[k].t!=='EOF')body.push(stmt());
+    if(T[k].t==='DEDENT')k++;
+    return body;
+  }
+  function cond(){
+    var e=expr();
+    if(isOp('='))err("invalid syntax. Maybe you meant '==' or ':=' instead of '='?");
+    return e;
+  }
+  function stmt(){
+    var t=T[k],line=t.line;
+    if(t.t==='INDENT')throw new PyErr('IndentationError','unexpected indent',line);
+    if(t.t==='KW'){
+      if(t.v==='if'){
+        k++;var tests=[],c=cond();expectOp(':');var body=parseBlock("'if' statement",line);tests.push({c:c,body:body,line:line});var orelse=null;
+        while(isKw('elif')){var l2=T[k].line;k++;var c2=cond();expectOp(':');var b2=parseBlock("'elif' statement",l2);tests.push({c:c2,body:b2,line:l2})}
+        if(isKw('else')){var l3=T[k].line;k++;expectOp(':');orelse=parseBlock("'else' statement",l3);}
+        return {k:'if',tests:tests,orelse:orelse,line:line};
+      }
+      if(t.v==='while'){k++;var wc=cond();expectOp(':');var wb=parseBlock("'while' statement",line);return {k:'while',c:wc,body:wb,line:line}}
+      if(t.v==='for'){
+        k++;if(T[k].t!=='NAME')err();var nm=T[k].v;k++;
+        if(!isKw('in'))err();k++;var it=expr();expectOp(':');var fb=parseBlock("'for' statement",line);return {k:'for',v:nm,it:it,body:fb,line:line};
+      }
+      if(t.v==='break'||t.v==='continue'||t.v==='pass'){k++;endStmt();return {k:t.v,line:line}}
+      if(t.v==='import'){k++;var mod=T[k].v;k++;endStmt();return {k:'import',m:mod,line:line}}
+      if(t.v==='from'){k++;var m2=T[k].v;k++;if(!isKw('import'))err();k++;var names=[];while(T[k].t==='NAME'){names.push(T[k].v);k++;if(isOp(','))k++}endStmt();return {k:'from',m:m2,names:names,line:line}}
+      if(t.v==='else'||t.v==='elif')err();
+      if(t.v==='def'||t.v==='return')throw new PyErr('SyntaxError','functions are not used in this unit',line);
+    }
+    if(t.t==='NAME'&&t.v==='print'&&(T[k+1].t==='STR'||T[k+1].t==='NAME'||T[k+1].t==='NUM'||T[k+1].t==='FSTR'))
+      throw new PyErr('SyntaxError',"Missing parentheses in call to 'print'. Did you mean print(...)?",line);
+    var e=expr();
+    if(T[k].t==='OP'){
+      var o=T[k].v;
+      if(o==='='){
+        k++;var v=expr();
+        if(e.k!=='name'&&e.k!=='index')throw new PyErr('SyntaxError','cannot assign to expression here. Maybe you meant \'==\' instead of \'=\'?',line);
+        endStmt();return {k:'assign',tg:e,v:v,line:line};
+      }
+      if(['+=','-=','*=','/=','//=','%=','**='].indexOf(o)>=0){k++;var v2=expr();if(e.k!=='name'&&e.k!=='index')err();endStmt();return {k:'aug',tg:e,op:o.slice(0,-1),v:v2,line:line}}
+    }
+    endStmt();return {k:'expr',e:e,line:line};
+  }
+  function endStmt(){
+    if(T[k].t==='NEWLINE'){k++;return}
+    if(T[k].t==='EOF'||T[k].t==='DEDENT')return;
+    err();
+  }
+  function expr(){return orE()}
+  function orE(){var a=andE();while(isKw('or')){var l=T[k].line;k++;a={k:'or',a:a,b:andE(),line:l}}return a}
+  function andE(){var a=notE();while(isKw('and')){var l=T[k].line;k++;a={k:'and',a:a,b:notE(),line:l}}return a}
+  function notE(){if(isKw('not')){var l=T[k].line;k++;return {k:'not',a:notE(),line:l}}return cmp()}
+  function cmp(){
+    var a=arith(),ops=[],rest=[];
+    for(;;){
+      var t=T[k],op=null;
+      if(t.t==='OP'&&['==','!=','<','>','<=','>='].indexOf(t.v)>=0){op=t.v;k++}
+      else if(isKw('in')){op='in';k++}
+      else if(isKw('not')&&T[k+1].t==='KW'&&T[k+1].v==='in'){op='not in';k+=2}
+      else break;
+      ops.push(op);rest.push(arith());
+    }
+    return ops.length?{k:'cmp',a:a,ops:ops,rest:rest,line:T[k-1].line}:a;
+  }
+  function arith(){var a=term();while(T[k].t==='OP'&&(T[k].v==='+'||T[k].v==='-')){var o=T[k].v,l=T[k].line;k++;a={k:'bin',op:o,a:a,b:term(),line:l}}return a}
+  function term(){var a=unary();while(T[k].t==='OP'&&['*','/','//','%'].indexOf(T[k].v)>=0){var o=T[k].v,l=T[k].line;k++;a={k:'bin',op:o,a:a,b:unary(),line:l}}return a}
+  function unary(){
+    if(T[k].t==='OP'&&(T[k].v==='-'||T[k].v==='+')){var o=T[k].v,l=T[k].line;k++;return {k:'neg',op:o,a:unary(),line:l}}
+    return power();
+  }
+  function power(){var a=postfix();if(isOp('**')){var l=T[k].line;k++;return {k:'bin',op:'**',a:a,b:unary(),line:l}}return a}
+  function postfix(){
+    var a=atom();
+    for(;;){
+      if(isOp('(')){
+        var l=T[k].line;k++;var args=[];
+        while(!isOp(')')){
+          if(T[k].t==='NAME'&&T[k+1].t==='OP'&&T[k+1].v==='='){var kn=T[k].v;k+=2;args.push({kw:kn,e:expr()})}
+          else args.push({e:expr()});
+          if(isOp(','))k++;else if(!isOp(')'))err("invalid syntax. Perhaps you forgot a comma?");
+        }
+        k++;a={k:'call',f:a,args:args,line:l};
+      } else if(isOp('[')){
+        var l2=T[k].line;k++;var idx=expr();
+        if(isOp(':')){k++;var hi=isOp(']')?null:expr();expectOp(']');a={k:'slice',a:a,lo:idx,hi:hi,line:l2}}
+        else{expectOp(']');a={k:'index',a:a,i:idx,line:l2}}
+      } else if(isOp('.')){
+        var l3=T[k].line;k++;if(T[k].t!=='NAME')err();a={k:'attr',a:a,n:T[k].v,line:l3};k++;
+      } else break;
+    }
+    return a;
+  }
+  function atom(){
+    var t=T[k],line=t.line;
+    if(t.t==='NUM'){k++;return {k:'num',v:t.v,line:line}}
+    if(t.t==='STR'){k++;var s=t.v;while(T[k].t==='STR'){s+=T[k].v;k++}return {k:'str',v:s,line:line}}
+    if(t.t==='FSTR'){k++;return {k:'fstr',parts:parseF(t.v,line),line:line}}
+    if(t.t==='NAME'){k++;return {k:'name',n:t.v,line:line}}
+    if(t.t==='KW'){
+      if(t.v==='True'||t.v==='False'){k++;return {k:'const',v:t.v==='True',line:line}}
+      if(t.v==='None'){k++;return {k:'const',v:null,line:line}}
+    }
+    if(t.t==='OP'&&t.v==='('){k++;var e=expr();if(isOp(',')){var items=[e];while(isOp(',')){k++;if(isOp(')'))break;items.push(expr())}expectOp(')');return {k:'list',items:items,line:line,tuple:true}}expectOp(')');return e}
+    if(t.t==='OP'&&t.v==='['){k++;var its=[];while(!isOp(']')){its.push(expr());if(isOp(','))k++;else if(!isOp(']'))err("invalid syntax. Perhaps you forgot a comma?")}k++;return {k:'list',items:its,line:line}}
+    if(t.t==='NEWLINE'||t.t==='EOF')err();
+    err();
+  }
+  function parseF(s,line){
+    var parts=[],i=0,buf='';
+    while(i<s.length){
+      if(s[i]==='{'&&s[i+1]==='{'){buf+='{';i+=2;continue}
+      if(s[i]==='}'&&s[i+1]==='}'){buf+='}';i+=2;continue}
+      if(s[i]==='{'){
+        var j=i+1,d=1;while(j<s.length&&d>0){if(s[j]==='{')d++;if(s[j]==='}')d--;j++}
+        if(d>0)throw new PyErr('SyntaxError',"f-string: expecting '}'",line);
+        var inner=s.slice(i+1,j-1),spec='',ci=-1,dd=0;
+        for(var q=0;q<inner.length;q++){var ch=inner[q];if(ch==='('||ch==='[')dd++;if(ch===')'||ch===']')dd--;if(ch===':'&&dd===0){ci=q;break}}
+        if(ci>=0){spec=inner.slice(ci+1);inner=inner.slice(0,ci)}
+        if(buf){parts.push({s:buf});buf=''}
+        var sub=parse(inner.trim()+'\n');
+        if(!sub.body.length||sub.body[0].k!=='expr')throw new PyErr('SyntaxError','f-string: invalid syntax',line);
+        parts.push({e:sub.body[0].e,spec:spec});i=j;continue;
+      }
+      buf+=s[i];i++;
+    }
+    if(buf)parts.push({s:buf});
+    return parts;
+  }
+  var body=[];
+  while(T[k].t!=='EOF'){
+    if(T[k].t==='NEWLINE'){k++;continue}
+    body.push(stmt());
+  }
+  return {body:body};
+}
+/* ---------- values ---------- */
+function tname(x){
+  if(x===null)return 'NoneType';if(typeof x==='boolean')return 'bool';if(typeof x==='number')return 'int';
+  if(x instanceof Fl)return 'float';if(typeof x==='string')return 'str';if(Array.isArray(x))return x.tuple?'tuple':'list';if(x instanceof Range)return 'range';return 'object';
+}
+function num(x){return typeof x==='boolean'?(x?1:0):(x instanceof Fl?x.v:x)}
+function isNum(x){return typeof x==='number'||typeof x==='boolean'||x instanceof Fl}
+function fstr(v){
+  if(Number.isInteger(v)){if(Math.abs(v)>=1e16)return v.toExponential().replace('e+','e+');return v.toFixed(1)}
+  if(!isFinite(v))return isNaN(v)?'nan':(v>0?'inf':'-inf');
+  var s=String(v);if(/e/.test(s)){s=s.replace(/e([+-])(\d)$/,'e$10$2')}
+  return s;
+}
+function repr(x){
+  if(typeof x==='string')return "'"+x.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n')+"'";
+  return str(x);
+}
+function str(x){
+  if(x===null)return 'None';if(typeof x==='boolean')return x?'True':'False';if(typeof x==='number')return String(x);
+  if(x instanceof Fl)return fstr(x.v);if(typeof x==='string')return x;
+  if(Array.isArray(x)){var b=x.map(repr).join(', ');return x.tuple?'('+b+(x.length===1?',':'')+')':'['+b+']'}
+  if(x instanceof Range)return 'range('+x.a+', '+x.b+(x.c!==1?', '+x.c:'')+')';
+  return String(x);
+}
+function truthy(x){
+  if(x===null)return false;if(typeof x==='boolean')return x;if(typeof x==='number')return x!==0;if(x instanceof Fl)return x.v!==0;
+  if(typeof x==='string'||Array.isArray(x))return x.length>0;if(x instanceof Range)return x.n>0;return true;
+}
+function eq(a,b){
+  if(isNum(a)&&isNum(b))return num(a)===num(b);
+  if(typeof a==='string'&&typeof b==='string')return a===b;
+  if(Array.isArray(a)&&Array.isArray(b)){if(a.length!==b.length)return false;for(var i=0;i<a.length;i++)if(!eq(a[i],b[i]))return false;return true}
+  return a===b;
+}
+function mkNum(v,isF){return isF?new Fl(v):v}
+function pmod(a,b){var r=a%b;if(r!==0&&((r<0)!==(b<0)))r+=b;return r}
+function binop(op,a,b,line){
+  var bad=function(){throw new PyErr('TypeError',"unsupported operand type(s) for "+op+": '"+tname(a)+"' and '"+tname(b)+"'",line)};
+  if(op==='+'){
+    if(typeof a==='string'){if(typeof b==='string')return a+b;throw new PyErr('TypeError','can only concatenate str (not "'+tname(b)+'") to str',line)}
+    if(Array.isArray(a)&&Array.isArray(b))return a.concat(b);
+  }
+  if(op==='*'){
+    if(typeof a==='string'&&isNum(b)&&!(b instanceof Fl))return b>0?a.repeat(num(b)):'';
+    if(typeof b==='string'&&isNum(a)&&!(a instanceof Fl))return a>0?b.repeat(num(a)):'';
+    if(Array.isArray(a)&&typeof b==='number'){var r=[];for(var i=0;i<b;i++)r=r.concat(a);return r}
+    if((typeof a==='string'||Array.isArray(a))&&!isNum(b))throw new PyErr('TypeError',"can't multiply sequence by non-int of type '"+tname(b)+"'",line);
+  }
+  if(op==='%'&&typeof a==='string')throw new PyErr('TypeError','string formatting with % is not used here',line);
+  if(!isNum(a)||!isNum(b))bad();
+  var fa=a instanceof Fl,fb=b instanceof Fl,x=num(a),y=num(b),fl=fa||fb;
+  switch(op){
+    case '+':return mkNum(x+y,fl);
+    case '-':return mkNum(x-y,fl);
+    case '*':return mkNum(x*y,fl);
+    case '/':if(y===0)throw new PyErr('ZeroDivisionError','division by zero',line);return new Fl(x/y);
+    case '//':if(y===0)throw new PyErr('ZeroDivisionError',fl?'float floor division by zero':'integer division or modulo by zero',line);return mkNum(Math.floor(x/y),fl);
+    case '%':if(y===0)throw new PyErr('ZeroDivisionError',fl?'float modulo':'integer modulo by zero',line);return mkNum(pmod(x,y),fl);
+    case '**':{var p=Math.pow(x,y);if(!fl&&y<0)return new Fl(p);return mkNum(p,fl)}
+  }
+  bad();
+}
+function compare(op,a,b,line){
+  if(op==='==')return eq(a,b);if(op==='!=')return !eq(a,b);
+  if(op==='in'||op==='not in'){
+    var r;
+    if(typeof b==='string'){if(typeof a!=='string')throw new PyErr('TypeError',"'in <string>' requires string as left operand, not "+tname(a),line);r=b.indexOf(a)>=0}
+    else if(Array.isArray(b)){r=false;for(var i=0;i<b.length;i++)if(eq(a,b[i])){r=true;break}}
+    else if(b instanceof Range){r=false;var v=num(a);for(var j=0;j<b.n;j++)if(b.a+j*b.c===v){r=true;break}}
+    else throw new PyErr('TypeError',"argument of type '"+tname(b)+"' is not iterable",line);
+    return op==='in'?r:!r;
+  }
+  var ok=(isNum(a)&&isNum(b))||(typeof a==='string'&&typeof b==='string')||(Array.isArray(a)&&Array.isArray(b));
+  if(!ok)throw new PyErr('TypeError',"'"+op+"' not supported between instances of '"+tname(a)+"' and '"+tname(b)+"'",line);
+  var x=Array.isArray(a)?str(a):(isNum(a)?num(a):a),y=Array.isArray(b)?str(b):(isNum(b)?num(b):b);
+  switch(op){case '<':return x<y;case '>':return x>y;case '<=':return x<=y;case '>=':return x>=y}
+}
+function clone(v){
+  if(Array.isArray(v)){var c=v.map(clone);if(v.tuple)c.tuple=true;return c}
+  return v;
+}
+function snapVal(v){
+  if(Array.isArray(v))return {list:v.map(snapVal)};
+  if(v instanceof Fl)return {f:v.v,s:fstr(v.v)};
+  if(v instanceof Range)return {s:str(v)};
+  if(typeof v==='string')return {str:v};
+  if(v===null)return {s:'None'};
+  if(typeof v==='boolean')return {s:v?'True':'False'};
+  return {n:v};
+}
+function fmtSpec(v,spec,line){
+  if(!spec)return str(v);
+  var m=/^(?:(.)?([<>^]))?(\d+)?(?:\.(\d+))?([dfs])?$/.exec(spec);
+  if(!m)throw new PyErr('ValueError',"Invalid format specifier '"+spec+"'",line);
+  var fill=m[1]||' ',al=m[2],w=m[3]?+m[3]:0,pr=m[4]!==undefined?+m[4]:null,ty=m[5],s;
+  if(ty==='f'||(pr!==null&&isNum(v))){if(!isNum(v))throw new PyErr('ValueError',"Unknown format code 'f' for object of type 'str'",line);s=num(v).toFixed(pr===null?6:pr)}
+  else if(ty==='d'){if(typeof v!=='number')throw new PyErr('ValueError',"Unknown format code 'd' for object of type '"+tname(v)+"'",line);s=String(v)}
+  else s=str(v);
+  if(!al)al=isNum(v)?'>':'<';
+  while(s.length<w){s=al==='<'?s+fill:al==='>'?fill+s:(s.length%2?s+fill:fill+s)}
+  return s;
+}
+function mulberry(seed){var a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+/* ---------- interpreter ---------- */
+function run(src,opts){
+  opts=opts||{};
+  var inputs=(opts.inputs||[]).slice(),maxEv=opts.maxEvents||4000,maxOut=opts.maxOut||6000;
+  var res={ok:true,error:null,out:'',events:[],vars:null,stuck:false,inputsUsed:0};
+  var env=Object.create(null),order=[],out='',rnd=mulberry(opts.seed===undefined?12345:opts.seed),loopDepth=0;
+  var BRK={},CNT={};
+  function setVar(n,v){if(!(n in env))order.push(n);env[n]=v}
+  function snap(){var o=[];for(var i=0;i<order.length;i++)o.push([order[i],snapVal(env[order[i]])]);return o}
+  function ev(line,extra){
+    if(res.events.length>=maxEv){res.stuck=true;throw new PyErr('StuckError','the program is stuck in a loop that never ends',line)}
+    var e={line:line,vars:snap(),outLen:out.length};if(extra)for(var k in extra)e[k]=extra[k];res.events.push(e);
+  }
+  function emit(s){out+=s;if(out.length>maxOut){res.stuck=true;throw new PyErr('StuckError','too much output, the program is stuck in a loop',null)}}
+  var B={};
+  B.print=function(args,kw,line){
+    var sep=kw.sep!==undefined?str(kw.sep):' ',end=kw.end!==undefined?str(kw.end):'\n';
+    emit(args.map(str).join(sep)+end);return null;
+  };
+  B.input=function(args,kw,line){
+    if(args.length)emit(str(args[0]));
+    if(!inputs.length)throw new PyErr('EOFError','EOF when reading a line',line);
+    var v=String(inputs.shift());res.inputsUsed++;emit(v+'\n');return v;
+  };
+  B.int=function(a,kw,line){
+    var x=a[0];if(x===undefined)return 0;
+    if(typeof x==='string'){var t=x.trim();if(!/^[+-]?\d+$/.test(t))throw new PyErr('ValueError',"invalid literal for int() with base 10: "+repr(x),line);return parseInt(t,10)}
+    if(x instanceof Fl)return Math.trunc(x.v);if(typeof x==='boolean')return x?1:0;if(typeof x==='number')return x;
+    throw new PyErr('TypeError',"int() argument must be a string, a bytes-like object or a real number, not '"+tname(x)+"'",line);
+  };
+  B.float=function(a,kw,line){
+    var x=a[0];if(x===undefined)return new Fl(0);
+    if(typeof x==='string'){var t=x.trim();if(!/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(t))throw new PyErr('ValueError','could not convert string to float: '+repr(x),line);return new Fl(parseFloat(t))}
+    if(isNum(x))return new Fl(num(x));
+    throw new PyErr('TypeError',"float() argument must be a string or a real number, not '"+tname(x)+"'",line);
+  };
+  B.str=function(a){return a.length?str(a[0]):''};
+  B.bool=function(a){return a.length?truthy(a[0]):false};
+  B.len=function(a,kw,line){var x=a[0];if(typeof x==='string'||Array.isArray(x))return x.length;if(x instanceof Range)return x.n;throw new PyErr('TypeError',"object of type '"+tname(x)+"' has no len()",line)};
+  B.abs=function(a,kw,line){var x=a[0];if(!isNum(x))throw new PyErr('TypeError',"bad operand type for abs(): '"+tname(x)+"'",line);return x instanceof Fl?new Fl(Math.abs(x.v)):Math.abs(num(x))};
+  B.round=function(a,kw,line){
+    var x=a[0];if(!isNum(x))throw new PyErr('TypeError',"type "+tname(x)+" doesn't define __round__ method",line);
+    var v=num(x);
+    if(a.length>1&&a[1]!==null){var d=Math.pow(10,a[1]);var r=Math.round(Math.abs(v)*d+1e-9)/d*Math.sign(v);return x instanceof Fl?new Fl(r):r}
+    var f=Math.floor(v),df=v-f,r2;if(df===0.5)r2=(f%2===0)?f:f+1;else r2=Math.round(v);return r2;
+  };
+  function iterOf(x,line){
+    if(Array.isArray(x))return x.slice();if(typeof x==='string')return x.split('');
+    if(x instanceof Range){var r=[];for(var i=0;i<x.n;i++)r.push(x.a+i*x.c);return r}
+    throw new PyErr('TypeError',"'"+tname(x)+"' object is not iterable",line);
+  }
+  B.range=function(a,kw,line){
+    for(var i=0;i<a.length;i++)if(typeof a[i]!=='number'&&typeof a[i]!=='boolean')throw new PyErr('TypeError',"'"+tname(a[i])+"' object cannot be interpreted as an integer",line);
+    a=a.map(num);
+    if(a.length===1)return new Range(0,a[0],1);if(a.length===2)return new Range(a[0],a[1],1);
+    if(a[2]===0)throw new PyErr('ValueError','range() arg 3 must not be zero',line);
+    if(a.length===3)return new Range(a[0],a[1],a[2]);
+    throw new PyErr('TypeError','range expected at least 1 argument, got 0',line);
+  };
+  B.list=function(a,kw,line){return a.length?iterOf(a[0],line):[]};
+  function mm(name,cmpf){return function(a,kw,line){
+    var items=a.length===1?iterOf(a[0],line):a;if(!items.length)throw new PyErr('ValueError',name+'() arg is an empty sequence',line);
+    var best=items[0];for(var i=1;i<items.length;i++)if(compare(cmpf,items[i],best,line))best=items[i];return best}}
+  B.max=mm('max','>');B.min=mm('min','<');
+  B.sum=function(a,kw,line){var it=iterOf(a[0],line),s=a.length>1?a[1]:0;for(var i=0;i<it.length;i++)s=binop('+',s,it[i],line);return s};
+  var RANDOM={
+    randint:function(a,kw,line){if(a.length!==2||typeof a[0]!=='number'||typeof a[1]!=='number')throw new PyErr('TypeError','randint() needs two whole numbers',line);if(a[1]<a[0])throw new PyErr('ValueError','empty range for randrange() ('+a[0]+', '+(a[1]+1)+', '+(a[1]-a[0]+1)+')',line);return a[0]+Math.floor(rnd()*(a[1]-a[0]+1))},
+    random:function(){return new Fl(rnd())},
+    choice:function(a,kw,line){var it=iterOf(a[0],line);if(!it.length)throw new PyErr('IndexError','Cannot choose from an empty sequence',line);return it[Math.floor(rnd()*it.length)]},
+    seed:function(a){rnd=mulberry(a.length?num(a[0]):1);return null}
+  };
+  var imported={};
+  function callMethod(obj,n,args,line){
+    if(typeof obj==='string'){
+      switch(n){
+        case 'upper':return obj.toUpperCase();case 'lower':return obj.toLowerCase();case 'strip':return obj.trim();
+        case 'isdigit':return /^\d+$/.test(obj);case 'isalpha':return /^[A-Za-z]+$/.test(obj);
+        case 'replace':return obj.split(args[0]).join(args[1]);
+        case 'count':{var c=0,p=0;if(args[0]==='')return obj.length+1;while((p=obj.indexOf(args[0],p))>=0){c++;p+=args[0].length}return c}
+      }
+    } else if(Array.isArray(obj)){
+      switch(n){
+        case 'append':if(args.length!==1)throw new PyErr('TypeError','list.append() takes exactly one argument ('+args.length+' given)',line);obj.push(args[0]);return null;
+        case 'pop':{if(!obj.length)throw new PyErr('IndexError','pop from empty list',line);var i=args.length?args[0]:obj.length-1;if(i<0)i+=obj.length;if(i<0||i>=obj.length)throw new PyErr('IndexError','pop index out of range',line);return obj.splice(i,1)[0]}
+        case 'insert':obj.splice(Math.max(0,args[0]<0?obj.length+args[0]:args[0]),0,args[1]);return null;
+        case 'remove':{for(var j=0;j<obj.length;j++)if(eq(obj[j],args[0])){obj.splice(j,1);return null}throw new PyErr('ValueError','list.remove(x): x not in list',line)}
+        case 'index':{for(var q=0;q<obj.length;q++)if(eq(obj[q],args[0]))return q;throw new PyErr('ValueError',repr(args[0])+' is not in list',line)}
+        case 'count':return obj.filter(function(z){return eq(z,args[0])}).length;
+        case 'reverse':obj.reverse();return null;
+        case 'sort':obj.sort(function(x,y){return compare('<',x,y,line)?-1:(compare('>',x,y,line)?1:0)});return null;
+      }
+    }
+    throw new PyErr('AttributeError',"'"+tname(obj)+"' object has no attribute '"+n+"'",line);
+  }
+  function evl(e){
+    switch(e.k){
+      case 'num':return e.v;case 'str':return e.v;case 'const':return e.v;
+      case 'name':
+        if(e.n in env)return env[e.n];
+        if(e.n in B)return {builtin:e.n};
+        if(e.n==='random'&&imported.random)return {mod:'random'};
+        throw new PyErr('NameError',"name '"+e.n+"' is not defined",e.line);
+      case 'list':{var r=e.items.map(evl);if(e.tuple)r.tuple=true;return r}
+      case 'fstr':return e.parts.map(function(p){return p.s!==undefined?p.s:fmtSpec(evl(p.e),p.spec,e.line)}).join('');
+      case 'neg':{var v=evl(e.a);if(!isNum(v))throw new PyErr('TypeError',"bad operand type for unary "+e.op+": '"+tname(v)+"'",e.line);return e.op==='-'?(v instanceof Fl?new Fl(-v.v):-num(v)):v}
+      case 'not':return !truthy(evl(e.a));
+      case 'and':{var a=evl(e.a);return truthy(a)?evl(e.b):a}
+      case 'or':{var a2=evl(e.a);return truthy(a2)?a2:evl(e.b)}
+      case 'bin':return binop(e.op,evl(e.a),evl(e.b),e.line);
+      case 'cmp':{var left=evl(e.a);for(var i=0;i<e.ops.length;i++){var right=evl(e.rest[i]);if(!compare(e.ops[i],left,right,e.line))return false;left=right}return true}
+      case 'index':{
+        var o=evl(e.a),ix=evl(e.i);
+        if(!(typeof o==='string'||Array.isArray(o)||o instanceof Range))throw new PyErr('TypeError',"'"+tname(o)+"' object is not subscriptable",e.line);
+        if(typeof ix!=='number')throw new PyErr('TypeError',(Array.isArray(o)?'list':'string')+" indices must be integers or slices, not "+tname(ix),e.line);
+        var items=o instanceof Range?iterOf(o):o;
+        var j=ix<0?items.length+ix:ix;
+        if(j<0||j>=items.length)throw new PyErr('IndexError',(typeof o==='string'?'string':'list')+' index out of range',e.line);
+        return items[j];
+      }
+      case 'slice':{
+        var so=evl(e.a);if(!(typeof so==='string'||Array.isArray(so)))throw new PyErr('TypeError',"'"+tname(so)+"' object is not subscriptable",e.line);
+        var lo=e.lo?evl(e.lo):0,hi=e.hi?evl(e.hi):so.length;if(lo<0)lo=Math.max(0,so.length+lo);if(hi<0)hi=Math.max(0,so.length+hi);
+        return so.slice(lo,hi);
+      }
+      case 'attr':{var base=evl(e.a);if(base&&base.mod==='random'&&RANDOM[e.n])return {bound:RANDOM[e.n]};return {obj:base,m:e.n}}
+      case 'call':{
+        var f=e.f,args=[],kw={};
+        e.args.forEach(function(x){if(x.kw)kw[x.kw]=evl(x.e);else args.push(evl(x.e))});
+        if(f.k==='attr'){
+          var tgt=evl(f.a);
+          if(tgt&&tgt.mod==='random'){if(!RANDOM[f.n])throw new PyErr('AttributeError',"module 'random' has no attribute '"+f.n+"'",e.line);return RANDOM[f.n](args,kw,e.line)}
+          return callMethod(tgt,f.n,args,e.line);
+        }
+        if(f.k==='name'){
+          if(f.n in env)throw new PyErr('TypeError',"'"+tname(env[f.n])+"' object is not callable",e.line);
+          if(B[f.n])return B[f.n](args,kw,e.line);
+          if(imported.fromrandom&&imported.fromrandom[f.n])return RANDOM[f.n](args,kw,e.line);
+          throw new PyErr('NameError',"name '"+f.n+"' is not defined",e.line);
+        }
+        throw new PyErr('TypeError',"object is not callable",e.line);
+      }
+    }
+    throw new PyErr('SyntaxError','invalid syntax',e.line);
+  }
+  function assign(tg,v){
+    if(tg.k==='name'){setVar(tg.n,v);return}
+    var o=evl(tg.a),ix=evl(tg.i);
+    if(typeof o==='string')throw new PyErr('TypeError',"'str' object does not support item assignment",tg.line);
+    if(!Array.isArray(o))throw new PyErr('TypeError',"'"+tname(o)+"' object does not support item assignment",tg.line);
+    if(typeof ix!=='number')throw new PyErr('TypeError',"list indices must be integers or slices, not "+tname(ix),tg.line);
+    var j=ix<0?o.length+ix:ix;if(j<0||j>=o.length)throw new PyErr('IndexError','list assignment index out of range',tg.line);o[j]=v;
+  }
+  function execBlock(b){for(var i=0;i<b.length;i++)execStmt(b[i])}
+  function execStmt(s){
+    switch(s.k){
+      case 'assign':ev(s.line);assign(s.tg,evl(s.v));return;
+      case 'aug':{ev(s.line);var cur=evl(s.tg),nv=binop(s.op,cur,evl(s.v),s.line);assign(s.tg,nv);return}
+      case 'expr':ev(s.line);evl(s.e);return;
+      case 'pass':ev(s.line);return;
+      case 'import':ev(s.line);if(s.m!=='random')throw new PyErr('ModuleNotFoundError',"No module named '"+s.m+"'",s.line);imported.random=1;return;
+      case 'from':ev(s.line);if(s.m!=='random')throw new PyErr('ModuleNotFoundError',"No module named '"+s.m+"'",s.line);imported.fromrandom=imported.fromrandom||{};s.names.forEach(function(n){imported.fromrandom[n]=1});return;
+      case 'break':ev(s.line);throw BRK;
+      case 'continue':ev(s.line);throw CNT;
+      case 'if':{
+        for(var i=0;i<s.tests.length;i++){
+          var t=s.tests[i],c=truthy(evl(t.c));ev(t.line,{cond:c,kind:'if'});
+          if(c){execBlock(t.body);return}
+        }
+        if(s.orelse)execBlock(s.orelse);return;
+      }
+      case 'while':{
+        for(;;){
+          var c2=truthy(evl(s.c));ev(s.line,{cond:c2,kind:'while'});
+          if(!c2)return;
+          try{execBlock(s.body)}catch(x){if(x===BRK)return;if(x===CNT)continue;throw x}
+        }
+      }
+      case 'for':{
+        var it=iterOf(evl(s.it),s.line),n=0;
+        for(var q=0;q<it.length;q++){
+          setVar(s.v,it[q]);n++;ev(s.line,{iter:n,kind:'for'});
+          try{execBlock(s.body)}catch(x){if(x===BRK)return;if(x===CNT)continue;throw x}
+        }
+        return;
+      }
+    }
+  }
+  try{
+    var prog=parse(src);
+    execBlock(prog.body);
+  }catch(x){
+    if(x instanceof PyErr){res.ok=false;res.error={type:x.pyType,msg:x.pyMsg,line:x.line,text:x.message};}
+    else if(x===BRK||x===CNT){res.ok=false;res.error={type:'SyntaxError',msg:"'break' outside loop",line:null,text:"SyntaxError: 'break' outside loop"}}
+    else throw x;
+  }
+  res.out=out;res.vars=snap();
+  return res;
+}
+root.PyEngine={run:run,parse:parse,str:str,repr:repr};
+})(typeof window!=='undefined'?window:globalThis);
+</script>
+<script>/* Shared UI for the Python lesson sites. Depends on pyengine.js. */
+(function(root){
+'use strict';
+var E=root.PyEngine;
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function h(tag,attrs,kids){
+  var e=document.createElement(tag);
+  if(attrs)for(var k in attrs){if(k==='class')e.className=attrs[k];else if(k==='html')e.innerHTML=attrs[k];else if(k==='text')e.textContent=attrs[k];else if(k.slice(0,2)==='on')e[k]=attrs[k];else if(attrs[k]!==false&&attrs[k]!==null&&attrs[k]!==undefined)e.setAttribute(k,attrs[k]===true?'':attrs[k])}
+  (kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c)});
+  return e;
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function norm(s){return String(s).replace(/\r/g,'').split('\n').map(function(l){return l.replace(/\s+$/,'')}).join('\n').replace(/\n+$/,'')}
+function normAns(s){return String(s).trim().replace(/^["']|["']$/g,'').replace(/\s+/g,' ').toLowerCase()}
+function shake(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+/* ---------- code view / editor ---------- */
+function CodeBox(opts){
+  var ro=!!opts.readonly,code=opts.code||'';
+  var gut=h('pre',{class:'gut','aria-hidden':'true'}),hl=h('div',{class:'hl'}),ta=h('textarea',{spellcheck:'false',autocapitalize:'off',autocomplete:'off',wrap:'off','aria-label':opts.label||'Python code'});
+  if(ro)ta.setAttribute('readonly','');
+  var wrap=h('div',{class:'code'},[gut,h('div',{class:'area'},[hl,ta])]);
+  ta.value=code;
+  function lines(){return ta.value.split('\n').length}
+  function fit(){var n=lines();ta.style.height=(n*22+20)+'px';gut.innerHTML='';for(var i=1;i<=n;i++){gut.appendChild(h('span',{text:String(i)}))}}
+  ta.addEventListener('input',function(){fit();clearMark();if(opts.onchange)opts.onchange()});
+  ta.addEventListener('keydown',function(e){
+    if(ro)return;
+    if(e.key==='Tab'){e.preventDefault();var s=ta.selectionStart,en=ta.selectionEnd;ta.value=ta.value.slice(0,s)+'    '+ta.value.slice(en);ta.selectionStart=ta.selectionEnd=s+4;fit()}
+  });
+  function mark(line,err){
+    clearMark();if(!line)return;
+    hl.style.display='block';hl.style.top=(10+(line-1)*22)+'px';hl.className='hl'+(err?' err':'');
+    var sp=gut.children[line-1];if(sp)sp.className=err?'err':'cur';
+  }
+  function clearMark(){hl.style.display='none';$$('span',gut).forEach(function(s){s.className=''})}
+  fit();
+  return {el:wrap,ta:ta,get:function(){return ta.value},set:function(v){ta.value=v;fit();clearMark()},mark:mark,clear:clearMark,fit:fit};
+}
+/* ---------- variable view ---------- */
+function varView(){
+  var box=h('div',{class:'vars','aria-live':'polite'}),prev={};
+  function render(snap){
+    box.innerHTML='';var now={};
+    snap.forEach(function(p){
+      var n=p[0],v=p[1],key=JSON.stringify(v);now[n]=key;
+      var chg=prev[n]!==undefined?prev[n]!==key:true;
+      var card=h('div',{class:'vc'+(v.list?' lst':'')+(chg&&Object.keys(prev).length?' chg':'')});
+      card.appendChild(h('small',{text:n}));
+      if(v.list){
+        var cells=h('div',{class:'cells'});
+        if(!v.list.length)cells.appendChild(h('span',{class:'cell',text:'empty'}));
+        v.list.forEach(function(it,i){
+          var old=prev[n]?JSON.parse(prev[n]).list:null;
+          var c=h('span',{class:'cell'+((old&&JSON.stringify(old[i])===JSON.stringify(it))?'':(old?' chg':''))},[h('i',{text:String(i)}),document.createTextNode(vstr(it,true))]);
+          cells.appendChild(c);
+        });
+        card.appendChild(cells);
+      } else card.appendChild(h('b',{text:vstr(v,true)}));
+      box.appendChild(card);
+    });
+    prev=now;
+  }
+  function reset(){prev={};box.innerHTML=''}
+  return {el:box,render:render,reset:reset};
+}
+function vstr(v,q){
+  if(v.list)return '['+v.list.map(function(x){return vstr(x,true)}).join(', ')+']';
+  if(v.str!==undefined)return q?"'"+v.str+"'":v.str;
+  if(v.s!==undefined)return v.s;
+  if(v.n!==undefined)return String(v.n);
+  return '?';
+}
+/* ---------- the lab: code + run + watch ---------- */
+function Lab(opts){
+  /* opts: code, readonly, inputs (array or null), showInputs, label, onrun(res), noWatch */
+  var cb=CodeBox({code:opts.code,readonly:opts.readonly,label:opts.label,onchange:function(){if(opts.onedit)opts.onedit()}});
+  var root=h('div',{class:'lab-in'});
+  var inTa=null;
+  var needIn=opts.showInputs||(opts.inputs&&opts.inputs.length)||/\binput\s*\(/.test(opts.code||'');
+  if(needIn){
+    inTa=h('textarea',{rows:Math.max(2,(opts.inputs||[]).length),'aria-label':'Values typed in when the program asks input()'});
+    inTa.value=(opts.inputs||[]).join('\n');
+    if(opts.fixedInputs)inTa.setAttribute('readonly','');
+  }
+  var runB=h('button',{type:'button',text:'Run the program'}),stepB=h('button',{type:'button',class:'alt',text:'Step',disabled:true}),backB=h('button',{type:'button',class:'alt',text:'Back',disabled:true}),playB=h('button',{type:'button',class:'alt',text:'Watch it run',disabled:true}),resetB=h('button',{type:'button',class:'alt',text:'Reset code'});
+  var spd=h('select',{'aria-label':'Speed'},[h('option',{value:'900',text:'Slow'}),h('option',{value:'450',text:'Normal',selected:true}),h('option',{value:'160',text:'Fast'})]);
+  var ctl=h('div',{class:'ctl'},[runB,playB,backB,stepB,spd,resetB]);
+  var badges=h('div',{class:'badges'}),vars=varView(),term=h('div',{class:'term','aria-live':'polite'});
+  var watch=h('div',{class:'watch'},[badges,vars.el,term]);
+  var parts=[cb.el];
+  if(inTa)parts.push(h('div',{class:'inbox'},[h('label',{text:'Typed in when the program asks input() (one value per line)'}),inTa]));
+  parts.push(ctl,watch);
+  parts.forEach(function(p){root.appendChild(p)});
+  var res=null,pos=-1,timer=null,orig=opts.code||'';
+  function setTerm(text,err){
+    term.innerHTML='';term.appendChild(h('span',{class:'lbl',text:'Output'}));
+    term.appendChild(document.createTextNode(text));
+    if(err)term.appendChild(h('div',{class:'e',text:err}));
+  }
+  setTerm('');
+  function inputs(){return inTa?inTa.value.split('\n').filter(function(l,i,a){return !(i===a.length-1&&l==='')}):[]}
+  function showEvent(i){
+    pos=i;
+    if(i<0){cb.clear();vars.reset();badges.innerHTML='';setTerm('');return}
+    var ev=res.events[i];cb.mark(ev.line,false);vars.render(ev.vars);
+    badges.innerHTML='';
+    if(ev.kind==='for')badges.appendChild(h('span',{class:'badge',text:'Pass '+ev.iter}));
+    if(ev.kind==='while'||ev.kind==='if')badges.appendChild(h('span',{class:'badge '+(ev.cond?'t':'f'),text:'Test is '+(ev.cond?'True':'False')}));
+    setTerm(res.out.slice(0,ev.outLen));
+    backB.disabled=i<=0;stepB.disabled=false;
+  }
+  function showEnd(){
+    var e=res.error;
+    cb.clear();
+    if(res.events.length){var last=res.events[res.events.length-1];vars.render(res.vars)}
+    badges.innerHTML='';
+    var msg=null;
+    if(e){msg=(e.line?'Line '+e.line+': ':'')+e.type+': '+e.msg;if(e.line)cb.mark(e.line,true)}
+    setTerm(res.out,msg);
+    stepB.disabled=true;backB.disabled=!res.events.length;
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null}playB.textContent='Watch it run'}
+  function doRun(){
+    stop();
+    res=E.run(cb.get(),{inputs:inputs(),seed:opts.seed});
+    pos=-1;vars.reset();
+    playB.disabled=!res.events.length;stepB.disabled=!res.events.length;backB.disabled=true;
+    showEnd();
+    if(opts.onrun)opts.onrun(res);
+    return res;
+  }
+  function play(){
+    if(timer){stop();return}
+    if(!res)doRun();
+    if(!res.events.length)return;
+    var limit=Math.min(res.events.length,res.stuck?60:res.events.length);
+    if(pos>=limit-1||pos<0){pos=-1;vars.reset()}
+    playB.textContent='Pause';
+    timer=setInterval(function(){
+      if(pos+1>=limit){stop();if(res.stuck){setTerm(res.out.slice(0,res.events[limit-1].outLen),'...and it never stops. The program was stopped after '+res.events.length+' steps.')}else showEnd();return}
+      showEvent(pos+1);
+    },+spd.value);
+  }
+  runB.onclick=function(){doRun();if(!opts.noAuto)play()};
+  playB.onclick=play;
+  stepB.onclick=function(){stop();if(!res)doRun();if(pos+1<res.events.length)showEvent(pos+1);else showEnd()};
+  backB.onclick=function(){stop();if(res&&pos>0)showEvent(pos-1)};
+  resetB.onclick=function(){stop();cb.set(orig);res=null;pos=-1;vars.reset();badges.innerHTML='';setTerm('');playB.disabled=true;stepB.disabled=true;backB.disabled=true;if(opts.onedit)opts.onedit()};
+  if(opts.readonly)resetB.hidden=true;
+  return {el:root,cb:cb,run:doRun,play:play,stop:stop,getRes:function(){return res},inputs:inputs,
+          setLocked:function(v){runB.disabled=v;playB.disabled=v||!res},runB:runB,setCode:function(c){orig=c;cb.set(c)}};
+}
+/* ---------- parts (one per answer column) ---------- */
+var LVN={B:'Bronze',S:'Silver',G:'Gold'};
+function calc(rule,res){
+  if(rule==='out')return norm(res.out);
+  if(rule==='lines')return String(norm(res.out)===''?0:norm(res.out).split('\n').length);
+  if(rule==='last'){var L=norm(res.out).split('\n');return L[L.length-1]}
+  if(rule==='first')return norm(res.out).split('\n')[0];
+  if(rule.indexOf('var:')===0){
+    var n=rule.slice(4);for(var i=0;i<res.vars.length;i++)if(res.vars[i][0]===n)return vstr(res.vars[i][1],true);return '';
+  }
+  if(rule==='passes'){var c=0;res.events.forEach(function(e){if(e.kind==='for'||(e.kind==='while'&&e.cond))c++});return String(c)}
+  if(rule==='error'){return res.error?res.error.type:'none'}
+  if(rule==='errline'){return res.error&&res.error.line?String(res.error.line):''}
+  if(rule==='firstcond'){for(var q=0;q<res.events.length;q++){var ev=res.events[q];if(ev.kind==='if'||ev.kind==='while')return ev.cond?'True':'False'}return ''}
+  if(rule==='stuck')return res.stuck?'yes':'no';
+  return '';
+}
+function mountPart(host,item,part,idx,lab,done,lvl){
+  var q=h('div',{class:'pq'},[h('span',{class:'lv '+(lvl||'b').toLowerCase()[0],text:LVN[lvl||'B']}),document.createTextNode(part.q||'')]);
+  var fb=h('div',{class:'fb','aria-live':'polite'}),wrong=0,box=h('div',{class:'part','data-state':'locked'},[q]);
+  var hint=part.hint?h('button',{type:'button',class:'alt',text:'Hint'}):null;
+  if(hint)hint.onclick=function(){fb.className='fb';fb.textContent='Hint: '+part.hint};
+  function finish(msg,revealed){
+    box.setAttribute('data-state','done');fb.className='fb good';fb.innerHTML=msg||'Correct.';
+    $$('button,input,textarea',box).forEach(function(b){if(!b.classList.contains('keep'))b.disabled=true});
+    done(idx,revealed);
+  }
+  function fail(msg){wrong++;fb.className='fb bad';fb.innerHTML=msg;shake(box);addShow()}
+  var showB=null;
+  function addShow(){
+    if(wrong>=3&&!showB&&part.show!==false){
+      showB=h('button',{type:'button',class:'alt keep',text:'Show me the answer'});
+      showB.onclick=function(){finish(part._reveal?part._reveal():'The answer is shown in your results table. Make sure you understand why.',true)};
+      box.appendChild(showB);
+    }
+  }
+  var t=part.t;
+  if(t==='pick'){
+    var picks=h('div',{class:'picks'});
+    part.opts.forEach(function(o){
+      var b=h('button',{type:'button',text:o});
+      b.onclick=function(){
+        if(o===part.ans){b.className='right';finish(part.fb||'Yes.')}
+        else{b.className='wrong';fail(part.wrongfb||'Not quite. Read the code again, then choose.')}
+      };
+      picks.appendChild(b);
+    });
+    box.appendChild(picks);
+  } else if(t==='fix'){
+    box.appendChild(h('div',{class:'tests'}));
+    var tdiv=$('.tests',box);
+    var chk=h('button',{type:'button',text:'Run the tests'});
+    chk.onclick=function(){
+      var allOk=true,rows=[];tdiv.innerHTML='';
+      var src=lab.cb.get();
+      part.tests.forEach(function(tc){
+        var r=E.run(src,{inputs:tc.inputs||[],seed:5});
+        var got=norm(r.out),exp=norm(tc.out),ok=r.ok&&got===exp;
+        if(!ok)allOk=false;
+        var msg=r.error?(r.error.type+': '+r.error.msg+(r.error.line?' (line '+r.error.line+')':'')):got;
+        tdiv.appendChild(h('div',null,[h('span',{class:'pill '+(ok?'ok':'no'),text:ok?'Pass':'Fail'}),h('span',{text:tc.inputs&&tc.inputs.length?('Input '+tc.inputs.join(', ')+' should give'):'Should give'}),h('code',{text:exp}),ok?null:h('span',{text:'You got'}),ok?null:h('code',{text:msg===''?'(nothing)':msg})]));
+      });
+      if(allOk&&part.must){part.must.forEach(function(rx){if(!new RegExp(rx).test(src)){allOk=false;tdiv.appendChild(h('div',null,[h('span',{class:'pill no',text:'Check'}),h('span',{text:part.mustmsg||'The fix should keep the idea of the program. Change the broken line, do not replace it with a fixed answer.'})]))}})}
+      if(allOk){lab.cb.clear();finish(part.fb||'All the tests pass. You fixed it.')}
+      else fail(part.wrongfb||'Not all the tests pass yet. Read the Fail lines, find the line that causes it, change it and run the tests again.');
+    };
+    var ctl=h('div',{class:'ctl'},[chk,hint]);box.appendChild(ctl);
+  } else if(t==='trace'){
+    // trace grid built after first activation (needs a run)
+    var holder=h('div',{class:'tw'}),cb2=h('button',{type:'button',text:'Check my table'});
+    var rs=E.run(item.code,{inputs:item.inputs||[]});
+    var evs=rs.events.filter(function(e){return e.line===part.line&&(e.kind==='for'||e.kind==='while')});
+    var rowsExp=evs.map(function(e){return part.watch.map(function(w){for(var i=0;i<e.vars.length;i++)if(e.vars[i][0]===w)return vstr(e.vars[i][1],true);return ''})});
+    var labels=evs.map(function(e,i){return e.kind==='while'?('Test '+(i+1)):('Pass '+(i+1))});
+    if(part.final){rowsExp.push(part.watch.map(function(w){for(var i=0;i<rs.vars.length;i++)if(rs.vars[i][0]===w)return vstr(rs.vars[i][1],true);return ''}));labels.push('After the loop')}
+    var tb=h('table',{class:'tgrid'}),th=h('tr',null,[h('th',{text:part.corner||'Pass'})]);
+    part.watch.forEach(function(w){th.appendChild(h('th',{text:w}))});tb.appendChild(th);
+    var inputsG=[];
+    rowsExp.forEach(function(r,ri){
+      var tr=h('tr',null,[h('th',{text:labels[ri]})]);inputsG.push([]);
+      r.forEach(function(ex,ci){var inp=h('input',{type:'text',inputmode:'text','aria-label':labels[ri]+' '+part.watch[ci],autocomplete:'off'});inputsG[ri].push(inp);tr.appendChild(h('td',null,[inp]))});
+      tb.appendChild(tr);
+    });
+    holder.appendChild(tb);box.appendChild(holder);
+    cb2.onclick=function(){
+      var bad=0;
+      rowsExp.forEach(function(r,ri){r.forEach(function(ex,ci){var inp=inputsG[ri][ci],ok=normAns(inp.value)===normAns(ex);inp.className=ok?'ok':'no';if(!ok)bad++})});
+      if(!bad)finish(part.fb||'Every box is right.');else fail(bad+' box'+(bad>1?'es are':' is')+' not right yet (red). Use the Step button on the program above to watch the values change.');
+    };
+    box.appendChild(h('div',{class:'ctl'},[cb2,hint]));
+    part._reveal=function(){rowsExp.forEach(function(r,ri){r.forEach(function(ex,ci){inputsG[ri][ci].value=ex;inputsG[ri][ci].className='ok'})});return 'The correct table is filled in for you. Step through the program to see why.'};
+  } else { // predict
+    var pred;
+    if(part.multi){pred=h('textarea',{rows:Math.max(3,part.rows||4),'aria-label':'Your prediction'})}
+    else pred=h('input',{type:'text',autocomplete:'off','aria-label':'Your prediction'});
+    var go=h('button',{type:'button',text:'Check my prediction'});
+    go.onclick=function(){
+      if(!pred.value.trim()){fb.className='fb bad';fb.textContent='Type your prediction first. Then check it.';shake(pred);return}
+      var rr=lab.run();
+      var exp=part.ans!==undefined?String(part.ans):calc(part.calc||'out',rr);
+      var ok=part.multi?norm(pred.value.trim())===norm(exp):normAns(pred.value)===normAns(exp);
+      if(!ok&&part.multi){ // forgive trailing spaces per line
+        ok=norm(pred.value.split('\n').map(function(l){return l.trim()}).join('\n'))===norm(exp.split('\n').map(function(l){return l.trim()}).join('\n'));
+      }
+      part._exp=exp;
+      if(ok){lab.play();finish(part.fb||'Yes. Watch it run to see why.')}
+      else{lab.play();fail(part.wrongfb||'Not what the computer did. Watch the program run, then change your prediction and check again.')}
+    };
+    part._reveal=function(){pred.value=part._exp!==undefined?part._exp:'';return 'The answer is filled in. Step through the program to see why.'};
+    var row=h('div',{class:'predbox'},[pred,go]);if(hint)row.appendChild(hint);
+    box.appendChild(row);
+  }
+  box.appendChild(fb);
+  host.appendChild(box);
+  return {box:box,unlock:function(){box.setAttribute('data-state','active');if(part.t==='fix')lab.cb.ta.removeAttribute('readonly');
+          if(part.t==='predict'||part.t==='trace')lab.cb.ta.setAttribute('readonly','')}};
+}
+/* ---------- activity mount ---------- */
+function mountActivity(sec,spec,tables,WLV){
+  /* spec.steps[k] aligns with tables[k]; spec.steps[k].items[r] aligns with tables[k].rows[r] */
+  var stage=$('.steps',sec);
+  spec.steps.forEach(function(st,k){
+    var tb=tables[k];
+    var step=h('div',{class:'step'});
+    step.appendChild(h('div',{class:'steplab',text:tb.title}));
+    step.appendChild(h('div',{class:'todo'},[h('b',{class:'t',text:'What to do'}),h('ol',{html:st.todo.map(function(x){return '<li>'+x+'</li>'}).join('')})]));
+    var lv=WLV[k];
+    // results table
+    var table=h('table'),cap=h('caption',{text:'Your results table. Type what you find into the same table on your worksheet.'}),thead=h('tr');
+    table.appendChild(cap);
+    tb.heads.forEach(function(hd,ci){
+      var th=h('th',{text:hd});
+      if(ci>0&&lv[ci-1])th.appendChild(h('span',{class:'lv '+lv[ci-1].toLowerCase(),text:LVN[lv[ci-1]]}));
+      thead.appendChild(th);
+    });
+    table.appendChild(thead);
+    var cellRefs=[];
+    tb.rows.forEach(function(r,ri){
+      var tr=h('tr'),refs=[];
+      r.forEach(function(v,ci){
+        var td=h('td');
+        if(tb.blank.indexOf(ci)>=0){td.className='lock';td.textContent='to find';refs.push(td)}
+        else if(ci===0){td.innerHTML='<b>'+esc(v)+'</b>'}
+        else td.textContent=v;
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);cellRefs.push(refs);
+    });
+    // items
+    var items=h('div',{class:'stack'});
+    st.items.forEach(function(it,ri){
+      var row=tb.rows[ri];
+      var parts=it.parts;
+      var pill=h('span',{class:'pill wait',text:'not done'});
+      var card=h('div',{class:'item'},[h('div',{class:'ih'},[h('b',{text:row[0]}),pill])]);
+      if(it.story)card.appendChild(h('p',{text:it.story}));
+      var lab=null;
+      if(it.code!==undefined&&it.code!==null){
+        var hasFix=parts.some(function(p){return p.t==='fix'});
+        lab=Lab({code:it.code,readonly:!hasFix,inputs:it.inputs,fixedInputs:!!it.fixedInputs,label:row[0]+' code',noAuto:false});
+        if(hasFix)lab.cb.ta.setAttribute('readonly','');
+        card.appendChild(lab.el);
+      }
+      var holder=h('div',{class:'stack',style:'gap:8px'});card.appendChild(holder);
+      var ctrls=[],n=parts.length,doneCount=0;
+      var blankCols=tb.blank.slice();
+      parts.forEach(function(p,pi){
+        var colIdx=blankCols[pi];
+        var lvl=lv[colIdx-1]||'B';
+        var ctl=mountPart(holder,it,p,pi,lab,function(i,revealed){
+          var td=cellRefs[ri][pi];td.className='v new';td.textContent=tb.rows[ri][blankCols[pi]];
+          doneCount++;
+          if(ctrls[i+1])ctrls[i+1].unlock();
+          if(doneCount===n){card.classList.add('done');pill.className='pill ok';pill.textContent='done'}
+        },lvl);
+        ctrls.push(ctl);
+      });
+      if(ctrls[0])ctrls[0].unlock();
+      items.appendChild(card);
+    });
+    step.appendChild(items);
+    step.appendChild(h('div',{class:'res'},[table]));
+    stage.appendChild(step);
+  });
+  if(spec.questions){
+    var qb=h('div',{class:'step'});
+    qb.appendChild(h('div',{class:'steplab',text:'Questions'}));
+    qb.appendChild(h('div',{class:'qbox'},[h('span',{class:'lv g',text:'Gold'}),h('p',{text:'Answer these on your worksheet, in your own words, using what you saw on this page.'}),h('ol',{html:spec.questions.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')})]));
+    stage.appendChild(qb);
+  }
+  var lab=h('details',{class:'lab'},[h('summary',{text:'Practice area (no marks). Try your own code here.'})]);
+  var L=Lab({code:spec.practice||'# Try your own code here\nprint("Hello")',readonly:false,showInputs:true,label:'Practice code',noAuto:false});
+  lab.appendChild(L.el);stage.appendChild(lab);
+}
+root.PyUI={mountActivity:mountActivity,Lab:Lab,h:h,$:$,$$:$$,shake:shake};
+})(window);
+</script>
+<script>
+(function(){
+  var $=PyUI.$,$$=PyUI.$$;
+  var D={"spec": {"1": {"blurb": "Predict what real Python programs print, find out what type a variable holds, and test conditions line by line.", "intro": "Do both steps in order. Run each program, watch it run line by line and record your results on your worksheet.", "practice": "x = 5\nprint(x * 2)", "steps": [{"todo": ["Read the program. Do not run it yet.", "Type the LAST line you think it prints, then press Check my prediction.", "Watch it run. See what x holds after every line.", "Pick the data type of x. Your results table fills in as you go."], "items": [{"code": "x = 7\nprint(x * 2)", "parts": [{"t": "predict", "q": "Type the last line it prints.", "calc": "last"}, {"t": "pick", "q": "What is the data type of x?", "opts": ["int", "str", "float"], "ans": "int", "fb": "Yes. 7 with no quotes is an integer (int)."}]}, {"code": "x = \"7\"\nprint(x * 2)", "parts": [{"t": "predict", "q": "Type the last line it prints.", "calc": "last", "hint": "The quotes make \"7\" a string. What does * 2 do to a string?"}, {"t": "pick", "q": "What is the data type of x?", "opts": ["int", "str", "float"], "ans": "str", "fb": "Yes. The quotes make it a string (str)."}]}, {"code": "x = input(\"Type a number: \")\nprint(x * 2)", "inputs": ["7"], "fixedInputs": true, "parts": [{"t": "predict", "q": "Type the last line it prints.", "calc": "last", "hint": "input() always gives a string, even when you type a number."}, {"t": "pick", "q": "What is the data type of x?", "opts": ["int", "str", "float"], "ans": "str", "fb": "Yes. input() always gives a string."}]}, {"code": "x = int(input(\"Type a number: \"))\nprint(x * 2)", "inputs": ["7"], "fixedInputs": true, "parts": [{"t": "predict", "q": "Type the last line it prints.", "calc": "last"}, {"t": "pick", "q": "What is the data type of x?", "opts": ["int", "str", "float"], "ans": "int", "fb": "Yes. int() casts the string into an integer."}]}]}, {"todo": ["Read the program and the value of the variable.", "Choose whether the FIRST test is True or False.", "Type what the program prints, then check it.", "Watch the test badge: it shows True or False for each test."], "items": [{"code": "score = 12\nif score >= 10:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")", "parts": [{"t": "pick", "q": "Is the first test True or False?", "opts": ["True", "False"], "ans": "True"}, {"t": "predict", "q": "Type what the program prints.", "calc": "out"}]}, {"code": "score = 10\nif score > 10:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")", "parts": [{"t": "pick", "q": "Is the first test True or False?", "opts": ["True", "False"], "ans": "False", "fb": "Yes. 10 > 10 is False because 10 is not greater than 10."}, {"t": "predict", "q": "Type what the program prints.", "calc": "out"}]}, {"code": "score = 10\nif score >= 10:\n    print(\"Pass\")\nelse:\n    print(\"Try again\")", "parts": [{"t": "pick", "q": "Is the first test True or False?", "opts": ["True", "False"], "ans": "True", "fb": "Yes. >= means greater than or equal to, so 10 >= 10 is True."}, {"t": "predict", "q": "Type what the program prints.", "calc": "out"}]}, {"code": "age = 13\nif age == 14:\n    print(\"Year 9\")\nelif age == 13:\n    print(\"Year 8\")\nelse:\n    print(\"Other\")", "parts": [{"t": "pick", "q": "Is the FIRST test (age == 14) True or False?", "opts": ["True", "False"], "ans": "False"}, {"t": "predict", "q": "Type what the program prints.", "calc": "out"}]}]}], "questions": ["Explain why input() needs int() before you can multiply or add the number.", "Explain how the computer decides which print line runs in an if and else program."]}, "2": {"blurb": "Run broken programs, read the error message, then fix each one until the tests pass.", "intro": "Do both steps in order. In Step 1 you only read the errors. In Step 2 you edit the code to fix it.", "practice": "print(\"Hello\"\n", "steps": [{"todo": ["Press Run the program and read the red error message.", "Type the error name exactly, for example SyntaxError, then check.", "Type the line number the message points to, then check."], "items": [{"code": "age = 13\nif age >= 13\n    print(\"Teenager\")", "parts": [{"t": "predict", "q": "What is the error name?", "calc": "error", "hint": "Look at the red message under the code. The name comes before the colon."}, {"t": "predict", "q": "Which line number does the message point to?", "calc": "errline"}]}, {"code": "password = \"ab12\"\nguess = input(\"Password: \")\nif guess = password:\n    print(\"Welcome\")", "inputs": ["ab12"], "fixedInputs": true, "parts": [{"t": "predict", "q": "What is the error name?", "calc": "error"}, {"t": "predict", "q": "Which line number does the message point to?", "calc": "errline"}]}, {"code": "age = input(\"Age: \")\nif age >= 13:\n    print(\"Teenager\")", "inputs": ["13"], "fixedInputs": true, "parts": [{"t": "predict", "q": "What is the error name?", "calc": "error"}, {"t": "predict", "q": "Which line number does the message point to?", "calc": "errline"}]}, {"code": "score = 8\nif score > 5:\nprint(\"Good\")", "parts": [{"t": "predict", "q": "What is the error name?", "calc": "error"}, {"t": "predict", "q": "Which line number does the message point to?", "calc": "errline"}]}]}, {"todo": ["Run the program and read the error.", "Choose what was wrong.", "Edit the broken line, then press Run the tests. Every test must say Pass.", "Your results table shows the fixed line."], "items": [{"code": "colour = \"red\"\nprint(Colour)", "parts": [{"t": "pick", "q": "What was wrong?", "opts": ["A misspelt name", "A missing bracket", "Text joined to a number", "A missing colon"], "ans": "A misspelt name"}, {"t": "fix", "q": "Fix the program so it prints red.", "goal": "red", "sol": "colour = \"red\"\nprint(colour)", "tests": [{"inputs": [], "out": "red"}], "must": ["print\\(\\s*colour\\s*\\)"], "hint": "Python is case sensitive. Compare the name in line 1 with the name in line 2."}]}, {"code": "name = \"Sam\"\nprint(\"Hello \" + name", "parts": [{"t": "pick", "q": "What was wrong?", "opts": ["A misspelt name", "A missing bracket", "Text joined to a number", "A missing colon"], "ans": "A missing bracket"}, {"t": "fix", "q": "Fix the program so it prints Hello Sam.", "sol": "name = \"Sam\"\nprint(\"Hello \" + name)", "tests": [{"inputs": [], "out": "Hello Sam"}], "must": ["name"], "hint": "Every ( needs a matching )."}]}, {"code": "name = \"Sam\"\nage = 13\nprint(\"Hello \" + name + \", you are \" + age)", "parts": [{"t": "pick", "q": "What was wrong?", "opts": ["A misspelt name", "A missing bracket", "Text joined to a number", "A missing colon"], "ans": "Text joined to a number"}, {"t": "fix", "q": "Fix the program so it prints Hello Sam, you are 13.", "sol": "name = \"Sam\"\nage = 13\nprint(\"Hello \" + name + \", you are \" + str(age))", "tests": [{"inputs": [], "out": "Hello Sam, you are 13"}], "must": ["age"], "hint": "You can only join a string to a string. Use str() on the number."}]}]}], "questions": ["Explain why Python stops with a SyntaxError before it runs any line of the program.", "Explain what the line number in an error message tells you, and what it does not tell you."]}, "3": {"blurb": "Run programs that work but give the wrong answer, say what they should print, then fix the logic.", "intro": "Do both steps in order. These programs never show an error message, so you have to notice the wrong answer yourself.", "practice": "mark = 72\nprint(mark)", "steps": [{"todo": ["Read the note at the top: it says what the program SHOULD print.", "Type what the program really prints, then check.", "Type what it should print."], "items": [{"code": "# 72 should print Merit\nmark = 72\nif mark >= 50:\n    print(\"Pass\")\nelif mark >= 70:\n    print(\"Merit\")\nelse:\n    print(\"Fail\")", "parts": [{"t": "predict", "q": "What does it really print?", "calc": "out"}, {"t": "predict", "q": "What should it print?", "ans": "Merit", "show": false}]}, {"code": "# Age 12 or under gets Free entry\nage = 12\nif age < 12:\n    print(\"Free entry\")\nelse:\n    print(\"Pay QAR 20\")", "parts": [{"t": "predict", "q": "What does it really print?", "calc": "out"}, {"t": "predict", "q": "What should it print?", "ans": "Free entry", "show": false}]}, {"code": "# A wrong guess should print nothing\npassword = \"abc\"\nguess = \"xyz\"\nif guess == password:\n    print(\"Correct\")\nprint(\"Door opens\")", "parts": [{"t": "predict", "q": "What does it really print?", "calc": "out"}, {"t": "predict", "q": "What should it print? Type Nothing if it should print nothing.", "ans": "Nothing", "show": false}]}]}, {"todo": ["Run the program. Does it show an error message or a wrong answer?", "Choose: syntax error or logic error.", "Edit the broken line and press Run the tests. Every test must say Pass."], "items": [{"code": "answer = 7\nguess = input(\"Guess a number: \")\nif guess == answer:\n    print(\"Correct\")\nelse:\n    print(\"Wrong\")", "inputs": ["7"], "parts": [{"t": "pick", "q": "What kind of error is it?", "opts": ["Syntax error", "Logic error"], "ans": "Logic error", "fb": "Yes. It runs, but 7 as text is never equal to the number 7."}, {"t": "fix", "q": "Fix it so that typing 7 prints Correct.", "sol": "answer = 7\nguess = int(input(\"Guess a number: \"))\nif guess == answer:\n    print(\"Correct\")\nelse:\n    print(\"Wrong\")", "tests": [{"inputs": ["7"], "out": "Guess a number: 7\nCorrect"}, {"inputs": ["3"], "out": "Guess a number: 3\nWrong"}], "must": ["int\\("], "hint": "guess is a string. Cast it with int()."}]}, {"code": "temperature = 31\nif temperature > 30:\n    print(\"Hot\")\nelse\n    print(\"Not hot\")", "parts": [{"t": "pick", "q": "What kind of error is it?", "opts": ["Syntax error", "Logic error"], "ans": "Syntax error"}, {"t": "fix", "q": "Fix the program so it prints Hot.", "sol": "temperature = 31\nif temperature > 30:\n    print(\"Hot\")\nelse:\n    print(\"Not hot\")", "tests": [{"inputs": [], "out": "Hot"}], "must": ["else\\s*:"]}]}, {"code": "width = 6\nheight = 4\narea = width + height\nprint(\"Area:\", area)", "parts": [{"t": "pick", "q": "What kind of error is it?", "opts": ["Syntax error", "Logic error"], "ans": "Logic error"}, {"t": "fix", "q": "Fix it so it prints Area: 24.", "sol": "width = 6\nheight = 4\narea = width * height\nprint(\"Area:\", area)", "tests": [{"inputs": [], "out": "Area: 24"}], "must": ["width\\s*\\*\\s*height"], "hint": "Area is width times height."}]}]}], "questions": ["Explain why a logic error is harder to find than a syntax error.", "Describe one way to test a program so that you find a logic error."]}}, "tables": {"1": [{"title": "STEP 1: PREDICT THE OUTPUT AND THE TYPE", "heads": ["Program", "Last line printed", "Data type of x"], "w": [9.0, 4.6, 4.9], "h": 0.9, "rows": [["Program 1: x = 7 and print(x * 2)", "14", "int"], ["Program 2: x = \"7\" and print(x * 2)", "77", "str"], ["Program 3: x = input() and print(x * 2), typed 7", "77", "str"], ["Program 4: x = int(input()) and print(x * 2), typed 7", "14", "int"]], "blank": [1, 2]}, {"title": "STEP 2: TEST THE CONDITION", "heads": ["Program", "First test is", "What it prints"], "w": [9.0, 4.6, 4.9], "h": 0.9, "rows": [["Program 5: score = 12, test score >= 10", "True", "Pass"], ["Program 6: score = 10, test score > 10", "False", "Try again"], ["Program 7: score = 10, test score >= 10", "True", "Pass"], ["Program 8: age = 13, tests age == 14 then age == 13", "False", "Year 8"]], "blank": [1, 2]}], "2": [{"title": "STEP 1: RUN IT AND READ THE ERROR", "heads": ["Program", "Error name", "Line number"], "w": [9.0, 4.6, 4.9], "h": 0.9, "rows": [["Program 1: an if line with no colon", "SyntaxError", "2"], ["Program 2: if guess = password", "SyntaxError", "3"], ["Program 3: age = input() and then age >= 13", "TypeError", "2"], ["Program 4: print not indented under the if", "IndentationError", "3"]], "blank": [1, 2]}, {"title": "STEP 2: FIX THE PROGRAM", "heads": ["Program", "What was wrong", "Fixed line"], "w": [6.2, 4.6, 7.7], "h": 1.0, "rows": [["Program 5: print(Colour) but the variable is colour", "A misspelt name", "print(colour)"], ["Program 6: print(\"Hello \" + name with no closing bracket", "A missing bracket", "print(\"Hello \" + name)"], ["Program 7: \"you are \" + age", "Text joined to a number", "print(\"Hello \" + name + \", you are \" + str(age))"]], "blank": [1, 2]}], "3": [{"title": "STEP 1: RUN IT AND CHECK THE ANSWER", "heads": ["Program", "It prints", "It should print"], "w": [9.0, 4.6, 4.9], "h": 0.9, "rows": [["Program 1: mark 72 should print Merit", "Pass", "Merit"], ["Program 2: age 12 should get Free entry", "Pay QAR 20", "Free entry"], ["Program 3: a wrong guess should print nothing", "Door opens", "Nothing"]], "blank": [1, 2]}, {"title": "STEP 2: FIX THE LOGIC", "heads": ["Program", "Syntax or logic error?", "Fixed line"], "w": [6.2, 4.6, 7.7], "h": 1.0, "rows": [["Program 4: guess == answer, but guess is text", "Logic error", "guess = int(input(\"Guess a number: \"))"], ["Program 5: else with no colon", "Syntax error", "else:"], ["Program 6: area = width + height", "Logic error", "area = width * height"]], "blank": [1, 2]}]}, "wlv": {"1": [["B", "S"], ["B", "S"]], "2": [["B", "S"], ["B", "S"]], "3": [["B", "S"], ["B", "S"]]}};
+  var CODES={"1": 2085710796, "2": 2085739019, "3": 2085778245},unlocked={};
+  try{var sv=sessionStorage.getItem('y8a2l01');if(sv)unlocked=JSON.parse(sv)||{}}catch(e){}
+  function save(){try{sessionStorage.setItem('y8a2l01',JSON.stringify(unlocked))}catch(e){}}
+  function hash(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)^s.charCodeAt(i))>>>0}return x}
+  $('#themeBtn').onclick=function(){var r=document.documentElement,cur=r.getAttribute('data-theme');var dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;r.setAttribute('data-theme',dark?'light':'dark')};
+  var mounted={};
+  function show(n){$('#menu').hidden=true;[1,2,3].forEach(function(i){$('#t'+i).hidden=(i!==n)});
+    if(!mounted[n]){mounted[n]=1;PyUI.mountActivity($('#t'+n),D.spec[n],D.tables[n],D.wlv[n])}
+    window.scrollTo(0,0)}
+  function menu(){[1,2,3].forEach(function(i){$('#t'+i).hidden=true});$('#menu').hidden=false;window.scrollTo(0,0);refresh()}
+  function refresh(){[1,2,3].forEach(function(i){var m=$('#m'+i);if(unlocked[i]){m.className='msg tag-open';m.textContent='Unlocked. Press Open to continue.'}})}
+  $$('[data-open]').forEach(function(b){b.onclick=function(){
+    var n=+b.getAttribute('data-open'),inp=$('#code'+n),m=$('#m'+n);var v=inp.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(unlocked[n]){show(n);return}
+    if(!v){m.className='msg bad';m.textContent='Type the code from your teacher first.';return}
+    if(hash(v)===CODES[n]){unlocked[n]=1;save();m.className='msg good';m.textContent='Code accepted.';show(n)}
+    else{m.className='msg bad';m.textContent='That code is not right. Check the board and try again.'}}});
+  $$('input[type=text]').forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter'){var b=i.parentNode.querySelector('[data-open]');if(b)b.click()}})});
+  $$('[data-back]').forEach(function(b){b.onclick=menu});
+  refresh();
+})();
+</script>
+</body></html>
