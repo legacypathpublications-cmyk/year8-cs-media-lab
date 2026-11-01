@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber Security Revision Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<style>
+/* Layout: one column, a locked card per activity, each opens into its own task panel. */
+:root{
+  --bg:#F4F7FA; --panel:#FFFFFF; --ink:#1F2D3D; --muted:#566574; --line:#CBD5DD;
+  --navy:#1F3557; --teal:#2E8C83; --teal-t:#E1F0EE; --blue:#4C79A6; --blue-t:#E4ECF4;
+  --bronze:#B87333; --bronze-t:#F6E8DA; --silver:#7C8895; --silver-t:#E8ECEF; --gold:#C79A33; --gold-t:#FAF0DA;
+  --good:#1F7A4D; --good-t:#DFF1E7; --bad:#A33B3B; --bad-t:#F6E1E1; --on:#FFFFFF;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif; --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101822; --panel:#182331; --ink:#E6EDF3; --muted:#A3B1BF; --line:#2C3C4D;
+  --navy:#9DB8DD; --teal:#58C2B6; --teal-t:#14312F; --blue:#8DB4DE; --blue-t:#172B40;
+  --bronze:#E0955A; --bronze-t:#3A271A; --silver:#A9B5C1; --silver-t:#263240; --gold:#E3B954; --gold-t:#3A3016;
+  --good:#6FD3A0; --good-t:#143426; --bad:#F09A9A; --bad-t:#3D1D1D; --on:#101822; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding-inline:max(16px,4vw);padding-block:20px 48px}
+.wrap{max-width:900px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);color:var(--navy);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);font-weight:800}
+h2{font-size:1.5rem;font-weight:800}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.kicker{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.lead{color:var(--muted);margin-top:8px;max-width:60ch}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.lv{display:inline-block;align-self:flex-start;width:fit-content;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;color:var(--on)}
+.lv.b{background:var(--bronze)}.lv.s{background:var(--silver)}.lv.g{background:var(--gold)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.menu .card{display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center}
+.menu .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lock{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=text]{font:inherit;font-size:1.05rem;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:11.5rem;max-width:100%;text-transform:uppercase;letter-spacing:.06em}
+input[type=text]:focus-visible,button:focus-visible,select:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:10px 16px;background:var(--navy);color:var(--on);cursor:pointer}
+button.alt{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.msg{font-size:.95rem;min-height:1.3em;width:100%}
+.msg.bad{color:var(--bad)}.msg.good{color:var(--good)}
+.tag-open{color:var(--good);font-weight:700}
+.back{margin-bottom:14px}
+.panelhead{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.step{border-top:2px solid var(--line);padding-top:18px;margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.step:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.steplab{font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.record{background:var(--gold-t);border:1px dashed var(--gold);border-radius:8px;padding:10px 14px;font-size:.95rem}
+.record b{color:var(--navy)}
+.big{font-family:var(--display);font-weight:800;font-size:2rem;font-variant-numeric:tabular-nums;color:var(--navy)}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-weight:700;font-size:.9rem}
+.pill.ok{background:var(--good-t);color:var(--good)}.pill.no{background:var(--bad-t);color:var(--bad)}
+input[type=range]{width:100%;accent-color:var(--teal);height:2rem}
+.ticks{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.two,.menu .card{grid-template-columns:1fr}}
+canvas{width:100%;max-width:340px;aspect-ratio:1;border:2px solid var(--line);border-radius:8px;background:#fff;image-rendering:pixelated;display:block}
+.stat{display:flex;flex-direction:column;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px}
+.stat span{color:var(--muted);font-size:.9rem}
+.seg{display:inline-flex;align-self:flex-start;width:fit-content;max-width:100%;border:2px solid var(--navy);border-radius:8px;overflow:hidden}
+.seg button{border-radius:0;background:transparent;color:var(--navy)}
+.seg button[aria-pressed=true]{background:var(--navy);color:var(--on)}
+.tog{display:flex;flex-direction:column;gap:10px}
+.tog label{display:flex;gap:12px;align-items:flex-start;background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.tog label:has(input:checked){border-color:var(--teal);background:var(--teal-t)}
+.tog input{width:22px;height:22px;margin-top:2px;accent-color:var(--teal);flex:none}
+.tog small{display:block;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar{display:grid;grid-template-columns:7.2rem minmax(0,1fr) 5.6rem;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.bar .track{background:var(--bg);border:1px solid var(--line);border-radius:6px;height:30px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--bad)}
+.bar.corr .fill{background:var(--teal)}
+.bar b{text-align:right}
+@media(max-width:520px){.bar{grid-template-columns:5.2rem minmax(0,1fr) 4.6rem}}
+.log{font-variant-numeric:tabular-nums;border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+.log table{border-collapse:collapse;width:100%;min-width:420px}
+.log th,.log td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.log th{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+
+.board{margin-top:14px;width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.board text{font-family:var(--body)}
+.board .t{fill:var(--ink)}.board .m{fill:var(--muted)}.board .al{fill:var(--bronze)}
+.board .nt{fill:var(--navy);font-family:var(--display);font-weight:800}
+.board .nb{fill:var(--silver-t);stroke:var(--line);stroke-width:2}.board .nn{fill:var(--navy);font-weight:800;font-size:15px}
+.board .cdr{fill:var(--panel);stroke:var(--line);stroke-width:2}.board .chip{fill:var(--panel);stroke:var(--line);stroke-width:2}.board .frm{stroke:var(--line)}
+.board .lyr{opacity:0;transition:opacity .5s}.board .lyr.on{opacity:1}
+.board .cd{opacity:.55;transition:opacity .5s}.board .cd.on{opacity:1}.board .cd.on .cdr{stroke:var(--teal);stroke-width:3}
+.board .res{opacity:0;transition:opacity .5s}.board .cd.on .res{opacity:1}.board .cd.on .pre{opacity:0}
+.board .arr{stroke:#E0820F;stroke-width:4;fill:none;stroke-dasharray:150;stroke-dashoffset:150;opacity:0;transition:stroke-dashoffset .7s,opacity .2s}
+.board .arr.on{stroke-dashoffset:0;opacity:1}
+.board .struck{text-decoration:line-through;text-decoration-thickness:3px;fill:var(--bad)}
+.post{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.post .ph{height:150px;display:block;width:100%}
+.post .tx{padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.post small{color:var(--muted)}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.checks button{background:var(--panel);color:var(--navy);border:2px solid var(--navy);text-align:left}
+.checks button[aria-pressed=true]{background:var(--teal-t);border-color:var(--teal)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.found{display:flex;flex-direction:column;gap:10px}
+.found .f{background:var(--teal-t);border-left:5px solid var(--teal);padding:10px 14px;border-radius:6px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts button{background:var(--panel);color:var(--ink);border:2px solid var(--line);text-align:left;font-weight:400}
+.opts button.right{border-color:var(--good);background:var(--good-t)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.fb{padding:10px 14px;border-radius:8px;background:var(--blue-t);min-height:2.6em}
+.cc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:640px){.cc{grid-template-columns:1fr}}
+.cc .item{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.cc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.95rem}
+.cc dt{color:var(--muted)}.cc dd{margin:0;font-weight:700}
+.finish{background:var(--good-t);border:2px solid var(--good);border-radius:10px;padding:16px;color:var(--ink)}
+footer{margin-top:28px;color:var(--muted);font-size:.9rem}
+.themebtn{padding:6px 12px;font-size:.85rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* Code lab components shared by every Python lesson site */
+.todo{background:var(--blue-t);border-left:5px solid var(--blue);padding:10px 14px;border-radius:6px}
+.todo b.t{display:block;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.todo ol{margin:6px 0 0;padding-left:1.3em}.todo li{margin:3px 0}
+.res{border:2px solid var(--gold);border-radius:10px;overflow-x:auto;background:var(--gold-t)}
+.res table{border-collapse:collapse;width:100%;min-width:420px}
+.res caption{text-align:left;padding:8px 12px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy)}
+.res th,.res td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.res th{font-size:.85rem;background:var(--panel);color:var(--navy)}
+.res th .lv{font-size:.62rem;padding:1px 7px;margin-left:4px}
+.res td.v{font-weight:700;color:var(--good)}
+.res td.lock{color:var(--muted);font-weight:400}
+.res td code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:var(--panel);padding:1px 5px;border-radius:4px}
+@keyframes rv{0%{background:var(--good-t)}100%{background:transparent}}
+.res td.new{animation:rv 1.6s}
+.item{border:2px solid var(--line);border-radius:12px;background:var(--bg);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.item.done{border-color:var(--good)}
+.item .ih{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.item .ih b{font-family:var(--display);color:var(--navy);font-size:1.05rem}
+.pill.wait{background:var(--silver-t);color:var(--muted)}
+.part{border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.part[data-state=locked]{opacity:.45;pointer-events:none}
+.part .pq{font-weight:700}
+.part .pq .lv{font-size:.62rem;margin-right:6px;vertical-align:middle;padding:1px 7px}
+.code{display:grid;grid-template-columns:auto minmax(0,1fr);border:2px solid #243245;border-radius:8px;background:#10161f;overflow:hidden;position:relative}
+.code .gut{margin:0;padding:10px 8px 10px 12px;color:#6f8399;text-align:right;font:14px/22px ui-monospace,Menlo,Consolas,monospace;user-select:none;border-right:1px solid #243245;background:#0c1118}
+.code .gut span{display:block;height:22px}
+.code .gut span.cur{color:#ffd166;font-weight:700}
+.code .gut span.err{color:#ff8b8b;font-weight:700}
+.code .area{position:relative;min-width:0;overflow-x:auto}
+.code .hl{position:absolute;left:0;right:0;height:22px;top:10px;background:rgba(255,209,102,.20);border-left:4px solid #ffd166;pointer-events:none;display:none;transition:top .18s}
+.code .hl.err{background:rgba(255,107,107,.22);border-left-color:#ff6b6b}
+.code textarea{display:block;position:relative;width:100%;min-width:100%;border:0;margin:0;padding:10px 12px;background:transparent;color:#e6edf3;font:14px/22px ui-monospace,Menlo,Consolas,monospace;white-space:pre;overflow:hidden;resize:none;tab-size:4;outline:none;caret-color:#ffd166}
+.code textarea[readonly]{color:#d6e2ee;cursor:default}
+.code:focus-within{border-color:var(--blue)}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ctl button{padding:7px 12px;font-size:.92rem}
+.ctl .grow{flex:1}
+.ctl select{font:inherit;padding:6px;border-radius:6px;border:2px solid var(--line);background:var(--panel);color:var(--ink)}
+.inbox{display:flex;flex-direction:column;gap:4px}
+.inbox label{font-size:.85rem;color:var(--muted)}
+.inbox textarea,.predbox textarea,.predbox input[type=text]{font:15px/1.5 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel);color:var(--ink);width:100%;text-transform:none;letter-spacing:0}
+.predbox input[type=text]{width:14rem;max-width:100%}
+.predbox{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.predbox textarea{min-height:5.2em}
+.term{background:#0c1118;color:#9ff0c6;border-radius:8px;padding:10px 12px;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;min-height:3.2em;white-space:pre-wrap;word-break:break-word;border:1px solid #243245}
+.term .e{color:#ff9b9b;font-weight:700}
+.term .lbl{display:block;color:#6f8399;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.watch{display:flex;flex-direction:column;gap:8px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;min-height:1.8em}
+.badge{padding:2px 10px;border-radius:99px;font-weight:700;font-size:.85rem;background:var(--silver-t);color:var(--ink)}
+.badge.t{background:var(--good-t);color:var(--good)}.badge.f{background:var(--bad-t);color:var(--bad)}
+.vars{display:flex;flex-wrap:wrap;gap:8px;min-height:3em}
+.vc{border:2px solid var(--line);border-radius:8px;background:var(--panel);padding:4px 10px;min-width:5rem;transition:border-color .2s,background .2s}
+.vc small{display:block;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
+.vc b{font:700 1.05rem ui-monospace,Menlo,Consolas,monospace;color:var(--navy)}
+.vc.chg{border-color:var(--teal);background:var(--teal-t)}
+.vc.lst{padding:4px 8px}
+.cells{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}
+.cell{min-width:2.4rem;text-align:center;border:2px solid var(--navy);border-radius:4px;background:var(--panel);font:700 .95rem ui-monospace,Menlo,Consolas,monospace;color:var(--navy);padding:1px 6px 2px}
+.cell i{display:block;font:600 .68rem var(--body);color:var(--muted);font-style:normal;border-bottom:1px solid var(--line);margin:0 -6px 2px}
+.cell.chg{background:var(--teal-t);border-color:var(--teal)}
+.fb{padding:10px 14px;border-radius:8px;background:var(--blue-t);min-height:2.6em}
+.fb.good{background:var(--good-t);color:var(--ink);border-left:5px solid var(--good)}
+.fb.bad{background:var(--bad-t);border-left:5px solid var(--bad)}
+.fb code{font-family:ui-monospace,Menlo,Consolas,monospace}
+.tests{display:flex;flex-direction:column;gap:6px;font-size:.92rem}
+.tests div{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.tests code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--panel);padding:1px 6px;border-radius:4px;border:1px solid var(--line);white-space:pre-wrap}
+.picks{display:flex;gap:8px;flex-wrap:wrap}
+.picks button{background:var(--panel);color:var(--ink);border:2px solid var(--line);font-weight:400;text-align:left}
+.picks button.right{border-color:var(--good);background:var(--good-t)}.picks button.wrong{border-color:var(--bad);background:var(--bad-t)}
+.tgrid{border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tgrid th,.tgrid td{border:1px solid var(--line);padding:4px 8px;text-align:center}
+.tgrid th{background:var(--panel);color:var(--navy);font-size:.85rem}
+.tgrid input{width:5.2rem;text-transform:none;letter-spacing:0;padding:5px 6px;font:15px ui-monospace,Menlo,Consolas,monospace;text-align:center;border-radius:6px}
+.tgrid input.ok{border-color:var(--good);background:var(--good-t)}.tgrid input.no{border-color:var(--bad);background:var(--bad-t)}
+.qbox{background:var(--gold-t);border:1px dashed var(--gold);border-radius:8px;padding:12px 16px}
+.qbox ol{margin:6px 0 0;padding-left:1.3em}.qbox li{margin:6px 0;font-weight:700}
+.lab{border:2px dashed var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.lab summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.tw{overflow-x:auto}
+.row2{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.lvwrap .lv{margin:0}
+.casetxt{font-size:1.05rem}
+.msgbox{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.meta2{font-size:.85rem;color:var(--muted);margin-bottom:4px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts.col{flex-direction:column}
+button.opt{background:var(--panel);color:var(--ink);border:2px solid var(--line);text-align:left;font-weight:600;padding:10px 14px;border-radius:10px}
+button.opt:hover:not(:disabled){border-color:var(--blue)}
+button.opt.ok{background:var(--good-t);border-color:var(--good);color:var(--good);opacity:1}
+button.opt.bad{background:var(--bad-t);border-color:var(--bad);color:var(--bad);opacity:1}
+.opts button:disabled{opacity:.7}
+.opts button.ok:disabled,.opts button.bad:disabled{opacity:1}
+.fb{min-height:1.4em;font-size:.95rem}
+.fb.good{color:var(--good);font-weight:700}.fb.bad{color:var(--bad)}
+.frags{line-height:2.4;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:1.05rem}
+.scene.frags{padding:14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.98rem;line-height:2.5}
+button.frag{background:transparent;color:var(--ink);border:2px solid transparent;border-bottom:2px dashed var(--line);border-radius:6px;padding:2px 4px;font-weight:600;font-family:inherit;font-size:inherit;text-align:left;cursor:pointer}
+button.frag:hover:not(.ok){background:var(--blue-t);border-color:var(--blue)}
+button.frag.ok{background:var(--good-t);border:2px solid var(--good);color:var(--good)}
+button.frag.bad{background:var(--bad-t);border:2px solid var(--bad)}
+.flagtag{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--good);color:var(--on);padding:0 7px;border-radius:99px;font-family:var(--body)}
+.counter{font-weight:700}
+.ordl{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.oi{display:flex;justify-content:space-between;align-items:center;gap:10px;border:2px solid var(--line);border-radius:10px;background:var(--panel);padding:8px 10px}
+.oi.ok{border-color:var(--good);background:var(--good-t)}.oi.bad{border-color:var(--bad);background:var(--bad-t)}
+.oi .ot{display:flex;flex-direction:column}.oi small{color:var(--muted)}
+.arrows{display:flex;gap:6px;flex:none}
+button.sm{padding:4px 10px;min-width:40px}
+.stepok{background:var(--good-t);border-left:5px solid var(--good);color:var(--good);padding:10px 14px;border-radius:6px}
+.finish{background:var(--good-t);border:2px solid var(--good);border-radius:10px;padding:14px;margin-top:20px}
+.part .show{align-self:flex-start}
+.scorecard{text-align:center;padding:18px 8px;display:flex;flex-direction:column;gap:6px;align-items:center}
+.bigscore{font-family:var(--display);font-weight:800;font-size:4.2rem;color:var(--navy);line-height:1}
+.hit{background:var(--gold-t);border:2px dashed var(--gold);border-radius:10px;padding:10px 14px;font-size:1.05rem}
+.muted{color:var(--muted)}.good{color:var(--good);font-weight:700}
+.review{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.rv{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.qprog{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:12px}
+.qbar{flex:1;height:10px;background:var(--bg);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.qbar span{display:block;height:100%;background:var(--teal)}
+.qtext{margin:6px 0 14px;font-size:1.25rem}
+.item .opts{display:flex!important;flex-wrap:wrap;gap:8px}
+.item .opts button.opt,.qbox .opts button.opt{width:auto}
+.qbox .opts.col button.opt{width:100%}
+.res td.lock{color:var(--muted)}
+.item .opts{flex-direction:row!important}.qbox .opts.col{flex-direction:column!important}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Year 8 Computer Science · Cyber Security and Threats · Autumn 1 revision</div>
+      <h1>Cyber Security Revision Lab</h1>
+      <p class="lead">Three revision activities and a quick fire quiz covering all six Autumn 1 lessons. Your teacher shows each code on the board.</p>
+    </div>
+    <button class="alt themebtn" id="themeBtn" type="button">Switch light or dark</button>
+  </div>
+  <div id="menu" class="stack menu">
+    <div class="card" id="c1">
+      <div class="meta"><span class="row2"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 1 · Lessons 1 and 2</span></span><h2>Case Files: Hack the Human</h2><p>Profile attackers, spot the pressure words in real-looking messages, and name physical tricks.</p></div>
+      <div class="lock"><label for="code1" class="steplab">Teacher code</label><input type="text" id="code1" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4"><button type="button" data-open="1">Open</button><div class="msg" id="m1" aria-live="polite"></div></div>
+    </div>
+    <div class="card" id="c2">
+      <div class="meta"><span class="row2"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 2 · Lessons 3 and 4</span></span><h2>Inbox and Malware Lab</h2><p>Triage an inbox, flag the red flags in a fake email, then play malware detective.</p></div>
+      <div class="lock"><label for="code2" class="steplab">Teacher code</label><input type="text" id="code2" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4"><button type="button" data-open="2">Open</button><div class="msg" id="m2" aria-live="polite"></div></div>
+    </div>
+    <div class="card" id="c3">
+      <div class="meta"><span class="row2"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 3 · Lessons 5 and 6</span></span><h2>Fake or Real? Scam Shield</h2><p>Put the verification routine in order, catch the red flags in a scam call, and pick the defence that beats each scam.</p></div>
+      <div class="lock"><label for="code3" class="steplab">Teacher code</label><input type="text" id="code3" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4"><button type="button" data-open="3">Open</button><div class="msg" id="m3" aria-live="polite"></div></div>
+    </div>
+    <div class="card" id="c4">
+      <div class="meta"><span class="row2"><span class="lv g">Quick fire</span><span class="steplab">Quiz · all six lessons</span></span><h2>Quick Fire Revision Quiz</h2><p>15 questions. Your score appears at the end. Type it on your worksheet before you turn in.</p></div>
+      <div class="lock"><label for="code4" class="steplab">Teacher code</label><input type="text" id="code4" autocomplete="off" placeholder="4 digits" inputmode="numeric" maxlength="4"><button type="button" data-open="4">Open</button><div class="msg" id="m4" aria-live="polite"></div></div>
+    </div>
+  </div>
+  
+  <section id="t1" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 1 · Lessons 1 and 2</span></span><h2>Case Files: Hack the Human</h2><p>Work through the three steps in order. Type your results into the matching tables on your worksheet.</p></div>
+    <div class="steps stack"></div>
+    <div class="finish" id="done1" hidden><b>Activity 1A website task complete.</b> Check that your worksheet tables match the website tables. Then do Activity 1B on your worksheet.</div>
+  </section>
+  <section id="t2" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 2 · Lessons 3 and 4</span></span><h2>Inbox and Malware Lab</h2><p>Work through the three steps in order. Type your results into the matching tables on your worksheet.</p></div>
+    <div class="steps stack"></div>
+    <div class="finish" id="done2" hidden><b>Activity 2A website task complete.</b> Check that your worksheet tables match the website tables. Then do Activity 2B on your worksheet.</div>
+  </section>
+  <section id="t3" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2"><span class="lv b">Bronze</span><span class="lv s">Silver</span><span class="lv g">Gold</span><span class="steplab">Activity 3 · Lessons 5 and 6</span></span><h2>Fake or Real? Scam Shield</h2><p>Work through the three steps in order. Type your results into the matching tables on your worksheet.</p></div>
+    <div class="steps stack"></div>
+    <div class="finish" id="done3" hidden><b>Activity 3A website task complete.</b> Check that your worksheet tables match the website tables. Then do Activity 3B on your worksheet.</div>
+  </section>
+  <section id="t4" hidden class="card">
+    <button class="alt back" type="button" data-back>Back to the menu</button>
+    <div class="panelhead"><span class="row2"><span class="lv g">Quick fire</span><span class="steplab">Quiz</span></span><h2>Quick Fire Revision Quiz</h2><p>One question at a time. Choose an answer and the next question appears. Your score is shown at the end.</p></div>
+    <div class="qbox"></div>
+  </section>
+  <footer>Year 8 Computer Science · Autumn 1 revision. Nothing is saved on this page, so type your results on your worksheet as you go.</footer>
+</div>
+<script>/* Revision lab UI: select, find, order parts that fill a results table */
+var RevUI=(function(){
+  function $(s,r){return (r||document).querySelector(s)}
+  function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  var LVN={b:'Bronze',s:'Silver',g:'Gold'};
+  function pill(l){return '<span class="lv '+l+'">'+LVN[l]+'</span>'}
+  function mountActivity(root,spec,tables){
+    var box=$('.steps',root); box.innerHTML='';
+    var total=spec.steps.length,doneSteps=0;
+    spec.steps.forEach(function(st,si){
+      var tb=tables[st.table];
+      var wrap=el('div','step');
+      wrap.appendChild(el('div','row2','<span class="lvwrap">'+pill(st.lv)+'</span><h3>'+esc(st.title)+'</h3>'));
+      var todo=el('div','todo','<b class="t">What to do</b><ol>'+st.todo.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ol>');
+      wrap.appendChild(todo);
+      var area=el('div','stack'); wrap.appendChild(area);
+      // results table
+      var res=el('div','res'); var t=el('table'); res.appendChild(t);
+      var cap=el('caption',null,esc(tb.title)+' <span style="font-weight:400;text-transform:none;letter-spacing:0">(copy this into your worksheet)</span>'); t.appendChild(cap);
+      var tr=el('tr'); tb.heads.forEach(function(h){tr.appendChild(el('th',null,esc(h)))}); var th=el('thead'); th.appendChild(tr); t.appendChild(th);
+      var tbd=el('tbody'); t.appendChild(tbd);
+      var cells=[];
+      tb.rows.forEach(function(r,ri){var row=el('tr'); cells[ri]=[];
+        r.forEach(function(v,ci){var blank=tb.blank.indexOf(ci)>=0; var td=el('td',blank?'lock':'',blank?'…':esc(v)); cells[ri][ci]=td; row.appendChild(td)});
+        tbd.appendChild(row)});
+      function setCell(ri,ci,val){var td=cells[ri][ci]; td.className='v new'; td.textContent=val}
+      var stepDone=false;
+      function finishStep(){ if(stepDone)return; stepDone=true; wrap.classList.add('stepdone'); var m=el('div','stepok','<b>Step complete.</b> Copy the table onto your worksheet.'); area.appendChild(m); doneSteps++; if(doneSteps===total){$('.finish',root).hidden=false;$('.finish',root).scrollIntoView({behavior:'smooth',block:'nearest'})} }
+      if(st.kind==='items'){
+        var left=st.items.length;
+        st.items.forEach(function(it,ii){
+          var item=el('div','item'); var head=el('div','ih','<b>'+esc(it.label||('Case '+String.fromCharCode(65+ii)))+'</b><span class="pill wait">Not started</span>'); item.appendChild(head);
+          var rowTxt=tb.rows[ii][0]; 
+          if(it.body){item.appendChild(el('div','msgbox','<div class="meta2">'+esc(it.body)+'</div>'))}
+          else if(rowTxt){item.appendChild(el('p','casetxt',esc(rowTxt.replace(/^[A-D1-9]\.\s*/,''))))}
+          var pdone=0; var parts=[];
+          it.parts.forEach(function(p,pi){
+            var part=el('div','part'); part.setAttribute('data-state',pi===0?'open':'locked');
+            part.appendChild(el('div','pq',pill(st.lv)+esc(p.q)));
+            var opts=el('div','opts'); var fb=el('div','fb');
+            var wrong=0,done=false;
+            function complete(auto){ if(done)return; done=true; part.setAttribute('data-state','done'); fb.className='fb good'; fb.textContent=(auto?'Answer: ':'Correct. ')+p.ans; setCell(ii,p.col,p.ans); pdone++; if(parts[pi+1])parts[pi+1].setAttribute('data-state','open'); head.lastChild.className='pill ok'; head.lastChild.textContent=pdone===it.parts.length?'Done':'In progress'; if(pdone===it.parts.length){item.classList.add('done'); left--; if(left===0)finishStep()} }
+            function wrongHit(btn,note){wrong++; btn.classList.add('bad'); fb.className='fb bad'; fb.textContent=note||('Not quite. Hint: '+(p.hint||'check the key words on the board.')); setTimeout(function(){btn.classList.remove('bad')},900);
+              if(wrong>=2&&!part.querySelector('.show')){var sb=el('button','alt show','Show me'); sb.type='button'; sb.onclick=function(){sb.remove(); $$('button',opts).forEach(function(b){b.disabled=true}); complete(true)}; fb.parentNode.appendChild(sb)}}
+            if(p.k==='sel'){
+              p.opts.forEach(function(o){var b=el('button','opt',esc(o)); b.type='button'; b.onclick=function(){ if(done)return; if(o===p.ans){b.classList.add('ok'); $$('button',opts).forEach(function(x){x.disabled=true}); complete(false)} else wrongHit(b)}; opts.appendChild(b)});
+            } else if(p.k==='find'){
+              var fr=el('div','frags');
+              it.frags.forEach(function(f){var hit=f[1]===1; var b=el('button','frag',esc(f[0])); b.type='button'; b.onclick=function(){ if(done)return; if(hit){b.classList.add('ok'); $$('button',fr).forEach(function(x){x.disabled=true}); complete(false)} else wrongHit(b,'Not that part. Hint: '+(p.hint||''))}; fr.appendChild(b)});
+              part.appendChild(fr);
+            }
+            if(p.k!=='find') part.appendChild(opts);
+            part.appendChild(fb); area.appendChild(item); item.appendChild(part); parts.push(part);
+          });
+        });
+      } else if(st.kind==='find'){
+        var found=0; var scene=el('div','item'); var fr=el('div','scene frags');
+        var seen={};
+        var counter=el('div','counter','Found <b>0</b> of at least '+st.need); scene.appendChild(counter);
+        var fb=el('div','fb'); 
+        st.frags.forEach(function(f){
+          var text=f[0],flag=f[1];
+          if(text.replace(/\s/g,'').length<5 && !flag){text.split('\n').forEach(function(sg,k){if(k>0)fr.appendChild(el('br')); if(sg)fr.appendChild(document.createTextNode(sg))}); return}
+          var parts=text.split('\n');
+          parts.forEach(function(seg,k){
+            if(k>0)fr.appendChild(el('br'));
+            if(!seg)return;
+            if(!flag&&seg.replace(/\s/g,'').length<5){fr.appendChild(document.createTextNode(seg));return}
+            var b=el('button','frag',esc(seg)); b.type='button';
+            b.onclick=function(){
+              if(flag&&flag!=='DECOY'){ if(seen[flag]||b.classList.contains('ok'))return; seen[flag]=1; b.classList.add('ok'); var tag=el('span','flagtag',esc(flag.split('|')[0])); b.appendChild(tag);
+                setCell(found,0,flag.split('|')[0]); setCell(found,1,seg.trim().replace(/^Sender: /,'').replace(/^Attachment: /,'')); found++; counter.innerHTML='Found <b>'+found+'</b> of at least '+st.need; fb.className='fb good'; fb.textContent='Yes: '+flag.split('|')[0]+'.';
+                if(found>=st.need && !stepDone){fb.textContent+=' You have enough for your worksheet. You can keep looking for more.'; finishStep()} }
+              else{ b.classList.add('bad'); setTimeout(function(){b.classList.remove('bad')},900); fb.className='fb bad'; fb.textContent=st.decoy_note||'That part is normal. Look for something that looks wrong.' }
+            };
+            fr.appendChild(b);
+          });
+        });
+        scene.appendChild(fr); scene.appendChild(fb); area.appendChild(scene);
+      } else if(st.kind==='order'){
+        var order=st.shuffle.slice(); var scene=el('div','item'); var list=el('ol','ordl'); var fb=el('div','fb'); var attempts=0,done=false;
+        function draw(marks){list.innerHTML=''; order.forEach(function(oi,pos){var li=el('li','oi'+(marks?(marks[pos]?' ok':' bad'):''),'<span class="ot"><b>'+esc(st.order[oi][0])+'</b><small>'+esc(st.order[oi][1])+'</small></span>');
+          var ctr=el('span','arrows'); var up=el('button','alt sm','&#9650;'); up.type='button'; up.setAttribute('aria-label','Move up'); up.disabled=pos===0||done; up.onclick=function(){var x=order[pos];order[pos]=order[pos-1];order[pos-1]=x;draw()};
+          var dn=el('button','alt sm','&#9660;'); dn.type='button'; dn.setAttribute('aria-label','Move down'); dn.disabled=pos===order.length-1||done; dn.onclick=function(){var x=order[pos];order[pos]=order[pos+1];order[pos+1]=x;draw()};
+          ctr.appendChild(up); ctr.appendChild(dn); li.appendChild(ctr); list.appendChild(li)})}
+        draw(); scene.appendChild(list);
+        var chk=el('button',null,'Check order'); chk.type='button'; scene.appendChild(chk); scene.appendChild(fb);
+        chk.onclick=function(){ if(done)return; attempts++; var marks=order.map(function(oi,pos){return oi===pos}); var n=marks.filter(Boolean).length;
+          if(n===order.length){done=true; draw(marks); chk.disabled=true; fb.className='fb good'; fb.textContent='Correct order.'; order.forEach(function(oi,pos){setCell(pos,1,st.order[oi][0])}); finishStep()}
+          else{draw(marks); fb.className='fb bad'; fb.textContent=n+' of '+order.length+' in the right place. Red ones are in the wrong place.'+(attempts>=3?' Hint: start with the question "Where else has this picture appeared?"':'')}};
+        area.appendChild(scene);
+      }
+      wrap.appendChild(res); box.appendChild(wrap);
+    });
+  }
+  function mountQuiz(root,Q,onDone){
+    var box=$('.qbox',root); var i=0,score=0,missed=[],t0=Date.now(),answers=[];
+    function show(){
+      box.innerHTML=''; var q=Q[i];
+      var prog=el('div','qprog','<span>Question <b>'+(i+1)+'</b> of '+Q.length+'</span><span class="qbar"><span style="width:'+(i/Q.length*100)+'%"></span></span>'); box.appendChild(prog);
+      box.appendChild(el('h3','qtext',esc(q[1])));
+      var opts=el('div','opts col'); box.appendChild(opts);
+      q[2].forEach(function(o,oi){var b=el('button','opt',esc(String.fromCharCode(65+oi))+'&nbsp; '+esc(o)); b.type='button';
+        b.onclick=function(){ $$('button',opts).forEach(function(x){x.disabled=true});
+          var ok=oi===q[3]; if(ok){score++;b.classList.add('ok')}else{b.classList.add('bad'); opts.children[q[3]].classList.add('ok'); missed.push(i)}
+          answers.push(oi); var fb=el('div','fb '+(ok?'good':'bad'),ok?'Correct.':'Not quite. The answer is '+String.fromCharCode(65+q[3])+'.'); box.appendChild(fb);
+          setTimeout(function(){i++; if(i<Q.length)show(); else end()},ok?650:1300)};
+        opts.appendChild(b)});
+    }
+    function end(){
+      var secs=Math.round((Date.now()-t0)/1000);
+      box.innerHTML='<div class="scorecard"><div class="steplab">Your quiz score</div><div class="bigscore">'+score+' / '+Q.length+'</div><p class="hit">Type <b>'+score+'</b> into the Quiz box on your worksheet before you turn in.</p><p class="muted">Time: '+Math.floor(secs/60)+' min '+(secs%60)+' s</p></div>';
+      if(missed.length){var m=el('div','review','<h3>Check the ones you missed</h3>'); missed.forEach(function(k){var q=Q[k]; m.appendChild(el('div','rv','<div class="steplab">Lesson '+q[0]+'</div><p><b>'+esc(q[1])+'</b></p><p class="good">Answer: '+esc(q[2][q[3]])+'</p><p class="muted">'+esc(q[4])+'</p>'))}); box.appendChild(m)}
+      else box.appendChild(el('p','good','Full marks. Excellent revision.'));
+      var again=el('p','muted','Your teacher will review the answers with you. Do not refresh this page until your score is on your worksheet.'); box.appendChild(again);
+      if(onDone)onDone(score);
+    }
+    show();
+  }
+  return {mountActivity:mountActivity,mountQuiz:mountQuiz,$:$,$$:$$};
+})();
+</script>
+<script>
+(function(){
+  var $=RevUI.$,$$=RevUI.$$; var D={"spec": {"1": {"steps": [{"lv": "b", "title": "Step 1 \u00b7 Attacker profiles", "table": 0, "kind": "items", "todo": ["Read each case.", "Choose the attacker type, then the part of the CIA triad that was broken.", "Your answers fill Table 1. Copy them onto your worksheet."], "items": [{"parts": [{"k": "sel", "q": "Which attacker type is this?", "opts": ["Opportunist", "Organised crime", "Hacktivist", "Insider"], "ans": "Opportunist", "col": 1, "hint": "Think about motive. Is this planned, or just an easy chance?"}, {"k": "sel", "q": "Which part of the CIA triad was broken?", "opts": ["Confidentiality", "Integrity", "Availability"], "ans": "Confidentiality", "col": 2, "hint": "Photos were copied by someone who should not see them."}]}, {"parts": [{"k": "sel", "q": "Which attacker type is this?", "opts": ["Opportunist", "Organised crime", "Hacktivist", "Insider"], "ans": "Organised crime", "col": 1, "hint": "A group, planning for weeks, wants profit."}, {"k": "sel", "q": "Which part of the CIA triad was broken?", "opts": ["Confidentiality", "Integrity", "Availability"], "ans": "Availability", "col": 2, "hint": "Locked files cannot be reached when needed."}]}, {"parts": [{"k": "sel", "q": "Which attacker type is this?", "opts": ["Opportunist", "Organised crime", "Hacktivist", "Insider"], "ans": "Hacktivist", "col": 1, "hint": "A political or social cause is the clue."}, {"k": "sel", "q": "Which part of the CIA triad was broken?", "opts": ["Confidentiality", "Integrity", "Availability"], "ans": "Integrity", "col": 2, "hint": "The website content was changed, so it is no longer accurate or unchanged."}]}, {"parts": [{"k": "sel", "q": "Which attacker type is this?", "opts": ["Opportunist", "Organised crime", "Hacktivist", "Insider"], "ans": "Insider", "col": 1, "hint": "The person already has legitimate access."}, {"k": "sel", "q": "Which part of the CIA triad was broken?", "opts": ["Confidentiality", "Integrity", "Availability"], "ans": "Confidentiality", "col": 2, "hint": "Private data was copied and passed on."}]}]}, {"lv": "s", "title": "Step 2 \u00b7 Pressure words", "table": 1, "kind": "items", "todo": ["Read each message.", "Click the words that put you under pressure.", "Then choose the lever. Your answers fill Table 2."], "items": [{"label": "Message 1", "body": "Sender: it-support@school-help.net", "frags": [["This is the Head Teacher", 1], [". Send me the exam server password.", 0]], "parts": [{"k": "find", "q": "Click the words that put you under pressure.", "ans": "This is the Head Teacher", "col": 1, "hint": "Which words claim power over you?"}, {"k": "sel", "q": "Which lever is it?", "opts": ["Authority", "Urgency", "Scarcity", "Fear", "Curiosity", "Reciprocity", "Familiarity"], "ans": "Authority", "col": 2, "hint": "Someone in charge is giving an order."}]}, {"label": "Message 2", "body": "Sender: accounts@school-login.net", "frags": [["Your account ", 0], ["closes in 10 minutes", 1], [". Confirm your password at the link below.", 0]], "parts": [{"k": "find", "q": "Click the words that put you under pressure.", "ans": "closes in 10 minutes", "col": 1, "hint": "Which words push you to act fast?"}, {"k": "sel", "q": "Which lever is it?", "opts": ["Authority", "Urgency", "Scarcity", "Fear", "Curiosity", "Reciprocity", "Familiarity"], "ans": "Urgency", "col": 2, "hint": "A deadline pressures you to act before checking."}]}, {"label": "Message 3", "body": "Sender: friend-video@clips-share.net", "frags": [["You will not believe what this video shows about you", 1], [". Open the attachment.", 0]], "parts": [{"k": "find", "q": "Click the words that put you under pressure.", "ans": "You will not believe what this video shows about you", "col": 1, "hint": "Which words make you want to look?"}, {"k": "sel", "q": "Which lever is it?", "opts": ["Authority", "Urgency", "Scarcity", "Fear", "Curiosity", "Reciprocity", "Familiarity"], "ans": "Curiosity", "col": 2, "hint": "It tempts you to look."}]}]}, {"lv": "g", "title": "Step 3 \u00b7 Scenes", "table": 2, "kind": "items", "todo": ["Read each scene.", "Choose the technique, then the best defence.", "Your answers fill Table 3."], "items": [{"parts": [{"k": "sel", "q": "Which technique is this?", "opts": ["Shoulder surfing", "Tailgating", "Baiting", "Pretext"], "ans": "Tailgating", "col": 1, "hint": "Following someone through a locked door."}, {"k": "sel", "q": "What is the best defence?", "opts": ["Cover the keypad and check who is near", "Do not hold the door. Send them to reception.", "Do not plug it in. Hand it to IT.", "Do not share it. Check through an official route."], "ans": "Do not hold the door. Send them to reception.", "col": 2, "hint": "Politeness is what the attacker is using."}]}, {"parts": [{"k": "sel", "q": "Which technique is this?", "opts": ["Shoulder surfing", "Tailgating", "Baiting", "Pretext"], "ans": "Baiting", "col": 1, "hint": "Something tempting is left for you to find."}, {"k": "sel", "q": "What is the best defence?", "opts": ["Cover the keypad and check who is near", "Do not hold the door. Send them to reception.", "Do not plug it in. Hand it to IT.", "Do not share it. Check through an official route."], "ans": "Do not plug it in. Hand it to IT.", "col": 2, "hint": "Curiosity is the trigger. Do not act on it."}]}, {"parts": [{"k": "sel", "q": "Which technique is this?", "opts": ["Shoulder surfing", "Tailgating", "Baiting", "Pretext"], "ans": "Pretext", "col": 1, "hint": "A fake role makes the request seem normal."}, {"k": "sel", "q": "What is the best defence?", "opts": ["Cover the keypad and check who is near", "Do not hold the door. Send them to reception.", "Do not plug it in. Hand it to IT.", "Do not share it. Check through an official route."], "ans": "Do not share it. Check through an official route.", "col": 2, "hint": "Verify the person another way."}]}]}]}, "2": {"steps": [{"lv": "b", "title": "Step 1 \u00b7 Inbox triage", "table": 0, "kind": "items", "todo": ["Read each message.", "Choose what type of message it is.", "Your answers fill Table 1."], "items": [{"parts": [{"k": "sel", "q": "What type is this message?", "opts": ["Phishing", "Smishing", "Spear phishing", "Genuine"], "ans": "Smishing", "col": 1, "hint": "Which channel is it sent on?"}]}, {"parts": [{"k": "sel", "q": "What type is this message?", "opts": ["Phishing", "Smishing", "Spear phishing", "Genuine"], "ans": "Phishing", "col": 1, "hint": "Sent to thousands, generic greeting."}]}, {"parts": [{"k": "sel", "q": "What type is this message?", "opts": ["Phishing", "Smishing", "Spear phishing", "Genuine"], "ans": "Spear phishing", "col": 1, "hint": "It uses a real name and a real school detail."}]}, {"parts": [{"k": "sel", "q": "What type is this message?", "opts": ["Phishing", "Smishing", "Spear phishing", "Genuine"], "ans": "Genuine", "col": 1, "hint": "A trusted route, an expected request, no link and no pressure."}]}]}, {"lv": "s", "title": "Step 2 \u00b7 Red flags", "table": 1, "kind": "find", "todo": ["Read the fake email.", "Click every part that looks wrong. Find at least 5.", "Each flag fills a row in Table 2."], "frags": [["Sender: ", 0], ["Amaz0n-support@mail-secure.ru", "Mismatched sender"], ["\nSubject: Your ", 0], ["acount has been supend", "Spelling and grammar"], ["\nSent: ", 0], ["Tuesday 09:14", "DECOY"], ["\n\n", 0], ["Dear Customer", "Generic greeting"], [",\n", 0], ["Act within 10 minutes or lose access", "Urgent threat"], [".\nClick here to verify: ", 0], ["amazon-verify.net/login", "Suspicious link"], ["\n", 0], ["Reply with your password and code", "Odd request"], [".\n", 0], ["You have won a prize!", "Too good to be true"], ["\nAttachment: ", 0], ["Invoice.zip", "Unexpected attachment"]], "need": 5, "decoy_note": "That part is normal on its own. Look for something that looks wrong."}, {"lv": "g", "title": "Step 3 \u00b7 Malware detective", "table": 2, "kind": "items", "todo": ["Read each case.", "Choose the malware type, the infection route and the best defence.", "Your answers fill Table 3."], "items": [{"parts": [{"k": "sel", "q": "Which malware type?", "opts": ["Virus", "Worm", "Trojan", "Ransomware", "Spyware or keylogger", "Adware"], "ans": "Spyware or keylogger", "col": 1, "hint": "It secretly records what you type."}, {"k": "sel", "q": "Which infection route?", "opts": ["Email attachment", "Drive-by download", "Pirated software and mods", "USB", "Malicious app"], "ans": "Pirated software and mods", "col": 2, "hint": "A cracked version of a paid game."}, {"k": "sel", "q": "Which defence fits best?", "opts": ["Anti-malware", "Updates and patching", "Least privilege", "Backups"], "ans": "Anti-malware", "col": 3, "hint": "Which defence scans for and removes known malware?"}]}, {"parts": [{"k": "sel", "q": "Which malware type?", "opts": ["Virus", "Worm", "Trojan", "Ransomware", "Spyware or keylogger", "Adware"], "ans": "Ransomware", "col": 1, "hint": "Locked files and a payment demand."}, {"k": "sel", "q": "Which infection route?", "opts": ["Email attachment", "Drive-by download", "Pirated software and mods", "USB", "Malicious app"], "ans": "Email attachment", "col": 2, "hint": "A worker opened something in an email."}, {"k": "sel", "q": "Which defence fits best?", "opts": ["Anti-malware", "Updates and patching", "Least privilege", "Backups"], "ans": "Backups", "col": 3, "hint": "Which defence still wins after files are locked?"}]}, {"parts": [{"k": "sel", "q": "Which malware type?", "opts": ["Virus", "Worm", "Trojan", "Ransomware", "Spyware or keylogger", "Adware"], "ans": "Trojan", "col": 1, "hint": "It looks useful, then does harm."}, {"k": "sel", "q": "Which infection route?", "opts": ["Email attachment", "Drive-by download", "Pirated software and mods", "USB", "Malicious app"], "ans": "Malicious app", "col": 2, "hint": "It came from an unofficial store."}, {"k": "sel", "q": "Which defence fits best?", "opts": ["Anti-malware", "Updates and patching", "Least privilege", "Backups"], "ans": "Least privilege", "col": 3, "hint": "An app should only get the access it needs."}]}]}]}, "3": {"steps": [{"lv": "b", "title": "Step 1 \u00b7 Verification routine", "table": 0, "kind": "order", "todo": ["The five checks are mixed up.", "Use the arrows to put them in the right order, then press Check order.", "Your answer fills Table 1."], "order": [["Reverse image search", "Where else has this picture appeared?"], ["Find the original", "Where was it first posted?"], ["Check a second independent source", "Does a different trusted outlet report it?"], ["Check the date", "When was this really taken?"], ["Ask who benefits", "Who gains if I believe or share it?"]], "shuffle": [3, 0, 4, 2, 1]}, {"lv": "s", "title": "Step 2 \u00b7 Scam call red flags", "table": 1, "kind": "find", "todo": ["Read the call.", "Click every part that is a red flag. Find at least 4.", "Each flag fills a row in Table 2."], "frags": [["Caller's number is new", "New number"], ["\n\"Mum, it's me. I have lost my phone and I am in trouble. ", 0], ["Send QAR 2,000 to this account", "Unusual payment"], [" ", 0], ["right now", "Urgency"], [". ", 0], ["Do not tell Dad", "Secrecy"], [". ", 0], ["I cannot do a video call, the camera is broken", "Avoids video"], [".\"", 0]], "need": 4, "decoy_note": "A cloned voice sounds right, so that is not a red flag on its own. Look for pressure, secrecy, an odd payment, a new number or no video."}, {"lv": "g", "title": "Step 3 \u00b7 Choose the defence", "table": 2, "kind": "items", "todo": ["Read each scenario.", "Choose the defence that beats it, then why it works.", "Your answers fill Table 3."], "items": [{"parts": [{"k": "sel", "q": "Which defence?", "opts": ["Call back on a number you already hold", "Second channel you start", "Family safe word", "Never act on urgency alone"], "ans": "Call back on a number you already hold", "col": 1, "hint": "Use the saved contact, never the number that called you."}, {"k": "sel", "q": "Why does it work?", "opts": ["The scammer controls the number in the message, not the one you saved.", "You choose a channel the scammer cannot reach.", "A secret word agreed in advance cannot be copied from audio.", "Urgency is a tactic. Slowing down gives you time to verify."], "ans": "The scammer controls the number in the message, not the one you saved.", "col": 2, "hint": "Who controls the number that contacted you?"}]}, {"parts": [{"k": "sel", "q": "Which defence?", "opts": ["Call back on a number you already hold", "Second channel you start", "Family safe word", "Never act on urgency alone"], "ans": "Second channel you start", "col": 1, "hint": "Stop the call. Contact them another way that YOU choose."}, {"k": "sel", "q": "Why does it work?", "opts": ["The scammer controls the number in the message, not the one you saved.", "You choose a channel the scammer cannot reach.", "A secret word agreed in advance cannot be copied from audio.", "Urgency is a tactic. Slowing down gives you time to verify."], "ans": "You choose a channel the scammer cannot reach.", "col": 2, "hint": "Who chooses the channel?"}]}, {"parts": [{"k": "sel", "q": "Which defence?", "opts": ["Call back on a number you already hold", "Second channel you start", "Family safe word", "Never act on urgency alone"], "ans": "Family safe word", "col": 1, "hint": "The voice sounds right, so you need something that cannot be cloned."}, {"k": "sel", "q": "Why does it work?", "opts": ["The scammer controls the number in the message, not the one you saved.", "You choose a channel the scammer cannot reach.", "A secret word agreed in advance cannot be copied from audio.", "Urgency is a tactic. Slowing down gives you time to verify."], "ans": "A secret word agreed in advance cannot be copied from audio.", "col": 2, "hint": "What can a scammer not copy?"}]}, {"parts": [{"k": "sel", "q": "Which defence?", "opts": ["Call back on a number you already hold", "Second channel you start", "Family safe word", "Never act on urgency alone"], "ans": "Never act on urgency alone", "col": 1, "hint": "\"10 minutes\" is the pressure."}, {"k": "sel", "q": "Why does it work?", "opts": ["The scammer controls the number in the message, not the one you saved.", "You choose a channel the scammer cannot reach.", "A secret word agreed in advance cannot be copied from audio.", "Urgency is a tactic. Slowing down gives you time to verify."], "ans": "Urgency is a tactic. Slowing down gives you time to verify.", "col": 2, "hint": "What does a deadline stop you doing?"}]}]}]}}, "tables": {"1": [{"title": "Table 1: Attacker profiles", "lv": "B", "heads": ["Case", "Attacker type", "CIA part broken"], "w": [7.4, 5.4, 5.7], "blank": [1, 2], "rows": [["A. A stranger spots an unlocked laptop in a caf\u00e9 and copies the owner's photos.", "Opportunist", "Confidentiality"], ["B. A group plans for weeks, then locks a company's files and demands payment.", "Organised crime", "Availability"], ["C. A campaign group changes a company website to show a protest message about the environment.", "Hacktivist", "Integrity"], ["D. A technician with admin access quietly copies the customer list to sell.", "Insider", "Confidentiality"]]}, {"title": "Table 2: Pressure words", "lv": "S", "heads": ["Message", "Pressure words", "Lever"], "w": [7.0, 6.3, 5.2], "blank": [1, 2], "rows": [["1. Head teacher message", "This is the Head Teacher", "Authority"], ["2. Account message", "closes in 10 minutes", "Urgency"], ["3. Video message", "You will not believe what this video shows about you", "Curiosity"]]}, {"title": "Table 3: Scenes", "lv": "G", "heads": ["Scene", "Technique", "Best defence"], "w": [7.0, 4.5, 7.0], "blank": [1, 2], "rows": [["1. A visitor follows you through the staff door: \"Hold it, my hands are full!\"", "Tailgating", "Do not hold the door. Send them to reception."], ["2. A USB stick labelled \"Exam Results\" is left in the car park.", "Baiting", "Do not plug it in. Hand it to IT."], ["3. A caller says he is IT support and needs your password to fix your account.", "Pretext", "Do not share it. Check through an official route."]]}], "2": [{"title": "Table 1: Inbox triage", "lv": "B", "heads": ["Message", "Type"], "w": [13.0, 5.5], "blank": [1], "rows": [["1. Text: \"Q-Post: We missed your parcel. Pay QAR 5 at q-post-redeliver.ru to rebook.\"", "Smishing"], ["2. Email: \"Dear Customer, your acount has been supend. Click to verify.\"", "Phishing"], ["3. Email: \"Hi Amelia, your Year 8 coursework is due Friday. Open the attached file.\"", "Spear phishing"], ["4. Teams post from your class teacher: \"Bring your worksheet to the next lesson.\"", "Genuine"]]}, {"title": "Table 2: Red flags found (find any 5)", "lv": "S", "heads": ["Red flag", "Evidence from the email"], "w": [7.0, 11.5], "blank": [0, 1], "rows": [["", ""], ["", ""], ["", ""], ["", ""], ["", ""]]}, {"title": "Table 3: Malware detective", "lv": "G", "heads": ["Case", "Malware type", "Infection route", "Best defence"], "w": [6.5, 3.8, 4.0, 4.2], "blank": [1, 2, 3], "rows": [["1. Maya downloads a cracked version of a paid game. Later every key she types is sent to a stranger.", "Spyware or keylogger", "Pirated software and mods", "Anti-malware"], ["2. Every file in a clinic is locked and a note demands payment. A worker opened an email attachment.", "Ransomware", "Email attachment", "Backups"], ["3. Zayd installs a \"flashlight\" app from an unofficial store. It asks for all his files and contacts.", "Trojan", "Malicious app", "Least privilege"]]}], "3": [{"title": "Table 1: The verification routine", "lv": "B", "heads": ["Step", "Check"], "w": [3.0, 15.5], "blank": [1], "rows": [["1", ""], ["2", ""], ["3", ""], ["4", ""], ["5", ""]]}, {"title": "Table 2: Scam call red flags (find any 4)", "lv": "S", "heads": ["Red flag", "Evidence from the call"], "w": [6.0, 12.5], "blank": [0, 1], "rows": [["", ""], ["", ""], ["", ""], ["", ""]]}, {"title": "Table 3: Choose the defence", "lv": "G", "heads": ["Scenario", "Defence", "Why it works"], "w": [6.0, 5.4, 7.1], "blank": [1, 2], "rows": [["1. A text says: \"I am your bank. Your card is blocked. Call this number.\"", "Call back on a number you already hold", "The scammer controls the number in the message, not the one you saved."], ["2. On a video call, your \"CFO\" tells you to move QAR 500,000 today.", "Second channel you start", "You choose a channel the scammer cannot reach."], ["3. A voice message sounds exactly like your cousin asking for money.", "Family safe word", "A secret word agreed in advance cannot be copied from audio."], ["4. A message says: \"You have 10 minutes to pay or lose the prize.\"", "Never act on urgency alone", "Urgency is a tactic. Slowing down gives you time to verify."]]}]}, "quiz": [[1, "Which attacker is mainly driven by a political or social cause?", ["Opportunist", "Hacktivist", "Insider"], 1, "Hacktivist: the cause is the motive."], [1, "Customer records are secretly changed so they are wrong. Which part of the CIA triad is broken?", ["Confidentiality", "Integrity", "Availability"], 1, "Integrity means data stays accurate and unchanged."], [2, "\"I helped you last week, now please share your login.\" Which lever is this?", ["Reciprocity", "Scarcity", "Authority"], 0, "Reciprocity: I helped you, so help me."], [2, "A USB stick labelled \"Salaries\" is left in the car park. Which technique is this?", ["Tailgating", "Baiting", "Shoulder surfing"], 1, "Baiting leaves something tempting."], [2, "Why is training the main defence against social engineering?", ["Software never needs updating", "Technical defences do not fully stop a person trusting a fake story or rushing", "Attackers only target computers"], 1, "Software reduces risk, training changes the human decision."], [3, "Which word means a fake message sent by text?", ["Phishing", "Smishing", "Malware"], 1, "Smishing is phishing by SMS."], [3, "A text says you won a prize and to reply STOP to opt out. What is the best action?", ["Reply STOP", "Click the link to check", "Do not reply, report it, then delete it"], 2, "Even \"stop\" confirms your number is active."], [3, "The display name says Q-Post Support. What should you check?", ["The logo", "The full sender address and the real link", "How many words it has"], 1, "A display name can be typed in front of a fake address."], [4, "Which malware spreads across a network with no person opening anything?", ["Virus", "Worm", "Adware"], 1, "A worm copies itself without a person."], [4, "Which malware disguises itself as something useful, then does harm?", ["Trojan", "Ransomware", "Keylogger"], 0, "A trojan hides inside something wanted."], [4, "Which defence still works after ransomware has locked the files?", ["Anti-malware", "Backups", "Updates"], 1, "Antivirus cannot undo encryption. A clean backup can."], [5, "Which check asks \"Where else has this picture appeared?\"", ["Check the date", "Reverse image search", "Ask who benefits"], 1, "Reverse image search is step 1 of the routine."], [5, "Why does a correction reach fewer people than the fake?", ["It is calmer and later, and platforms amplify shocking posts", "Corrections are always banned", "Fakes are always true"], 0, "Emotion, speed, amplification and confirmation bias all help the fake."], [6, "A voice that sounds like your mum asks for money now. What is the best action?", ["Send it quickly", "Hang up and call back on a number you already hold", "Reply with your bank details"], 1, "The voice may be cloned, so use a number you already hold."], [6, "How was the Arup video call fraud discovered?", ["An employee checked with head office", "The bank froze the accounts", "Arup's systems raised a hacking alert"], 0, "Arup said its systems were not hacked. A check with head office found it."]]},CODES={"1": 2085960044, "2": 2085738052, "3": 2086133031, "4": 2085775139},unlocked={},mounted={};
+  try{var sv=sessionStorage.getItem('y8cs_aut1_rev');if(sv)unlocked=JSON.parse(sv)||{}}catch(e){}
+  function save(){try{sessionStorage.setItem('y8cs_aut1_rev',JSON.stringify(unlocked))}catch(e){}}
+  function hash(s){var x=5381;for(var i=0;i<s.length;i++){x=((x*33)^s.charCodeAt(i))>>>0}return x}
+  $('#themeBtn').onclick=function(){var r=document.documentElement,cur=r.getAttribute('data-theme');var dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;r.setAttribute('data-theme',dark?'light':'dark')};
+  function show(n){$('#menu').hidden=true;[1,2,3,4].forEach(function(i){$('#t'+i).hidden=(i!==n)});
+    if(!mounted[n]){mounted[n]=1; if(n===4)RevUI.mountQuiz($('#t4'),D.quiz); else RevUI.mountActivity($('#t'+n),D.spec[n],D.tables[n])}
+    window.scrollTo(0,0)}
+  function menu(){[1,2,3,4].forEach(function(i){$('#t'+i).hidden=true});$('#menu').hidden=false;window.scrollTo(0,0);refresh()}
+  function refresh(){[1,2,3,4].forEach(function(i){var m=$('#m'+i);if(unlocked[i]){m.className='msg tag-open';m.textContent='Unlocked. Press Open to continue.'}})}
+  $$('[data-open]').forEach(function(b){b.onclick=function(){
+    var n=+b.getAttribute('data-open'),inp=$('#code'+n),m=$('#m'+n);var v=inp.value.replace(/[^0-9]/g,'');
+    if(unlocked[n]){show(n);return}
+    if(!v){m.className='msg bad';m.textContent='Type the code from your teacher first.';return}
+    if(hash(v)===CODES[n]){unlocked[n]=1;save();m.className='msg good';m.textContent='Code accepted.';show(n)}
+    else{m.className='msg bad';m.textContent='That code is not right. Check the board and try again.'}}});
+  $$('input[type=text]').forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter'){var b=i.parentNode.querySelector('[data-open]');if(b)b.click()}})});
+  $$('[data-back]').forEach(function(b){b.onclick=menu});
+  refresh();
+})();
+</script>
+</body></html>
