@@ -229,6 +229,48 @@ a{color:inherit}
 @media (max-width:600px){.hero .bot{display:none}}
 @media (max-width:900px){.path{grid-template-columns:1fr 1fr}.specials{grid-template-columns:1fr}.simgrid{grid-template-columns:1fr}.bubble{display:none}.hero .bot{width:120px;opacity:.5}}
 @media (max-width:600px){.top{gap:6px;padding:10px 10px}.logo{font-size:16px;gap:6px}.logo i{width:30px;height:30px;font-size:16px}.pill{padding:5px 9px;font-size:14px}.tbtn{padding:7px 9px}.opts,.mcols{grid-template-columns:1fr}.top .tbtn span{display:none}.thead{flex-direction:column;text-align:center}.pc{grid-template-columns:1fr}.wrap{padding:16px 12px 70px}}
+
+/* ===== NEW ACTIVITIES (L13 to L20) ===== */
+.dl-race{display:flex;align-items:center;gap:10px;margin-top:12px}.dl-bar{flex:1;height:20px;border-radius:99px;background:#ede9fe;overflow:hidden}.dl-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c),var(--pri))}
+.dl-tick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.dl-tick span{font-weight:800;font-size:14px;border:2px solid var(--line);border-radius:99px;padding:3px 10px;background:#fff}.dl-tick span.ok{border-color:var(--grn);background:#dcfce7}
+.dl-fall{display:inline-block;animation:fall .7s ease-in}@keyframes fall{from{transform:translateY(-30px) rotate(0)}to{transform:translateY(8px) rotate(25deg)}}
+.tp-wrap{position:relative;padding-top:26px;overflow-x:auto}.tp-head{position:absolute;top:0;left:0;width:20px;text-align:center;color:var(--red);font-weight:900;transition:left .3s}
+.tp-strip{display:grid;grid-template-columns:repeat(8,minmax(64px,1fr));gap:4px;background:#78350f;padding:8px;border-radius:12px;min-width:540px}
+.tp-f{background:#fef3c7;border-radius:8px;padding:6px 4px;text-align:center;font-weight:900;font-size:18px;transition:background .2s}.tp-f small{display:block;font-size:11px;font-weight:800;color:var(--muted);line-height:1.2}
+.tp-f.on{background:#fde68a}.tp-f.hit{background:#86efac;animation:pop .45s}
+.cp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:14px}
+.cp-z{border:3px solid var(--line);border-radius:20px;padding:12px;background:#fff;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;cursor:pointer}
+.cp-z .e{font-size:46px}.cp-z small{color:var(--muted);font-weight:700}.cp-z .drop{margin-top:6px;border:3px dashed var(--line);border-radius:14px;min-width:120px;padding:8px;font-weight:900;color:#a8a4c8}
+.cp-z.done{border-color:var(--grn);background:#f0fdf4}.cp-z.done .drop{border-style:solid;border-color:var(--grn);color:#166534}.cp-z.no{animation:shake .4s;border-color:var(--red)}
+.rs-apps{display:flex;flex-wrap:wrap;gap:8px}.ftile.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,#fff)}.ftile[disabled]{opacity:.8;cursor:default}
+.rs-bar{position:relative;height:34px;border-radius:12px;background:#ede9fe;margin-top:12px;overflow:hidden}.rs-bar i{display:block;height:100%;width:0;transition:width .3s,background .3s}.rs-bar span{position:absolute;inset:0;display:grid;place-items:center;font-weight:900}
+.rs-slow .rs-bar{animation:shake .6s infinite}
+.tl-set{display:grid;gap:8px;margin-top:10px}.tl-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.tl-row>b{min-width:100px}
+.till{background:#f8fafc;border:4px solid #1e293b;border-radius:16px;padding:12px;color:#94a3b8;font-size:12px;transition:all .2s}
+.till .tt{font-weight:900;margin-bottom:8px}.till .tg2{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.till .tg2 button{border:1px solid #cbd5e1;background:#fff;color:#94a3b8;border-radius:6px;padding:6px 2px;font:inherit;font-size:11px}
+.till .tord{margin-top:10px;display:grid;gap:4px}.till .dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:middle}.till .dot.g{background:#22c55e}.till .dot.r{background:#ef4444}.till .w{display:none;font-weight:900;margin-right:6px}
+.till.big{font-size:18px}.till.big .tg2 button{font-size:17px}.till.bigb .tg2{grid-template-columns:1fr 1fr}.till.bigb .tg2 button{padding:18px 4px}
+.till.hc{background:#000;color:#fff;border-color:#fde047}.till.hc .tg2 button{background:#000;color:#fde047;border:2px solid #fde047}.till.lab .w{display:inline}
+.till.flash{animation:tflash .25s 4}@keyframes tflash{50%{background:#fde047;color:#000}}
+.bg-wrap{display:grid;grid-template-columns:1fr 250px;gap:14px;align-items:start}.bg-rows{display:grid;gap:10px;min-width:0}
+.bg-row{border:2px solid var(--line);border-radius:16px;padding:10px;background:#fff}.bg-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}.bg-h .e{font-size:24px}
+.bg-opts{display:flex;flex-wrap:wrap;gap:8px}.bg-o{flex:1 1 150px;border:3px solid var(--line);background:#fff;border-radius:14px;padding:8px 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;font:inherit}
+.bg-o span{font-weight:900;color:#166534}.bg-o small{color:var(--muted);font-weight:700}.bg-o.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff)}.bg-o.fixed{cursor:default;opacity:.9}
+.bg-side{position:sticky;top:80px;display:grid;gap:10px}.bg-tot{background:#1e1b4b;color:#fff;border-radius:18px;padding:14px}.bg-tot small{font-weight:900;opacity:.8}.bg-tot b{display:block;font-family:var(--hf);font-size:30px}
+.bg-meter{height:12px;border-radius:99px;background:rgba(255,255,255,.2);overflow:hidden;margin:6px 0}.bg-meter i{display:block;height:100%;transition:width .3s}
+.bg-chk{list-style:none;margin:0;padding:12px;border:2px solid var(--line);border-radius:16px;background:#fff;display:grid;gap:6px;font-weight:800}.bg-chk li.y{color:#166534}
+.nz{width:100%;height:auto}.nz .z rect{fill:#f8fafc;stroke:#cbd5e1;stroke-width:3;cursor:pointer;transition:fill .2s}.nz .z[data-z="lan"] rect{fill:#eff6ff}.nz .z[data-z="pan"] rect{fill:#f5f3ff}
+.nz .z text{font:800 15px Nunito,Arial,sans-serif;fill:var(--ink);pointer-events:none}.nz .z:hover>rect{stroke:var(--c)}.nz .z.hit>rect{fill:#bbf7d0;stroke:var(--grn)}
+.nz-case{display:flex;gap:12px;align-items:center;min-height:90px;font-size:18px;margin-bottom:10px}.nz-case .e{font-size:44px}.nz-case small{display:block;color:var(--muted);font-weight:900}
+.og{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.og-n{display:flex;flex-direction:column;align-items:center;font-size:30px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:6px 10px}.og-n b{font-size:13px}
+.og-l{flex:1;min-width:50px;text-align:center;font-weight:900;font-size:13px;border-top:4px solid var(--grn);padding-top:3px;color:#166534}.og-l.x{border-top:4px dashed var(--red);color:var(--red)}
+.og-phone{margin-top:10px;font-weight:900;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.og-bat{display:inline-block;width:80px;height:16px;border:2px solid var(--ink);border-radius:4px;overflow:hidden}.og-bat i{display:block;height:100%;width:100%;background:var(--grn);transition:width .4s}
+.rg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.rg-t{display:flex;flex-direction:column;align-items:center;text-align:center;border:3px solid var(--line);border-radius:16px;padding:8px;opacity:.45;background:#fff;transition:all .2s}
+.rg-t svg{width:40px;height:40px}.rg-t small{color:var(--muted);font-weight:700}.rg-t .rg-s{font-weight:900;color:var(--red)}.rg-t.on{opacity:1;border-color:var(--grn);background:#f0fdf4}.rg-t.on .rg-s{color:#166534}
+.sendmsg{margin-top:12px}
+.rgtf .opt{flex-direction:column;font-size:19px;padding:14px 10px;text-align:center}.rgtf .opt small{font-size:14px}
+@media (max-width:760px){.bg-wrap{grid-template-columns:1fr}.bg-side{position:static}}
+.whobox{position:fixed;inset:0;z-index:80;background:rgba(30,27,75,.55);display:grid;place-items:center;padding:16px}
 </style>
 </head>
 <body>
@@ -304,10 +346,37 @@ const ART={
 const art=n=>ART[n]||ART.doc;
 
 ART.display=ART.monitor;
+/* ===== NEW ICONS (L13 to L20) ===== */
+Object.assign(ART,{
+ ext:sv(`<rect x="10" y="10" width="44" height="44" rx="8" fill="#334155" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="30" r="12" fill="#94a3b8" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="30" r="3" fill="${O}"/><rect x="26" y="46" width="12" height="4" rx="2" fill="#22c55e"/><path d="M32 54v8" stroke="${O}" stroke-width="3"/>`),
+ tape:sv(`<rect x="4" y="14" width="56" height="36" rx="5" fill="#475569" stroke="${O}" stroke-width="2.5"/><circle cx="20" cy="30" r="9" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><circle cx="44" cy="30" r="9" fill="#e2e8f0" stroke="${O}" stroke-width="2.5"/><circle cx="20" cy="30" r="3" fill="${O}"/><circle cx="44" cy="30" r="3" fill="${O}"/><path d="M20 39h24" stroke="#92400e" stroke-width="3"/><rect x="14" y="42" width="36" height="6" rx="2" fill="#cbd5e1"/>`),
+ sdcard:sv(`<path d="M16 6h24l10 10v40a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z" fill="#0ea5e9" stroke="${O}" stroke-width="2.5"/>${[19,25,31,37].map(x=>`<rect x="${x}" y="9" width="4" height="10" fill="#fde047"/>`).join('')}<rect x="18" y="32" width="26" height="16" rx="3" fill="#fff"/><text x="31" y="44" font-size="10" font-weight="900" text-anchor="middle" fill="${O}" font-family="Arial">SD</text>`),
+ cpu:sv(`${[18,26,34,42].map(v=>`<path d="M${v} 4v8M${v} 52v8M4 ${v}h8M52 ${v}h8" stroke="${O}" stroke-width="3"/>`).join('')}<rect x="12" y="12" width="40" height="40" rx="5" fill="#64748b" stroke="${O}" stroke-width="2.5"/><rect x="20" y="20" width="24" height="24" rx="3" fill="#fbbf24" stroke="${O}" stroke-width="2"/><text x="32" y="36" font-size="9" font-weight="900" text-anchor="middle" fill="${O}" font-family="Arial">CPU</text>`),
+ ram:sv(`<rect x="4" y="18" width="56" height="22" rx="3" fill="#16a34a" stroke="${O}" stroke-width="2.5"/>${[9,21,33,45].map(x=>`<rect x="${x}" y="22" width="9" height="12" rx="1" fill="#1e293b"/>`).join('')}${[8,13,18,23,28,36,41,46,51].map(x=>`<rect x="${x}" y="40" width="3" height="7" fill="#fbbf24"/>`).join('')}<text x="32" y="58" font-size="9" font-weight="900" text-anchor="middle" fill="${O}" font-family="Arial">RAM</text>`),
+ rom:sv(`<rect x="14" y="12" width="36" height="36" rx="4" fill="#1e293b" stroke="${O}" stroke-width="2.5"/>${[18,26,34,42].map(v=>`<path d="M8 ${v}h6M50 ${v}h6" stroke="${O}" stroke-width="3"/>`).join('')}<path d="M24 30l6 6 12-12" fill="none" stroke="#4ade80" stroke-width="4"/><text x="32" y="60" font-size="9" font-weight="900" text-anchor="middle" fill="${O}" font-family="Arial">ROM</text>`),
+ access:sv(`<circle cx="32" cy="32" r="27" fill="#0ea5e9" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="16" r="5" fill="#fff"/><path d="M16 24l16 4 16-4M32 28v12l-8 14M32 40l8 14" fill="none" stroke="#fff" stroke-width="4"/>`),
+ magnifier:sv(`<circle cx="26" cy="26" r="17" fill="#e0f2fe" stroke="${O}" stroke-width="3"/><path d="M38 38l18 18" stroke="${O}" stroke-width="7"/><text x="26" y="33" font-size="20" font-weight="900" text-anchor="middle" fill="${O}" font-family="Arial">A</text>`),
+ braille:sv(`<rect x="4" y="18" width="56" height="28" rx="6" fill="#cbd5e1" stroke="${O}" stroke-width="2.5"/>${[[10,24],[16,24],[10,31],[10,38],[24,24],[30,31],[24,38],[38,24],[44,24],[44,31],[38,38],[44,38],[52,31]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.6" fill="${O}"/>`).join('')}`),
+ screader:sv(`<rect x="4" y="10" width="38" height="28" rx="4" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><path d="M10 18h26M10 24h20M10 30h24" stroke="#7dd3fc" stroke-width="2.5"/><path d="M46 20c4 3 4 9 0 12M51 15c7 6 7 16 0 22" fill="none" stroke="#7c3aed" stroke-width="3"/><path d="M14 46c0 6 6 10 12 10s12-4 12-10" fill="none" stroke="${O}" stroke-width="3"/><rect x="10" y="44" width="7" height="10" rx="3" fill="#7c3aed"/><rect x="35" y="44" width="7" height="10" rx="3" fill="#7c3aed"/>`),
+ captions:sv(`<rect x="4" y="10" width="56" height="40" rx="6" fill="#1e293b" stroke="${O}" stroke-width="2.5"/><rect x="10" y="36" width="44" height="9" rx="2" fill="#fde047"/><path d="M14 40.5h22M40 40.5h10" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="23" r="8" fill="#7dd3fc"/>`),
+ network:sv(`<circle cx="32" cy="32" r="8" fill="#6366f1" stroke="${O}" stroke-width="2.5"/>${[[10,10],[54,10],[10,54],[54,54]].map(([x,y])=>`<path d="M32 32L${x} ${y}" stroke="${O}" stroke-width="2.5"/><rect x="${x-7}" y="${y-6}" width="14" height="12" rx="2" fill="#bae6fd" stroke="${O}" stroke-width="2.5"/>`).join('')}<circle cx="32" cy="32" r="8" fill="#6366f1" stroke="${O}" stroke-width="2.5"/>`),
+ wifi:sv(`<path d="M8 26a34 34 0 0 1 48 0" fill="none" stroke="#0ea5e9" stroke-width="5"/><path d="M16 34a22 22 0 0 1 32 0" fill="none" stroke="#0ea5e9" stroke-width="5"/><path d="M24 42a10 10 0 0 1 16 0" fill="none" stroke="#0ea5e9" stroke-width="5"/><circle cx="32" cy="50" r="4.5" fill="${O}"/>`),
+ bluetooth:sv(`<rect x="14" y="4" width="36" height="56" rx="18" fill="#2563eb" stroke="${O}" stroke-width="2.5"/><path d="M24 22l16 16-8 8V18l8 8-16 16" fill="none" stroke="#fff" stroke-width="3.5"/>`),
+ gps:sv(`<path d="M32 58S12 38 12 24a20 20 0 0 1 40 0c0 14-20 34-20 34z" fill="#ef4444" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="24" r="8" fill="#fff" stroke="${O}" stroke-width="2.5"/>`),
+ nfc:sv(`<rect x="6" y="18" width="34" height="24" rx="4" fill="#fbbf24" stroke="${O}" stroke-width="2.5"/><rect x="11" y="24" width="8" height="6" rx="1" fill="#a16207"/><path d="M45 22c3 3 3 13 0 16M50 18c5 5 5 19 0 24M55 14c7 7 7 25 0 32" fill="none" stroke="#16a34a" stroke-width="3"/>`),
+ ir:sv(`<rect x="22" y="22" width="20" height="38" rx="7" fill="#334155" stroke="${O}" stroke-width="2.5"/><circle cx="32" cy="32" r="3" fill="#ef4444"/><circle cx="28" cy="42" r="2.2" fill="#94a3b8"/><circle cx="36" cy="42" r="2.2" fill="#94a3b8"/><circle cx="28" cy="50" r="2.2" fill="#94a3b8"/><circle cx="36" cy="50" r="2.2" fill="#94a3b8"/><path d="M26 16l-4-8M32 14V4M38 16l4-8" stroke="#ef4444" stroke-width="3"/>`),
+ tower:sv(`<path d="M32 18L18 60M32 18l14 42M23 44h18M27 32h10" fill="none" stroke="${O}" stroke-width="3"/><circle cx="32" cy="16" r="4" fill="#f97316" stroke="${O}" stroke-width="2"/><path d="M22 8a14 14 0 0 0 0 16M42 8a14 14 0 0 1 0 16M16 4a22 22 0 0 0 0 24M48 4a22 22 0 0 1 0 24" fill="none" stroke="#f97316" stroke-width="2.5"/>`),
+ satellite:sv(`<rect x="24" y="24" width="16" height="16" rx="3" fill="#cbd5e1" stroke="${O}" stroke-width="2.5" transform="rotate(45 32 32)"/><rect x="4" y="27" width="16" height="10" fill="#3b82f6" stroke="${O}" stroke-width="2" transform="rotate(45 32 32)"/><rect x="44" y="27" width="16" height="10" fill="#3b82f6" stroke="${O}" stroke-width="2" transform="rotate(45 32 32)"/><path d="M44 52a8 8 0 0 0 8-8M44 58a14 14 0 0 0 14-14" fill="none" stroke="#f97316" stroke-width="2.5"/>`),
+ letter:sv(`<rect x="6" y="14" width="52" height="36" rx="4" fill="#fff" stroke="${O}" stroke-width="2.5"/><path d="M6 16l26 20 26-20" fill="none" stroke="${O}" stroke-width="2.5"/><circle cx="50" cy="46" r="9" fill="#22c55e" stroke="${O}" stroke-width="2"/><path d="M46 46l3 3 5-6" fill="none" stroke="#fff" stroke-width="2.5"/>`),
+ spec:sv(`<rect x="10" y="4" width="44" height="56" rx="5" fill="#fff" stroke="${O}" stroke-width="2.5"/><rect x="10" y="4" width="44" height="10" rx="5" fill="#f97316"/>${[22,31,40,49].map(y=>`<path d="M16 ${y}h18M40 ${y}h8" stroke="#94a3b8" stroke-width="3"/>`).join('')}`)
+});
+ART.dvdr=ART.dvd;ART.usbdrive=ART.usb;
+
 /* ================= CONTENT ================= */
 const UNITS=[
  {id:1,name:'Unit 1: Computers and software',sub:'Files, devices, storage, the OS, updates and licences',topics:['fm','dev','feat','conv','sto','os','upd','lic']},
- {id:2,name:'Unit 2: Hardware for Qahwa House',sub:'Our café client: the portfolio, input and output devices',topics:['client','input','auto','output']}
+ {id:2,name:'Unit 2: Hardware for Qahwa House',sub:'Our café client: input, output, storage, inside the box, accessibility and the specification',topics:['client','input','auto','output','sdev','smed','cpu','access','spec','rec']},
+ {id:3,name:'Unit 3: Connectivity',sub:'How Qahwa House connects: communication, networks and wireless',topics:['comms','wire']}
 ];
 const T={};
 function topic(id,o){T[id]=Object.assign({id},o);}
@@ -569,7 +638,204 @@ topic('output',{t:'Output devices',art:'monitor',c:'#db2777',tag:'See it, hear i
  play:[{kind:'pixels'},{kind:'matcher',title:'Which output device?',lead:'Drag the best output device onto each situation.',targets:[['🏖️','Holiday photos printed at home.','inkjet','Inkjet printer','Cheap to buy and good at colour photos.'],['🎥','Film night in the school hall.','projector','Data projector','A huge image the whole hall can see.'],['📑','Hundreds of contracts printed a day.','laser','Laser printer','Fast and cheap per page.'],['🌉','A model of a bridge part.','p3d','3D printer','Builds a solid object layer by layer.'],['🚗','Sat nav spoken directions.','speaker','Speakers','The driver hears without looking.'],['🗺️','A large, accurate map of Doha.','plotter','Plotter','Very large, precise drawings.'],['🥶','Turning the heating on when it is cold.','heater','Heater (control device)','An actuator that changes the temperature.'],['🖌️','A designer who needs sharp detail.','monitor','High-resolution monitor','More pixels give a sharper picture.']]}]});
 
 const DEVNAME={laptop:'Laptop',desktop:'Desktop computer',watch:'Smartwatch',mainframe:'Mainframe',embedded:'Embedded computer',console:'Games console',keyboard:'Keyboard',gtablet:'Graphics tablet',joystick:'Joystick',scanner:'Scanner',mic:'Microphone',touch:'Touch screen',trackerball:'Trackerball',webcam:'Webcam',barcode:'Barcode scanner',omr:'OMR',ocr:'OCR',finger:'Biometric scanner',sensor:'Temperature sensor',magcard:'Magnetic stripe reader',chippin:'Chip and PIN',inkjet:'Inkjet printer',projector:'Data projector',laser:'Laser printer',p3d:'3D printer',speaker:'Speakers',plotter:'Plotter',heater:'Heater',monitor:'High-res monitor'};
-const ORDER=[...UNITS[0].topics,...UNITS[1].topics];
+/* ===== NEW TOPICS: Unit 2 (L13 to L18) and Unit 3 (L19, L20) ===== */
+topic('sdev',{t:'Storage devices',art:'hdd',c:'#7c3aed',tag:'HDD, SSD or optical: which drive?',
+ cards:[
+  {a:'hdd',t:'What is storage?',d:'Storage <b>keeps data when the power is off</b>. Working memory (RAM) is different: it forgets everything when the power goes off.',dia:['SAVE','SWITCH OFF','STILL THERE TOMORROW']},
+  {a:'dvd',t:'Device or medium?',d:'A <b>storage device</b> is the hardware that <b>reads and writes</b> the data: the drive. A <b>storage medium</b> is <b>what the data is stored on</b>: a disk, a disc, a chip or a tape.',use:'DVD drive = device. DVD = medium. You can take the DVD out, but you cannot take the platters out of a hard drive.'},
+  {a:'hdd',t:'Hard disk drive (HDD)',d:'<b>Magnetic</b>. The platters spin and a read/write arm moves across them.',p:'Lots of storage for little money',m:'Slower; moving parts can break if it is dropped; some noise; uses more power'},
+  {a:'ssd',t:'Solid state drive (SSD)',d:'<b>Flash memory chips</b> with <b>no moving parts</b>.',p:'Very fast to start up and open files; tough; silent and light; less power, so a longer battery',m:'Costs more for the same amount of storage'},
+  {a:'dvd',t:'Optical drive',d:'A <b>laser</b> reads and writes CDs, DVDs and Blu-ray discs.',p:'Discs are cheap and easy to hand out or post',m:'Small amount of storage; slow; discs scratch; most new laptops do not have one'},
+  {a:'ext',t:'Internal or external?',d:'<b>Internal</b> storage is inside the computer and holds the operating system and programs. <b>External</b> storage is plugged in, usually by USB, to carry files and keep backups.',p:'External: portable and good for backups',m:'External: can be lost or stolen'}
+ ],
+ words:[['Storage','Keeps data when the power is off'],['Storage device','The hardware that reads and writes data (the drive)'],['Storage medium','What the data is stored on: disk, disc, chip or tape'],['HDD','Hard disk drive: magnetic, with spinning platters and an arm'],['SSD','Solid state drive: flash memory chips, no moving parts'],['Optical drive','A laser reads and writes CDs, DVDs and Blu-ray'],['Internal','Inside the computer'],['External','Plugged in, usually by USB; portable']],
+ quiz:[
+  {type:'mcq',q:'Which one is a storage MEDIUM?',a:'Blu-ray disc',w:['DVD drive','Card reader','Blu-ray drive'],why:'The disc holds the data. The drive and the reader are devices.'},
+  {type:'mcq',q:'A gamer wants games to load as fast as possible. Which drive?',a:'SSD',w:['HDD','Optical drive','Tape drive'],why:'An SSD is very fast to start up and load.'},
+  {type:'tf',q:'An SSD has spinning platters inside.',a:false,why:'An HDD has platters. An SSD uses flash memory chips with no moving parts.'},
+  {type:'match',q:'Match each situation to the best storage.',pairs:[['Ten years of photos, cheaply','HDD'],['A laptop that starts in seconds','SSD'],['A film for 200 families','Optical disc'],['Schoolwork between home and school','External drive']]},
+  {type:'gap',q:'An HDD stores data ___ on spinning platters.',a:'magnetically',bank:['magnetically','with a laser','on paper','in RAM'],why:'HDD = magnetic. Optical = laser.'},
+  {type:'mcq',q:'A laptop is thrown into a school bag every day. Why choose an SSD?',a:'No moving parts, so it is tough',w:['It holds the most for the money','It uses a laser','It is the cheapest'],why:'Nothing inside can break when it is knocked.'},
+  {type:'tf',q:'External storage is good for backups because you can unplug it and keep it somewhere else.',a:true,why:'But it can also be lost or stolen.'}
+ ],
+ play:[{kind:'drivelab'},
+  {kind:'sorter',title:'Device or medium?',lead:'Drag each one into the right group.',bins:['Storage device','Storage medium'],items:[['DVD drive',0,'reads and writes discs'],['Card reader',0],['Hard disk drive',0],['Blu-ray drive',0],['Blu-ray disc',1],['Memory card',1],['The platters inside a hard drive',1],['CD',1]]},
+  {kind:'matcher',title:'Which storage?',lead:'Drag the best storage onto each situation.',targets:[['🎮','A gamer wants games to load fast.','ssd','SSD','Very fast to start and load.'],['🎞️','A film archive stores thousands of hours of film cheaply.','hdd','HDD','Lots of storage for little money.'],['🏢','Someone carries a backup to another building.','ext','External drive','Unplug it and carry it.'],['💿','A school concert video for 200 families.','dvd','Optical disc','Discs are cheap to hand out.']]}]
+});
+
+topic('smed',{t:'Storage media and backup',art:'tape',c:'#0891b2',tag:'Flash, tape, R and RW',
+ cards:[
+  {a:'shield',t:'Why we back up',d:'A <b>backup</b> is a <b>second copy</b> of your files, <b>kept somewhere else</b>, so one fire, theft or spill cannot destroy both copies.',use:'Things that go wrong: the drive fails, it is stolen, coffee is spilt, malware.'},
+  {a:'usb',t:'Flash memory',d:'Stores data on <b>chips</b> with <b>no moving parts</b>. It keeps the data when the power is off and can be rewritten many times.',use:'Used in: USB flash drives, memory cards, phones and tablets, and inside an SSD.',p:'Small and light; tough; fast; uses little power',m:'Easy to lose or steal; costs more for the amount stored than a hard disk; wears out after a very large number of rewrites'},
+  {a:'tape',t:'Magnetic tape',d:'Data is stored on a <b>long strip of magnetic tape</b> in a cartridge. It needs a special <b>tape drive</b>.',use:'Used by banks and hospitals, for backups and archives.',p:'Stores a huge amount very cheaply; lasts for years',m:'Read in order from the start, so finding one file is slow'},
+  {a:'tape',t:'Why is tape slow to find one file?',d:'The drive must <b>wind past every file in order</b> until it reaches the one you want.',dia:['File 1','File 2','File 3','…','File 6'],use:'Fine for copying EVERYTHING at night. Slow for finding ONE file while someone waits.'},
+  {a:'dvd',t:'R or RW?',d:'<b>R = recordable</b>: write once. The data cannot be changed or deleted (CD-R, DVD-R, BD-R).<br><b>RW = rewritable</b>: wipe it and write again, many times (CD-RW, DVD-RW, BD-RE).',use:'The test: will the data ever need to change? No → R. Yes → RW.'},
+  {a:'folder',t:'Archives',d:'An <b>archive</b> is old data kept safely for a long time and rarely opened.',use:'Choose R for archives, records that must not change, and copies to hand out. Choose RW for backups that replace last week\'s.'}
+ ],
+ words:[['Flash memory','Chips, no moving parts; keeps data with the power off'],['USB flash drive','A small flash memory stick you plug into a USB port'],['Memory card','A small flash memory card for cameras and phones'],['Magnetic tape','Stores huge amounts cheaply; read in order from the start'],['Backup','A second copy of your files, kept somewhere else'],['Archive','Old data kept safely for a long time, rarely opened'],['R (recordable)','Write once: the data cannot be changed or deleted'],['RW (rewritable)','Can be wiped and written again, many times']],
+ quiz:[
+  {type:'mcq',q:'A bank backs up millions of customer records every night. Which medium?',a:'Magnetic tape',w:['USB flash drive','DVD-R','Memory card'],why:'Tape stores a huge amount very cheaply.'},
+  {type:'tf',q:'A DVD-R can be wiped and used again every week.',a:false,why:'R means write once. A weekly reused disc must be RW.'},
+  {type:'mcq',q:'Why is tape slow to find one customer\'s file?',a:'It is read in order from the start',w:['It has no moving parts','It holds too little','It uses a laser'],why:'The drive winds past every file before it.'},
+  {type:'gap',q:'A backup is a second copy of your files, kept ___.',a:'somewhere else',bank:['somewhere else','on the same PC','in RAM','in the bin'],why:'So one disaster cannot destroy both copies.'},
+  {type:'match',q:'Match each job to the best storage medium.',pairs:[['Photos on a camera','Memory card'],['Exam results that must never change','DVD-R'],['One disc reused every week','DVD-RW'],['Homework from home to school','USB flash drive']]},
+  {type:'mcq',q:'Faisal wants a quick, simple weekly backup for The Pearl. Which is most sensible?',a:'External HDD, 2 TB (QAR 350)',w:['Tape drive with 5 tapes (QAR 6,500)','A new DVD-R every week','A copy on the same PC'],why:'Cheap, plenty of space and simple. Keep it away from the café.'},
+  {type:'tf',q:'Flash memory has no moving parts.',a:true,why:'It stores data on chips.'}
+ ],
+ play:[{kind:'tape'},
+  {kind:'sorter',title:'R or RW?',lead:'Will the data ever need to change? Drag each job into R or RW.',bins:['R (write once)','RW (rewritable)'],items:[['Exam results kept for 20 years',0],['A wedding DVD for every guest',0],['A school concert DVD for families',0],['A weekly backup that replaces last week\'s',1],['Files that keep changing',1],['A practice disc you reuse',1]]},
+  {kind:'matcher',title:'Which storage medium?',lead:'Drag the best storage medium onto each situation.',targets:[['📷','A photographer stores photos on her camera.','sdcard','Memory card','Small, tough and fits inside the camera.'],['🏦','A bank backs up millions of records every night.','tape','Magnetic tape','A huge amount, stored very cheaply.'],['🎒','A student takes a presentation into school.','usbdrive','USB flash drive','Small, light and plugs into any computer.'],['💍','A wedding video for every guest.','dvdr','DVD-R','Cheap copies that nobody needs to change.']]}]
+});
+
+topic('cpu',{t:'Inside the box',art:'cpu',c:'#dc2626',tag:'CPU, RAM and ROM',
+ cards:[
+  {a:'cpu',t:'The CPU (processor)',d:'The <b>central processing unit</b> carries out the <b>instructions in programs</b> and processes the data: every calculation, every click.',dia:['INPUT','PROCESS (CPU)','OUTPUT'],use:'Café picture: the CPU is the <b>barista</b>. It makes every order.'},
+  {a:'cpu',t:'How fast is the CPU?',d:'CPU speed is measured in <b>gigahertz (GHz)</b>: roughly how many <b>billions of steps</b> it carries out each second.',use:'2.4 GHz = 2.4 billion steps a second. 3.4 GHz = 3.4 billion. <b>Higher GHz = faster.</b>'},
+  {a:'ram',t:'RAM: the working memory',d:'<b>Random access memory</b> holds the <b>programs and data in use right now</b>: your open document and apps.',p:'Read and write: it changes all the time as you work',m:'Temporary: everything in RAM is lost when the power goes off',use:'Café picture: RAM is the <b>counter</b>. It is cleared at closing time.'},
+  {a:'ram',t:'More RAM, more at once',d:'More RAM lets you keep <b>more programs and tabs open</b> without slowing down.',m:'Too little RAM: the computer slows down as it juggles everything that is open'},
+  {a:'rom',t:'ROM: the start-up instructions',d:'<b>Read only memory</b> holds the <b>start-up instructions</b> the computer needs when you press the power button.',p:'Permanent: kept when the power is off',m:'Read only: normally cannot be changed; it is small',use:'Café picture: ROM is the <b>opening checklist</b> fixed to the wall.'},
+  {a:'hdd',t:'The whole café picture',d:'<b>CPU</b> = the barista, who makes the orders. <b>RAM</b> = the counter, cleared at closing. <b>ROM</b> = the opening checklist on the wall, the same every day. <b>Storage</b> (HDD or SSD) = the store room, kept until it is needed.'},
+  {a:'laptop',t:'Faisal\'s two laptops',d:'<b>A, Everyday 14:</b> 2.4 GHz, 8 GB RAM, 1 TB HDD, about 6 hours battery, 1.9 kg, <b>QAR 2,600</b>.<br><b>B, Pro 15:</b> 3.4 GHz, 16 GB RAM, 512 GB SSD, about 10 hours battery, 1.6 kg, <b>QAR 4,400</b>.',use:'B costs QAR 1,800 more: a faster CPU, double the RAM, an SSD, a longer battery and it is lighter to carry.'}
+ ],
+ words:[['CPU (processor)','Carries out the instructions in programs'],['Gigahertz (GHz)','CPU speed: billions of steps a second'],['RAM','Holds what is in use right now'],['ROM','Holds the start-up instructions'],['Temporary (volatile)','Lost when the power goes off'],['Permanent (non-volatile)','Kept when the power goes off'],['Start-up instructions','What runs when you press power']],
+ quiz:[
+  {type:'mcq',q:'Which processor carries out instructions faster?',a:'3.4 GHz',w:['2.4 GHz','1.2 GHz','They are the same'],why:'Higher GHz means more steps every second.'},
+  {type:'tf',q:'Everything in RAM is lost when the power goes off.',a:true,why:'RAM is temporary (volatile).'},
+  {type:'match',q:'Match each statement to the part.',pairs:[['Lost when you switch off','RAM'],['Holds the start-up instructions','ROM'],['Speed measured in GHz','CPU'],['Keeps your photos when it is off','Storage']]},
+  {type:'mcq',q:'Faisal\'s old PC slows down with three programs open. Which part should he upgrade?',a:'RAM',w:['ROM','The monitor','The keyboard'],why:'More RAM lets more programs stay open at once.'},
+  {type:'gap',q:'ROM stands for read ___ memory.',a:'only',bank:['only','access','random','write'],why:'Read only: it normally cannot be changed.'},
+  {type:'mcq',q:'Is the CPU an input, output, processing or storage device?',a:'Processing',w:['Input','Output','Storage'],why:'Input → PROCESS → output. The CPU is the process part.'},
+  {type:'tf',q:'More ROM lets you keep more apps open.',a:false,why:'That is RAM. ROM is small and only holds the start-up instructions.'}
+ ],
+ play:[{kind:'cafepic'},{kind:'ramsim'},
+  {kind:'sorter',title:'CPU, RAM, ROM or storage?',lead:'Drag each statement to the right part.',bins:['CPU','RAM','ROM','Storage'],items:[['Speed measured in GHz',0],['Runs a program\'s instructions',0],['A power cut loses an unsaved essay',1],['30 tabs open: add more of this',1],['Starts up when you press power',2],['Cannot normally be changed',2],['Keeps your photos when it is off',3],['Last week\'s saved file is still there',3]]}]
+});
+
+topic('access',{t:'Accessibility',art:'access',c:'#0d9488',tag:'Technology for everyone',
+ cards:[
+  {a:'access',t:'What is accessibility?',d:'<b>Accessibility</b> means making technology <b>usable by everyone</b>, including people with a disability or impairment.',dia:['CHOOSE the right device or software','CONFIGURE the settings']},
+  {a:'trackerball',t:'Hand or arm movement',d:'<b>Trackerball</b>: only the fingers move. <b>Large-key keyboard</b>: big keys are easier to hit. <b>Voice input</b>: speak into a microphone instead of typing.'},
+  {a:'magnifier',t:'Partial sight',d:'A <b>larger monitor</b> makes text and pictures bigger. A <b>screen magnifier</b> zooms in on part of the screen.'},
+  {a:'braille',t:'Blind or deaf',d:'Blind: a <b>screen reader</b> reads the screen aloud through headphones; a <b>Braille display</b> has raised dots the fingers read.<br>Hearing loss: <b>captions</b> show the spoken words; <b>visual alerts</b> flash instead of beeping.'},
+  {a:'screader',t:'Software for particular needs',d:'<b>Screen reader</b> (e.g. Windows Narrator), <b>speech recognition</b> (voice typing: Windows key + H) and <b>screen magnifier</b> (Windows key + plus). They come with Windows, macOS, iOS and Android, so they often cost nothing.'},
+  {a:'os',t:'Configure the settings',d:'<b>Configure</b> = change the settings so a device suits a particular person. Windows: Start → Settings → Accessibility.',p:'Each person\'s own log-in (profile) keeps their own settings',m:'A shared till has one set of settings, so a change affects every member of staff'},
+  {a:'monitor',t:'Settings to know',d:'<b>Text size</b>, <b>Magnifier</b>, <b>contrast themes</b> (high contrast, e.g. white on black), <b>colour filters</b>, a <b>bigger mouse pointer</b>, <b>Narrator</b>, <b>voice typing</b> and <b>live captions</b>.',use:'Phones and tills have similar settings: bigger text, bigger buttons, high contrast, flashing alerts.'}
+ ],
+ words:[['Accessibility','Making technology usable by everyone'],['Configure','Change settings so a device suits a person'],['Screen magnifier','Makes part of the screen bigger'],['Screen reader','Reads the screen aloud (e.g. Narrator)'],['High contrast','Strong colours that are easy to tell apart'],['Voice typing','Speech recognition: speak and it types'],['Captions','Spoken words shown as text on screen'],['Visual alert','A flash or light instead of a sound']],
+ quiz:[
+  {type:'mcq',q:'A blind hotel receptionist must use the booking system. Best choice?',a:'Screen reader with headphones',w:['A larger monitor','High contrast','A bigger mouse pointer'],why:'It reads the screen aloud; headphones keep it private.'},
+  {type:'mcq',q:'Grey text on a white screen is hard to see. Which setting?',a:'High contrast',w:['Voice typing','Captions','A bigger mouse pointer'],why:'Strong colours, e.g. white on black.'},
+  {type:'tf',q:'Configure means buying a new device.',a:false,why:'Configure means changing the settings.'},
+  {type:'match',q:'Match each need to what helps.',pairs:[['Limited hand movement','Trackerball'],['Partially sighted','Screen magnifier'],['Deaf, in video meetings','Live captions'],['Red–green colour blind','Labels with words']]},
+  {type:'mcq',q:'Which one is SOFTWARE, not a device?',a:'Screen magnifier',w:['Trackerball','Braille display','Large-key keyboard'],why:'The Magnifier comes with Windows, iPhone and Android.'},
+  {type:'gap',q:'Mariam\'s laptop settings stay just hers if she has her own ___.',a:'log-in',bank:['log-in','keypad','printer','till'],why:'Settings belong to a log-in (profile).'},
+  {type:'tf',q:'Switching on large buttons on a shared till changes it for every member of staff.',a:true,why:'A shared till has one set of settings.'}
+ ],
+ play:[{kind:'tilllab'},
+  {kind:'matcher',title:'What would help?',lead:'Drag the best device or software onto each person.',targets:[['🤕','A student has hurt her wrist and cannot use a mouse for six weeks.','trackerball','Trackerball','Only the fingers move.'],['🧑‍💼','A hotel receptionist is blind and must read the booking system.','screader','Screen reader','Reads the screen aloud through headphones.'],['🧏','A deaf employee joins video meetings every day.','captions','Live captions','The spoken words appear on the screen.'],['👓','A partially sighted barista finds small text hard to read.','magnifier','Screen magnifier','Zooms in on part of the screen.'],['✋','Someone who cannot see the screen at all reads with their fingers.','braille','Braille display','Raised dots that the fingers read.']]}]
+});
+
+topic('spec',{t:'Café consultancy: the specification',art:'spec',c:'#c2410c',tag:'Brief, requirements, constraints and budget',
+ cards:[
+  {a:'cafe',t:'Noora\'s brief',d:'A <b>brief</b> is what the client says they need, and the limits. The Pearl needs: two touch screen tills with card readers, a way for orders to reach the kitchen, two menu screens, a laptop and a printer–scanner, customer Wi-Fi, background music and CCTV. Every screen and device must suit Mariam.',use:'Budget: <b>QAR 60,000</b> for everything, including first-year software.'},
+  {a:'doc',t:'Requirement or constraint?',d:'A <b>requirement</b> is something the system <b>must do or have</b> (two tills, CCTV, menu screens).<br>A <b>constraint</b> is a <b>limit you must work within</b> (the budget, Mariam\'s needs, Faisal\'s confidence, counter space).',use:'Requirements fill the list. Constraints decide what goes on it.'},
+  {a:'spec',t:'A system specification',d:'A <b>specification</b> is a list of exactly what to buy: <b>area, choice, quantity, price and why</b>.',use:'A good "why" names a person, a number or a lesson: Faisal, Mariam, 500 customers a day, L12.'},
+  {a:'touch',t:'Example row: the tills',d:'<b>Tills:</b> touch screen till (15.6-inch, stand and cash drawer) × 2 = <b>QAR 13,000</b>.<br><b>Why:</b> quick for a queue of up to 500 customers a day; Faisal wants simple; set up with large buttons and high contrast for Mariam (L10, L16).'},
+  {a:'cafe',t:'Budget and trade-offs',d:'The best of everything costs about <b>QAR 70,900</b>, but the budget is <b>QAR 60,000</b>. A <b>trade-off</b> means giving up some of one thing to get more of another.',use:'Over budget? Start with the biggest prices: is there a cheaper choice that still works for Mariam?'}
+ ],
+ words:[['Brief','What the client says they need, and the limits'],['Requirement','Something the system must do or have'],['Constraint','A limit you must work within, e.g. the budget'],['Specification','A list of exactly what to buy, with prices and reasons'],['Budget','The most money the client can spend'],['Trade-off','Giving up some of one thing to get more of another']],
+ quiz:[
+  {type:'mcq',q:'In Noora\'s brief, "QAR 60,000" is a…',a:'Constraint',w:['Requirement','Specification','Trade-off'],why:'It is a limit on what you can spend.'},
+  {type:'tf',q:'"Two tills" is a requirement.',a:true,why:'It is something the system must have.'},
+  {type:'match',q:'Match each word to its meaning.',pairs:[['Requirement','Something the system must do or have'],['Constraint','A limit you must work within'],['Specification','What to buy, with prices and reasons'],['Trade-off','Give up some of one thing to get another']]},
+  {type:'mcq',q:'Which is the strongest "why" in a specification row?',a:'Quick for a queue of up to 500 customers a day',w:['It is better','It is good','Everyone has one'],why:'It names a number from the café.'},
+  {type:'gap',q:'Mariam is partially sighted. In the brief, this is a ___.',a:'constraint',bank:['constraint','requirement','budget','till'],why:'It limits which screens and settings will work.'},
+  {type:'mcq',q:'Noora wants savings. Which change saves money and still works for Mariam?',a:'43-inch menu screens instead of 55-inch',w:['Remove the tills','Remove the CCTV','Remove the large-button keypads'],why:'It saves QAR 2,800 and the screens can still use large text.'}
+ ],
+ play:[
+  {kind:'sorter',title:'Requirement or constraint?',lead:'Sort the parts of Noora\'s brief.',bins:['Requirement','Constraint'],items:[['Two tills',0],['CCTV',0],['Two menu screens',0],['Customer Wi-Fi',0],['QAR 60,000 budget',1],['Mariam is partially sighted',1],['Faisal is not confident with technology',1],['Small counter space',1]]},
+  {kind:'budget'}]
+});
+
+topic('rec',{t:'Your recommendation',art:'letter',c:'#4f46e5',tag:'Convince the client with strong reasons',
+ cards:[
+  {a:'letter',t:'Four parts of a strong recommendation',d:'<b>1 What I recommend</b>: the exact item. <b>2 Why</b>: a reason linked to the café and its people. <b>3 What it costs</b>, and one honest <b>downside</b>. <b>4 How it works for Mariam</b>.',dia:['Recommend','Why','Cost / downside','Mariam']},
+  {a:'touch',t:'A strong paragraph',d:'"I recommend two touch screen tills for The Pearl, each with a large-button keypad. With up to 500 customers a day, staff must take orders fast, and touch screens are quick to learn. They cost QAR 13,900 in total. Small touch buttons are hard to hit, so the tills will have large text, large buttons and high contrast for Mariam."'},
+  {a:'laptop',t:'From weak to strong',d:'<b>Weak:</b> "Get laptop B because it is better and faster."<br><b>Strong:</b> "I recommend Laptop B. Its 3.4 GHz processor and 16 GB of RAM run Faisal\'s spreadsheets, email and video calls at once. It costs QAR 1,800 more, but his files are small. Its 15.6-inch screen helps Mariam read the rota."'},
+  {a:'doc',t:'Start, total, sign off',d:'Start with <b>Dear Noora,</b>. Give the total: "In total, the system costs QAR …, which is QAR … under your QAR 60,000 budget." End with <b>Yours sincerely</b>, your name, Nakhla Digital.',m:'Over budget? Say so honestly, and what you would cut.'},
+  {a:'shield',t:'Justify',d:'To <b>justify</b> a choice is to give reasons that show it is right. Use the correct technical words: SSD, GHz, RAM, high contrast, NFC.'}
+ ],
+ words:[['Recommendation','Advice on what to choose, with reasons'],['Justify','Give reasons that show your choice is right'],['Requirement','Something the system must do or have'],['Constraint','A limit you must work within'],['Specification','A list of exactly what to buy, with prices and reasons'],['Trade-off','You gain one thing but give up another']],
+ quiz:[
+  {type:'order',q:'Put the four parts of a strong recommendation in order.',items:['What I recommend','Why, linked to the café','What it costs and a downside','How it works for Mariam']},
+  {type:'mcq',q:'"Get laptop B because it is better." What is missing?',a:'A reason linked to the café, the cost and Mariam',w:['Nothing, it is strong','Only a greeting','Only the colour'],why:'Only the item is named. The other three parts are missing.'},
+  {type:'tf',q:'If your specification is over budget, you should not tell Noora.',a:false,why:'Say so honestly, and what you would cut.'},
+  {type:'mcq',q:'Which sentence gives the strongest reason?',a:'Its 16 GB of RAM can run spreadsheets, email and video calls at once.',w:['It is a good laptop.','It looks nice.','My friend has one.'],why:'It uses a technical fact linked to how Faisal works.'},
+  {type:'gap',q:'To ___ a choice is to give reasons that show it is right.',a:'justify',bank:['justify','configure','archive','tether'],why:'Justify = give reasons.'},
+  {type:'match',q:'Match each line to its part of the letter.',pairs:[['Dear Noora,','Start'],['In total, the system costs QAR 58,200','Total'],['Yours sincerely, Nakhla Digital','Sign off'],['Its battery only lasts a day','Downside']]}
+ ],
+ play:[
+  {kind:'sorter',title:'Which part is it?',lead:'This paragraph is about the tills. Drag each sentence to its part.',bins:['1 Recommend','2 Why','3 Cost / downside','4 Mariam'],items:[['I recommend two touch screen tills for The Pearl.',0],['Each till gets a large-button keypad.',0],['Up to 500 customers a day means orders must be fast.',1],['Touch screens are quick for staff to learn.',1],['They cost QAR 13,900 in total.',2],['Small touch buttons can be hard to hit.',2],['Large text and high contrast are switched on for Mariam.',3],['The keypad gives Mariam real buttons to press.',3]]},
+  {kind:'strong'}]
+});
+
+topic('comms',{t:'Communication and networks',art:'network',c:'#0284c7',tag:'Wired, wireless, PAN, LAN and WAN',
+ cards:[
+  {a:'network',t:'Wired',d:'Data travels <b>along a cable</b>.',use:'A desktop plugged into the wall; a printer on a USB cable',p:'Reliable and fast',m:'The device can only go as far as the cable'},
+  {a:'wifi',t:'Wireless',d:'Data travels <b>through the air</b>, with no cable.',use:'Wi-Fi, Bluetooth, mobile data',p:'Move around freely',m:'Walls and distance make the signal weaker'},
+  {a:'satellite',t:'Satellite',d:'Signals go <b>up to a satellite in space</b> and back down to Earth.',use:'GPS, satellite TV, internet on ships and planes',p:'Works almost anywhere on Earth',m:'A short delay; bad weather can interrupt it'},
+  {a:'tower',t:'Broadcast',d:'<b>One sender, many receivers</b>. It goes <b>one way only</b>.',use:'TV and radio stations',p:'Any number of people can receive it at once',m:'You cannot send anything back'},
+  {a:'network',t:'Device to device or a network?',d:'<b>Device to device</b>: two devices connect straight to each other (phone to earbuds; camera to laptop by USB).<br>A <b>network</b>: two or more devices connected so they can <b>share data and resources</b> such as files, a printer or the internet.'},
+  {a:'watch',t:'PAN and LAN',d:'<b>PAN</b> (personal area network): one person\'s devices, a few metres apart, such as a phone, smartwatch and earbuds.<br><b>LAN</b> (local area network): devices in <b>one building or site</b>, such as a school, a home or a café.',m:'PAN: very short range (about 10 m). LAN: only covers one place.'},
+  {a:'cloud',t:'WAN and tethering',d:'<b>WAN</b> (wide area network): joins networks that are <b>far apart</b>, such as a bank\'s branches. The internet is the biggest WAN.<br><b>Tethering</b>: your phone shares its mobile data so another device can get online.',m:'Tethering drains the battery and uses data'},
+  {a:'cafe',t:'Friday, 6 pm at The Pearl',d:'The fibre broadband stops. The tills still talk to each other on the <b>LAN</b>, but card payments cannot reach the bank because the link to the <b>WAN</b> has gone.',use:'Tethering a till to a café phone\'s 4G is a good emergency plan, as long as the phone stays plugged in.'}
+ ],
+ words:[['Wired','Data travels along a cable'],['Wireless','Data travels through the air, with no cable'],['Satellite','Signals go to a satellite in space and back to Earth'],['Broadcast','One sender to many receivers, one way only'],['Device to device','Two devices connected straight to each other'],['Network','Devices connected to share data and resources'],['PAN','Personal area network: just my devices'],['LAN','Local area network: one building or site'],['WAN','Wide area network: joins networks far apart'],['Tethering','A phone shares its mobile data with another device']],
+ quiz:[
+  {type:'mcq',q:'A family watches live football through an aerial on the roof. Which way?',a:'Broadcast',w:['Wired','Satellite','Tethering'],why:'One station sends to every home, one way.'},
+  {type:'mcq',q:'A supermarket\'s 30 shops send their sales to head office every night. Which network?',a:'WAN',w:['PAN','LAN','Device to device'],why:'It joins shops that are far apart.'},
+  {type:'tf',q:'With broadcast, you can send messages back to the TV station.',a:false,why:'Broadcast goes one way only.'},
+  {type:'match',q:'Match each situation to the network.',pairs:[['Phone, smartwatch and earbuds','PAN'],['Hotel computers share a printer','LAN'],['Bank branches in 3 countries','WAN'],['Laptop online through a phone','Tethering']]},
+  {type:'gap',q:'The internet is the biggest ___.',a:'WAN',bank:['WAN','PAN','LAN','ROM'],why:'It joins networks all over the world.'},
+  {type:'mcq',q:'The Pearl\'s broadband fails. What still works?',a:'The tills talking to each other on the LAN',w:['Card payments to the bank','Emails to Noora','Nothing at all'],why:'Only the link to the WAN has gone.'},
+  {type:'order',q:'Omar wears earbuds on a video call from home to Faisal at The Pearl. Put the networks in order.',items:['PAN: earbuds to phone','LAN: Omar\'s home Wi-Fi','WAN: the internet','LAN: The Pearl']}
+ ],
+ play:[
+  {kind:'sorter',title:'Which way do they communicate?',lead:'Wired, wireless, satellite or broadcast? Drag each one.',bins:['Wired','Wireless','Satellite','Broadcast'],items:[['A desktop plugged into the wall',0],['A printer on a USB cable',0],['A laptop that stays online between classrooms',1],['Earbuds playing music from a phone',1],['A ship finding where it is in the ocean',2],['Internet at a desert research camp',2],['Live football through a roof aerial',3],['The same radio station in every car',3]]},
+  {kind:'netzoom'},{kind:'outage'}]
+});
+
+topic('wire',{t:'Wireless technologies',art:'wifi',c:'#059669',tag:'Wi-Fi, Bluetooth, 4G, GPS, infra-red and NFC',
+ cards:[
+  {a:'wifi',t:'Wi-Fi',d:'Connects devices to a <b>network and the internet</b>, using a <b>router</b>.',use:'Laptops at school; customer Wi-Fi in a café',p:'Fast; many devices; covers a building',m:'Needs a router; walls make it weaker'},
+  {a:'bluetooth',t:'Bluetooth',d:'Connects <b>a few devices close together</b>, with no router. <b>Pairing</b> connects two devices the first time.',use:'Earbuds, smartwatch, wireless keyboard',p:'Uses little battery; pair once',m:'Short range (about 10 m); slower'},
+  {a:'tower',t:'3G and 4G',d:'<b>Mobile data</b> through phone masts (towers). <b>4G is faster</b> than 3G.',use:'The internet on your phone outside',p:'Works almost anywhere with a signal',m:'Uses your data allowance'},
+  {a:'gps',t:'GPS',d:'Works out <b>where you are</b> from <b>satellite signals</b>. It only receives.',use:'Sat nav, maps on a phone, a running watch',p:'Works anywhere on Earth, outdoors',m:'Poor indoors and in tunnels'},
+  {a:'ir',t:'Infra-red (IR)',d:'<b>Invisible light</b>. Point it at the device, with nothing in the way: <b>line of sight</b>.',use:'TV remote, air-conditioning remote',p:'Cheap and simple',m:'Line of sight only; a few metres'},
+  {a:'nfc',t:'NFC',d:'<b>Near-field communication</b> works only <b>a few centimetres</b> apart. Paying with a tap is called <b>contactless</b>.',use:'Contactless payment; phone or watch pay; key cards',p:'Quick tap; hard to read from far away',m:'Must almost touch; small amounts of data'},
+  {a:'wifi',t:'How far does it reach?',d:'Shortest to longest: <b>NFC</b> (a few cm) → <b>infra-red</b> (a few m) → <b>Bluetooth</b> (about 10 m) → <b>Wi-Fi</b> (a building) → <b>3G/4G</b> (kilometres) → <b>GPS</b> (the whole Earth).'},
+  {a:'cafe',t:'The terrace card reader',d:'The furthest terrace table is about <b>25 m</b> from the tills. Bluetooth only reaches about 10 m, so the <b>Wi-Fi reader</b> (QAR 950, battery about 1 day) is the right choice. Charge it every night.',use:'The customer pays with a tap of a card or phone: that uses <b>NFC</b>.'}
+ ],
+ words:[['Wi-Fi','Connects many devices to a network and the internet'],['Bluetooth','Connects a few devices close together; no router'],['3G and 4G','Mobile data from phone masts; 4G is faster'],['GPS','Works out where you are from satellite signals'],['Pairing','Connecting two Bluetooth devices the first time'],['Infra-red','Invisible light; point it at the device'],['NFC','Near-field communication: a few centimetres apart'],['Contactless','Paying with a tap of a card, phone or watch'],['Range','How far a signal reaches'],['Line of sight','Nothing in the way between the two devices']],
+ quiz:[
+  {type:'mcq',q:'A customer taps her phone on the card reader to pay. Which technology?',a:'NFC',w:['Bluetooth','GPS','Infra-red'],why:'NFC works only a few centimetres apart.'},
+  {type:'mcq',q:'Which one has the shortest range?',a:'NFC',w:['Bluetooth','Wi-Fi','4G'],why:'A few centimetres.'},
+  {type:'tf',q:'Bluetooth needs a router.',a:false,why:'Bluetooth devices pair straight to each other.'},
+  {type:'match',q:'Match each job to the wireless technology.',pairs:[['Earbuds on a morning run','Bluetooth'],['25 laptops all need the internet','Wi-Fi'],['TV remote control','Infra-red'],['A hiker\'s watch shows where she is','GPS']]},
+  {type:'mcq',q:'The furthest terrace table is 25 m from the tills. Which card reader?',a:'Wi-Fi reader',w:['Bluetooth reader','Infra-red reader','GPS reader'],why:'Bluetooth only reaches about 10 m.'},
+  {type:'gap',q:'Infra-red needs ___ of sight: nothing in the way.',a:'line',bank:['line','light','range','router'],why:'Point it straight at the device.'},
+  {type:'order',q:'Put them in order of range, shortest first.',items:['NFC','Infra-red','Bluetooth','Wi-Fi','4G','GPS']},
+  {type:'mcq',q:'A sat nav works in the desert but not in an underground car park. Why?',a:'GPS needs satellite signals, which cannot reach underground',w:['There is no Wi-Fi underground','The car park is too big','Bluetooth is switched off'],why:'GPS is poor indoors and in tunnels.'}
+ ],
+ play:[{kind:'range'},
+  {kind:'matcher',title:'Wireless Detective',lead:'Drag the right wireless technology onto each case.',targets:[['🏠','A family\'s laptops, phones and smart TV all use the internet at home.','wifi','Wi-Fi','Many devices and the internet, through a router.'],['🏃‍♀️','A runner listens to music through wireless earbuds.','bluetooth','Bluetooth','Two devices close by; saves battery.'],['🏔️','A hiker\'s watch shows exactly where she is on a mountain.','gps','GPS','Position from satellite signals.'],['❄️','You point the remote at the air-conditioning to turn it down.','ir','Infra-red','Invisible light; must point at it.'],['🚕','A passenger taps his bank card to pay for a taxi.','nfc','NFC','Works only a few centimetres apart.'],['🏜️','A taxi driver checks emails in the desert, with no Wi-Fi.','tower','4G','Mobile data from phone masts.']]},
+  {kind:'sorter',title:'Wi-Fi or Bluetooth?',lead:'Drag each job to Wi-Fi or Bluetooth.',bins:['Wi-Fi','Bluetooth'],items:[['25 laptops need the internet',0],['Customer internet across the café',0],['Twenty laptops print to one wireless printer',0],['Earbuds on a morning run',1],['A wireless keyboard for a tablet',1],['A smartwatch linked to a phone',1]]}]
+});
+
+Object.assign(DEVNAME,{hdd:'HDD',ssd:'SSD',dvd:'Optical disc',ext:'External drive',sdcard:'Memory card',tape:'Magnetic tape',usbdrive:'USB flash drive',dvdr:'DVD-R',screader:'Screen reader',captions:'Live captions',magnifier:'Screen magnifier',braille:'Braille display',wifi:'Wi-Fi',bluetooth:'Bluetooth',gps:'GPS',ir:'Infra-red',nfc:'NFC',tower:'4G'});
+
+const ORDER=UNITS.flatMap(u=>u.topics);
+const unitOf=id=>UNITS.find(u=>u.topics.includes(id)).id;
 
 /* ================= HELPERS ================= */
 const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)];
@@ -579,12 +845,12 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const store={get(k,d){try{const v=localStorage.getItem('y9rev_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem('y9rev_'+k,JSON.stringify(v));}catch(e){}}};
 let PR=store.get('prog',{});let muted=store.get('muted',false);
 const prog=id=>PR[id]||(PR[id]={cards:[],play:[],quiz:0});
-const saveP=()=>{store.set('prog',PR);drawPill();};
+const saveP=()=>{store.set('prog',PR);drawPill();setTimeout(()=>{try{autoReport();}catch(e){}},1200);};
 function starsOf(id){const p=prog(id),t=T[id];return (p.cards.length>=t.cards.length?1:0)+(p.play.length>=t.play.length?1:0)+(p.quiz>=70?1:0);}
 const starStr=(n,m=3)=>'★'.repeat(n)+`<span class="off">${'★'.repeat(m-n)}</span>`;
 function totalStars(){return ORDER.reduce((a,id)=>a+starsOf(id),0)+(store.get('mission',0)>=1?1:0)+(store.get('challenge',0)>=70?1:0);}
 const MAXSTARS=ORDER.length*3+2;
-function drawPill(){if(typeof ORDER!=='undefined'&&totalStars()>=MAXSTARS&&!store.get('doneShown',0)){store.set('doneShown',1);setTimeout(()=>{toast('🏆 All '+MAXSTARS+' stars! Get your games code…','good');setTimeout(()=>location.hash='#done',1600);},600);}try{localStorage.setItem('y9rev_total',JSON.stringify(totalStars()));localStorage.setItem('y9rev_max',JSON.stringify(MAXSTARS));}catch(e){}$('#starPill').textContent=`⭐ ${totalStars()} / ${MAXSTARS}`;$('#muteBtn').textContent=muted?'🔇':'🔊';}
+function drawPill(){if(typeof ORDER!=='undefined'&&totalStars()>=MAXSTARS&&!store.get('doneShown'+MAXSTARS,0)){store.set('doneShown'+MAXSTARS,1);setTimeout(()=>{toast('🏆 All '+MAXSTARS+' stars! Get your games code…','good');setTimeout(()=>location.hash='#done',1600);},600);}try{localStorage.setItem('y9rev_total',JSON.stringify(totalStars()));localStorage.setItem('y9rev_max',JSON.stringify(MAXSTARS));}catch(e){}$('#starPill').textContent=`⭐ ${totalStars()} / ${MAXSTARS}`;$('#muteBtn').textContent=muted?'🔇':'🔊';}
 let toastT;function toast(m,k){const t=$('#toast');t.textContent=m;t.className='show '+(k||'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',2600);}
 let AC;function beep(type){if(muted)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;const seq={good:[523,659,784],bad:[260,180],pop:[880,1175],win:[523,659,784,1047,1319],tick:[700]}[type]||[440];o.type=type==='bad'?'sawtooth':'triangle';seq.forEach((f,i)=>o.frequency.setValueAtTime(f,t+i*.08));g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.001,t+seq.length*.08+.18);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+seq.length*.08+.2);}catch(e){}}
 const cv=$('#confetti'),cx=cv.getContext('2d');let parts=[],cRaf=null;
@@ -605,7 +871,7 @@ function renderHome(app){const tot=totalStars();
  app.innerHTML=`<section class="hero"><h1>Year 9 ICT Revision Quest 🚀</h1><p>Learn it, play it, prove it! Every topic has fun activities, a quiz and flashcards. Collect all the stars.</p>
  <div class="prog"><b>⭐ ${tot} of ${MAXSTARS} stars collected</b><div class="bar"><i style="width:${tot/MAXSTARS*100}%"></i></div></div>
  <div class="bubble">${tot?'Great work! Which topic next?':'Hi, I\'m Byte! Pick any topic to start.'}</div><div class="bot">${ART.robot}</div></section>
- <a class="sharebar" href="#share"><span class="em">📤</span><div><b>Send your progress to your teacher</b><span>One click, any time. Your teacher sees it in their spreadsheet.</span></div><span class="btn g" style="margin-left:auto">Share ➜</span></a>
+ <a class="sharebar" href="#share"><span class="em">📤</span><div><b>Send your progress to your teacher</b><span>One click, any time. It goes straight to your teacher.</span></div><span class="btn g" style="margin-left:auto">Share ➜</span></a>
  ${UNITS.map(u=>`<section class="unit"><div class="uhead"><span class="badge">Unit ${u.id}</span><div><h2>${u.name.replace(/^Unit \d: /,'')}</h2><span>${u.sub}</span></div></div>
   <div class="path">${u.topics.map((id,i)=>{const t=T[id];return `<a class="tile" href="#t/${id}" style="--c:${t.c}"><span class="num">${ORDER.indexOf(id)+1}</span><span class="ill">${art(t.art)}</span><h3>${t.t}</h3><small>${t.tag}</small><span class="stars">${starStr(starsOf(id))}</span></a>`;}).join('')}</div></section>`).join('')}
  <div class="specials">
@@ -621,7 +887,7 @@ function renderHome(app){const tot=totalStars();
 function renderTopic(app,id,tab){const t=T[id];tab=tab||'learn';const p=prog(id);
  const tabs=[['learn','📖 Learn',p.cards.length>=t.cards.length],['play','🎮 Play',p.play.length>=t.play.length],['quiz','✅ Quiz',p.quiz>=70],['words','🃏 Key words',null]];
  const i=ORDER.indexOf(id),prev=ORDER[i-1],next=ORDER[i+1];
- app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:${t.c}"><span class="ill">${art(t.art)}</span><div><small style="font-weight:900;opacity:.85">TOPIC ${i+1} • UNIT ${UNITS[0].topics.includes(id)?1:2}</small><h1>${t.t}</h1><p>${t.tag}</p><div class="stars">${starStr(starsOf(id))}</div></div></section>
+ app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:${t.c}"><span class="ill">${art(t.art)}</span><div><small style="font-weight:900;opacity:.85">TOPIC ${i+1} • UNIT ${unitOf(id)}</small><h1>${t.t}</h1><p>${t.tag}</p><div class="stars">${starStr(starsOf(id))}</div></div></section>
  <nav class="ttabs" style="--c:${t.c}">${tabs.map(([k,l,ok])=>`<button class="ttab ${k===tab?'on':''}" data-k="${k}">${l}${ok===null?'':`<span class="ok ${ok?'y':''}">${ok?'✓':''}</span>`}</button>`).join('')}</nav>
  <section id="tbody" style="--c:${t.c}"></section>
  <div class="row" style="justify-content:space-between;margin-top:22px">${prev?`<a class="btn w" href="#t/${prev}">← ${T[prev].t}</a>`:'<span></span>'}${next?`<a class="btn" href="#t/${next}">${T[next].t} →</a>`:`<a class="btn y" href="#mission">☕ Try the mission →</a>`}</div>`;
@@ -812,6 +1078,143 @@ ACT.pixels=(host,s,done)=>{let moved=new Set(),ans=false;
  $('#r',host).oninput=draw;draw();
  $$('.opt',host).forEach(bt=>bt.onclick=()=>{const ok=bt.dataset.v==='B';bt.classList.add(ok?'right':'wrong');$('#pm',host).innerHTML=ok?'✅ B! Same size, but four times as many pixels, so each pixel is smaller and the picture is sharper.':'❌ Count the pixels: B has far more in the same size screen.';beep(ok?'good':'bad');if(ok){ans=true;chk();if(moved.size<3)toast('Now try moving the slider all the way down and up!');}});};
 
+/* ===== NEW ACTIVITIES (L13 to L20) ===== */
+ACT.drivelab=(host,s,done)=>{const D={hdd:{n:'HDD',boot:4.2,drop:'💥 The arm hit the spinning platters. Files are damaged!',cost:'QAR 200 for 2 TB: lots of storage for little money'},ssd:{n:'SSD',boot:0.9,drop:'✅ No moving parts, so nothing broke.',cost:'QAR 450 for 1 TB: more money for less storage'},dvd:{n:'Optical',boot:9,drop:'😬 The disc is scratched and will not read.',cost:'About 4.7 GB per DVD: you would need over 200 DVDs for 1 TB'}};
+ let cur='hdd';const tried={};let ans=false;
+ host.innerHTML=`<div class="subh">🧪 Drive test lab</div><p class="lead">Pick a drive, then run all three tests on it. Test all three drives, then answer Faisal's question.</p>
+ <div class="seg" id="dsel">${Object.keys(D).map(k=>`<button data-k="${k}" class="${k===cur?'on':''}">${art(k)}${D[k].n}</button>`).join('')}</div>
+ <div class="simgrid" style="margin-top:12px"><div class="sim"><div class="row"><button class="btn" id="tb">⚡ Start-up race</button><button class="btn w" id="td">📦 Drop test</button><button class="btn w" id="tc">💰 Cost check</button></div>
+ <div class="dl-race"><div class="dl-bar"><i id="rb"></i></div><b id="rt">0.0 s</b></div><div class="note" id="dout" style="margin-top:10px">Choose a test.</div>
+ <div class="dl-tick" id="dtk"></div></div>
+ <div class="sim"><div class="qq" style="font-size:20px">Faisal carries his laptop between The Pearl, Souq Waqif and home every day. Which drive should it have?</div><div class="tf"><button class="opt" data-v="hdd">HDD</button><button class="opt" data-v="ssd">SSD</button></div><div class="hintline" id="dq"></div></div></div>`;
+ const tick=()=>{$('#dtk',host).innerHTML=Object.keys(D).map(k=>{const t=tried[k]||{};return `<span class="${t.b&&t.d&&t.c?'ok':''}">${D[k].n}: ${t.b?'⚡':'·'} ${t.d?'📦':'·'} ${t.c?'💰':'·'}</span>`;}).join('');chk();};
+ const chk=()=>{if(ans&&Object.keys(D).every(k=>tried[k]&&tried[k].b&&tried[k].d&&tried[k].c)&&!chk.d){chk.d=1;confetti(70);toast('🧪 Lab complete!','good');done();}};
+ const mark=x=>{(tried[cur]=tried[cur]||{})[x]=1;tick();};
+ $$('#dsel button',host).forEach(b=>b.onclick=()=>{cur=b.dataset.k;$$('#dsel button',host).forEach(x=>x.classList.toggle('on',x===b));$('#dout',host).textContent='Choose a test.';$('#rb',host).style.width='0';$('#rt',host).textContent='0.0 s';beep('tick');});
+ let raf;onClean(()=>cancelAnimationFrame(raf));
+ $('#tb',host).onclick=()=>{cancelAnimationFrame(raf);const T0=performance.now(),dur=D[cur].boot*1000,k=cur;$('#dout',host).textContent=`Starting Windows from the ${D[k].n}…`;
+  const st=n=>{const f=Math.min(1,(n-T0)/dur);$('#rb',host).style.width=f*100+'%';$('#rt',host).textContent=(f*D[k].boot).toFixed(1)+' s';if(f<1)raf=requestAnimationFrame(st);else{$('#dout',host).innerHTML=k==='ssd'?'⚡ <b>Ready in under a second.</b> Flash chips have no parts to move.':k==='hdd'?'🐢 <b>Ready in about 4 seconds.</b> The platters spin and the arm moves to each file.':'🐌 <b>Very slow.</b> Optical drives are the slowest.';beep('pop');mark('b');}};raf=requestAnimationFrame(st);};
+ $('#td',host).onclick=()=>{const k=cur;$('#dout',host).innerHTML='<span class="dl-fall">💻</span> Dropping…';setTimeout(()=>{$('#dout',host).innerHTML=`<b>${D[k].n}:</b> ${D[k].drop}`;beep(k==='ssd'?'good':'bad');mark('d');},700);};
+ $('#tc',host).onclick=()=>{$('#dout',host).innerHTML=`<b>${D[cur].n}:</b> ${D[cur].cost}`;beep('pop');mark('c');};
+ $$('.tf .opt',host).forEach(b=>b.onclick=()=>{if(ans)return;const ok=b.dataset.v==='ssd';b.classList.add(ok?'right':'wrong');if(ok){ans=true;$('#dq',host).textContent='✅ SSD: it survives knocks, starts fast and the battery lasts longer.';beep('good');chk();}else{beep('bad');$('#dq',host).textContent='❌ Think about the drop test. He carries it every day.';setTimeout(()=>b.classList.remove('wrong'),700);}});
+ tick();};
+
+ACT.tape=(host,s,done)=>{const F=['Mon sales','Tue sales','Wed sales','Rota wk 1','Rota wk 2','Stock list','Menu v3','Last Tuesday\'s rota'];let tTape=false,tSsd=false,ans=false,busy=false;
+ host.innerHTML=`<div class="subh">📼 Tape race</div><p class="lead">Faisal needs <b>Last Tuesday's rota</b> right now. Find it on tape, then on an SSD.</p>
+ <div class="sim"><div class="tp-wrap"><div class="tp-head" id="th">▼</div><div class="tp-strip">${F.map((f,i)=>`<div class="tp-f" data-i="${i}">${i+1}<small>${esc(f)}</small></div>`).join('')}</div></div>
+ <div class="row" style="margin-top:12px"><button class="btn" id="ft">📼 Find it on tape</button><button class="btn w" id="fs">⚡ Find it on an SSD</button><b id="tt" style="margin-left:auto;font-size:20px">⏱ 0 s</b></div><div class="note" id="to" style="margin-top:10px">The tape drive must wind past every file in order, starting from file 1.</div></div>
+ <div class="sim" style="margin-top:12px"><div class="qq" style="font-size:20px">So, magnetic tape is best for…</div><div class="tf"><button class="opt" data-v="0">Finding one file fast</button><button class="opt" data-v="1">Backing up everything at night</button></div><div class="hintline" id="tq"></div></div>`;
+ const fs=$$('.tp-f',host),head=$('#th',host);const place=i=>{const f=fs[i];head.style.left=(f.offsetLeft+f.offsetWidth/2-10)+'px';};place(0);
+ const chk=()=>{if(tTape&&tSsd&&ans&&!chk.d){chk.d=1;confetti(70);done();}};
+ const tims=[];onClean(()=>tims.forEach(clearTimeout));
+ $('#ft',host).onclick=()=>{if(busy)return;busy=true;fs.forEach(f=>f.classList.remove('on','hit'));let i=0;
+  const step=()=>{place(i);fs[i].classList.add('on');beep('tick');$('#tt',host).textContent=`⏱ ${(i+1)*45} s`;if(i<F.length-1){i++;tims.push(setTimeout(step,380));}else{fs[i].classList.add('hit');busy=false;tTape=true;$('#to',host).innerHTML='📼 Found, but only after winding past <b>7 other files</b>: about 6 minutes on a real tape while Faisal waits.';beep('pop');chk();}};step();};
+ $('#fs',host).onclick=()=>{if(busy)return;fs.forEach(f=>f.classList.remove('on','hit'));place(7);fs[7].classList.add('hit');$('#tt',host).textContent='⏱ 0.01 s';tSsd=true;$('#to',host).innerHTML='⚡ An SSD jumps <b>straight to the file</b>. No winding.';beep('good');chk();};
+ $$('.tf .opt',host).forEach(b=>b.onclick=()=>{if(ans)return;const ok=b.dataset.v==='1';b.classList.add(ok?'right':'wrong');if(ok){ans=true;beep('good');$('#tq',host).textContent='✅ Copying everything, start to end, every night. Banks and hospitals do this.';chk();}else{beep('bad');$('#tq',host).textContent='❌ Look at the race again. Finding one file was slow.';setTimeout(()=>b.classList.remove('wrong'),700);}});};
+
+ACT.cafepic=(host,s,done)=>{const Z=[['cpu','👨‍🍳','The barista','makes every order'],['ram','🧾','The counter','orders being made now; cleared at closing time'],['rom','📋','The opening checklist','fixed to the wall; the same every day'],['sto','📦','The store room','kept until it is needed']];const NM={cpu:'CPU',ram:'RAM',rom:'ROM',sto:'Storage'};let sel=null;
+ host.innerHTML=`<div class="subh">☕ The café picture</div><p class="lead">Every part of a computer is like part of a café. Drag each label onto its place in the café, or click a label then click a place.</p><div class="tray"></div><div class="cp-grid">${Z.map(z=>`<div class="cp-z" data-k="${z[0]}"><span class="e">${z[1]}</span><b>${z[2]}</b><small>${z[3]}</small><div class="drop">?</div></div>`).join('')}</div>`;
+ const tray=$('.tray',host);shuffle(Z).forEach(z=>{const c=document.createElement('div');c.className='chip';c.dataset.k=z[0];c.innerHTML=`${art(z[0]==='sto'?'ssd':z[0])}<span>${NM[z[0]]}</span>`;tray.appendChild(c);
+  dragify(c,t=>{const zz=t&&t.closest('.cp-z');if(zz&&host.contains(zz))drop(c,zz);},()=>{$$('.chip',tray).forEach(x=>x.classList.remove('sel'));sel=c;c.classList.add('sel');});});
+ $$('.cp-z',host).forEach(z=>z.onclick=()=>{if(sel)drop(sel,z);});
+ function drop(c,z){if(z.classList.contains('done'))return;if(c.dataset.k===z.dataset.k){z.classList.add('done');$('.drop',z).textContent=NM[c.dataset.k];c.remove();sel=null;beep('good');if(!$$('.chip',tray).length){tray.innerHTML='<b>🎉 The whole café picture is right!</b>';confetti(70);done();}}else{z.classList.remove('no');void z.offsetWidth;z.classList.add('no');beep('bad');toast(`${NM[c.dataset.k]} is not ${$('b',z).textContent.toLowerCase()}. Try another place.`,'bad');}}};
+
+ACT.ramsim=(host,s,done)=>{const APPS=[['🪟','Windows',3,true],['📅','Rota spreadsheet',2],['📦','Stock spreadsheet',2],['✉️','Email',1],['📹','Video call with Noora',3],['🌐','Web browser',2]];let ram=8,open=new Set([0]),sawSlow=false,sawSmooth=false;
+ host.innerHTML=`<div class="subh">🧠 RAM juggler</div><p class="lead">Faisal opens everything he uses at once. Open all his apps on Laptop A (8 GB RAM), then switch to Laptop B (16 GB) and do it again.</p>
+ <div class="seg" id="lap"><button data-r="8" class="on">${art('laptop')}Laptop A: 8 GB</button><button data-r="16">${art('laptop')}Laptop B: 16 GB</button></div>
+ <div class="sim" style="margin-top:12px"><div class="rs-apps">${APPS.map((a,i)=>`<button class="ftile ${i?'':'on'}" data-i="${i}" ${a[3]?'disabled':''}><span class="e">${a[0]}</span>${esc(a[1])}<small>${a[2]} GB</small></button>`).join('')}</div>
+ <div class="rs-bar"><i id="rb"></i><span id="rl"></span></div><div class="note" id="ro" style="margin-top:10px"></div></div>`;
+ const upd=()=>{const used=[...open].reduce((a,i)=>a+APPS[i][2],0);const f=Math.min(1,used/ram);const bar=$('#rb',host);bar.style.width=f*100+'%';bar.style.background=used>ram?'var(--red)':used>ram*.8?'#f59e0b':'var(--grn)';$('#rl',host).textContent=`${used} GB used of ${ram} GB RAM`;
+  const all=open.size===APPS.length;const o=$('#ro',host);
+  if(used>ram){o.innerHTML=`🐢 <b>Slowing down!</b> Faisal needs ${used} GB but there is only ${ram} GB of RAM, so the laptop juggles apps in and out and everything lags.`;host.querySelector('.sim').classList.add('rs-slow');if(all&&ram===8)sawSlow=true;}
+  else{host.querySelector('.sim').classList.remove('rs-slow');o.innerHTML=all?`🚀 <b>Smooth!</b> Everything fits in ${ram} GB of RAM with room to spare.`:'Open more apps.';if(all&&ram===16)sawSmooth=true;}
+  if(sawSlow&&sawSmooth&&!upd.d){upd.d=1;confetti(70);toast('🧠 More RAM = more open at once!','good');done();}};
+ $$('.rs-apps .ftile',host).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(APPS[i][3])return;open.has(i)?open.delete(i):open.add(i);b.classList.toggle('on',open.has(i));beep('tick');upd();});
+ $$('#lap button',host).forEach(b=>b.onclick=()=>{ram=+b.dataset.r;$$('#lap button',host).forEach(x=>x.classList.toggle('on',x===b));open=new Set([0]);$$('.rs-apps .ftile',host).forEach((x,i)=>x.classList.toggle('on',i===0));beep('pop');upd();});
+ upd();};
+
+ACT.tilllab=(host,s,done)=>{const SET={text:['Small','Large'],btn:['Small','Large'],con:['Standard','High contrast'],lab:['Colour only','Words with colours'],alert:['Sound only','Sound + flash']};const LBL={text:'Text size',btn:'Button size',con:'Contrast',lab:'Labels',alert:'Order alert'};
+ const P=[['👩‍🍳','Mariam','Barista. Partially sighted: small, pale text and small buttons are hard for her.',{text:1,btn:1,con:1},'Large text, large buttons and high contrast: she can read it and hit it.'],['🧔','Hamad','Limited movement in his arm. Small buttons are hard to hit.',{btn:1},'Large buttons: bigger targets are easier to hit.'],['👩','Sara','Red–green colour blind. The till shows Ready in green and Waiting in red.',{lab:1},'Words with colours: READY and WAITING are clear without the colour.'],['🧑','Yusuf','Deaf. The till beeps when a kitchen order is ready.',{alert:1},'Sound + flash: he can see the alert he cannot hear.']];
+ let who=0;const st={text:0,btn:0,con:0,lab:0,alert:0};const ok=new Set();
+ host.innerHTML=`<div class="subh">⚙️ Till settings lab</div><p class="lead">Pick a person, change the till's settings until their needs are met, then press Check. Extra settings are fine, as long as their needs are met.</p>
+ <div class="seg" id="ppl">${P.map((p,i)=>`<button data-i="${i}" class="${i?'':'on'}">${p[0]} ${p[1]}</button>`).join('')}</div>
+ <div class="simgrid" style="margin-top:12px"><div class="sim"><div class="note" id="need"></div><div class="tl-set">${Object.keys(SET).map(k=>`<div class="tl-row"><b>${LBL[k]}</b><div class="seg" data-k="${k}">${SET[k].map((v,j)=>`<button data-j="${j}">${v}</button>`).join('')}</div></div>`).join('')}</div><div class="row" style="margin-top:10px"><button class="btn g" id="chk">✔ Check</button><button class="btn w" id="ta">🔔 Test the alert</button></div><div class="hintline" id="tlm"></div></div>
+ <div class="sim"><div class="till" id="till"><div class="tt">Qahwa House • Till 1</div><div class="tg2"><button>Karak</button><button>Latte</button><button>Luqaimat</button><button>Water</button></div><div class="tord"><div><span class="dot g"></span><span class="w">READY</span> Order 41</div><div><span class="dot r"></span><span class="w">WAITING</span> Order 42</div></div></div><div class="hintline" id="done4"></div></div></div>`;
+ const draw=()=>{const p=P[who];$('#need',host).innerHTML=`<b>${p[0]} ${p[1]}</b>: ${p[2]}`;$$('.tl-row .seg',host).forEach(sg=>$$('button',sg).forEach(b=>b.classList.toggle('on',+b.dataset.j===st[sg.dataset.k])));
+  const t=$('#till',host);t.classList.toggle('big',!!st.text);t.classList.toggle('bigb',!!st.btn);t.classList.toggle('hc',!!st.con);t.classList.toggle('lab',!!st.lab);$('#done4',host).textContent=`Done: ${ok.size} of 4 ${[...ok].map(i=>P[i][0]).join(' ')}`;};
+ $$('#ppl button',host).forEach(b=>b.onclick=()=>{who=+b.dataset.i;$$('#ppl button',host).forEach(x=>x.classList.toggle('on',x===b));Object.keys(st).forEach(k=>st[k]=0);$('#tlm',host).textContent='The till is back to how it came. Change the settings.';beep('tick');draw();});
+ $$('.tl-row .seg',host).forEach(sg=>$$('button',sg).forEach(b=>b.onclick=()=>{st[sg.dataset.k]=+b.dataset.j;beep('tick');draw();}));
+ $('#ta',host).onclick=()=>{const t=$('#till',host);if(st.alert){t.classList.remove('flash');void t.offsetWidth;t.classList.add('flash');}beep('pop');$('#tlm',host).textContent=st.alert?'🔔 Beep… and the screen flashes.':'🔔 Beep! (Only a sound. Could Yusuf notice it?)';};
+ $('#chk',host).onclick=()=>{const p=P[who];const miss=Object.keys(p[3]).filter(k=>st[k]!==p[3][k]);if(!miss.length){ok.add(who);beep('good');$('#tlm',host).innerHTML=`✅ ${esc(p[4])}`;draw();if(ok.size===4&&!draw.d){draw.d=1;confetti(80);toast('⚙️ All four staff can use the till!','good');done();}}else{beep('bad');$('#tlm',host).textContent=`❌ Not yet. Think about ${p[1]}'s need: which setting fixes it?`;}};
+ draw();};
+
+ACT.budget=(host,s,done)=>{const R=[
+  ['🧾','Tills × 2','fixed',[['Touch screen till × 2',13000,'Quick for 500 customers a day']]],
+  ['⌨️','Large-button keypads for Mariam','pick',[['None',0,'Small touch buttons only'],['2 keypads (450 each)',900,'Real buttons for Mariam']]],
+  ['💳','Card readers and receipt printers','fixed',[['2 card readers + 2 receipt printers',3200,'In Noora\'s brief']]],
+  ['🍳','Kitchen orders','pick',[['Kitchen display screen',4800,'No paper; orders on a screen'],['Kitchen order printer',1200,'Cheaper; prints each order']]],
+  ['📺','Menu screens × 2','pick',[['43-inch × 2',6400,'Cheaper'],['55-inch × 2',9200,'Bigger text for Mariam']]],
+  ['💻','Faisal\'s laptop','pick',[['Laptop A, Everyday 14',2600,'Cheaper; HDD'],['Laptop B, Pro 15',4400,'Faster; SSD; 16 GB RAM']]],
+  ['🖨️','Office printer–scanner','pick',[['Inkjet',900,'Cheap to buy'],['Laser',2300,'Fast; cheap per page']]],
+  ['💾','Backup','pick',[['USB flash drive',150,'Small; easy to lose'],['External HDD 2 TB',350,'Cheap; lots of space'],['External SSD 1 TB',650,'Tough; fast'],['Tape drive',6500,'For banks, not cafés']]],
+  ['📡','Must-haves: CCTV, music, Wi-Fi, software, set-up','fixed',[['CCTV, music, Wi-Fi, till software, Microsoft 365, anti-malware, installation',28650,'All needed']]]];
+ const sel=R.map(r=>r[2]==='fixed'?0:-1);
+ host.innerHTML=`<div class="subh">🧮 Specification builder</div><p class="lead">Build The Pearl's specification. Choose one option in every row. Keep the total within <b>QAR 60,000</b> and make sure it works for Mariam.</p>
+ <div class="bg-wrap"><div class="bg-rows">${R.map((r,i)=>`<div class="bg-row"><div class="bg-h"><span class="e">${r[0]}</span><b>${esc(r[1])}</b></div><div class="bg-opts">${r[3].map((o,j)=>`<button class="bg-o ${r[2]==='fixed'?'on fixed':''}" data-i="${i}" data-j="${j}" ${r[2]==='fixed'?'disabled':''}><b>${esc(o[0])}</b><span>QAR ${o[1].toLocaleString('en-GB')}</span><small>${esc(o[2])}</small></button>`).join('')}</div></div>`).join('')}</div>
+ <aside class="bg-side"><div class="bg-tot"><small>TOTAL</small><b id="tot">QAR 0</b><div class="bg-meter"><i id="bm"></i></div><span id="left"></span></div><ul class="bg-chk" id="ck"></ul></aside></div>`;
+ const upd=()=>{const tot=R.reduce((a,r,i)=>a+(sel[i]>=0?r[3][sel[i]][1]:0),0);$('#tot',host).textContent='QAR '+tot.toLocaleString('en-GB');const m=$('#bm',host);m.style.width=Math.min(100,tot/60000*100)+'%';m.style.background=tot>60000?'var(--red)':'var(--grn)';
+  $('#left',host).innerHTML=tot>60000?`❌ QAR ${(tot-60000).toLocaleString('en-GB')} <b>over</b> budget`:`✅ QAR ${(60000-tot).toLocaleString('en-GB')} under budget`;
+  const all=sel.every(x=>x>=0),inb=tot<=60000,mar=sel[1]===1,bk=sel[7]>=0&&sel[7]!==3;
+  $('#ck',host).innerHTML=[[all,'Every row chosen'],[inb,'Within QAR 60,000'],[mar,'Works for Mariam: keypads on the tills'],[bk,'A sensible backup for a café']].map(([o,t])=>`<li class="${o?'y':''}">${o?'✅':'⬜'} ${t}</li>`).join('');
+  if(all&&inb&&mar&&bk&&!upd.d){upd.d=1;confetti(90);beep('win');toast('🧮 Specification within budget!','good');done();}};
+ $$('.bg-o:not(.fixed)',host).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;sel[i]=+b.dataset.j;$$(`.bg-o[data-i="${i}"]`,host).forEach(x=>x.classList.toggle('on',x===b));beep('tick');upd();});
+ upd();};
+
+ACT.strong=(host,s,done)=>{const Q=[
+  ['"Get laptop B because it is better."',['Laptop B (QAR 4,400) has 16 GB of RAM, so Faisal can run rotas, email and video calls at the same time.','Laptop B is better and much faster than A.','Laptop B is the one I like the most.'],'It names the item, the price and a reason linked to how Faisal works.'],
+  ['"Buy the Wi-Fi card reader, it is good."',['The Wi-Fi reader works at the terrace tables 25 m away, but Bluetooth only reaches about 10 m.','The Wi-Fi reader is good and modern.','Wi-Fi is better than Bluetooth.'],'It links the choice to a real number from the café: 25 m.'],
+  ['"Back up the files somewhere."',['Back up to an external HDD (2 TB, QAR 350) every Friday and keep it at home, away from the café.','Back up the files on a drive.','Back up the files because it is important.'],'It names the device, the price, when, and where it is kept.'],
+  ['"Get big screens for Mariam."',['Two 55-inch menu screens with large text and high contrast let Mariam read the menu from behind the counter.','Mariam needs big screens.','Big screens are nice for everyone.'],'It names the item and the settings, and links them to Mariam\'s need.']];
+ let k=0;
+ const draw=()=>{if(k>=Q.length){host.innerHTML=`<div class="subh">💪 Make it stronger</div><div class="note">🎉 All four reasons upgraded! Strong reasons name the <b>item</b>, a <b>number</b>, the <b>cost</b> and the <b>person</b>.</div>`;confetti(80);done();return;}
+  const q=Q[k];const o=shuffle(q[1]);host.innerHTML=`<div class="subh">💪 Make it stronger (${k+1} of ${Q.length})</div><p class="lead">This reason is weak. Which upgrade would convince Noora?</p><div class="note" style="font-size:19px">Weak: ${esc(q[0])}</div><div class="opts" style="margin-top:12px">${o.map((x,j)=>`<button class="opt" style="--k:${KC[j]}"><b>${'ABC'[j]}</b><span>${esc(x)}</span></button>`).join('')}</div><div class="hintline" id="sm"></div>`;
+  $$('.opt',host).forEach((b,j)=>b.onclick=()=>{if(b.classList.contains('right'))return;if(o[j]===q[1][0]){b.classList.add('right');beep('good');$('#sm',host).textContent='✅ '+q[2];setTimeout(()=>{k++;draw();},1700);}else{b.classList.add('wrong');beep('bad');$('#sm',host).textContent='❌ Still weak. Look for a number, a price or a person.';}});};
+ draw();};
+
+ACT.netzoom=(host,s,done)=>{const C=[['🏨','Hotel computers share one printer.','lan','LAN','One building.'],['🏦','A bank\'s branches in three countries share customer records.','wan','WAN','Networks far apart.'],['⌚','Aisha\'s phone, watch and earbuds talk to each other.','pan','PAN','One person\'s devices, close together.'],['🚌','Yusuf\'s laptop has no Wi-Fi on the bus, so he uses his phone\'s mobile data.','teth','Tethering','The phone shares its mobile data.'],['📷','A camera is plugged into a laptop by USB to copy photos.','d2d','Device to device','Two devices straight to each other.']];
+ const NM={pan:'PAN',lan:'LAN',wan:'WAN',teth:'Tethering',d2d:'Device to device'};let k=0;
+ host.innerHTML=`<div class="subh">🔭 Network zoom</div><p class="lead">Read each case, then click the right network on the map or the buttons below.</p>
+ <div class="simgrid"><div class="sim"><svg class="nz" viewBox="0 0 400 300"><g class="z" data-z="wan"><rect x="6" y="6" width="388" height="288" rx="26"/><text x="22" y="34">WAN: the world</text></g><g class="z" data-z="lan"><rect x="40" y="56" width="250" height="210" rx="22"/><text x="56" y="84">LAN: one building</text></g><g class="z" data-z="pan"><rect x="80" y="112" width="150" height="120" rx="20"/><text x="96" y="140">PAN: just me</text><text x="100" y="196" font-size="34">📱⌚🎧</text></g><g class="z" data-z="teth"><rect x="306" y="110" width="76" height="70" rx="14"/><text x="318" y="140" font-size="26">💻📱</text><text x="344" y="168" font-size="13" text-anchor="middle">Tethering</text></g><g class="z" data-z="d2d"><rect x="306" y="196" width="76" height="70" rx="14"/><text x="318" y="224" font-size="24">📷💻</text><text x="344" y="246" font-size="12" text-anchor="middle">Device to</text><text x="344" y="260" font-size="12" text-anchor="middle">device</text></g></svg></div>
+ <div class="sim"><div class="nz-case" id="nc"></div><div class="seg" id="nb">${Object.keys(NM).map(z=>`<button data-z="${z}">${NM[z]}</button>`).join('')}</div><div class="hintline" id="nm"></div></div></div>`;
+ const show=()=>{if(k>=C.length){$('#nc',host).innerHTML='🎉 <b>All five cases solved!</b>';confetti(80);done();return;}const c=C[k];$('#nc',host).innerHTML=`<span class="e">${c[0]}</span><div><small>Case ${k+1} of ${C.length}</small><b>${esc(c[1])}</b></div>`;};
+ const pick=z=>{if(k>=C.length)return;const c=C[k];const g=$(`.z[data-z="${z}"]`,host);if(z===c[2]){g.classList.remove('hit');void g.getBBox();g.classList.add('hit');beep('good');$('#nm',host).textContent=`✅ ${c[3]}: ${c[4]}`;k++;setTimeout(show,900);}else{beep('bad');$('#nm',host).textContent=`❌ Not ${NM[z]}. Read the case again: how far apart, and how many devices?`;}};
+ $$('.z',host).forEach(g=>g.addEventListener('click',e=>{e.stopPropagation();pick(g.dataset.z);}));$$('#nb button',host).forEach(b=>b.onclick=()=>pick(b.dataset.z));show();};
+
+ACT.outage=(host,s,done)=>{let down=false,tried=false,teth=false,paid=false,plug=false,bat=100,ans=false,tm=null;onClean(()=>clearInterval(tm));
+ host.innerHTML=`<div class="subh">⚡ Friday, 6 pm at The Pearl</div><p class="lead">Work through the steps. Watch what still works when the broadband stops.</p>
+ <div class="sim"><div class="og"><div class="og-n">🧾<b>Till 1</b></div><div class="og-l lan" id="l1">LAN ✓</div><div class="og-n">🧾<b>Till 2</b></div><div class="og-l lan" id="l2">LAN ✓</div><div class="og-n">📶<b>Router</b></div><div class="og-l" id="lw">WAN ✓</div><div class="og-n">🏦<b>Bank</b></div></div>
+ <div class="og-phone" id="ph" hidden>📱 Café phone tethered (4G) <span class="og-bat"><i id="bt"></i></span> <b id="btx">100%</b></div>
+ <div class="row" style="margin-top:12px"><button class="btn" id="s1">1. 📡 The broadband stops</button><button class="btn w" id="s2">2. 💳 Try a card payment</button><button class="btn w" id="s3">3. 📱 Tether Till 1 to the café phone</button><button class="btn w" id="s4">4. 🔌 Plug the phone in</button></div><div class="note" id="oo" style="margin-top:10px">It is The Pearl's busiest time. Start with step 1.</div></div>
+ <div class="sim" style="margin-top:12px"><div class="qq" style="font-size:20px">Is Faisal's tethering plan a good one?</div><div class="opts"><button class="opt" style="--k:#6d4aff" data-v="0"><b>A</b><span>No, tethering never works for card payments</span></button><button class="opt" style="--k:#ec4899" data-v="1"><b>B</b><span>Yes, as an emergency plan, if the phone stays plugged in</span></button><button class="opt" style="--k:#16a34a" data-v="0"><b>C</b><span>Yes, they should use it every day instead of broadband</span></button></div><div class="hintline" id="oq"></div></div>`;
+ const o=$('#oo',host);const chk=()=>{if(down&&tried&&teth&&paid&&plug&&ans&&!chk.d){chk.d=1;confetti(80);done();}};
+ $('#s1',host).onclick=()=>{down=true;$('#lw',host).className='og-l x';$('#lw',host).textContent='WAN ✗';o.innerHTML='📡 The fibre broadband has stopped. The tills can still talk to each other on the <b>LAN</b>, but the link to the internet (the <b>WAN</b>) has gone.';beep('bad');};
+ $('#s2',host).onclick=()=>{if(!down){o.textContent='Do step 1 first.';return;}tried=true;if(teth){paid=true;o.innerHTML='✅ <b>Payment approved!</b> It went from Till 1, through the phone\'s 4G, to the bank.';beep('good');chk();}else{o.innerHTML='❌ <b>Payment failed.</b> Card payments must reach the bank over the WAN, and that link is down.';beep('bad');}};
+ $('#s3',host).onclick=()=>{if(!down){o.textContent='Do step 1 first.';return;}teth=true;$('#ph',host).hidden=false;o.innerHTML='📱 Till 1 is now online through the phone\'s mobile data. Try a card payment again. Watch the battery!';beep('pop');clearInterval(tm);tm=setInterval(()=>{bat=Math.max(5,Math.min(100,bat+(plug?3:-4)));$('#bt',host).style.width=bat+'%';$('#bt',host).style.background=bat<30?'var(--red)':'var(--grn)';$('#btx',host).textContent=bat+'%'+(plug?' ⚡':'');if(bat<=20&&!plug)o.innerHTML='🔋 <b>Battery low!</b> Tethering drains it fast. If the phone dies, payments stop again.';},500);};
+ $('#s4',host).onclick=()=>{if(!teth){o.textContent='Tether the phone first (step 3).';return;}plug=true;o.innerHTML='🔌 Plugged in and charging next to the till. Every card payment still goes through this one till, so it will be slower on a busy Friday.';beep('good');chk();};
+ $$('.opt',host).forEach(b=>b.onclick=()=>{if(ans)return;const ok=b.dataset.v==='1';b.classList.add(ok?'right':'wrong');if(ok){ans=true;beep('good');$('#oq',host).textContent='✅ A good emergency plan, with a café phone kept plugged in.';chk();}else{beep('bad');$('#oq',host).textContent='❌ Think about what worked in the simulation, and what went wrong.';setTimeout(()=>b.classList.remove('wrong'),700);}});};
+
+ACT.range=(host,s,done)=>{const TEC=[['nfc','NFC',0.04,'a few cm'],['ir','Infra-red',5,'a few m, pointed at it'],['bluetooth','Bluetooth',10,'about 10 m'],['wifi','Wi-Fi',60,'a building'],['tower','4G',8000,'kilometres'],['gps','GPS',2e7,'the whole Earth']];
+ const STOPS=[[0.03,'3 cm: tapping a card'],[3,'3 m: across the room'],[8,'8 m: across the café'],[25,'25 m: the furthest terrace table'],[300,'300 m: down the street'],[50000,'50 km: the desert outside Doha']];
+ const seen=new Set();let reader=null,ans=false;
+ host.innerHTML=`<div class="subh">📏 Range finder</div><p class="lead">Drag the slider to move away. See which wireless technologies still reach. Visit every distance, then choose the terrace card reader.</p>
+ <div class="sim"><input type="range" id="rg" min="0" max="${STOPS.length-1}" value="0" style="width:100%"><b id="rd" style="display:block;text-align:center;font-size:20px;margin:6px 0"></b><div class="rg-grid">${TEC.map(t=>`<div class="rg-t" data-k="${t[0]}">${art(t[0])}<b>${t[1]}</b><small>${t[3]}</small><span class="rg-s"></span></div>`).join('')}</div><div class="hintline" id="rv"></div></div>
+ <div class="sim" style="margin-top:12px"><div class="qq" style="font-size:20px">Noora wants waiters to take card payments at the terrace tables, up to 25 m from the tills. Which reader?</div><div class="tf rgtf"><button class="opt" data-v="bt">Bluetooth reader<br><small>QAR 750 • battery 2 days</small></button><button class="opt" data-v="wf">Wi-Fi reader<br><small>QAR 950 • battery 1 day</small></button></div><div class="hintline" id="rq"></div></div>`;
+ const draw=()=>{const k=+$('#rg',host).value;seen.add(k);const [d,l]=STOPS[k];$('#rd',host).textContent='📍 '+l;$$('.rg-t',host).forEach((el,i)=>{const ok=TEC[i][2]>=d;el.classList.toggle('on',ok);$('.rg-s',el).textContent=ok?'✓ reaches':'✗ too far';});$('#rv',host).textContent=`${seen.size} of ${STOPS.length} distances visited`;beep('tick');chk();};
+ const chk=()=>{if(ans&&seen.size===STOPS.length&&!chk.d){chk.d=1;confetti(80);done();}};
+ $('#rg',host).oninput=draw;
+ $$('.tf .opt',host).forEach(b=>b.onclick=()=>{if(ans)return;if(b.dataset.v==='wf'){ans=true;b.classList.add('right');beep('good');$('#rq',host).innerHTML='✅ The Wi-Fi reader reaches 25 m. Charge it every night. The customer taps to pay with <b>NFC</b>.';chk();}else{b.classList.add('wrong');beep('bad');$('#rg',host).value=3;draw();$('#rq',host).textContent='❌ Look at the slider at 25 m: Bluetooth only reaches about 10 m, so the reader would lose its connection.';setTimeout(()=>b.classList.remove('wrong'),900);}});
+ draw();};
+
 /* ================= MISSION ================= */
 function renderMission(app){const BUD=15000;let step=0;const ch={till:null,tillWhy:null,kitchen:null,kitchenWhy:null,auto:[],menu:null,file:''};
  const STEPS=['Meet the team','Tills','Kitchen','Automatic input','Menu screens','Save your report','Report card'];
@@ -863,7 +1266,11 @@ function renderChallenge(app){const all=ORDER.flatMap(id=>T[id].quiz.map(q=>Obje
  FORM_URL: your Microsoft Forms pre-filled link. Make it with the sample answers NAME, CLASS, STARS, DETAILS and CODE.
  The website swaps those words for each student's real progress. Leave it empty until the form is ready. */
 const FORM_URL='';
-const TEACHER_EMAIL='';
+/* Progress goes to the teacher's email (FormSubmit) when a student presses Send.
+ TEAMS_WEBHOOK: the Teams Workflows link ("Post to a channel when a webhook request is received").
+ When it is filled in, progress posts to that Teams channel instead, and automatically after every finished topic. */
+const TEACHER_EMAIL='tanvir.mohammed@unitedschool.qa';
+const TEAMS_WEBHOOK='';
 const ARCADE_URL='https://legacypathpublications-cmyk.github.io/year8-cs-media-lab/year9-arcade/';
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 function hash(str){let h=7;for(const c of str)h=(h*31+c.charCodeAt(0))%1679616;return h.toString(36).padStart(4,'0');}
@@ -873,7 +1280,7 @@ function readCode(code){try{const raw=decodeURIComponent(escape(atob(code.trim()
  const [, nm,cl,date,tp,mi,ch]=parts;const rows=tp.split('_').map((x,i)=>{const [c,pl,q]=x.split('-').map(Number);const id=ORDER[i];const t=T[id];return {id,stars:(c>=t.cards.length?1:0)+(pl>=t.play.length?1:0)+(q>=70?1:0),quiz:q};});
  return {nm,cl,date,rows,mission:+mi,challenge:+ch,total:rows.reduce((a,r)=>a+r.stars,0)+(+mi>=1?1:0)+(+ch>=70?1:0)};}catch(e){return null;}}
 function summaryText(nm,cl){return `Year 9 ICT Revision Quest progress\nName: ${nm}\nClass: ${cl}\nDate: ${today()}\nStars: ${totalStars()} of ${MAXSTARS}\n`+ORDER.map((id,i)=>`${i+1}. ${T[id].t}: ${'★'.repeat(starsOf(id))}${'☆'.repeat(3-starsOf(id))}  quiz ${prog(id).quiz}%`).join('\n')+`\nQahwa House Mission: ${store.get('mission',0)?'done':'not yet'}\nMixed Challenge best: ${store.get('challenge',0)}%\nCheck code: ${makeCode(nm,cl)}`;}
-function drawCard(cv,nm,cl){const W=1000,H=1320;cv.width=W;cv.height=H;const x=cv.getContext('2d');
+function drawCard(cv,nm,cl){const W=1000,H=520+ORDER.length*62+Math.ceil(makeCode(nm,cl).length/88)*20;cv.width=W;cv.height=H;const x=cv.getContext('2d');
  const g=x.createLinearGradient(0,0,W,0);g.addColorStop(0,'#6d4aff');g.addColorStop(.6,'#a855f7');g.addColorStop(1,'#ec4899');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle=g;x.fillRect(0,0,W,210);
  x.fillStyle='#fff';x.font='800 50px "Baloo 2", Arial';x.fillText('Year 9 ICT Revision Quest',44,82);x.font='800 26px Nunito, Arial';x.fillText('Progress card',46,124);
  x.font='900 30px Nunito, Arial';x.fillText(`${nm||'(name)'}   •   ${cl||'(class)'}`,46,178);x.textAlign='right';x.font='800 24px Nunito, Arial';x.fillText(today(),W-44,178);x.textAlign='left';
@@ -894,14 +1301,37 @@ const who=()=>({nm:store.get('name','').trim(),cl:store.get('cls','').trim()});
 function detailsText(){return ORDER.map((id,i)=>`${i+1} ${T[id].t}: ${starsOf(id)}/3 stars, quiz ${prog(id).quiz}%`).join(' | ')+` | Mission: ${store.get('mission',0)?'done':'not yet'} | Challenge best: ${store.get('challenge',0)}%`;}
 function formLink(nm,cl){if(!FORM_URL)return null;const v={NAME:nm,CLASS:cl,STARS:`${totalStars()} of ${MAXSTARS}${totalStars()>=MAXSTARS?' (COMPLETE)':''}`,DETAILS:detailsText(),CODE:makeCode(nm,cl)};
  return FORM_URL.replace(/=(NAME|CLASS|STARS|DETAILS|CODE)(?=&|$)/g,(m,k)=>'='+encodeURIComponent(v[k]));}
-function sendProgress(nm,cl,msgEl){const url=formLink(nm,cl);if(url){window.open(url,'_blank','noopener');store.set('sentAt',Date.now());if(msgEl)msgEl.innerHTML='✅ The form has opened in a new tab with your progress filled in. Press <b>Submit</b> there.';beep('good');return true;}
- const txt=summaryText(nm,cl);(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();});
- store.set('sentAt',Date.now());if(msgEl)msgEl.innerHTML='📋 Your teacher has not linked the form yet, so your progress has been <b>copied</b>. Paste it to your teacher in Teams with Ctrl + V.';return true;}
+function topicLines(){return ORDER.map((id,i)=>[`${i+1}. ${T[id].t}`,`${'★'.repeat(starsOf(id))}${'☆'.repeat(3-starsOf(id))}  quiz ${prog(id).quiz}%`]);}
+async function postTeams(nm,cl,reason){const facts=[...topicLines().map(([t,v])=>({title:t,value:v})),{title:'Qahwa House Mission',value:store.get('mission',0)?'done':'not yet'},{title:'Mixed Challenge best',value:store.get('challenge',0)+'%'}];
+ const card={type:'message',attachments:[{contentType:'application/vnd.microsoft.card.adaptive',contentUrl:null,content:{$schema:'http://adaptivecards.io/schemas/adaptive-card.json',type:'AdaptiveCard',version:'1.4',body:[
+  {type:'TextBlock',size:'Large',weight:'Bolder',wrap:true,text:`${nm} (${cl}): ${totalStars()} of ${MAXSTARS} stars${totalStars()>=MAXSTARS?' 🏆 COMPLETE':''}`},
+  {type:'TextBlock',wrap:true,isSubtle:true,text:`${reason} • ${today()}`},{type:'FactSet',facts}]}}]};
+ const body=JSON.stringify(card);
+ try{const r=await fetch(TEAMS_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body});return r.ok;}
+ catch(e){try{await fetch(TEAMS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body});return true;}catch(e2){return false;}}}
+async function postEmail(nm,cl,reason){const data={_subject:`Revision Quest: ${nm} (${cl}) ${totalStars()} of ${MAXSTARS} stars`,_template:'table',_captcha:'false',Name:nm,Class:cl,Date:today(),Stars:`${totalStars()} of ${MAXSTARS}${totalStars()>=MAXSTARS?' (COMPLETE)':''}`,Sent:reason};
+ topicLines().forEach(([t,v])=>data[t]=v);data['Qahwa House Mission']=store.get('mission',0)?'done':'not yet';data['Mixed Challenge best']=store.get('challenge',0)+'%';data['Check code']=makeCode(nm,cl);
+ try{const r=await fetch('https://formsubmit.co/ajax/'+TEACHER_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});const j=await r.json().catch(()=>({}));return r.ok&&String(j.success)==='true';}catch(e){return false;}}
+function copyText(txt){(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).catch(()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();});}
+let sending=false;
+async function sendProgress(nm,cl,msgEl,reason='Pressed Send'){if(sending)return false;sending=true;if(msgEl)msgEl.innerHTML='📤 Sending…';
+ let ok=false;try{ok=TEAMS_WEBHOOK?await postTeams(nm,cl,reason):TEACHER_EMAIL?await postEmail(nm,cl,reason):false;}catch(e){ok=false;}sending=false;
+ if(ok){store.set('sentAt',Date.now());if(msgEl)msgEl.innerHTML='✅ <b>Sent!</b> Your teacher now has your progress.';beep('good');confetti(50);return true;}
+ copyText(summaryText(nm,cl));if(msgEl)msgEl.innerHTML='⚠️ It did not send (check you are online). Your progress has been <b>copied</b>, so paste it to your teacher in Teams with Ctrl + V.';beep('bad');return false;}
+function autoReport(){if(!TEAMS_WEBHOOK)return;const rep=store.get('reported',[]);const newly=ORDER.filter(id=>starsOf(id)===3&&!rep.includes(id));if(!newly.length)return;
+ const w=who();if(!w.nm||!w.cl){askWho(()=>autoReport());return;}
+ store.set('reported',[...rep,...newly]);postTeams(w.nm,w.cl,`Finished: ${newly.map(id=>T[id].t).join(', ')}`).then(ok=>{if(ok)toast('📤 Your progress was sent to your teacher','good');else store.set('reported',store.get('reported',[]).filter(x=>!newly.includes(x)));});}
+let whoOpen=false;
+function askWho(then){if(whoOpen||sessionStorage.getItem('y9rev_whoSkip'))return;whoOpen=true;const d=document.createElement('div');d.className='whobox';
+ d.innerHTML=`<div class="panel" style="max-width:440px;margin:auto"><div class="subh" style="margin-top:0">📤 Who are you?</div><p class="lead">Your teacher is sent your progress each time you finish a topic. Type your name and class once.</p><label class="field" for="wn">Your full name</label><input class="inp" id="wn" maxlength="40"><label class="field" for="wc">Your class</label><input class="inp" id="wc" maxlength="12" placeholder="e.g. 9B"><div class="row" style="margin-top:14px"><button class="btn g" id="wok">Save and send</button><button class="btn w" id="wno">Not now</button></div></div>`;
+ document.body.appendChild(d);$('#wn',d).focus();
+ $('#wok',d).onclick=()=>{const a=$('#wn',d).value.trim(),b=$('#wc',d).value.trim();if(!a||!b){toast('Type your name and class.','bad');return;}store.set('name',a);store.set('cls',b);d.remove();whoOpen=false;then&&then();};
+ $('#wno',d).onclick=()=>{try{sessionStorage.setItem('y9rev_whoSkip','1');}catch(e){}d.remove();whoOpen=false;};}
 function renderShare(app){const nm0=store.get('name',''),cl0=store.get('cls','');
- app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#16a34a"><span class="ill" style="font-size:60px">📤</span><div><h1>Send my progress</h1><p>Send your stars to your teacher at any time. They go straight into your teacher's spreadsheet.</p></div></section>
+ app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#16a34a"><span class="ill" style="font-size:60px">📤</span><div><h1>Send my progress</h1><p>Send your stars to your teacher at any time. They go straight to your teacher.</p></div></section>
  <div class="share"><div class="panel"><label class="field">Your full name</label><input class="inp" id="nm" maxlength="40" placeholder="e.g. Sara Ali" value="${esc(nm0)}"><label class="field">Your class</label><input class="inp" id="cl" maxlength="12" placeholder="e.g. 9B" value="${esc(cl0)}">
   <div class="row" style="margin-top:16px"><button class="btn g" id="send" style="font-size:18px">📤 Send my progress to my teacher</button></div><div class="hintline" id="sm"></div>
-  <div class="subh">📮 How it works</div><ol class="steps"><li>Type your name and class above.</li><li>Press <b>Send my progress to my teacher</b>. A Microsoft form opens with your stars already filled in.</li><li>Sign in with your school account if it asks, then press <b>Submit</b>. Done! 🎉</li></ol>
+  <div class="subh">📮 How it works</div><ol class="steps"><li>Type your name and class above.</li><li>Press <b>Send my progress to my teacher</b>.</li><li>Wait for <b>✅ Sent!</b> That is it. Your teacher has your stars. 🎉</li></ol>
   <p class="note" style="margin-top:14px">💡 Send it whenever you like: after each topic, or when you reach ${MAXSTARS} stars. Your teacher always sees your newest progress.</p>
   <div class="row" style="margin-top:12px"><button class="btn w" id="dl">⬇ Download my progress card</button><button class="btn w" id="cp">📋 Copy my progress</button></div></div>
  <div><canvas id="card"></canvas></div></div>`;
@@ -911,7 +1341,7 @@ function renderShare(app){const nm0=store.get('name',''),cl0=store.get('cls','')
  const ok=()=>{const a=nmI.value.trim(),b=clI.value.trim();nmI.classList.toggle('miss',!a);clI.classList.toggle('miss',!b);if(!a||!b){toast('Type your name and class first.','bad');(a?clI:nmI).focus();return false;}return true;};
  $('#dl',app).onclick=()=>{if(!ok())return;redraw();cv.toBlob(bl=>{const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=`${nmI.value.trim()} ${clI.value.trim()} Revision progress ${today()}.png`.replace(/[\\/:*?"<>|]/g,'');document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);});beep('good');$('#sm',app).textContent='✅ Saved! Now upload it to your Teams assignment.';};
  $('#cp',app).onclick=async()=>{if(!ok())return;const txt=summaryText(nmI.value.trim(),clI.value.trim());try{await navigator.clipboard.writeText(txt);$('#sm',app).textContent='✅ Copied! Paste it into Teams with Ctrl + V.';beep('good');}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('#sm',app).textContent='✅ Copied! Paste it into Teams with Ctrl + V.';}};
- $('#send',app).onclick=()=>{if(!ok())return;sendProgress(nmI.value.trim(),clI.value.trim(),$('#sm',app));};
+ $('#send',app).onclick=()=>{if(!ok())return;store.set('name',nmI.value.trim());store.set('cls',clI.value.trim());sendProgress(nmI.value.trim(),clI.value.trim(),$('#sm',app));};
  const tm=$('#tm',app);if(tm)tm.onclick=()=>{if(!ok())return;window.open(`https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(TEACHER_EMAIL)}&message=${encodeURIComponent(summaryText(nmI.value.trim(),clI.value.trim()))}`,'_blank','noopener');};}
 function renderCheck(app){app.innerHTML=`<a class="crumb" href="#">← All topics</a><section class="thead" style="--c:#1e1b4b"><span class="ill" style="font-size:60px">🧑‍🏫</span><div><h1>Teacher: check progress codes</h1><p>Paste students' copied progress (or just their check codes). Each code is checked, so edited codes are flagged.</p></div></section>
  <div class="panel" style="margin-top:18px"><textarea class="inp" id="codes" rows="7" placeholder="Paste here. You can paste lots of students at once."></textarea><div class="row" style="margin-top:10px"><button class="btn" id="go">📊 Make class table</button><button class="btn w" id="csv">⬇ Download as CSV (Excel)</button></div><div id="out"></div></div>`;
@@ -931,7 +1361,7 @@ function renderDone(app){const done=totalStars()>=MAXSTARS;const w=who();
  <div class="row"><input class="inp" id="nm" style="max-width:280px" placeholder="Your full name" value="${esc(w.nm)}"><input class="inp" id="cl" style="max-width:140px" placeholder="Class" value="${esc(w.cl)}"><button class="btn g" id="send">📤 Send my progress</button></div><div class="hintline" id="sm" style="text-align:left"></div>
  <div class="subh">Step 2: Get your games code</div><div id="codebox"><p class="lead">Send your progress first, then your code appears here.</p></div></div>`;
  const showCode=()=>{const nm=$('#nm',app).value.trim();$('#codebox',app).innerHTML=`<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div style="font-family:var(--hf);font-size:64px;letter-spacing:10px;background:#1e1b4b;color:#ffc93c;border-radius:22px;padding:6px 26px">${unlockCode(nm)}</div><div><p style="font-weight:800;margin:0 0 8px">This is <b>your</b> code. It only works with your name: <b>${esc(nm)}</b>.</p><a class="btn y" href="${ARCADE_URL}" target="_blank" rel="noopener">🎮 Open the Games Arcade</a></div></div>`;};
- $('#send',app).onclick=()=>{const nm=$('#nm',app).value.trim(),cl=$('#cl',app).value.trim();if(!nm||!cl){toast('Type your name and class first.','bad');return;}store.set('name',nm);store.set('cls',cl);sendProgress(nm,cl,$('#sm',app));store.set('codeOK',1);showCode();};
+ $('#send',app).onclick=()=>{const nm=$('#nm',app).value.trim(),cl=$('#cl',app).value.trim();if(!nm||!cl){toast('Type your name and class first.','bad');return;}store.set('name',nm);store.set('cls',cl);sendProgress(nm,cl,$('#sm',app),'Finished the whole quest');store.set('codeOK',1);showCode();};
  if(store.get('codeOK',0)&&w.nm)showCode();}
 
 /* ================= ROUTER ================= */
